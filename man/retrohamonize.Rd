@@ -5,7 +5,7 @@
 \alias{retrohamonize}
 \title{retroharmonize: A package to create tidy Eurobarometer microdata files.}
 \description{
-The goal of surveyharmonize is to allow the organization of data 
+The goal of retroharmonize is to allow the organization of data 
 joins or panels from various data sources, particularly survey 
 microdata files, by retrospective harmonization the value codes, 
 the value labels, and the missing value ranges of the data in a 
