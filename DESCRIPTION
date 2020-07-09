@@ -18,7 +18,7 @@ Description: The goal of retroharmonize is to allow the organization
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
-URL: https://eurobarometer.danielantal.eu/
+URL: https://http://retroharmonize.satellitereport.com/
 BugReports: https://github.com/antaldaniel/retroharmonize/issues
 LazyData: true
 Imports: 
