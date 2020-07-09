@@ -50,3 +50,8 @@ var3 <- labelled::labelled(x = c(1,6,2,9,1,1,2),
                                       "DK" = 6))
 harmonize_values (var3)
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{harmonize_na_values}()}
+}
+\concept{harmonization functions}

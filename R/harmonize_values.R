@@ -33,6 +33,7 @@
 #'                                       "DK" = 6))
 #' harmonize_values (var3)
 #' @export
+#' @family harmonization functions
 
 
 harmonize_values <- function(x, 

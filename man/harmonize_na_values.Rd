@@ -22,3 +22,8 @@ data ( "ZA6863_sample", package="eurobarometer")
 harmonize_na_values(ZA6863_sample)
 }
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{harmonize_values}()}
+}
+\concept{harmonization functions}

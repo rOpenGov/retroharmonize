@@ -3,9 +3,9 @@
 \docType{package}
 \name{retrohamonize}
 \alias{retrohamonize}
-\title{retroharmonize: A package to create tidy Eurobarometer microdata files.}
+\title{retroharmonize: Retrospective harmonization of survey data files}
 \description{
-The goal of retroharmonize is to allow the organization of data 
+The goal of \code{retroharmonize} is to allow the organization of data 
 joins or panels from various data sources, particularly survey 
 microdata files, by retrospective harmonization the value codes, 
 the value labels, and the missing value ranges of the data in a 
@@ -15,5 +15,10 @@ reproducible manner with the help of comprehensive s3 classes.
 
 The naming functions make the GESIS SPSS files usable in a 
 programmatic context.
+}
+
+\section{harmonization functions}{
+
+Creating consistent coding and labelling.
 }
 

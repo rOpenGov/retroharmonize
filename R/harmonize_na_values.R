@@ -12,6 +12,7 @@
 #' harmonize_na_values(ZA6863_sample)
 #' }
 #' @export
+#' @family harmonization functions
 
 harmonize_na_values <- function(df) {
   
