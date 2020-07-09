@@ -1,3 +1,5 @@
+## A recreation and augmentation of the haven_labelled_spss class -----------------
+
 #' Labelled vectors for SPSS surveys
 #'
 #' This class is only used when `user_na = TRUE` in

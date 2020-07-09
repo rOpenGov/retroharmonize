@@ -7,7 +7,7 @@ this <- read_spss ( system.file("examples", "iris.sav", package = "haven"),
 that <- read_spss ( system.file("examples", "iris.sav", package = "haven"),
                     id = 'iris2')
 
-
+sapply ( this, is.labelled_spss )
 concatenate(this$Species, that$Species)
 
 

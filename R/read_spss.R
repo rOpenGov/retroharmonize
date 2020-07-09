@@ -23,6 +23,7 @@
 #'
 #'   `write_sav()` returns the input `data` invisibly.
 #' @name read_spss
+#' @family import functions
 #' @examples
 #' path <- system.file("examples", "iris.sav", package = "haven")
 #' read_sav(path)
@@ -36,7 +37,9 @@
 read_spss <- function(file, user_na = NULL,
                       col_select= NULL, skip = NULL,
                       n_max=NULL, .name_repair = "unique",
-                      id = NULL) {
+                      id = NULL, 
+                      filename = NULL, 
+                      doi = NULL) {
 
   # how to pass on optional parameters?
 
@@ -44,13 +47,11 @@ read_spss <- function(file, user_na = NULL,
                     .name_repair = .name_repair) %>%
     tibble::rowid_to_column()
 
-  if ( is.null(id) ) id <- file
-
-  attr(tmp, "id") <- id
+  if ( is.null(filename) ) filename <- file
 
   tmp$rowid <- paste0(id, "_", tmp$rowid)
 
-  tmp
+  survey (tmp, id, filename, doi)
 }
 
 

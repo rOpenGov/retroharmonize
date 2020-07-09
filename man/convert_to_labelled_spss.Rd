@@ -19,3 +19,4 @@ A haven_labelled_spss vector
 \description{
 Convert to haven_labelled_spss
 }
+\keyword{internal}

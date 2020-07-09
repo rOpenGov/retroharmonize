@@ -11,7 +11,9 @@ read_spss(
   skip = NULL,
   n_max = NULL,
   .name_repair = "unique",
-  id = NULL
+  id = NULL,
+  filename = NULL,
+  doi = NULL
 )
 }
 \arguments{
@@ -91,3 +93,4 @@ tmp <- tempfile(fileext = ".sav")
 write_sav(mtcars, tmp)
 read_sav(tmp)
 }
+\concept{import functions}
