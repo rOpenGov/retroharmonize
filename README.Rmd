@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-# surveyharmonize
+# retroharmonize
 
 <!-- badges: start -->
 [![Project Status: Minimal or no implementation has been done yet, or the repository is only intended to be a limited example, demo, or proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
@@ -23,17 +23,17 @@ knitr::opts_chunk$set(
 
 <!-- badges: end -->
 
-The goal of `surveyharmonize` is to allow the organization of data joins or panels from various data sources, particularly survey microdata files, by *retrospective harmonization* the value codes, the value labels, and the missing value ranges of the data in a reproducible manner with the help of comprehensive s3 classes.
+The goal of `retroharmonize` is to allow the organization of data joins or panels from various data sources, particularly survey microdata files, by *retrospective harmonization* the value codes, the value labels, and the missing value ranges of the data in a reproducible manner with the help of comprehensive s3 classes.
 
 Currently being generalized from problems solved in the  [github.com/antaldaniel/eurobarometer]((https://github.com/antaldaniel/eurobarometer)) package ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
 
 ## Installation
 
-You can install the released version of surveyharmonize from [CRAN](https://CRAN.R-project.org) with:
+Soon you can install the released version of retroharmonize from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-install.packages("surveyharmonize")
+install.packages("retroharmonize")
 ```
 
 And the development version from [GitHub](https://github.com/) with:
@@ -44,39 +44,23 @@ devtools::install_github("antaldaniel/retroharmonize")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
-
-```{r example}
-library(surveyharmonize)
-## basic example code
-```
-
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
-
 ```{r binding}
-library(surveyharmonize)
-library(labelled)
+library(retroharmonize)
+library(haven)
 
-this <- read_spss ( 
-  system.file("examples", "iris.sav", package = "haven"),
-  id = 'iris1')
+v2 <- haven::labelled_spss (c(1,1,0,8), 
+                            labels = c("yes" = 1,
+                                       "no"  = 0,
+                                       "declined" = 8),
+                            na_values = 8)
 
-that <- read_spss ( 
-  system.file("examples", "iris.sav", package = "haven"),
-  id = 'iris2')
-
-this$Species[2] <- 9999
-that$Species[3] <- 9998
-
-this$Species <- labelled_spss(
-  this$Species, c( labelled::val_labels ( this$Species),
-                   "missing" = 9999),
-  na_values = 9999)
-
-that$Species <- labelled_spss(
-  that$Species, c( labelled::val_labels ( that$Species), 
-                   "missing" = 9999),
-  na_values = 9998)
+h2 <- harmonize_values(v2, 
+                       harmonize_labels = list(
+                         from = c("^yes", "^no", "^inap"), 
+                         to = c("trust", "not_trust", "inap"), 
+                         numeric_values = c(1,0,99999)), 
+                       id = 'survey2' )
+str(h2)
 ```
 
 
