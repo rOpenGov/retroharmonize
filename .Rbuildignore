@@ -4,3 +4,5 @@
 ^data-raw$
 ^README\.Rmd$
 ^CODE_OF_CONDUCT\.md$
+^doc$
+^Meta$

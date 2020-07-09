@@ -32,6 +32,7 @@
 #'                                       "Tend not to trust" = 2, 
 #'                                       "DK" = 6))
 #' harmonize_values (var3)
+#' @export
 
 
 harmonize_values <- function(x, 

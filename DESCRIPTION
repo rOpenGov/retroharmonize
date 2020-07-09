@@ -1,4 +1,4 @@
-Package: surveyharmonize
+Package: retroharmonize
 Type: Package
 Title: Ex Post Survey Table Harmonization
 Version: 0.1.0
@@ -10,7 +10,7 @@ Authors@R:
            comment = c(ORCID = "0000-0001-7513-6760"))
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
-Description: The goal of surveyharmonize is to allow the organization 
+Description: The goal of retroharmonize is to allow the organization 
     of data joins or panels from various data sources, particularly 
     survey microdata files, by retrospective harmonization the value codes,
     the value labels, and the missing value ranges of the data in a
@@ -31,3 +31,7 @@ Imports:
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
