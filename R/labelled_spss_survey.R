@@ -64,13 +64,13 @@ new_labelled_spss_survey <- function(x, labels,
                        na_values = na_values,
                        na_range = na_range,
                        id = id,
-                       class = c("surveyharmonize_labelled_spss_survey",
+                       class = c("retroharmonize_labelled_spss_survey",
                                  "haven_labelled_spss")
   )
 }
 
 #' @export
-vec_ptype_full.surveyharmonize_labelled_spss_survey <- function(x, ...) {
+vec_ptype_full.retroharmonize_labelled_spss_survey <- function(x, ...) {
   paste0("labelled_spss<", vec_ptype_full(vec_data(x)), ">")
 }
 
@@ -93,7 +93,7 @@ obj_print_footer.surveyharmonized_labelled_spss_survey <- function(x, ...) {
 
 
 #' @export
-is.na.surveyharmonize_labelled_spss_survey <- function(x) {
+is.na.retroharmonize_labelled_spss_survey <- function(x) {
   miss <- NextMethod()
   val <- vec_data(x)
 
@@ -112,6 +112,6 @@ is.na.surveyharmonize_labelled_spss_survey <- function(x) {
 
 
 #' @export
-is.surveyharmonize_labelled_spss_survey <- function(x) {
-  inherits(x, "surveyharmonize_labelled_spss_survey")
+is.retroharmonize_labelled_spss_survey <- function(x) {
+  inherits(x, "retroharmonize_labelled_spss_survey")
 }
