@@ -44,6 +44,7 @@ but it also models SPSS's user-defined missings, which can be up to
 three distinct values, or for numeric vectors a range.
 }
 \examples{
+\dontrun{
 x1 <- labelled_spss_survey(
   1:10, c(Good = 1, Bad = 8), 
   na_values = c(9, 10), 
@@ -65,6 +66,6 @@ is.na(x2)
 
 # Print data and metadata
 x2
-
+}
 }
 \concept{type conversion functions}

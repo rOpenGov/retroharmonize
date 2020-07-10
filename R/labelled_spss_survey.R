@@ -8,11 +8,12 @@
 #' three distinct values, or for numeric vectors a range.
 #'
 #' @param id Survey ID
+#' @rdname labelled_spss_survey
 #' @importFrom haven labelled labelled_spss as_factor
 #' @inheritParams haven::labelled_spss
 #' @import vctrs
-#' @export
 #' @examples
+#' \dontrun{
 #' x1 <- labelled_spss_survey(
 #'   1:10, c(Good = 1, Bad = 8), 
 #'   na_values = c(9, 10), 
@@ -34,7 +35,8 @@
 #'
 #' # Print data and metadata
 #' x2
-#'
+#' }
+#' @export
 
 labelled_spss_survey <- function(
   x = double(), labels = NULL,
