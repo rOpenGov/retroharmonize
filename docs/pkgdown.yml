@@ -3,5 +3,6 @@ pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
   harmonize_labels: harmonize_labels.html
-last_built: 2020-07-09T19:46Z
+  labelled_spss_survey: labelled_spss_survey.html
+last_built: 2020-07-10T10:31Z
 

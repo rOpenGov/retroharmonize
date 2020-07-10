@@ -5,6 +5,11 @@ vec_cast_named <- function(x, to, ...) {
   stats::setNames(vec_cast(x, to, ...), names(x))
 }
 
+cat_line <- function(...) {
+  # identical to haven:::cat_line
+  cat(paste0(..., "\n", collapse = ""))
+}
+
 is.labelled_spss <- function (x) inherits(x, "haven_labelled_spss")
 is.labelled <- function (x) inherits(x, "haven_labelled")
 

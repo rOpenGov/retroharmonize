@@ -11,6 +11,11 @@
 #' programmatic context.
 #' @section harmonization functions:
 #' Creating consistent coding and labelling.
+#' @section type conversion functions:
+#' Consistently treat labels and SPSS-style user-defined missing 
+#' values in the R language.
+#' \code{\link{as_numeric}}: convert to numeric values
+#' \code{\link{as_factor}}: convert to labels to factor levels
 #' @docType package
 #' @import vctrs
 #' @name retrohamonize

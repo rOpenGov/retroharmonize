@@ -43,7 +43,13 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("antaldaniel/retroharmonize")
 ```
-## Example
+## A class for retrospective harmonization
+
+The `labelled_spss_survey` class is an extension of haven's `labelled_spss` class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifer, for example, the filename to the vector. See [Working With The labelled_spss_survey Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html).
+
+## Harmonize categorical variables and missing values
+
+The aim of `retroharmonize` is to help the reproducible harmonization of survey data. This means that not only the numeric codes, the labels and the missing range is harmonized, but the original coding is preserved as metadata attributes for documentation and validation purposes. See more in the article [Harmonize Value Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html).
 
 ```{r binding}
 library(retroharmonize)
@@ -63,10 +69,6 @@ h2 <- harmonize_values(v2,
                        id = 'survey2' )
 str(h2)
 ```
-
-
-
-
 ## Code of Conduct
 
 Please note that the surveyharmonize project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

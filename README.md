@@ -42,16 +42,32 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("antaldaniel/retroharmonize")
 ```
 
-## Example
+## A class for retrospective harmonization
+
+The `labelled_spss_survey` class is an extension of haven’s
+`labelled_spss` class. It not only preserver variable and value labels
+and the user-defined missing range, but also gives an identifer, for
+example, the filename to the vector. See [Working With The
+labelled\_spss\_survey
+Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html).
+
+## Harmonize categorical variables and missing values
+
+The aim of `retroharmonize` is to help the reproducible harmonization of
+survey data. This means that not only the numeric codes, the labels and
+the missing range is harmonized, but the original coding is preserved as
+metadata attributes for documentation and validation purposes. See more
+in the article [Harmonize Value
+Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html).
 
 ``` r
 library(retroharmonize)
 library(haven)
 #> 
 #> Attaching package: 'haven'
-#> The following object is masked from 'package:retroharmonize':
+#> The following objects are masked from 'package:retroharmonize':
 #> 
-#>     read_spss
+#>     as_factor, read_spss
 
 v2 <- haven::labelled_spss (c(1,1,0,8), 
                             labels = c("yes" = 1,

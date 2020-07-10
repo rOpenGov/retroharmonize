@@ -2,6 +2,9 @@
 % Please edit documentation in R/labelled_spss_survey.R
 \name{labelled_spss_survey}
 \alias{labelled_spss_survey}
+\alias{is.labelled_spss_survey}
+\alias{as_factor}
+\alias{as_numeric}
 \title{Labelled vectors for SPSS surveys}
 \usage{
 labelled_spss_survey(
@@ -12,6 +15,12 @@ labelled_spss_survey(
   label = NULL,
   id = NULL
 )
+
+is.labelled_spss_survey(x)
+
+as_factor(x)
+
+as_numeric(x)
 }
 \arguments{
 \item{x}{A vector to label. Must be either numeric (integer or double) or
@@ -49,3 +58,4 @@ is.na(x2)
 x2
 
 }
+\concept{type conversion functions}

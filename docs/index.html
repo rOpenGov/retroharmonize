@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.0</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.1</span>
       </span>
     </div>
 
@@ -59,6 +59,9 @@
   <ul class="dropdown-menu" role="menu">
 <li>
       <a href="articles/harmonize_labels.html">Harmonize Value Labels</a>
+    </li>
+    <li>
+      <a href="articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>
     </li>
   </ul>
 </li>
@@ -102,16 +105,22 @@
 <div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"antaldaniel/retroharmonize"</span>)</pre></div>
 </div>
-<div id="example" class="section level2">
+<div id="a-class-for-retrospective-harmonization" class="section level2">
 <h2 class="hasAnchor">
-<a href="#example" class="anchor"></a>Example</h2>
+<a href="#a-class-for-retrospective-harmonization" class="anchor"></a>A class for retrospective harmonization</h2>
+<p>The <code>labelled_spss_survey</code> class is an extension of haven’s <code>labelled_spss</code> class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifer, for example, the filename to the vector. See <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>.</p>
+</div>
+<div id="harmonize-categorical-variables-and-missing-values" class="section level2">
+<h2 class="hasAnchor">
+<a href="#harmonize-categorical-variables-and-missing-values" class="anchor"></a>Harmonize categorical variables and missing values</h2>
+<p>The aim of <code>retroharmonize</code> is to help the reproducible harmonization of survey data. This means that not only the numeric codes, the labels and the missing range is harmonized, but the original coding is preserved as metadata attributes for documentation and validation purposes. See more in the article <a href="http://retroharmonize.satellitereport.com/articles/harmonize_labels.html">Harmonize Value Labels</a>.</p>
 <div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">retroharmonize</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">haven</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'haven'</span>
-<span class="co">#&gt; The following object is masked from 'package:retroharmonize':</span>
+<span class="co">#&gt; The following objects are masked from 'package:retroharmonize':</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     read_spss</span>
+<span class="co">#&gt;     as_factor, read_spss</span>
 
 <span class="no">v2</span> <span class="kw">&lt;-</span> <span class="kw pkg">haven</span><span class="kw ns">::</span><span class="fu"><a href="https://haven.tidyverse.org/reference/labelled_spss.html">labelled_spss</a></span> (<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">8</span>),
                             <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"yes"</span> <span class="kw">=</span> <span class="fl">1</span>,
