@@ -2,3 +2,42 @@
 
 language: R
 cache: packages
+
+r_build_args: --no-build-vignettes --no-manual --no-resave-data
+r_check_args: --no-build-vignettes --no-manual
+r_packages:
+  - backports
+  - vctrs
+  - rlang
+  - devtools
+  - dplyr
+  - tidyr
+  - magrittr
+  - purrr
+  - tibble
+  - knitr
+  - roxygen2
+  - rvest
+  - testthat
+  - usethis
+  - rmarkdown
+  - knitr
+  - haven
+  - labelled
+  - rprojroot
+  
+r_github_packages:
+  - jimhester/covr
+  
+warnings_are_errors: false
+latex: false
+
+before_install:
+  - pip install --user codecov
+
+notifications:
+  email:
+    - daniel.antal@ceemid.eu
+
+after_success:
+  - R -q -e 'covr::codecov(quiet = FALSE)'
