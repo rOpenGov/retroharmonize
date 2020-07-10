@@ -160,8 +160,6 @@ is.na.retroharmonize_labelled_spss_survey <- function(x) {
   miss
 }
 
-
-
 ## Coercion rules --------------------------------------
 
 #' @export

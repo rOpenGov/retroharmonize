@@ -178,7 +178,16 @@
                                            <span class='st'>"INAP. HERE"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
                                 <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>9</span>))
 
-<span class='fu'>harmonize_values</span> (<span class='no'>var3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in labelled::to_character(x): object 'var3' not found</span></div><div class='input'>
+<span class='fu'>harmonize_values</span> (<span class='no'>var1</span>)</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
+#&gt; [1]     1     0     1     1     0 99901 99999
+#&gt; Missing values: 99901, 99999
+#&gt; 
+#&gt; Labels:
+#&gt;  value         label
+#&gt;      0     not_trust
+#&gt;      1         trust
+#&gt;  99901 invalid_label
+#&gt;  99999          inap</div><div class='input'>
 <span class='no'>var2</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>,<span class='fl'>2</span>,<span class='fl'>9</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
                                 <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tend to trust"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
                                            <span class='st'>"Tend not to trust"</span> <span class='kw'>=</span> <span class='fl'>2</span>,

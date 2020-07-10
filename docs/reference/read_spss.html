@@ -210,8 +210,11 @@ to enforce them.</p></td>
     </tr>
     <tr>
       <th>id</th>
-      <td><p>An identifier of the tibble, if omitted, defaults to the
-file name.</p></td>
+      <td><p>An import file name.</p></td>
+    </tr>
+    <tr>
+      <th>doi</th>
+      <td><p>An optional document object identifier.</p></td>
     </tr>
     </table>
 
@@ -230,9 +233,48 @@ SPSS are handled in R.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"iris.sav"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"haven"</span>)
-<span class='fu'>read_sav</span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='error'>Error in read_sav(path): could not find function "read_sav"</span></div><div class='input'>
+<span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_sav</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>We detected these problematic arguments:</span>
+#&gt; <span class='warning'>* `needs_dots`</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
+#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; # A tibble: 150 x 5
+#&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
+#&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl+lbl&gt;
+#&gt;  1          5.1         3.5          1.4         0.2 1 [setosa]
+#&gt;  2          4.9         3            1.4         0.2 1 [setosa]
+#&gt;  3          4.7         3.2          1.3         0.2 1 [setosa]
+#&gt;  4          4.6         3.1          1.5         0.2 1 [setosa]
+#&gt;  5          5           3.6          1.4         0.2 1 [setosa]
+#&gt;  6          5.4         3.9          1.7         0.4 1 [setosa]
+#&gt;  7          4.6         3.4          1.4         0.3 1 [setosa]
+#&gt;  8          5           3.4          1.5         0.2 1 [setosa]
+#&gt;  9          4.4         2.9          1.4         0.2 1 [setosa]
+#&gt; 10          4.9         3.1          1.5         0.1 1 [setosa]
+#&gt; # ... with 140 more rows</div><div class='input'>
 <span class='no'>tmp</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/tempfile.html'>tempfile</a></span>(<span class='kw'>fileext</span> <span class='kw'>=</span> <span class='st'>".sav"</span>)
-<span class='fu'>write_sav</span>(<span class='no'>mtcars</span>, <span class='no'>tmp</span>)</div><div class='output co'>#&gt; <span class='error'>Error in write_sav(mtcars, tmp): could not find function "write_sav"</span></div><div class='input'><span class='fu'>read_sav</span>(<span class='no'>tmp</span>)</div><div class='output co'>#&gt; <span class='error'>Error in read_sav(tmp): could not find function "read_sav"</span></div></pre>
+<span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>write_sav</a></span>(<span class='no'>mtcars</span>, <span class='no'>tmp</span>)
+<span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_sav</a></span>(<span class='no'>tmp</span>)</div><div class='output co'>#&gt; <span class='warning'>Warning: `...` is not empty.</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>We detected these problematic arguments:</span>
+#&gt; <span class='warning'>* `needs_dots`</span>
+#&gt; <span class='warning'></span>
+#&gt; <span class='warning'>These dots only exist to allow future extensions and should be empty.</span>
+#&gt; <span class='warning'>Did you misspecify an argument?</span></div><div class='output co'>#&gt; # A tibble: 32 x 11
+#&gt;      mpg   cyl  disp    hp  drat    wt  qsec    vs    am  gear  carb
+#&gt;    &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;
+#&gt;  1  21       6  160    110  3.9   2.62  16.5     0     1     4     4
+#&gt;  2  21       6  160    110  3.9   2.88  17.0     0     1     4     4
+#&gt;  3  22.8     4  108     93  3.85  2.32  18.6     1     1     4     1
+#&gt;  4  21.4     6  258    110  3.08  3.22  19.4     1     0     3     1
+#&gt;  5  18.7     8  360    175  3.15  3.44  17.0     0     0     3     2
+#&gt;  6  18.1     6  225    105  2.76  3.46  20.2     1     0     3     1
+#&gt;  7  14.3     8  360    245  3.21  3.57  15.8     0     0     3     4
+#&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
+#&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
+#&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
+#&gt; # ... with 22 more rows</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

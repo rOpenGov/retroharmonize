@@ -152,8 +152,6 @@ three distinct values, or for numeric vectors a range.</p>
 
 <span class='fu'>is.labelled_spss_survey</span>(<span class='no'>x</span>)
 
-<span class='fu'>as_factor</span>(<span class='no'>x</span>)
-
 <span class='fu'>as_numeric</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -192,12 +190,29 @@ open ended.</p></td>
 
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Good</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bad</span> <span class='kw'>=</span> <span class='fl'>8</span>), <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9</span>, <span class='fl'>10</span>))</div><div class='output co'>#&gt; <span class='error'>Error in labelled_spss(1:10, c(Good = 1, Bad = 8), na_values = c(9, 10)): could not find function "labelled_spss"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'x1' not found</span></div><div class='input'>
-<span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss</span>(<span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Good</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bad</span> <span class='kw'>=</span> <span class='fl'>8</span>), <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9</span>, <span class='fl'>Inf</span>),
-                    <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Quality rating"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in labelled_spss(1:10, c(Good = 1, Bad = 8), na_range = c(9, Inf),     label = "Quality rating"): could not find function "labelled_spss"</span></div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'x2' not found</span></div><div class='input'>
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss_survey</span>(
+  <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Good</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bad</span> <span class='kw'>=</span> <span class='fl'>8</span>),
+  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9</span>, <span class='fl'>10</span>),
+  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey1"</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x1</span>)
+
+<span class='co'># Print data and metadata </span>
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x1</span>)
+
+<span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss_survey</span>( <span class='fl'>1</span>:<span class='fl'>10</span>,
+ <span class='kw'>labels</span>  <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Good</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bad</span> <span class='kw'>=</span> <span class='fl'>8</span>),
+ <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9</span>, <span class='fl'>Inf</span>),
+ <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Quality rating"</span>,
+ <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey1"</span>)
+
+
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x2</span>)
+
 <span class='co'># Print data and metadata</span>
-<span class='no'>x2</span></div><div class='output co'>#&gt; <span class='error'>Error in eval(expr, envir, enclos): object 'x2' not found</span></div><div class='input'>
-</div></pre>
+<span class='no'>x2</span>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
