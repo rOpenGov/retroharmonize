@@ -10,7 +10,7 @@
 #' @param id Survey ID
 #' @importFrom haven labelled labelled_spss as_factor
 #' @inheritParams haven::labelled_spss
-#' @importFrom vctrs vec_data
+#' @import vctrs
 #' @export
 #' @examples
 #' x1 <- labelled_spss_survey(
