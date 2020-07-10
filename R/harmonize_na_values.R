@@ -16,6 +16,8 @@
 
 harmonize_na_values <- function(df) {
   
+  missing_value_labels <- NULL
+  
   # should be paramteric
   
   vars_with_spss_missings <- vapply ( df, is.labelled_spss, logical(1) )
@@ -56,7 +58,9 @@ harmonize_na_values <- function(df) {
     harmonized <- labelled::labelled(unclass(this_var), these_labels)
     new_labels <- labelled::to_character(harmonized)
     
-    harmonized_missing_labels <- vector("numeric", length = length(h_missing_value_labels))
+    harmonized_missing_labels <- vector(
+      "numeric", 
+      length = length(h_missing_value_labels))
     
     harmonized_missing_labels <- dplyr::case_when (
       grepl ( "inap", h_missing_value_labels) ~ 99999, 
@@ -85,7 +89,8 @@ harmonize_na_values <- function(df) {
     
     names ( harmonized_labels ) <- names (these_labels )
     
-    replace_var <- labelled::labelled(harmonized_numeric_value, harmonized_labels)
+    replace_var <- labelled::labelled(harmonized_numeric_value, 
+                                      harmonized_labels)
     df[, i] <- replace_var
     
   }

@@ -61,8 +61,9 @@ This argument is passed on as \code{repair} to \code{\link[vctrs:vec_as_names]{v
 See there for more details on these terms and the strategies used
 to enforce them.}
 
-\item{id}{An identifier of the tibble, if omitted, defaults to the
-file name.}
+\item{id}{An import file name.}
+
+\item{doi}{An optional document object identifier.}
 }
 \value{
 A tibble, data frame variant with nice defaults.

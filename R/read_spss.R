@@ -14,6 +14,8 @@
 #' @inheritParams haven::read_spss
 #' @param id An identifier of the tibble, if omitted, defaults to the
 #' file name.
+#' @param doi An optional document object identifier.
+#' @param id An import file name.
 #' @importFrom haven read_spss
 #' @importFrom tibble rowid_to_column
 #' @return A tibble, data frame variant with nice defaults.

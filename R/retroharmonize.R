@@ -18,6 +18,7 @@
 #' \code{\link{as_factor}}: convert to labels to factor levels
 #' @docType package
 #' @import vctrs
+#' @import rlang
 #' @name retrohamonize
 NULL
 

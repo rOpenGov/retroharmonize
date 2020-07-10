@@ -95,7 +95,9 @@ harmonize_values <- function(x,
   names (new_labels) <- new_labelling$new_labels
   
   #define original labelling 
-  original_labelling <- dplyr::distinct ( new_values, new_values, orig_labels )
+  original_labelling <- new_values %>%
+        dplyr::distinct ( .data$new_values, .data$orig_labels )
+  
   original_labels <- original_labelling$new_values
   names(original_labels) <- original_labelling$orig_labels
   

@@ -20,15 +20,15 @@ label do not match.
 Concatenate haven_labelled_spss vectors
 }
 \examples{
-v1 <- labelled(
+v1 <- labelled::labelled(
 c(3,4,4,3,8, 9),
 c(YES = 3, NO = 4, `WRONG LABEL` = 8, REFUSED = 9)
 )
-v2 <- labelled(
+v2 <- labelled::labelled(
   c(4,3,3,9),
   c(YES = 3, NO = 4, `WRONG LABEL` = 8, REFUSED = 9)
 )
-s1 <-labelled_spss(
+s1 <- haven::labelled_spss(
   x = unclass(v1),         # remove labels from earlier defined
   labels = val_labels(v1), # use the labels from earlier defined
   na_values = NULL,
