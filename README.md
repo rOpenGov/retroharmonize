@@ -14,6 +14,10 @@ proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https:
 [![Follow
 author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
 
+[![Codecov test
+coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
+[![Travis build
+status](https://travis-ci.com/antaldaniel/retroharmonize.svg?branch=master)](https://travis-ci.com/antaldaniel/retroharmonize)
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to allow the organization of data joins

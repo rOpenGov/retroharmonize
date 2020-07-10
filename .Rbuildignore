@@ -6,3 +6,5 @@
 ^CODE_OF_CONDUCT\.md$
 ^doc$
 ^Meta$
+^codecov\.yml$
+^\.travis\.yml$
