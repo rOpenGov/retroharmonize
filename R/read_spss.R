@@ -15,7 +15,7 @@
 #' @param id An identifier of the tibble, if omitted, defaults to the
 #' file name.
 #' @param doi An optional document object identifier.
-#' @param id An import file name.
+#' @param filename An import file name.
 #' @importFrom haven read_spss read_sav write_sav
 #' @importFrom tibble rowid_to_column
 #' @return A tibble, data frame variant with nice defaults.
