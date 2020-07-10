@@ -33,7 +33,7 @@ var1 <- labelled::labelled_spss(x = c(1,0,1,1,0,8,9),
                                            "INAP. HERE" = 9), 
                                 na_values = c(8,9))
 
-harmonize_values (var3)                                
+harmonize_values (var1)                                
 
 var2 <- labelled::labelled_spss(x = c(1,6,2,9,1,1,2), 
                                 labels = c("Tend to trust" = 1, 

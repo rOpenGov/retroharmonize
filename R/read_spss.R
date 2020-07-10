@@ -16,7 +16,7 @@
 #' file name.
 #' @param doi An optional document object identifier.
 #' @param id An import file name.
-#' @importFrom haven read_spss
+#' @importFrom haven read_spss read_sav write_sav
 #' @importFrom tibble rowid_to_column
 #' @return A tibble, data frame variant with nice defaults.
 #'
@@ -28,11 +28,11 @@
 #' @family import functions
 #' @examples
 #' path <- system.file("examples", "iris.sav", package = "haven")
-#' read_sav(path)
+#' haven::read_sav(path)
 #'
 #' tmp <- tempfile(fileext = ".sav")
-#' write_sav(mtcars, tmp)
-#' read_sav(tmp)
+#' haven::write_sav(mtcars, tmp)
+#' haven::read_sav(tmp)
 #' @export
 
 

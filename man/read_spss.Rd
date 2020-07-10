@@ -88,10 +88,10 @@ This is a wrapper around haven::read_spss
 }
 \examples{
 path <- system.file("examples", "iris.sav", package = "haven")
-read_sav(path)
+haven::read_sav(path)
 
 tmp <- tempfile(fileext = ".sav")
-write_sav(mtcars, tmp)
-read_sav(tmp)
+haven::write_sav(mtcars, tmp)
+haven::read_sav(tmp)
 }
 \concept{import functions}
