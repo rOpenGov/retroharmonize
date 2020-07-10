@@ -5,7 +5,7 @@
 #' @return A concatenated haven_labelled_spss vector. Returns an error
 #' if the attributes do not match. Gives a warning when only the variable
 #' label do not match.
-#' @importFrom labelled labelled 
+#' @importFrom labelled labelled val_labels
 #' @importFrom haven labelled_spss
 #' @examples
 #' v1 <- labelled::labelled(
@@ -18,20 +18,20 @@
 #' )
 #' s1 <- haven::labelled_spss(
 #'   x = unclass(v1),         # remove labels from earlier defined
-#'   labels = val_labels(v1), # use the labels from earlier defined
+#'   labels = labelled::val_labels(v1), # use the labels from earlier defined
 #'   na_values = NULL,
 #'   na_range = 8:9,
 #'   label = "Variable Example"
 #' )
 #'
-#' s2 <-labelled_spss(
+#' s2 <- haven::labelled_spss(
 #'   x = unclass(v2),         # remove labels from earlier defined
-#'   labels = val_labels(v2), # use the labels from earlier defined
+#'   labels = labelled::val_labels(v2), # use the labels from earlier defined
 #'   na_values = NULL,
 #'   na_range = 8:9,
 #'   label = "Variable Example"
 #' )
-#' concatenate (x,y)
+#' concatenate (s1,s2)
 #' @importFrom haven labelled_spss labelled
 #' @family joining functions
 #' @export

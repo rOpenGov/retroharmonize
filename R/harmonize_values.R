@@ -114,6 +114,6 @@ harmonize_values <- function(x,
   attr(return_value, paste0(id, "_labels_orig")) <-  original_labels 
   attr(return_value, paste0(id, "_original_values")) <- original_values 
   
-  if ( is.labelled_spss(return_value)) return_value
+  if ( inherits(return_value, "haven_labelled_spss")) return_value
   
 }

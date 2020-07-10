@@ -30,19 +30,19 @@ v2 <- labelled::labelled(
 )
 s1 <- haven::labelled_spss(
   x = unclass(v1),         # remove labels from earlier defined
-  labels = val_labels(v1), # use the labels from earlier defined
+  labels = labelled::val_labels(v1), # use the labels from earlier defined
   na_values = NULL,
   na_range = 8:9,
   label = "Variable Example"
 )
 
-s2 <-labelled_spss(
+s2 <- haven::labelled_spss(
   x = unclass(v2),         # remove labels from earlier defined
-  labels = val_labels(v2), # use the labels from earlier defined
+  labels = labelled::val_labels(v2), # use the labels from earlier defined
   na_values = NULL,
   na_range = 8:9,
   label = "Variable Example"
 )
-concatenate (x,y)
+concatenate (s1,s2)
 }
 \concept{joining functions}

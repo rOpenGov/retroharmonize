@@ -60,15 +60,16 @@ new_labelled_spss_survey <- function(x, labels,
     }
   }
 
-  haven:::new_labelled(x,
+  tmp <- haven::labelled_spss(x,
                        labels = labels,
                        label = label,
                        na_values = na_values,
-                       na_range = na_range,
-                       id = id,
-                       class = c("retroharmonize_labelled_spss_survey",
+                       na_range = na_range)
+  
+  attr(tmp, "id") <- id
+  attr(tmp, "class") <- c("retroharmonize_labelled_spss_survey",
                                  "haven_labelled_spss")
-  )
+ tmp
 }
 
 ## Displaying methods -----------------------------------------
