@@ -53,7 +53,8 @@ x1 <- labelled_spss_survey(
   id = "survey1")
   
 is.na(x1)
-Print data and metadata 
+
+# Print data and metadata 
 print(x1)
 
 x2 <- labelled_spss_survey( 1:10, 

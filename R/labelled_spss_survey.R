@@ -10,6 +10,7 @@
 #' @param id Survey ID
 #' @importFrom haven labelled labelled_spss
 #' @inheritParams haven::labelled_spss
+#' @importFrom vctrs vec_data
 #' @export
 #' @examples
 #' x1 <- labelled_spss_survey(
@@ -18,8 +19,8 @@
 #'   id = "survey1")
 #'   
 #' is.na(x1)
-
-#' Print data and metadata 
+#' 
+#' # Print data and metadata 
 #' print(x1)
 #'
 #' x2 <- labelled_spss_survey( 1:10, 
@@ -41,7 +42,7 @@ labelled_spss_survey <- function(
   na_range = NULL, label = NULL,
   id = NULL) {
 
-  x <- vec_data(x)
+  x <- vctrs::vec_data(x)
   ## vec_cast_names in utils
   na_values <- vec_cast_named(na_values, x, 
                               x_arg = "na_values", to_arg = "x")
