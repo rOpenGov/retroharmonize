@@ -3,7 +3,6 @@
 \name{labelled_spss_survey}
 \alias{labelled_spss_survey}
 \alias{is.labelled_spss_survey}
-\alias{as_factor}
 \alias{as_numeric}
 \title{Labelled vectors for SPSS surveys}
 \usage{
@@ -17,8 +16,6 @@ labelled_spss_survey(
 )
 
 is.labelled_spss_survey(x)
-
-as_factor(x)
 
 as_numeric(x)
 }

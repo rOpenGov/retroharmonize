@@ -8,7 +8,7 @@
 #' three distinct values, or for numeric vectors a range.
 #'
 #' @param id Survey ID
-#' @importFrom haven labelled labelled_spss
+#' @importFrom haven labelled labelled_spss as_factor
 #' @inheritParams haven::labelled_spss
 #' @importFrom vctrs vec_data
 #' @export
@@ -81,7 +81,8 @@ new_labelled_spss_survey <- function(x, labels,
   
   attr(tmp, "id") <- id
   attr(tmp, "class") <- c("retroharmonize_labelled_spss_survey",
-                                 "haven_labelled_spss")
+                          "haven_labelled_spss", 
+                          "haven_labelled")
  tmp
 }
 
@@ -279,17 +280,10 @@ sum.retroharmonize_labelled_spss_survey <- function(x, ...) {
   sum(vec_convert_na(x), ...)
 }
 
-#' @importFrom haven as_factor
-#' @export
-#' @rdname labelled_spss_survey
-#' @family type conversion functions
-as_factor <- function(x) {
-  haven::as_factor(x) 
-  }
-
 #' @family type conversion functions
 #' @rdname labelled_spss_survey
 #' @export
 as_numeric <- function(x) {
   vec_convert_na(x) 
-  }
+}
+
