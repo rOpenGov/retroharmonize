@@ -1,11 +1,13 @@
 ## A recreation and augmentation of the haven_labelled_spss class -----------------
 
-#' Labelled vectors for SPSS surveys
+#' Labelled vectors for multiple SPSS surveys
 #'
-#' This class is only used when `user_na = TRUE` in
-#' [read_sav()]. It is similar to the [labelled()] class
-#' but it also models SPSS's user-defined missings, which can be up to
-#' three distinct values, or for numeric vectors a range.
+#' This class is amending labelled_spss with a unique object
+#' identifier \code{id} to make later binding or joining 
+#' reproducible and well-documented.
+#' 
+#' It inherits many methods from labelled, but uses more strict
+#' coercion and validation rules.
 #'
 #' @param id Survey ID
 #' @rdname labelled_spss_survey
@@ -167,6 +169,21 @@ as.character.retroharmonize_labelled_spss_survey <- function(x, ...) {
   as.character(vec_data(x))
 }
 
+#' @param lss A \code{labelled_spss_survey} vector for use in \code{as_character}, 
+#' \code{as_numeric}, \code{as_factor} and \code{is.labelled_spss_survey}.
+#' @rdname labelled_spss_survey
+#' @family type conversion functions
+#' @export
+as_character <- function(lss) {
+  as.character.retroharmonize_labelled_spss_survey(lss)
+}
+
+#' @rdname labelled_spss_survey
+#' @export
+#' @importFrom haven as_factor
+#' @seealso \code{as_haven} is imported from \link{[haven]as_factor}
+as_factor <- function (lss) haven::as_factor(lss)
+
 #' @export
 levels.retroharmonize_labelled_spss_survey <- function(x) {
   NULL
@@ -195,10 +212,11 @@ setOldClass(c("retroharmonize_labelled_spss_survey",
               "haven_labelled_spss", 
               "haven_labelled", "vctrs_vctr"))
 
-#' @export
+
 #' @rdname labelled_spss_survey
-is.labelled_spss_survey <- function(x) {
-  inherits(x, "retroharmonize_labelled_spss_survey")
+#' @export
+is.labelled_spss_survey <- function(lss) {
+  inherits(lss, "retroharmonize_labelled_spss_survey")
 }
 
 #' @export
@@ -283,7 +301,7 @@ sum.retroharmonize_labelled_spss_survey <- function(x, ...) {
 #' @family type conversion functions
 #' @rdname labelled_spss_survey
 #' @export
-as_numeric <- function(x) {
-  vec_convert_na(x) 
+as_numeric <- function(lss) {
+  vec_convert_na(lss) 
 }
 

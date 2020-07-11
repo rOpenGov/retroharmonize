@@ -2,9 +2,11 @@
 % Please edit documentation in R/labelled_spss_survey.R
 \name{labelled_spss_survey}
 \alias{labelled_spss_survey}
+\alias{as_character}
+\alias{as_factor}
 \alias{is.labelled_spss_survey}
 \alias{as_numeric}
-\title{Labelled vectors for SPSS surveys}
+\title{Labelled vectors for multiple SPSS surveys}
 \usage{
 labelled_spss_survey(
   x = double(),
@@ -15,9 +17,13 @@ labelled_spss_survey(
   id = NULL
 )
 
-is.labelled_spss_survey(x)
+as_character(lss)
 
-as_numeric(x)
+as_factor(lss)
+
+is.labelled_spss_survey(lss)
+
+as_numeric(lss)
 }
 \arguments{
 \item{x}{A vector to label. Must be either numeric (integer or double) or
@@ -36,12 +42,18 @@ open ended.}
 \item{label}{A short, human-readable description of the vector.}
 
 \item{id}{Survey ID}
+
+\item{lss}{A \code{labelled_spss_survey} vector for use in \code{as_character}, 
+\code{as_numeric}, \code{as_factor} and \code{is.labelled_spss_survey}.}
 }
 \description{
-This class is only used when `user_na = TRUE` in
-[read_sav()]. It is similar to the [labelled()] class
-but it also models SPSS's user-defined missings, which can be up to
-three distinct values, or for numeric vectors a range.
+This class is amending labelled_spss with a unique object
+identifier \code{id} to make later binding or joining 
+reproducible and well-documented.
+}
+\details{
+It inherits many methods from labelled, but uses more strict
+coercion and validation rules.
 }
 \examples{
 \dontrun{
@@ -67,5 +79,8 @@ is.na(x2)
 # Print data and metadata
 x2
 }
+}
+\seealso{
+\code{as_haven} is imported from \link{[haven]as_factor}
 }
 \concept{type conversion functions}

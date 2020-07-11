@@ -1,82 +1,59 @@
-library(labelled)
-library(haven)
+library(tidyverse)
+source('R/utils.R')
+source(file.path("not_included", "daniel_env.R")) ##loads Daniel's local gesis directory
 
-iris_file <- system.file("examples", "iris.sav", package = "haven")
-iris <- haven::read_spss (iris_file )
+selected_files <- c("ZA5913_v2-0-0.sav",
+                    "ZA6863_v1-0-0.sav", 
+                    "ZA7576_v1-0-0.sav")
 
-random_rows <- round(runif (n = 10, min = 1, max = 150),0)
-random_matrix <- matrix(
-  c(c('117', '71', '19', '76', '55', '150', '121', '107', '27', '33'),
-  c('16', '131', '122', '34', '105', '79', '67', '124', '120', '42'),
-  c('6', '131', '66', '54', '78', '101', '109', '120', '11', '29')), 
-  ncol = 10, 
-  byrow = TRUE
-)
-i=1
-for ( i in 1:3) {
-  iris_copy <- iris
-  random_rows <- as.integer(random_matrix[i,])
-  missing_rows <- random_rows[random_rows %% 2== 0]
-  unidentified_rows <- random_rows[random_rows %% 2 == 1]
-  
-  iris_copy$Sepal.Length[missing_rows] <- 990+i
-  #iris_copy$Sepal.Width[missing_rows]  <- 990+1
-  #iris_copy$Petal.Length[missing_rows] <- 990+1
-  #iris_copy$Petal.Width[missing_rows]  <- 990+1
-  iris_copy$Species[missing_rows] <- 8+i
-  iris_copy$Species[unidentified_rows] <- 7+i
-  
-  na_values <- c(7:8+i)
-  names (na_values) <- case_when (
-    i == 1 ~ c("unidentified", "missing"), 
-    i == 2 ~ c("UNKNOWN", "INAP"), 
-    TRUE ~ c("unknown", "unobserved")
-  ) 
-  
-  sepal_length_labels <- 990+i
-  names(sepal_length_labels) <- case_when (
-    i == 1 ~ "missing", 
-    i == 2 ~ "missing", 
-    TRUE ~ "unobserved"
-  ) 
-  
-  iris_copy$Sepal.Length  <- haven::labelled_spss(
-    x = unclass(iris_copy$Sepal.Length),
-    labels =  sepal_length_labels,
-    na_values = 990+i,
-    label = "SEPAL LENGTH"
-  )
-  
-  if ( i == 2 ) {
-    iris_copy$Sepal.Width <- haven::labelled (
-      x = unclass(iris_copy$Sepal.Width), 
-      label = "SEPAL WIDTH"
-    )
-  }
-  
-  iris_copy$Species  <- haven::labelled_spss(
-    x = c (unclass(iris_copy$Species)+i-1),
-    labels =  c( labelled::val_labels(iris_copy$Species), na_values),
-    label = paste0("IRIS SPECIES ", i)
-  )
-  
-  labelled::na_values(iris_copy$Species) <- c(8+i,9+i)
-  class(iris_copy$Species)
-  
-  haven::write_sav(iris_copy, 
-                   path = file.path("inst", "examples", 
-                                    paste0("iris",i,".sav"))
-  )
-  
-}
+ZA5913_names <- c('doi','version','uniqid','isocntry','p1','p3','p4','p5','nuts','d7','d8','d25','d60','qa10_3','qa10_2','qa10_1','qa7_4','qa7_2','qa7_3','qa7_1','qa7_5','qd3_1','qd3_2','qd3_3','qd3_4','qd3_5','qd3_6','qd3_7','qd3_8','qd3_9','qd3_10','qd3_11','qd3_12','qd3_13','qd3_14','w1','w3')
+ZA6863_names <- c('doi','version','uniqid', 'serialid','isocntry','p1','p2','p3','p4','p5','nuts','d7','d8','d25','d60','qa14_3','qa14_2','qa14_1','qa8a_3','qa8a_9','qa8b_2','qa8a_1','qa8a_7','qa8a_8','qa8a_2','qa8a_5','qa8b_1','qa8a_4','qa8a_6','qa8a_10','qa8b_3','qd7.1','qd7.2','qd7.3','qd7.4','qd7.5','qd7.6','qd7.7','qd7.8','qd7.9','qd7.10','qd7.11','qd7.12','qd7.13','qd7.14','w1','w3','wex')
+ZA7576_names <- c('doi','version','uniqid','caseid', 'serialid', 'isocntry','p1','p2','p3','p4','p5','nuts','d7','d8','d25','d60','qa14_5','qa14_3','qa14_2','qa14_4','qa14_1','qa6a_5','qa6a_10','qa6b_2','qa6a_3','qa6a_1','qa6b_4','qa6a_8','qa6a_9','qa6a_4','qa6a_2','qa6b_1','qa6a_6','qa6a_7','qa6a_11','qa6b_3','qd6.1','qd6.2','qd6.3','qd6.4','qd6.5','qd6.6','qd6.7','qd6.8','qd6.9','qd6.10','qd6.11','qd6.12','qd6.13','qd6.14','qg1b','qg8','w1','w3','wex')
+
+ZA5913 <- haven::read_spss(file.path(gesis_dir, selected_files[1]), 
+                           user_na = TRUE)
+ZA6863 <- haven::read_spss(file.path(gesis_dir, selected_files[2]), 
+                           user_na = TRUE)
+ZA7576 <- haven::read_spss(file.path(gesis_dir, selected_files[3]), 
+                           user_na = TRUE)
+
+ZA5913 <- ZA5913 %>%
+  select ( all_of(ZA5913_names)) %>%
+  filter (  uniqid %in% c('21215396', '21215095', '21215979', '21215881', '21214003', 
+                          '20224033', '20216368', '20214173', '20213961', '20216412', '20215947', '20214560', '20215168', '20215215', '20216376',
+                          '32000403', '32000316', '32000047', '32000287', '32000041', '32000378', '32000191', '32000471', '32000251', '32000090', 
+                          '11339759', '11339885', '11340508', '11340290', '11339746', '11340422', '11339367', '11339664', '11340547', '11340820')
+           )
+
+ZA6863 <- ZA6863 %>%
+  select ( all_of ( ZA6863_names  )) %>%
+  filter ( serialid %in% c('14125', '14222', '14168', '14086', '13985', #DE-E
+                           '13709', '13504', '13601', '13460', '12901', '13201', '13687', '13752', '12975', '12854', #DE-W
+                           '8939', '9429', '8925', '9450', '8890', '9570', '9674', '9035', '9188', '8688',  #NL
+                           '16840', '17244', '17268', '17197', '17142', '16798', '17246', '16877', '17166', '17014', #CY 
+                           '29484', '29209', '29265', '29474', '29311', #CY-TCC
+                           '30339', '30470', '29931', '30203', '30276', '29946', '29792', '29621', '29996', '30179')) 
+
+ZA6863 <- ZA6863 %>%
+  select ( all_of ( ZA6863_names  )) %>%
+  filter ( serialid %in% c('14125', '14222', '14168', '14086', '13985', #DE-E
+                           '13709', '13504', '13601', '13460', '12901', '13201', '13687', '13752', '12975', '12854', #DE-W
+                           '8939', '9429', '8925', '9450', '8890', '9570', '9674', '9035', '9188', '8688',  #NL
+                           '16840', '17244', '17268', '17197', '17142', '16798', '17246', '16877', '17166', '17014', #CY 
+                           '29484', '29209', '29265', '29474', '29311', #CY-TCC
+                           '30339', '30470', '29931', '30203', '30276', '29946', '29792', '29621', '29996', '30179')) 
+
+ZA7576 <- ZA7576 %>%
+  select ( all_of ( ZA7576_names  )) %>%
+  filter ( serialid %in% c('13918', '14217', '14147', '14013', '14024', #DE-E
+                           '13498', '12920', '12996', '13613', '13716', '13526', '13399', '13202', '12821', '13333', 
+                           '8890', '8706', '9493', '9001', '9590', '8989', '9543', '9611', '9272', '9379', #NL, 
+                           '16537', '16415', '16321', '16532', '16444', '16363', '16652', '16500', '16736', '16745', #CY
+                           '32081', '32504', '32442', '32324', '3209', #CY-TCC
+                           '28739', '29109', '29281', '28958', '29222' ) #MK
+           )
 
 
-re <- haven:::validate_sav (iris)
-
-labelled::na_values ( iris_copy$Species)
-
-re_iris <- haven::read_sav(
-  file.path("inst", "examples", 
-            paste0("iris",i,".sav")))
-
-class(re_iris$Species)
+saveRDS(object = ZA5913, file = file.path("inst","examples", "ZA5913.rds"))
+saveRDS(object = ZA6863, file = file.path("inst","examples", "ZA6863.rds"))
+saveRDS(object = ZA7576, file = file.path("inst","examples", "ZA7576.rds"))
