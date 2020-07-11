@@ -8,6 +8,7 @@
 #' @importFrom tibble tibble
 #' @importFrom dplyr mutate left_join distinct
 #' @importFrom haven labelled_spss
+#' @importFrom assertthat assert_that
 #' @examples
 #' var1 <- labelled::labelled_spss(x = c(1,0,1,1,0,8,9), 
 #'                                 labels = c("TRUST" = 1, 
@@ -45,6 +46,9 @@ harmonize_values <- function(x,
                              na_values = c("do_not_know", "inap"), 
                              id = "survey_id") {
   
+  assert_that(is.numeric(harmonize_labels$numeric_value) |
+                is.null(harmonize_labels$numeric_value))
+
   original_values <- tibble::tibble (
     orig_labels = labelled::to_character(x),
     x = unclass(x)
@@ -111,9 +115,13 @@ harmonize_values <- function(x,
                                 labels = sort ( new_labels ), 
                                 na_values = new_na_values)
   
-  attr(return_value, paste0(id, "_labels_orig")) <-  original_labels 
-  attr(return_value, paste0(id, "_original_values")) <- original_values 
   
-  if ( inherits(return_value, "haven_labelled_spss")) return_value
+  attr(return_value, paste0(id, "_labels")) <-  labelled::val_labels(x) 
+  attr(return_value, paste0(id, "_values")) <- original_values
+  attr(return_value, "id") <- id
+  
+  assert_that ( inherits(return_value, "haven_labelled_spss")) 
+    
+  return_value
   
 }
