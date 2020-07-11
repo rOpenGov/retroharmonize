@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Labelled vectors for SPSS surveys — labelled_spss_survey • retroharmonize</title>
+<title>Labelled vectors for multiple SPSS surveys — labelled_spss_survey • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,11 +39,10 @@
 
 
 
-<meta property="og:title" content="Labelled vectors for SPSS surveys — labelled_spss_survey" />
-<meta property="og:description" content="This class is only used when `user_na = TRUE` in
-[read_sav()]. It is similar to the [labelled()] class
-but it also models SPSS's user-defined missings, which can be up to
-three distinct values, or for numeric vectors a range." />
+<meta property="og:title" content="Labelled vectors for multiple SPSS surveys — labelled_spss_survey" />
+<meta property="og:description" content="This class is amending haven::labelled_spss with a unique object
+identifier id to make later binding or joining 
+reproducible and well-documented." />
 
 
 
@@ -103,6 +102,9 @@ three distinct values, or for numeric vectors a range." />
     <li>
       <a href="../articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>
     </li>
+    <li>
+      <a href="../articles/read_survey_files.html">Read Survey Files</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -129,16 +131,15 @@ three distinct values, or for numeric vectors a range." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Labelled vectors for SPSS surveys</h1>
+    <h1>Labelled vectors for multiple SPSS surveys</h1>
     <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/labelled_spss_survey.R'><code>R/labelled_spss_survey.R</code></a></small>
     <div class="hidden name"><code>labelled_spss_survey.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>This class is only used when `user_na = TRUE` in
-[read_sav()]. It is similar to the [labelled()] class
-but it also models SPSS's user-defined missings, which can be up to
-three distinct values, or for numeric vectors a range.</p>
+    <p>This class is amending <code>haven::<a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></code> with a unique object
+identifier <code>id</code> to make later binding or joining 
+reproducible and well-documented.</p>
     </div>
 
     <pre class="usage"><span class='fu'>labelled_spss_survey</span>(
@@ -150,9 +151,13 @@ three distinct values, or for numeric vectors a range.</p>
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
-<span class='fu'>is.labelled_spss_survey</span>(<span class='no'>x</span>)
+<span class='fu'>as_character</span>(<span class='no'>lss</span>)
 
-<span class='fu'>as_numeric</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>as_factor</span>(<span class='no'>lss</span>)
+
+<span class='fu'>is.labelled_spss_survey</span>(<span class='no'>lss</span>)
+
+<span class='fu'>as_numeric</span>(<span class='no'>lss</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -186,8 +191,20 @@ open ended.</p></td>
       <th>id</th>
       <td><p>Survey ID</p></td>
     </tr>
+    <tr>
+      <th>lss</th>
+      <td><p>A <code>labelled_spss_survey</code> vector for use in <code>as_character</code>, 
+<code>as_numeric</code>, <code>as_factor</code> and <code>is.labelled_spss_survey</code>.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>It inherits many methods from labelled, but uses more strict
+coercion and validation rules.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p><code>as_factor</code> is imported from <code>haven::<a href='https://haven.tidyverse.org/reference/as_factor.html'>as_factor</a></code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {

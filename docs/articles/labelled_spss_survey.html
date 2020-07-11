@@ -59,6 +59,9 @@
     <li>
       <a href="../articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>
     </li>
+    <li>
+      <a href="../articles/read_survey_files.html">Read Survey Files</a>
+    </li>
   </ul>
 </li>
 <li>
@@ -135,13 +138,13 @@
 <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="no">sl1</span>, <span class="fl">1</span>:<span class="fl">3</span>)</pre></body></html></div>
 <p>Conversion to character works as expected:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="no">sl1</span>)
-<span class="co">#&gt; [1] "1" "1" "0" "8" "8" "8"</span></pre></body></html></div>
+<span class="co">#&gt; [1] "yes"      "yes"      "no"       "declined" "declined" "declined"</span></pre></body></html></div>
 <p>The base <code>as.factor</code> converts to integer and uses the integers as levels, because base R factors are integers with a <code>levels</code> attribute.</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/factor.html">as.factor</a></span>(<span class="no">sl1</span>)
-<span class="co">#&gt; [1] 1 1 0 8 8 8</span>
+<span class="co">#&gt; [1] &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt; &lt;NA&gt;</span>
 <span class="co">#&gt; Levels: 0 1 8</span></pre></body></html></div>
 <p>Conversion to factor with <code>as_factor</code> converts the value labels to factor levels:</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/as_factor.html">as_factor</a></span>(<span class="no">sl1</span>)
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="fu"><a href="../reference/labelled_spss_survey.html">as_factor</a></span>(<span class="no">sl1</span>)
 <span class="co">#&gt; [1] yes      yes      no       declined declined declined</span>
 <span class="co">#&gt; Levels: no yes declined</span></pre></body></html></div>
 <p>Similarly, when converting to numeric types, we have to convert the user-defined missing values to <code>NA</code> values used in the R language. For numerical analysis, convert with <code>as_numeric</code>.</p>
@@ -184,9 +187,9 @@
 </ul>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">weights1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span> (<span class="kw">n</span> <span class="kw">=</span> <span class="fl">6</span>, <span class="kw">min</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">1</span>)
 <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">sl1</span>), <span class="no">weights1</span>)
-<span class="co">#&gt; [1] 5.615518</span>
+<span class="co">#&gt; [1] 3.420167</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="no">sl1</span>, <span class="no">weights1</span>)
-<span class="co">#&gt; [1] 5.615518</span></pre></body></html></div>
+<span class="co">#&gt; [1] 3.420167</span></pre></body></html></div>
 <ul>
 <li>sum()</li>
 </ul>

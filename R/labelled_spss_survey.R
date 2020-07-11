@@ -163,10 +163,11 @@ is.na.retroharmonize_labelled_spss_survey <- function(x) {
 }
 
 ## Coercion rules --------------------------------------
-
+#' @importFrom vctrs vec_data
 #' @export
 as.character.retroharmonize_labelled_spss_survey <- function(x, ...) {
-  as.character(vec_data(x))
+  
+  as.character(as_factor (x))
 }
 
 #' @param lss A \code{labelled_spss_survey} vector for use in \code{as_character}, 
@@ -242,13 +243,15 @@ vec_cast.character.retroharmonize_labelled_spss_survey  <- function(x, to, ...) 
 }
 
 ## Artithmetics ------------------------------------------------
+#' @importFrom vctrs vec_data
+#' @importFrom labelled na_values
 vec_convert_na <- function(x) {
   
   ## na range is not implemented
   
-  ifelse ( vec_data(x) %in% labelled::na_values(x), 
+  ifelse ( vctrs::vec_data(x) %in% labelled::na_values(x), 
            NA_real_, 
-           vec_data(x))
+           vctrs::vec_data(x))
 }
 
 #' @importFrom stats median

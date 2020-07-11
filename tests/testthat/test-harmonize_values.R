@@ -39,3 +39,24 @@ test_that("attributes work", {
 test_that("recoding works", {
   expect_equal(vctrs::vec_data(h1), c(1,0,1,1,0,99997,99999))
 })
+
+test_that("recating works", {
+  expect_equal(as_numeric(h1), c(1,0,1,1,0,NA,NA))
+  expect_equal(levels(as_factor(h1)), c("not_trust", "trust", "do_not_know", "inap"))
+  expect_equal(as_character(h1), c("trust", "not_trust",
+                                   "trust", "trust", "not_trust", 
+                                   "do_not_know", "inap"))
+  expect_equal(as_factor(h1),factor ( 
+    x = c("trust", "not_trust",
+          "trust", "trust", "not_trust", 
+          "do_not_know", "inap"), 
+    levels = c("not_trust","trust",  "do_not_know", "inap")))
+})
+
+
+
+test_that("arithmetic methods work", {
+  #expect_equal(sum(h1,na.rm=TRUE), sum(c(1,0,1,1,0)))
+})
+
+
