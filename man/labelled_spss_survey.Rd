@@ -47,7 +47,7 @@ open ended.}
 \code{as_numeric}, \code{as_factor} and \code{is.labelled_spss_survey}.}
 }
 \description{
-This class is amending labelled_spss with a unique object
+This class is amending \code{haven::\link[haven:labelled_spss]{labelled_spss}} with a unique object
 identifier \code{id} to make later binding or joining 
 reproducible and well-documented.
 }
@@ -81,6 +81,6 @@ x2
 }
 }
 \seealso{
-\code{as_haven} is imported from \link{[haven]as_factor}
+\code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
 }
 \concept{type conversion functions}

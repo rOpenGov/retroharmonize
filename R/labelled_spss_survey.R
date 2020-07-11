@@ -2,7 +2,7 @@
 
 #' Labelled vectors for multiple SPSS surveys
 #'
-#' This class is amending labelled_spss with a unique object
+#' This class is amending \code{haven::\link[haven:labelled_spss]{labelled_spss}} with a unique object
 #' identifier \code{id} to make later binding or joining 
 #' reproducible and well-documented.
 #' 
@@ -181,7 +181,7 @@ as_character <- function(lss) {
 #' @rdname labelled_spss_survey
 #' @export
 #' @importFrom haven as_factor
-#' @seealso \code{as_haven} is imported from \link{[haven]as_factor}
+#' @seealso \code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
 as_factor <- function (lss) haven::as_factor(lss)
 
 #' @export
