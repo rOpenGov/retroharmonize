@@ -2,9 +2,6 @@ x1 <- labelled_spss_survey(
   1:10, c(Good = 1, Bad = 8), 
   na_values = c(9, 10), 
   id = "survey1")
-  
-is.na(x1)
-print(x1)
 
 x2 <- labelled_spss_survey( 1:10, 
  labels  = c(Good = 1, Bad = 8), 
@@ -34,4 +31,17 @@ test_that("attributes are present", {
   expect_equal(attr(x2, "label"), "Quality Rating")
 })
 
+test_that("arithmetic methods work", {
+  expect_equal(sum(x1, na.rm=TRUE),
+               sum(1:8))
+  expect_equal(mean(x1, na.rm=TRUE),
+               mean(1:8))
+  expect_equal(median(x1),
+               median(1:8))
+  expect_equal(quantile(x1,0.25),
+               quantile(1:8,0.25)) 
+  expect_equal(weighted.mean (x1, c(2, rep(1,9))),
+               weighted.mean (1:8, c(2, rep(1,7)))
+  )
+})
 

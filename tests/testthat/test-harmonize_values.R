@@ -85,10 +85,6 @@ test_that("exception handling works", {
   )
 })
 
-test_that("arithmetic methods work", {
-  #expect_equal(sum(h1,na.rm=TRUE), sum(c(1,0,1,1,0)))
-})
-
 
 
 
