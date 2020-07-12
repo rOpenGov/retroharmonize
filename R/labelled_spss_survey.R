@@ -166,7 +166,7 @@ is.na.retroharmonize_labelled_spss_survey <- function(x) {
 #' @export
 as.character.retroharmonize_labelled_spss_survey <- function(x, ...) {
   
-  as.character(as_factor (x))
+  as.character(as_factor (x, "default"))
 }
 
 #' @rdname labelled_spss_survey
@@ -181,17 +181,20 @@ as_character <- function(x) {
 #' Convert a \code{\link{labelled_spss_survey}} vector to a type 
 #' of factor.
 #' 
-#' @inheritParams as_character
 #' @inheritParams haven::as_factor
 #' @export
 #' @importFrom haven as_factor
 #' @seealso \code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
-as_factor <- function (x, levels = "defaults") haven::as_factor(x, levels)
+as_factor <- function (x, 
+                       levels = "default", 
+                       ordered = FALSE) {
+  haven::as_factor(x, levels, ordered) 
+}
 
 
-as.factor.retroharmonize_labelled_spss_survey <- function(x, ...) {
+as_factor.retroharmonize_labelled_spss_survey <- function(x, ...) {
   
-  as_factor (x, "default")
+  as_factor (x)
 }
 
 #' @export

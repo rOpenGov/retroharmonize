@@ -11,3 +11,4 @@
 ^LICENSE\.md$
 ^docs$
 ^LICENCE$
+^cran-comments\.md$

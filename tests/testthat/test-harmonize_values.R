@@ -9,10 +9,10 @@ h1 <- harmonize_values (var1,
                         harmonize_labels = list ( 
                           from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
                           to = c("trust", "not_trust", "do_not_know", "inap"),
-                          numeric_value = c(1,0,99997, 99999), 
+                          numeric_value = c(1,0,99997, 99999)), 
                           na_values = c("do_not_know", "inap"), 
                           id = "survey_id"
-                        ))
+                        )
 
 class(attr(h1, "survey_id_values"))
 attr(h1, "survey_id_labels") 
@@ -65,15 +65,15 @@ test_that("recasting works", {
       harmonize_labels = list ( 
         from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
         to = c("trust", "not_trust", "do_not_know", "inap"),
-        numeric_value = c(1,0,99997, 99999), 
+        numeric_value = c(1,0,99997, 99999)), 
         na_values = c("do_not_know", "inap"), 
         id = "survey_id"
-      ))), 
+      )), 
     c(1,0,NA,NA)
                )
 })
 
-test_hat("exception handling works", {
+test_that("exception handling works", {
   ## tests validate_harmonize_values
   expect_error (harmonize_values (var1, 
                                   # list not well defined

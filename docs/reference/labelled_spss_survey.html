@@ -151,13 +151,11 @@ reproducible and well-documented.</p>
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
 )
 
-<span class='fu'>as_character</span>(<span class='no'>lss</span>)
+<span class='fu'>as_character</span>(<span class='no'>x</span>)
 
-<span class='fu'>as_factor</span>(<span class='no'>lss</span>)
+<span class='fu'>is.labelled_spss_survey</span>(<span class='no'>x</span>)
 
-<span class='fu'>is.labelled_spss_survey</span>(<span class='no'>lss</span>)
-
-<span class='fu'>as_numeric</span>(<span class='no'>lss</span>)</pre>
+<span class='fu'>as_numeric</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -191,11 +189,6 @@ open ended.</p></td>
       <th>id</th>
       <td><p>Survey ID</p></td>
     </tr>
-    <tr>
-      <th>lss</th>
-      <td><p>A <code>labelled_spss_survey</code> vector for use in <code>as_character</code>, 
-<code>as_numeric</code>, <code>as_factor</code> and <code>is.labelled_spss_survey</code>.</p></td>
-    </tr>
     </table>
 
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
@@ -204,20 +197,27 @@ open ended.</p></td>
 coercion and validation rules.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p><code>as_factor</code> is imported from <code>haven::<a href='https://haven.tidyverse.org/reference/as_factor.html'>as_factor</a></code></p></div>
+    <div class='dont-index'><p>as_factor</p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss_survey</span>(
+    <pre class="examples"><div class='input'><span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss_survey</span>(
   <span class='fl'>1</span>:<span class='fl'>10</span>, <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Good</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bad</span> <span class='kw'>=</span> <span class='fl'>8</span>),
   <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9</span>, <span class='fl'>10</span>),
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey1"</span>)
 
-<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x1</span>)
-
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x1</span>)</div><div class='output co'>#&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</div><div class='input'>
 <span class='co'># Print data and metadata </span>
-<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x1</span>)
-
+<span class='fu'><a href='https://rdrr.io/r/base/print.html'>print</a></span>(<span class='no'>x1</span>)</div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10
+#&gt; attr(,"labels")
+#&gt; Good  Bad 
+#&gt;    1    8 
+#&gt; attr(,"na_values")
+#&gt; [1]  9 10
+#&gt; attr(,"class")
+#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                
+#&gt; [3] "haven_labelled"                     
+#&gt; attr(,"id")
+#&gt; [1] "survey1"</div><div class='input'>
 <span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss_survey</span>( <span class='fl'>1</span>:<span class='fl'>10</span>,
  <span class='kw'>labels</span>  <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Good</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bad</span> <span class='kw'>=</span> <span class='fl'>8</span>),
  <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9</span>, <span class='fl'>Inf</span>),
@@ -225,11 +225,21 @@ coercion and validation rules.</p>
  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey1"</span>)
 
 
-<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x2</span>)
-
+<span class='fu'><a href='https://rdrr.io/r/base/NA.html'>is.na</a></span>(<span class='no'>x2</span>)</div><div class='output co'>#&gt;  [1] FALSE FALSE FALSE FALSE FALSE FALSE FALSE FALSE  TRUE  TRUE</div><div class='input'>
 <span class='co'># Print data and metadata</span>
-<span class='no'>x2</span>
-}</div></pre>
+<span class='no'>x2</span></div><div class='output co'>#&gt;  [1]  1  2  3  4  5  6  7  8  9 10
+#&gt; attr(,"labels")
+#&gt; Good  Bad 
+#&gt;    1    8 
+#&gt; attr(,"label")
+#&gt; [1] "Quality rating"
+#&gt; attr(,"na_range")
+#&gt; [1]   9 Inf
+#&gt; attr(,"class")
+#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                
+#&gt; [3] "haven_labelled"                     
+#&gt; attr(,"id")
+#&gt; [1] "survey1"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

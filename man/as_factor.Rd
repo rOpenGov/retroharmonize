@@ -4,11 +4,10 @@
 \alias{as_factor}
 \title{Convert labelled_spss_survey vector To Factor}
 \usage{
-as_factor(x, levels = "defaults")
+as_factor(x, levels = "default", ordered = FALSE)
 }
 \arguments{
-\item{x}{A vector to label. Must be either numeric (integer or double) or
-character.}
+\item{x}{Object to coerce to a factor.}
 
 \item{levels}{How to create the levels of the generated factor:
 \itemize{
@@ -18,6 +17,9 @@ Labels are sorted by value.
 \item "label": use only the labels; unlabelled values become \code{NA}
 \item "values: use only the values
 }}
+
+\item{ordered}{If \code{TRUE} create an ordered (ordinal) factor, if
+\code{FALSE} (the default) create a regular (nominal) factor.}
 }
 \description{
 Convert a \code{\link{labelled_spss_survey}} vector to a type 

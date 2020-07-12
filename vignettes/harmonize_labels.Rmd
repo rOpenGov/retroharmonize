@@ -44,7 +44,7 @@ h1 <- harmonize_values(x = v1,
                        harmonize_labels = list(
                          from = c("^yes", "^no", "^inap"), 
                          to = c("trust", "not_trust", "inap"), 
-                         numeric_values = c(1,0,99999)), 
+                         numeric_value = c(1,0,99999)), 
                        id = "survey1")
 
 str(h1)

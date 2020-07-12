@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>retroharmonize: Retrospective harmonization of survey data files — retrohamonize • retroharmonize</title>
+<title>Harmonize user-defined missing value ranges — na_range_to_values • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,12 +39,9 @@
 
 
 
-<meta property="og:title" content="retroharmonize: Retrospective harmonization of survey data files — retrohamonize" />
-<meta property="og:description" content="The goal of retroharmonize is to allow the organization of data 
-joins or panels from various data sources, particularly survey 
-microdata files, by retrospective harmonization the value codes, 
-the value labels, and the missing value ranges of the data in a 
-reproducible manner with the help of comprehensive s3 classes." />
+<meta property="og:title" content="Harmonize user-defined missing value ranges — na_range_to_values" />
+<meta property="og:description" content="Harmonize the na_values attribute with 
+na_range, if the latter is present." />
 
 
 
@@ -133,41 +130,45 @@ reproducible manner with the help of comprehensive s3 classes." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>retroharmonize: Retrospective harmonization of survey data files</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/retroharmonize.R'><code>R/retroharmonize.R</code></a></small>
-    <div class="hidden name"><code>retrohamonize.Rd</code></div>
+    <h1>Harmonize user-defined missing value ranges</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/na_range_to_values.R'><code>R/na_range_to_values.R</code></a></small>
+    <div class="hidden name"><code>na_range_to_values.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>The goal of <code>retroharmonize</code> is to allow the organization of data 
-joins or panels from various data sources, particularly survey 
-microdata files, by retrospective harmonization the value codes, 
-the value labels, and the missing value ranges of the data in a 
-reproducible manner with the help of comprehensive s3 classes.</p>
+    <p>Harmonize the <code>na_values</code> attribute with 
+<code>na_range</code>, if the latter is present.</p>
     </div>
 
+    <pre class="usage"><span class='fu'>na_range_to_values</span>(<span class='no'>x</span>)
 
+<span class='fu'>is.na_range_to_values</span>(<span class='no'>x</span>)</pre>
 
-    <h2 class="hasAnchor" id="import-functions"><a class="anchor" href="#import-functions"></a>import functions</h2>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>x</th>
+      <td><p>A labelled_spss or labelled_spss_survey vector</p></td>
+    </tr>
+    </table>
 
-    
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-<p>The naming functions make the GESIS SPSS files usable in a 
-programmatic context.</p>
-    <h2 class="hasAnchor" id="harmonization-functions"><a class="anchor" href="#harmonization-functions"></a>harmonization functions</h2>
+    <p>A <code>x</code> with harmonized <code>na_values</code> and 
+<code>na_range</code> attributes.
+If <code><a href='https://rdrr.io/r/base/Extremes.html'>min(na_values)</a></code> or <code><a href='https://rdrr.io/r/base/Extremes.html'>max(na_values)</a></code> than the left- and 
+right-hand value of <code>na_range</code>, it gives a warning and adjusts
+the original <code>na_range</code>.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    
+    <p><code>na_range_to_values()</code> tests if the function needs to be 
+called for <code>na_values</code> harmonization. The <code>na_range</code>
+is often missing and less likely to cause logical problems 
+when joining survey answers.</p>
 
-<p>Creating consistent coding and labelling.</p>
-    <h2 class="hasAnchor" id="type-conversion-functions"><a class="anchor" href="#type-conversion-functions"></a>type conversion functions</h2>
-
-    
-
-<p>Consistently treat labels and SPSS-style user-defined missing 
-values in the R language.
-<code><a href='labelled_spss_survey.html'>as_numeric</a></code>: convert to numeric values
-<code><a href='as_factor.html'>as_factor</a></code>: convert to labels to factor levels</p>
-
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
