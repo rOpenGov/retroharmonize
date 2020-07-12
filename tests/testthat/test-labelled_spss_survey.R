@@ -10,6 +10,12 @@ x2 <- labelled_spss_survey( 1:10,
  id = "survey1")
 
 
+#x3 <- labelled_spss_survey(
+#  c("good", "good", "bad", "bad", "inap"), c(Good = "good", Bad = "bad"), 
+#  na_values = "inap", 
+#  id = "survey1")
+
+
 test_that("type conversion is correct", {
   expect_equal(as_numeric(x1),c(1:8, NA, NA))
 })

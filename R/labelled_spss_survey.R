@@ -65,10 +65,11 @@ labelled_spss_survey <- function(
   )
 }
 
+#' @importFrom vctrs vec_is
 new_labelled_spss_survey <- function(x, labels,
                                      na_values, na_range,
                                      label, id) {
-  if (!is.null(na_values) && !vec_is(x, na_values)) {
+  if (!is.null(na_values) && !vctrs::vec_is(x, na_values)) {
     abort("`na_values` must be same type as `x`.")
   }
   if (!is.null(na_range)) {
@@ -313,4 +314,3 @@ sum.retroharmonize_labelled_spss_survey <- function(x, ...) {
 as_numeric <- function(x) {
   vec_convert_na(x) 
 }
-

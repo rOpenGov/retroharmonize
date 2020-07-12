@@ -41,6 +41,5 @@ var1 <- labelled::labelled_spss(
   na_range_to_values(var1)
   as_numeric(na_range_to_values(var1))
   as_character(na_range_to_values(var1))
-  @family harmonize functions
-  @export
 }
+\concept{harmonize functions}
