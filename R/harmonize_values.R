@@ -30,14 +30,15 @@
 #' @export
 #' @family harmonization functions
 
-harmonize_values <- function(x, 
-                             harmonize_labels = list ( 
-                               from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk", "^inap"), 
-                               to = c("trust", "not_trust", "do_not_know", "inap"),
-                               numeric_value = c(1,0,99997, 99999)
-                             ), 
-                             na_values = c("do_not_know", "inap"), 
-                             id = "survey_id") {
+harmonize_values <- function(
+  x, 
+  harmonize_labels = list ( 
+    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"),
+    numeric_value = c(1,0,99997, 99999)
+  ), 
+  na_values = c("do_not_know", "inap"), 
+  id = "survey_id") {
   
   if (is.null(id)) attr(x, "id") <- "unknown"
 
