@@ -20,6 +20,7 @@ attr(h1, "survey_id_labels")
 test_that("casting works", {
   expect_equal(inherits(h1, "haven_labelled_spss"), TRUE)
   expect_equal(is.numeric(h1), TRUE)
+  expect_equal(is.double(h1), TRUE)
 })
 
 test_that("attributes work", {
