@@ -46,10 +46,14 @@ labelled_spss_survey <- function(
   id = NULL) {
 
   x <- vctrs::vec_data(x)
-  ## vec_cast_names in utils
+  vec_cast_named <- function(x, to, ...) {
+    #identical to haven:::vec_cast_named()
+    stats::setNames(vctrs::vec_cast(x, to, ...), names(x))
+  }
+  
   na_values <- vec_cast_named(na_values, x, 
                               x_arg = "na_values", to_arg = "x")
-  labelled <- labelled(x, labels = labels, label = label)
+  labelled <- labelled::labelled(x, labels = labels, label = label)
 
   new_labelled_spss_survey(
     vec_data(labelled),
@@ -185,12 +189,14 @@ as_character <- function(x) {
 #' @export
 #' @importFrom haven as_factor
 #' @seealso \code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
-as_factor <- function (x, 
-                       levels = "default", 
-                       ordered = FALSE) {
-  haven::as_factor(x, levels, ordered) 
-}
-
+#as_factor <- function (x, 
+#                       levels = "default", 
+#                       ordered = FALSE) {
+#  
+#  haven::as_factor(x)
+#  haven::as_factor(x, levels = levels, ordered = ordered) 
+#}
+as_factor <- haven::as_factor
 
 as_factor.retroharmonize_labelled_spss_survey <- function(x, ...) {
   

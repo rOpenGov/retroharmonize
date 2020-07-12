@@ -1,9 +1,6 @@
 ## Internal functions not to be exported ----------------------
 
-vec_cast_named <- function(x, to, ...) {
-  #identical to haven:::vec_cast_named()
-  stats::setNames(vec_cast(x, to, ...), names(x))
-}
+
 
 cat_line <- function(...) {
   # identical to haven:::cat_line

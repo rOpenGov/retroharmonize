@@ -34,18 +34,20 @@ harmonize_values solves the following problems:
 All values are present, and only the missing values are recoded. 
 
 ```{r}
-v1 <- labelled_spss_survey (c(1,0,1,9), 
-                            labels = c("yes" =1,
-                                       "no" = 0,
-                                       "inap" = 9),
-                            na_values = 9)
+v1 <- labelled_spss_survey (
+  c(1,0,1,9), 
+  labels = c("yes" =1,
+             "no" = 0,
+             "inap" = 9),
+  na_values = 9)
 
-h1 <- harmonize_values(x = v1, 
-                       harmonize_labels = list(
-                         from = c("^yes", "^no", "^inap"), 
-                         to = c("trust", "not_trust", "inap"), 
-                         numeric_value = c(1,0,99999)), 
-                       id = "survey1")
+h1 <- harmonize_values(
+  x = v1, 
+  harmonize_labels = list(
+    from = c("^yes", "^no", "^inap"), 
+    to = c("trust", "not_trust", "inap"), 
+    numeric_value = c(1,0,99999)), 
+  id = "survey1")
 
 str(h1)
 ```

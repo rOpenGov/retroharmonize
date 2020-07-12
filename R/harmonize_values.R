@@ -30,7 +30,6 @@
 #' @export
 #' @family harmonization functions
 
-
 harmonize_values <- function(x, 
                              harmonize_labels = list ( 
                                from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk", "^inap"), 
@@ -41,14 +40,11 @@ harmonize_values <- function(x,
                              id = "survey_id") {
   
   if (is.null(id)) attr(x, "id") <- "unknown"
-  
-  assertthat::assert_that(is.numeric(harmonize_labels$numeric_value) |
-                is.null(harmonize_labels$numeric_value))
 
   harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
   
   original_values <- tibble::tibble (
-    orig_labels = labelled::to_character(x),
+    orig_labels = as_character(x),
     x = unclass(x)
   )
   
@@ -148,6 +144,10 @@ validate_harmonize_labels <- function( harmonize_labels ) {
     stop("<harmonize label> must have <from>, <to>, <numeric_value> of equal lengths as list or data.frame.")
   }
   harmonize_labels <- tibble::as_tibble(harmonize_labels)
+  
+  assertthat::assert_that(is.numeric(harmonize_labels$numeric_value) |
+                            is.null(harmonize_labels$numeric_value))
+  
   dplyr::select (harmonize_labels, 
                  tidyselect::all_of(c("from", "to", "numeric_value")))
 }
