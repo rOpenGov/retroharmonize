@@ -15,6 +15,7 @@
 #' @inheritParams haven::labelled_spss
 #' @import vctrs
 #' @importFrom vctrs vec_is vec_assert
+#' @importFrom pillar pillar_shaft
 #' @seealso as_factor
 #' @examples
 #' x1 <- labelled_spss_survey(

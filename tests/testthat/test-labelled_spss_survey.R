@@ -24,8 +24,6 @@ test_that("NA values are correct", {
   expect_equal(sum(is.na(x1)),2)
   expect_equal(levels(as_factor(x1)),c("Good", 2:7, "Bad", 9:10))
   expect_equal(as_character(x1), c("Good", 2:7, "Bad", 9:10))
-  expect_equal(sum(x1, na.rm=TRUE),sum(1:8))
-  expect_equal(sum(x1, na.rm=FALSE),NA_real_)
 })
 
 test_that("errors work", {
@@ -49,5 +47,9 @@ test_that("arithmetic methods work", {
   expect_equal(weighted.mean (x1, c(2, rep(1,9))),
                weighted.mean (1:8, c(2, rep(1,7)))
   )
+  expect_equal(sum(x1, na.rm=FALSE),NA_real_)
 })
 
+verify_output("retroh_int.txt", {
+  pillar::pillar_shaft(df)
+})

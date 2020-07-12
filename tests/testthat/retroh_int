@@ -1,0 +1,13 @@
+# A tibble: 10 x 1
+           var1   
+   <retroh_int>   
+ 1     1 [Good]   
+ 2     2          
+ 3     3          
+ 4     4          
+ 5     5          
+ 6     6          
+ 7     7          
+ 8     8 [Bad]    
+ 9     9 (NA)     
+10    10 (NA) 
