@@ -22,11 +22,11 @@
 #'              "NOT TRUST" = 0, 
 #'              "DON'T KNOW" = 8, 
 #'              "INAP. HERE" = 9), 
-#'   na_range = c(8,12))
+#' na_range = c(8,12))
 #'   
-#'   na_range_to_values(var1)
-#'   as_numeric(na_range_to_values(var1))
-#'   as_character(na_range_to_values(var1))
+#' na_range_to_values(var1)
+#' as_numeric(na_range_to_values(var1))
+#' as_character(na_range_to_values(var1))
 #' @family harmonize functions
 #' @export
 
