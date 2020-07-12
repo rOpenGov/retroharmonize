@@ -48,7 +48,7 @@ harmonize_values <- function(x,
   
   if (is.null(id)) attr(x, "id") <- "unknown"
   
-  assert_that(is.numeric(harmonize_labels$numeric_value) |
+  assertthat::assert_that(is.numeric(harmonize_labels$numeric_value) |
                 is.null(harmonize_labels$numeric_value))
 
   harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
@@ -128,13 +128,13 @@ harmonize_values <- function(x,
   attr(return_value, paste0(id, "_values")) <- original_values
   attr(return_value, "id") <- id
   
-  assert_that ( inherits(return_value, "haven_labelled_spss")) 
+  assertthat::assert_that ( inherits(return_value, "haven_labelled_spss")) 
     
   return_value
   
 }
 
-#' @importFrom dply select
+#' @importFrom dplyr select
 #' @importFrom tidyselect all_of
 #' @importFrom tibble as_tibble
 #' @keywords  internal

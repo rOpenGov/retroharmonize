@@ -3,7 +3,6 @@
 \name{labelled_spss_survey}
 \alias{labelled_spss_survey}
 \alias{as_character}
-\alias{as_factor}
 \alias{is.labelled_spss_survey}
 \alias{as_numeric}
 \title{Labelled vectors for multiple SPSS surveys}
@@ -17,13 +16,11 @@ labelled_spss_survey(
   id = NULL
 )
 
-as_character(lss)
+as_character(x)
 
-as_factor(lss)
+is.labelled_spss_survey(x)
 
-is.labelled_spss_survey(lss)
-
-as_numeric(lss)
+as_numeric(x)
 }
 \arguments{
 \item{x}{A vector to label. Must be either numeric (integer or double) or
@@ -42,9 +39,6 @@ open ended.}
 \item{label}{A short, human-readable description of the vector.}
 
 \item{id}{Survey ID}
-
-\item{lss}{A \code{labelled_spss_survey} vector for use in \code{as_character}, 
-\code{as_numeric}, \code{as_factor} and \code{is.labelled_spss_survey}.}
 }
 \description{
 This class is amending \code{haven::\link[haven:labelled_spss]{labelled_spss}} with a unique object
@@ -56,7 +50,6 @@ It inherits many methods from labelled, but uses more strict
 coercion and validation rules.
 }
 \examples{
-\dontrun{
 x1 <- labelled_spss_survey(
   1:10, c(Good = 1, Bad = 8), 
   na_values = c(9, 10), 
@@ -79,8 +72,7 @@ is.na(x2)
 # Print data and metadata
 x2
 }
-}
 \seealso{
-\code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
+as_factor
 }
 \concept{type conversion functions}

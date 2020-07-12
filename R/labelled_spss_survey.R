@@ -14,8 +14,8 @@
 #' @importFrom haven labelled labelled_spss as_factor
 #' @inheritParams haven::labelled_spss
 #' @import vctrs
+#' @seealso as_factor
 #' @examples
-#' \dontrun{
 #' x1 <- labelled_spss_survey(
 #'   1:10, c(Good = 1, Bad = 8), 
 #'   na_values = c(9, 10), 
@@ -37,7 +37,6 @@
 #'
 #' # Print data and metadata
 #' x2
-#' }
 #' @export
 
 labelled_spss_survey <- function(
@@ -170,20 +169,30 @@ as.character.retroharmonize_labelled_spss_survey <- function(x, ...) {
   as.character(as_factor (x))
 }
 
-#' @param lss A \code{labelled_spss_survey} vector for use in \code{as_character}, 
-#' \code{as_numeric}, \code{as_factor} and \code{is.labelled_spss_survey}.
 #' @rdname labelled_spss_survey
 #' @family type conversion functions
 #' @export
-as_character <- function(lss) {
-  as.character.retroharmonize_labelled_spss_survey(lss)
+as_character <- function(x) {
+  as.character.retroharmonize_labelled_spss_survey(x)
 }
 
-#' @rdname labelled_spss_survey
+#' Convert labelled_spss_survey vector To Factor
+#' 
+#' Convert a \code{\link{labelled_spss_survey}} vector to a type 
+#' of factor.
+#' 
+#' @inheritParams as_character
+#' @inheritParams haven::as_factor
 #' @export
 #' @importFrom haven as_factor
 #' @seealso \code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
-as_factor <- function (lss) haven::as_factor(lss)
+as_factor <- function (x, levels = "defaults") haven::as_factor(x, levels)
+
+
+as.factor.retroharmonize_labelled_spss_survey <- function(x, ...) {
+  
+  as_factor (x, "default")
+}
 
 #' @export
 levels.retroharmonize_labelled_spss_survey <- function(x) {
@@ -216,8 +225,8 @@ setOldClass(c("retroharmonize_labelled_spss_survey",
 
 #' @rdname labelled_spss_survey
 #' @export
-is.labelled_spss_survey <- function(lss) {
-  inherits(lss, "retroharmonize_labelled_spss_survey")
+is.labelled_spss_survey <- function(x) {
+  inherits(x, "retroharmonize_labelled_spss_survey")
 }
 
 #' @export
@@ -304,7 +313,7 @@ sum.retroharmonize_labelled_spss_survey <- function(x, ...) {
 #' @family type conversion functions
 #' @rdname labelled_spss_survey
 #' @export
-as_numeric <- function(lss) {
-  vec_convert_na(lss) 
+as_numeric <- function(x) {
+  vec_convert_na(x) 
 }
 
