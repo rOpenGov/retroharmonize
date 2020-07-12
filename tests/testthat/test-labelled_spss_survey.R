@@ -1,13 +1,9 @@
-library(testthat)
-library(retroharmonize)
-
 x1 <- labelled_spss_survey(
   1:10, c(Good = 1, Bad = 8), 
   na_values = c(9, 10), 
   id = "survey1")
   
 is.na(x1)
-to_character(x1)
 print(x1)
 
 x2 <- labelled_spss_survey( 1:10, 

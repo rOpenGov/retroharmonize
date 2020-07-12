@@ -166,18 +166,11 @@ is.na.retroharmonize_labelled_spss_survey <- function(x) {
 }
 
 ## Coercion rules --------------------------------------
-#' @importFrom vctrs vec_data
-#' @export
-as.character.retroharmonize_labelled_spss_survey <- function(x, ...) {
-  
-  as.character(as_factor (x, "default"))
-}
-
 #' @rdname labelled_spss_survey
 #' @family type conversion functions
 #' @export
 as_character <- function(x) {
-  as.character.retroharmonize_labelled_spss_survey(x)
+  as.character(as_factor (x, "default"))
 }
 
 #' Convert labelled_spss_survey vector To Factor
@@ -197,11 +190,6 @@ as_character <- function(x) {
 #  haven::as_factor(x, levels = levels, ordered = ordered) 
 #}
 as_factor <- haven::as_factor
-
-as_factor.retroharmonize_labelled_spss_survey <- function(x, ...) {
-  
-  as_factor (x)
-}
 
 #' @export
 levels.retroharmonize_labelled_spss_survey <- function(x) {

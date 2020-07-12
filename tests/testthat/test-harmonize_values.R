@@ -14,9 +14,6 @@ h1 <- harmonize_values (var1,
                           id = "survey_id"
                         )
 
-class(attr(h1, "survey_id_values"))
-attr(h1, "survey_id_labels") 
-
 test_that("casting works", {
   expect_equal(inherits(h1, "haven_labelled_spss"), TRUE)
   expect_equal(is.numeric(h1), TRUE)
