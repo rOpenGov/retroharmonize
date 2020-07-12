@@ -32,7 +32,8 @@ Imports:
     methods,
     rlang,
     fs,
-    assertthat
+    assertthat,
+    tidyselect
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 2.10)

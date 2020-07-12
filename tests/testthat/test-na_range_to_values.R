@@ -6,8 +6,6 @@ var1 <- labelled::labelled_spss(
              "INAP. HERE" = 9), 
   na_range = c(8,12))
 
-na_range_to_values (var1)
-
 var2 <- labelled::labelled_spss(
   x = c(1,0,1,1,0,7,9), 
   labels = c("TRUST" = 1, 

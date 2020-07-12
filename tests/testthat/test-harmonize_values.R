@@ -73,7 +73,20 @@ test_that("recasting works", {
                )
 })
 
-
+test_hat("exception handling works", {
+  ## tests validate_harmonize_values
+  expect_error (harmonize_values (var1, 
+                                  # list not well defined
+                                  harmonize_labels = list(
+                                    wrong_from = c("a", "b"), 
+                                    wrong_to = c("ab", "bc"))
+                                  )
+  )
+  expect_error (harmonize_values (var1, 
+                                  # type mismatch
+                                  harmonize_labels = c("a", "b"))
+  )
+})
 
 test_that("arithmetic methods work", {
   #expect_equal(sum(h1,na.rm=TRUE), sum(c(1,0,1,1,0)))

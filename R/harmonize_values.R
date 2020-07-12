@@ -5,7 +5,7 @@
 #' @param na_values A named vector of na_values.
 #' @param id A survey ID, defaults to \code{survey_id}
 #' @importFrom labelled to_character labelled na_values val_labels
-#' @importFrom tibble tibble
+#' @importFrom tibble tibble 
 #' @importFrom dplyr mutate left_join distinct
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
@@ -51,8 +51,7 @@ harmonize_values <- function(x,
   assert_that(is.numeric(harmonize_labels$numeric_value) |
                 is.null(harmonize_labels$numeric_value))
 
-  attr(x, "labels")
-  as_factor(x)
+  harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
   
   original_values <- tibble::tibble (
     orig_labels = labelled::to_character(x),
@@ -133,4 +132,28 @@ harmonize_values <- function(x,
     
   return_value
   
+}
+
+#' @importFrom dply select
+#' @importFrom tidyselect all_of
+#' @importFrom tibble as_tibble
+#' @keywords  internal
+validate_harmonize_labels <- function( harmonize_list ) {
+  if( inherits(harmonize_labels, "list") ) {
+    if(!all(sort (names ( harmonize_labels )) == c("from", "numeric_value", "to"))) {
+      stop( "<harmonize_label> must have <from>, <to>, <numeric_value> of equal lengths.")
+    }
+    if(length(unique(vapply(harmonize_labels, length, integer(1)))) !=1) {
+      stop("<harmonize_label> must have <from>, <to>, <numeric_value> of equal lengths.")
+    }
+  } else if ( inherits(harmonize_labels, "data.frame") ) {
+    if(!all(sort (names ( harmonize_labels )) == c("from", "numeric_value", "to"))) {
+      stop( "<harmonize_label> must have <from>, <to>, <numeric_value>.")
+    }
+  } else {
+    stop("<harmonize label> must have <from>, <to>, <numeric_value> of equal lengths as list or data.frame.")
+  }
+  harmonize_labels <- tibble::as_tibble(harmonize_labels)
+  dplyr::select (harmonize_labels, 
+                 tidyselect::all_of(c("from", "to", "numeric_value")))
 }
