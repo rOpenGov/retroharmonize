@@ -5,11 +5,7 @@
 #' `read_spss()` uses either `read_por()` or `read_sav()` based on the
 #' file extension.
 #'
-#' Currently haven can read and write logical, integer, numeric, character
-#' and factors. See [labelled_spss()] for how labelled variables in
-#' SPSS are handled in R.
-#'
-#' This is a wrapper around haven::read_spss
+#' This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}} 
 #'
 #' @inheritParams haven::read_spss
 #' @param id An identifier of the tibble, if omitted, defaults to the
@@ -49,12 +45,9 @@ read_spss <- function(file, user_na = NULL,
                     .name_repair = .name_repair) %>%
     tibble::rowid_to_column()
 
-  if ( is.null(filename) ) filename <- file
+  filename <- fs::path_file(path)
 
   tmp$rowid <- paste0(id, "_", tmp$rowid)
 
-  survey (tmp, id, filename, doi)
+  survey (tmp, id=id, filename=filename, doi=doi)
 }
-
-
-

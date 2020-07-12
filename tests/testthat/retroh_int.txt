@@ -1,8 +1,13 @@
-> pillar::pillar_shaft(df)
-function (x, df1, df2, ncp, log = FALSE)    
-{                                           
-    if (missing(ncp))                       
-        .Call(C_df, x, df1, df2, log)       
-    else .Call(C_dnf, x, df1, df2, ncp, log)
-}                                           
+> pillar::pillar(x1)
+<retroh_int>
+    1 [Good]
+    2       
+    3       
+    4       
+    5       
+    6       
+    7       
+    8 [Bad] 
+    9 (NA)  
+   10 (NA)  
 

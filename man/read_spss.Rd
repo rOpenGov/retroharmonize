@@ -83,11 +83,7 @@ A tibble, data frame variant with nice defaults.
 file extension.
 }
 \details{
-Currently haven can read and write logical, integer, numeric, character
-and factors. See [labelled_spss()] for how labelled variables in
-SPSS are handled in R.
-
-This is a wrapper around haven::read_spss
+This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}}
 }
 \examples{
 path <- system.file("examples", "iris.sav", package = "haven")
@@ -96,5 +92,9 @@ haven::read_sav(path)
 tmp <- tempfile(fileext = ".sav")
 haven::write_sav(mtcars, tmp)
 haven::read_sav(tmp)
+}
+\seealso{
+Other import functions: 
+\code{\link{read_rds}()}
 }
 \concept{import functions}

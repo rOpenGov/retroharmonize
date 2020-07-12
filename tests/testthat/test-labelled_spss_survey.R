@@ -47,9 +47,13 @@ test_that("arithmetic methods work", {
   expect_equal(weighted.mean (x1, c(2, rep(1,9))),
                weighted.mean (1:8, c(2, rep(1,7)))
   )
-  expect_equal(sum(x1, na.rm=FALSE),NA_real_)
+})
+
+verify_output("retroh_int_shaft.txt", {
+  pillar::pillar_shaft(tibble(v1=x1))
 })
 
 verify_output("retroh_int.txt", {
-  pillar::pillar_shaft(df)
+  pillar::pillar(x1)
 })
+

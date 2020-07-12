@@ -1,4 +1,3 @@
-
 ## Constructor for new survey, not to be exported ---------------------
 new_survey <- function ( df = tibble::tibble(), 
                          id = character(1), 
@@ -8,7 +7,7 @@ new_survey <- function ( df = tibble::tibble(),
  validate_survey (df, id, filename, doi)
 
  structure(df, 
-           id = "id", 
+           id = id, 
            filename = filename, 
            doi = doi )
   

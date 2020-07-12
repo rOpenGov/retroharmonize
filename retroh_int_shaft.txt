@@ -1,5 +1,6 @@
+> pillar::pillar_shaft(tibble(v1 = x1))
 # A tibble: 10 x 1
-           var1   
+             v1   
    <retroh_int>   
  1     1 [Good]   
  2     2          
@@ -10,4 +11,5 @@
  7     7          
  8     8 [Bad]    
  9     9 (NA)     
-10    10 (NA) 
+10    10 (NA)     
+
