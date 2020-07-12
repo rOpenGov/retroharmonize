@@ -46,13 +46,22 @@ harmonize_values <- function(x,
                              na_values = c("do_not_know", "inap"), 
                              id = "survey_id") {
   
+  if (is.null(id)) attr(x, "id") <- "unknown"
+  
   assert_that(is.numeric(harmonize_labels$numeric_value) |
                 is.null(harmonize_labels$numeric_value))
 
+  attr(x, "labels")
+  as_factor(x)
+  
   original_values <- tibble::tibble (
     orig_labels = labelled::to_character(x),
     x = unclass(x)
   )
+  
+  if (is.na_range_to_values(x)) {
+    x <- na_range_to_values(x)
+  }
 
   original_values$orig_labels <- ifelse ( 
     test = grepl(paste ( harmonize_labels$from, collapse = "|"), 

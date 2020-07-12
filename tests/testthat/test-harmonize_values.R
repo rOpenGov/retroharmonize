@@ -41,7 +41,7 @@ test_that("recoding works", {
   expect_equal(vctrs::vec_data(h1), c(1,0,1,1,0,99997,99999))
 })
 
-test_that("recating works", {
+test_that("recasting works", {
   expect_equal(as_numeric(h1), c(1,0,1,1,0,NA,NA))
   expect_equal(levels(as_factor(h1)), c("not_trust", "trust", "do_not_know", "inap"))
   expect_equal(as_character(h1), c("trust", "not_trust",
@@ -52,6 +52,25 @@ test_that("recating works", {
           "trust", "trust", "not_trust", 
           "do_not_know", "inap"), 
     levels = c("not_trust","trust",  "do_not_know", "inap")))
+  expect_equal(
+    # case when na_range and na_values must be adjusted first
+    as_numeric(harmonize_values (
+      labelled::labelled_spss(x = c(1,0,7,9), 
+                              labels = c("TRUST" = 1, 
+                                         "NOT TRUST" = 0, 
+                                         "DON'T KNOW" = 7, 
+                                         "INAP. HERE" = 9), 
+                              na_values = c(8,9), 
+                              na_range = c(7,9)), 
+      harmonize_labels = list ( 
+        from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+        to = c("trust", "not_trust", "do_not_know", "inap"),
+        numeric_value = c(1,0,99997, 99999), 
+        na_values = c("do_not_know", "inap"), 
+        id = "survey_id"
+      ))), 
+    c(1,0,NA,NA)
+               )
 })
 
 
@@ -59,5 +78,7 @@ test_that("recating works", {
 test_that("arithmetic methods work", {
   #expect_equal(sum(h1,na.rm=TRUE), sum(c(1,0,1,1,0)))
 })
+
+
 
 
