@@ -45,7 +45,43 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("antaldaniel/retroharmonize")
 ```
 
-## A class for retrospective harmonization
+## Classes for retrospective harmonization
+
+``` r
+library(retroharmonize)
+eb <- read_rds ( 
+  file = system.file(
+    "examples", "ZA7576.rds", package = "retroharmonize"), 
+  id = "Eurobarometer_91_5_subsample", 
+  doi = "10.4232/1.13393"
+  )
+print(eb)
+#> # A tibble: 45 x 56
+#>    rowid doi   version uniqid caseid serialid isocntry       p1      p2    p3
+#>  * <chr> <chr> <chr>    <dbl>  <dbl>    <dbl> <chr>    <dbl+lb> <dbl+l> <dbl>
+#>  1 Euro~ doi:~ 1.0.0 ~ 5.00e7    481     3209 ES        4 [Mon~ 3 [13 ~    25
+#>  2 Euro~ doi:~ 1.0.0 ~ 1.10e8     76     8706 NL        6 [Wed~ 3 [13 ~    58
+#>  3 Euro~ doi:~ 1.0.0 ~ 1.10e8    343     8890 NL       11 [Mon~ 3 [13 ~    56
+#>  4 Euro~ doi:~ 1.0.0 ~ 1.10e8    473     8989 NL        5 [Tue~ 3 [13 ~    62
+#>  5 Euro~ doi:~ 1.0.0 ~ 1.10e8    493     9001 NL        8 [Fri~ 4 [17 ~    30
+#>  6 Euro~ doi:~ 1.0.0 ~ 1.10e8    897     9272 NL        6 [Wed~ 3 [13 ~    56
+#>  7 Euro~ doi:~ 1.0.0 ~ 1.10e8   1041     9379 NL        5 [Tue~ 3 [13 ~    57
+#>  8 Euro~ doi:~ 1.0.0 ~ 1.10e8   1192     9493 NL        6 [Wed~ 2 [8 -~    60
+#>  9 Euro~ doi:~ 1.0.0 ~ 1.10e8   1274     9543 NL        7 [Thu~ 4 [17 ~    57
+#> 10 Euro~ doi:~ 1.0.0 ~ 1.10e8   1344     9590 NL        6 [Wed~ 2 [8 -~    83
+#> # ... with 35 more rows, and 46 more variables: p4 <dbl+lbl>, p5 <dbl+lbl>,
+#> #   nuts <chr+lbl>, d7 <dbl+lbl>, d8 <dbl+lbl>, d25 <dbl+lbl>, d60 <dbl+lbl>,
+#> #   qa14_5 <dbl+lbl>, qa14_3 <dbl+lbl>, qa14_2 <dbl+lbl>, qa14_4 <dbl+lbl>,
+#> #   qa14_1 <dbl+lbl>, qa6a_5 <dbl+lbl>, qa6a_10 <dbl+lbl>, qa6b_2 <dbl+lbl>,
+#> #   qa6a_3 <dbl+lbl>, qa6a_1 <dbl+lbl>, qa6b_4 <dbl+lbl>, qa6a_8 <dbl+lbl>,
+#> #   qa6a_9 <dbl+lbl>, qa6a_4 <dbl+lbl>, qa6a_2 <dbl+lbl>, qa6b_1 <dbl+lbl>,
+#> #   qa6a_6 <dbl+lbl>, qa6a_7 <dbl+lbl>, qa6a_11 <dbl+lbl>, qa6b_3 <dbl+lbl>,
+#> #   qd6.1 <dbl+lbl>, qd6.2 <dbl+lbl>, qd6.3 <dbl+lbl>, qd6.4 <dbl+lbl>,
+#> #   qd6.5 <dbl+lbl>, qd6.6 <dbl+lbl>, qd6.7 <dbl+lbl>, qd6.8 <dbl+lbl>,
+#> #   qd6.9 <dbl+lbl>, qd6.10 <dbl+lbl>, qd6.11 <dbl+lbl>, qd6.12 <dbl+lbl>,
+#> #   qd6.13 <dbl+lbl>, qd6.14 <dbl+lbl>, qg1b <dbl+lbl>, qg8 <dbl+lbl>,
+#> #   w1 <dbl>, w3 <dbl>, wex <dbl>
+```
 
 The `labelled_spss_survey` class is an extension of haven’s
 `labelled_spss` class. It not only preserver variable and value labels
@@ -68,31 +104,45 @@ library(retroharmonize)
 library(haven)
 #> 
 #> Attaching package: 'haven'
-#> The following objects are masked from 'package:retroharmonize':
+#> The following object is masked from 'package:retroharmonize':
 #> 
-#>     as_factor, read_spss
+#>     read_spss
 
-v2 <- haven::labelled_spss (c(1,1,0,8), 
-                            labels = c("yes" = 1,
-                                       "no"  = 0,
-                                       "declined" = 8),
-                            na_values = 8)
-
-h2 <- harmonize_values(v2, 
-                       harmonize_labels = list(
-                         from = c("^yes", "^no", "^inap"), 
-                         to = c("trust", "not_trust", "inap"), 
-                         numeric_values = c(1,0,99999)), 
-                       id = 'survey2' )
+h2 <- harmonize_values(
+  eb$qa14_2,  
+  harmonize_labels = list(
+    from = c("^tend to", "^tend not", "dk", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"), 
+    numeric_values = c(1,0,99997,99999)
+    ), 
+  id = attr(eb, "id") )
 str(h2)
-#>  dbl+lbl [1:4]     1,     1,     0, 99901
-#>  @ labels                 : Named num [1:3] 0 1 99901
-#>   ..- attr(*, "names")= chr [1:3] "not_trust" "trust" "invalid_label"
-#>  @ na_values              : num 99901
-#>  @ survey2_labels_orig    : Named num [1:3] 1 0 99901
-#>   ..- attr(*, "names")= chr [1:3] "yes" "no" ""
-#>  @ survey2_original_values: Named num [1:3] 1 0 99901
-#>   ..- attr(*, "names")= chr [1:3] "1" "0" "8"
+#>  dbl+lbl [1:45]     0,     1,     1, 99997,     1,     1,     1, 99997, 999...
+#>  @ labels                             : Named num [1:4] 0 1 99997 99999
+#>   ..- attr(*, "names")= chr [1:4] "not_trust" "trust" "do_not_know" "inap"
+#>  @ na_values                          : num [1:2] 99997 99999
+#>  @ Eurobarometer_91_5_subsample_labels: Named num [1:4] 1 2 3 9
+#>   ..- attr(*, "names")= chr [1:4] "Tend to trust" "Tend not to trust" "DK" "Inap. (not CY-TCC in isocntry and not 1 in eu28)"
+#>  @ Eurobarometer_91_5_subsample_values: Named num [1:4] 0 1 99997 99999
+#>   ..- attr(*, "names")= chr [1:4] "2" "1" "3" "9"
+#>  @ id                                 : chr "Eurobarometer_91_5_subsample"
+```
+
+``` r
+#the label ordering is not yet harmonized!!!
+tibble::tibble (
+  values  = labelled::val_labels(h2), 
+  labels = names(labelled::val_labels(h2)),
+  label_orig = names(attr(h2, "Eurobarometer_91_5_subsample_labels")),
+  values_orig = names(attr(h2, "Eurobarometer_91_5_subsample_values"))
+)
+#> # A tibble: 4 x 4
+#>   values labels      label_orig                                      values_orig
+#>    <dbl> <chr>       <chr>                                           <chr>      
+#> 1      0 not_trust   Tend to trust                                   2          
+#> 2      1 trust       Tend not to trust                               1          
+#> 3  99997 do_not_know DK                                              3          
+#> 4  99999 inap        Inap. (not CY-TCC in isocntry and not 1 in eu2~ 9
 ```
 
 ## Code of Conduct

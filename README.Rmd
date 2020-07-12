@@ -44,7 +44,18 @@ And the development version from [GitHub](https://github.com/) with:
 # install.packages("devtools")
 devtools::install_github("antaldaniel/retroharmonize")
 ```
-## A class for retrospective harmonization
+## Classes for retrospective harmonization
+
+```{r}
+library(retroharmonize)
+eb <- read_rds ( 
+  file = system.file(
+    "examples", "ZA7576.rds", package = "retroharmonize"), 
+  id = "Eurobarometer_91_5_subsample", 
+  doi = "10.4232/1.13393"
+  )
+print(eb)
+```
 
 The `labelled_spss_survey` class is an extension of haven's `labelled_spss` class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifer, for example, the filename to the vector. See [Working With The labelled_spss_survey Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html).
 
@@ -56,20 +67,26 @@ The aim of `retroharmonize` is to help the reproducible harmonization of survey 
 library(retroharmonize)
 library(haven)
 
-v2 <- haven::labelled_spss (c(1,1,0,8), 
-                            labels = c("yes" = 1,
-                                       "no"  = 0,
-                                       "declined" = 8),
-                            na_values = 8)
-
-h2 <- harmonize_values(v2, 
-                       harmonize_labels = list(
-                         from = c("^yes", "^no", "^inap"), 
-                         to = c("trust", "not_trust", "inap"), 
-                         numeric_values = c(1,0,99999)), 
-                       id = 'survey2' )
+h2 <- harmonize_values(
+  eb$qa14_2,  
+  harmonize_labels = list(
+    from = c("^tend to", "^tend not", "dk", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"), 
+    numeric_values = c(1,0,99997,99999)
+    ), 
+  id = attr(eb, "id") )
 str(h2)
 ```
+```{r}
+#the label ordering is not yet harmonized!!!
+tibble::tibble (
+  values  = labelled::val_labels(h2), 
+  labels = names(labelled::val_labels(h2)),
+  label_orig = names(attr(h2, "Eurobarometer_91_5_subsample_labels")),
+  values_orig = names(attr(h2, "Eurobarometer_91_5_subsample_values"))
+)
+```
+
 ## Code of Conduct
 
 Please note that the surveyharmonize project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

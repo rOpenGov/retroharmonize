@@ -31,8 +31,8 @@
 #' haven::read_sav(tmp)
 #' @export
 
-
-read_spss <- function(file, user_na = NULL,
+read_spss <- function(file, 
+                      user_na = NULL,
                       col_select= NULL, skip = NULL,
                       n_max=NULL, .name_repair = "unique",
                       id = NULL, 
@@ -45,7 +45,7 @@ read_spss <- function(file, user_na = NULL,
                     .name_repair = .name_repair) %>%
     tibble::rowid_to_column()
 
-  filename <- fs::path_file(path)
+  filename <- fs::path_file(file)
 
   tmp$rowid <- paste0(id, "_", tmp$rowid)
 

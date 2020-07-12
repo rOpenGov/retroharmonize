@@ -1,4 +1,4 @@
-#' Read survey.rds 
+#' Read survey from rds file 
 #'
 #' @param file A re-saved survey, imported with \code{haven::\link[haven:read_spss]{read_spss}}
 #' @param id An identifier of the tibble, if omitted, defaults to the
@@ -25,8 +25,8 @@ read_rds <- function(file,
   tmp <- readRDS (file = file) %>%
     tibble::rowid_to_column()
   
-  filename <- fs::path_file(path)
-  if ( is.null(id)) id <- fs::path_file(path)
+  filename <- fs::path_file(file)
+  if ( is.null(id)) id <- fs::path_file(file)
   
   tmp$rowid <- paste0(id, "_", tmp$rowid)
   

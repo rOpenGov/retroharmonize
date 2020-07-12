@@ -2,7 +2,7 @@
 % Please edit documentation in R/read_rds.R
 \name{read_rds}
 \alias{read_rds}
-\title{Read survey.rds}
+\title{Read survey from rds file}
 \usage{
 read_rds(file, id = NULL, filename = NULL, doi = NULL)
 }
@@ -20,7 +20,7 @@ file name.}
 A tibble, data frame variant with survey attributes
 }
 \description{
-Read survey.rds
+Read survey from rds file
 }
 \examples{
 path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
