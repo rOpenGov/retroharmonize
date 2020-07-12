@@ -107,44 +107,88 @@
 <div class="sourceCode" id="cb2"><pre class="r"><span class="co"># install.packages("devtools")</span>
 <span class="kw pkg">devtools</span><span class="kw ns">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span>(<span class="st">"antaldaniel/retroharmonize"</span>)</pre></div>
 </div>
-<div id="a-class-for-retrospective-harmonization" class="section level2">
+<div id="classes-for-retrospective-harmonization" class="section level2">
 <h2 class="hasAnchor">
-<a href="#a-class-for-retrospective-harmonization" class="anchor"></a>A class for retrospective harmonization</h2>
+<a href="#classes-for-retrospective-harmonization" class="anchor"></a>Classes for retrospective harmonization</h2>
+<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">retroharmonize</span>)
+<span class="no">eb</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/read_rds.html">read_rds</a></span> (
+  <span class="kw">file</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/system.file.html">system.file</a></span>(
+    <span class="st">"examples"</span>, <span class="st">"ZA7576.rds"</span>, <span class="kw">package</span> <span class="kw">=</span> <span class="st">"retroharmonize"</span>),
+  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"Eurobarometer_91_5_subsample"</span>,
+  <span class="kw">doi</span> <span class="kw">=</span> <span class="st">"10.4232/1.13393"</span>
+  )
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">eb</span>)
+<span class="co">#&gt; # A tibble: 45 x 56</span>
+<span class="co">#&gt;    rowid doi   version uniqid caseid serialid isocntry       p1      p2    p3</span>
+<span class="co">#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt;  &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl+l&gt; &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Euro~ doi:~ 1.0.0 ~ 5.00e7    481     3209 ES        4 [Mon~ 3 [13 ~    25</span>
+<span class="co">#&gt;  2 Euro~ doi:~ 1.0.0 ~ 1.10e8     76     8706 NL        6 [Wed~ 3 [13 ~    58</span>
+<span class="co">#&gt;  3 Euro~ doi:~ 1.0.0 ~ 1.10e8    343     8890 NL       11 [Mon~ 3 [13 ~    56</span>
+<span class="co">#&gt;  4 Euro~ doi:~ 1.0.0 ~ 1.10e8    473     8989 NL        5 [Tue~ 3 [13 ~    62</span>
+<span class="co">#&gt;  5 Euro~ doi:~ 1.0.0 ~ 1.10e8    493     9001 NL        8 [Fri~ 4 [17 ~    30</span>
+<span class="co">#&gt;  6 Euro~ doi:~ 1.0.0 ~ 1.10e8    897     9272 NL        6 [Wed~ 3 [13 ~    56</span>
+<span class="co">#&gt;  7 Euro~ doi:~ 1.0.0 ~ 1.10e8   1041     9379 NL        5 [Tue~ 3 [13 ~    57</span>
+<span class="co">#&gt;  8 Euro~ doi:~ 1.0.0 ~ 1.10e8   1192     9493 NL        6 [Wed~ 2 [8 -~    60</span>
+<span class="co">#&gt;  9 Euro~ doi:~ 1.0.0 ~ 1.10e8   1274     9543 NL        7 [Thu~ 4 [17 ~    57</span>
+<span class="co">#&gt; 10 Euro~ doi:~ 1.0.0 ~ 1.10e8   1344     9590 NL        6 [Wed~ 2 [8 -~    83</span>
+<span class="co">#&gt; # ... with 35 more rows, and 46 more variables: p4 &lt;dbl+lbl&gt;, p5 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   nuts &lt;chr+lbl&gt;, d7 &lt;dbl+lbl&gt;, d8 &lt;dbl+lbl&gt;, d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qa14_5 &lt;dbl+lbl&gt;, qa14_3 &lt;dbl+lbl&gt;, qa14_2 &lt;dbl+lbl&gt;, qa14_4 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qa14_1 &lt;dbl+lbl&gt;, qa6a_5 &lt;dbl+lbl&gt;, qa6a_10 &lt;dbl+lbl&gt;, qa6b_2 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qa6a_3 &lt;dbl+lbl&gt;, qa6a_1 &lt;dbl+lbl&gt;, qa6b_4 &lt;dbl+lbl&gt;, qa6a_8 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qa6a_9 &lt;dbl+lbl&gt;, qa6a_4 &lt;dbl+lbl&gt;, qa6a_2 &lt;dbl+lbl&gt;, qa6b_1 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qa6a_6 &lt;dbl+lbl&gt;, qa6a_7 &lt;dbl+lbl&gt;, qa6a_11 &lt;dbl+lbl&gt;, qa6b_3 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qd6.1 &lt;dbl+lbl&gt;, qd6.2 &lt;dbl+lbl&gt;, qd6.3 &lt;dbl+lbl&gt;, qd6.4 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qd6.5 &lt;dbl+lbl&gt;, qd6.6 &lt;dbl+lbl&gt;, qd6.7 &lt;dbl+lbl&gt;, qd6.8 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qd6.9 &lt;dbl+lbl&gt;, qd6.10 &lt;dbl+lbl&gt;, qd6.11 &lt;dbl+lbl&gt;, qd6.12 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   qd6.13 &lt;dbl+lbl&gt;, qd6.14 &lt;dbl+lbl&gt;, qg1b &lt;dbl+lbl&gt;, qg8 &lt;dbl+lbl&gt;,</span>
+<span class="co">#&gt; #   w1 &lt;dbl&gt;, w3 &lt;dbl&gt;, wex &lt;dbl&gt;</span></pre></div>
 <p>The <code>labelled_spss_survey</code> class is an extension of haven’s <code>labelled_spss</code> class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifer, for example, the filename to the vector. See <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>.</p>
 </div>
 <div id="harmonize-categorical-variables-and-missing-values" class="section level2">
 <h2 class="hasAnchor">
 <a href="#harmonize-categorical-variables-and-missing-values" class="anchor"></a>Harmonize categorical variables and missing values</h2>
 <p>The aim of <code>retroharmonize</code> is to help the reproducible harmonization of survey data. This means that not only the numeric codes, the labels and the missing range is harmonized, but the original coding is preserved as metadata attributes for documentation and validation purposes. See more in the article <a href="http://retroharmonize.satellitereport.com/articles/harmonize_labels.html">Harmonize Value Labels</a>.</p>
-<div class="sourceCode" id="cb3"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">retroharmonize</span>)
+<div class="sourceCode" id="cb4"><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">retroharmonize</span>)
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">haven</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'haven'</span>
-<span class="co">#&gt; The following objects are masked from 'package:retroharmonize':</span>
+<span class="co">#&gt; The following object is masked from 'package:retroharmonize':</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     as_factor, read_spss</span>
+<span class="co">#&gt;     read_spss</span>
 
-<span class="no">v2</span> <span class="kw">&lt;-</span> <span class="kw pkg">haven</span><span class="kw ns">::</span><span class="fu"><a href="https://haven.tidyverse.org/reference/labelled_spss.html">labelled_spss</a></span> (<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">8</span>),
-                            <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"yes"</span> <span class="kw">=</span> <span class="fl">1</span>,
-                                       <span class="st">"no"</span>  <span class="kw">=</span> <span class="fl">0</span>,
-                                       <span class="st">"declined"</span> <span class="kw">=</span> <span class="fl">8</span>),
-                            <span class="kw">na_values</span> <span class="kw">=</span> <span class="fl">8</span>)
-
-<span class="no">h2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/harmonize_values.html">harmonize_values</a></span>(<span class="no">v2</span>,
-                       <span class="kw">harmonize_labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-                         <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^yes"</span>, <span class="st">"^no"</span>, <span class="st">"^inap"</span>),
-                         <span class="kw">to</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"trust"</span>, <span class="st">"not_trust"</span>, <span class="st">"inap"</span>),
-                         <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">99999</span>)),
-                       <span class="kw">id</span> <span class="kw">=</span> <span class="st">'survey2'</span> )
+<span class="no">h2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/harmonize_values.html">harmonize_values</a></span>(
+  <span class="no">eb</span>$<span class="no">qa14_2</span>,
+  <span class="kw">harmonize_labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
+    <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^tend to"</span>, <span class="st">"^tend not"</span>, <span class="st">"dk"</span>, <span class="st">"^inap"</span>),
+    <span class="kw">to</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"trust"</span>, <span class="st">"not_trust"</span>, <span class="st">"do_not_know"</span>, <span class="st">"inap"</span>),
+    <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">99997</span>,<span class="fl">99999</span>)
+    ),
+  <span class="kw">id</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">eb</span>, <span class="st">"id"</span>) )
 <span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">h2</span>)
-<span class="co">#&gt;  dbl+lbl [1:4]     1,     1,     0, 99901</span>
-<span class="co">#&gt;  @ labels                 : Named num [1:3] 0 1 99901</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:3] "not_trust" "trust" "invalid_label"</span>
-<span class="co">#&gt;  @ na_values              : num 99901</span>
-<span class="co">#&gt;  @ survey2_labels_orig    : Named num [1:3] 1 0 99901</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:3] "yes" "no" ""</span>
-<span class="co">#&gt;  @ survey2_original_values: Named num [1:3] 1 0 99901</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:3] "1" "0" "8"</span></pre></div>
+<span class="co">#&gt;  dbl+lbl [1:45]     0,     1,     1, 99997,     1,     1,     1, 99997, 999...</span>
+<span class="co">#&gt;  @ labels                             : Named num [1:4] 0 1 99997 99999</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "not_trust" "trust" "do_not_know" "inap"</span>
+<span class="co">#&gt;  @ na_values                          : num [1:2] 99997 99999</span>
+<span class="co">#&gt;  @ Eurobarometer_91_5_subsample_labels: Named num [1:4] 1 2 3 9</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "Tend to trust" "Tend not to trust" "DK" "Inap. (not CY-TCC in isocntry and not 1 in eu28)"</span>
+<span class="co">#&gt;  @ Eurobarometer_91_5_subsample_values: Named num [1:4] 0 1 99997 99999</span>
+<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "2" "1" "3" "9"</span>
+<span class="co">#&gt;  @ id                                 : chr "Eurobarometer_91_5_subsample"</span></pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="co">#the label ordering is not yet harmonized!!!</span>
+<span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span> (
+  <span class="kw">values</span>  <span class="kw">=</span> <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">h2</span>),
+  <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">h2</span>)),
+  <span class="kw">label_orig</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">h2</span>, <span class="st">"Eurobarometer_91_5_subsample_labels"</span>)),
+  <span class="kw">values_orig</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">h2</span>, <span class="st">"Eurobarometer_91_5_subsample_values"</span>))
+)
+<span class="co">#&gt; # A tibble: 4 x 4</span>
+<span class="co">#&gt;   values labels      label_orig                                      values_orig</span>
+<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;                                           &lt;chr&gt;      </span>
+<span class="co">#&gt; 1      0 not_trust   Tend to trust                                   2          </span>
+<span class="co">#&gt; 2      1 trust       Tend not to trust                               1          </span>
+<span class="co">#&gt; 3  99997 do_not_know DK                                              3          </span>
+<span class="co">#&gt; 4  99999 inap        Inap. (not CY-TCC in isocntry and not 1 in eu2~ 9</span></pre></div>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">

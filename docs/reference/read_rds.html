@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • retroharmonize</title>
+<title>Read survey from rds file — read_rds • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Read survey from rds file — read_rds" />
+<meta property="og:description" content="Read survey from rds file" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -126,102 +127,54 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Read survey from rds file</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/read_rds.R'><code>R/read_rds.R</code></a></small>
+    <div class="hidden name"><code>read_rds.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Read survey from rds file</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>read_rds</span>(<span class='no'>file</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="as_factor.html">as_factor()</a></code> </p>
-        </td>
-        <td><p>Convert labelled_spss_survey vector To Factor</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="concatenate.html">concatenate()</a></code> </p>
-        </td>
-        <td><p>Concatenate haven_labelled_spss vectors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="harmonize_na_values.html">harmonize_na_values()</a></code> </p>
-        </td>
-        <td><p>Harmonize na_values in haven_labelled_spss</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="harmonize_values.html">harmonize_values()</a></code> </p>
-        </td>
-        <td><p>Harmonize the values and labels of labelled vectors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="labelled_spss_survey.html">labelled_spss_survey()</a></code> <code><a href="labelled_spss_survey.html">as_character()</a></code> <code><a href="labelled_spss_survey.html">is.labelled_spss_survey()</a></code> <code><a href="labelled_spss_survey.html">as_numeric()</a></code> </p>
-        </td>
-        <td><p>Labelled vectors for multiple SPSS surveys</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="label_normalize.html">label_normalize()</a></code> <code><a href="label_normalize.html">var_label_normalize()</a></code> <code><a href="label_normalize.html">val_label_normalize()</a></code> </p>
-        </td>
-        <td><p>Normalize value and variable labels</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="na_range_to_values.html">na_range_to_values()</a></code> <code><a href="na_range_to_values.html">is.na_range_to_values()</a></code> </p>
-        </td>
-        <td><p>Harmonize user-defined missing value ranges</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_rds.html">read_rds()</a></code> </p>
-        </td>
-        <td><p>Read survey from rds file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_spss.html">read_spss()</a></code> </p>
-        </td>
-        <td><p>Read SPSS (`.sav`, `.zsav`, `.por`) files. Write `.sav` and `.zsav` files.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="retrohamonize.html">retrohamonize</a></code> </p>
-        </td>
-        <td><p>retroharmonize: Retrospective harmonization of survey data files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="survey.html">survey()</a></code> </p>
-        </td>
-        <td><p>Survey data frame</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>file</th>
+      <td><p>A re-saved survey, imported with <code>haven::<a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code></p></td>
+    </tr>
+    <tr>
+      <th>id</th>
+      <td><p>An identifier of the tibble, if omitted, defaults to the
+file name.</p></td>
+    </tr>
+    <tr>
+      <th>filename</th>
+      <td><p>An import file name.</p></td>
+    </tr>
+    <tr>
+      <th>doi</th>
+      <td><p>An optional document object identifier.</p></td>
+    </tr>
     </table>
-  </div>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A tibble, data frame variant with survey attributes</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other import functions: 
+<code><a href='read_spss.html'>read_spss</a>()</code></p></div>
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span>  <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
+<span class='no'>read_survey</span> <span class='kw'>&lt;-</span> <span class='fu'>read_rds</span>(<span class='no'>path</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>read_survey</span>, <span class='st'>"id"</span>)</div><div class='output co'>#&gt; [1] "ZA7576.rds"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>read_survey</span>, <span class='st'>"filename"</span>)</div><div class='output co'>#&gt; [1] "ZA7576.rds"</div><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>read_survey</span>, <span class='st'>"doi"</span>)</div><div class='output co'>#&gt; NULL</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>
