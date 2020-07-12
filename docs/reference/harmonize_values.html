@@ -174,27 +174,32 @@
 <code><a href='harmonize_na_values.html'>harmonize_na_values</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>var1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span>),
-                                <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRUST"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                                           <span class='st'>"NOT TRUST"</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-                                           <span class='st'>"DON'T KNOW"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-                                           <span class='st'>"INAP. HERE"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
-                                <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>9</span>))
+    <pre class="examples"><div class='input'><span class='no'>var1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span>),
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRUST"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+             <span class='st'>"NOT TRUST"</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+             <span class='st'>"DON'T KNOW"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+             <span class='st'>"INAP. HERE"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
+  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>9</span>))
 
-<span class='fu'>harmonize_values</span> (<span class='no'>var1</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(harmonize_labels, "list"): object 'harmonize_labels' not found</span></div><div class='input'>
-<span class='no'>var2</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>,<span class='fl'>2</span>,<span class='fl'>9</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
-                                <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tend to trust"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                                           <span class='st'>"Tend not to trust"</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-                                           <span class='st'>"DK"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-                                           <span class='st'>"Inap"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
-                                <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>6</span>,<span class='fl'>9</span>))
-
-<span class='fu'>harmonize_values</span> (<span class='no'>var2</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(harmonize_labels, "list"): object 'harmonize_labels' not found</span></div><div class='input'>
-<span class='no'>var3</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled</a></span>(<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>6</span>,<span class='fl'>2</span>,<span class='fl'>9</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>2</span>),
-                           <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tend to trust"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-                                      <span class='st'>"Tend not to trust"</span> <span class='kw'>=</span> <span class='fl'>2</span>,
-                                      <span class='st'>"DK"</span> <span class='kw'>=</span> <span class='fl'>6</span>))
-<span class='fu'>harmonize_values</span> (<span class='no'>var3</span>)</div><div class='output co'>#&gt; <span class='error'>Error in inherits(harmonize_labels, "list"): object 'harmonize_labels' not found</span></div></pre>
+<span class='fu'>harmonize_values</span> (
+  <span class='no'>var1</span>,
+  <span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> (
+    <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>, <span class='st'>"^tend\\snot|not\\strust"</span>, <span class='st'>"^dk|^don"</span>, <span class='st'>"^inap"</span>),
+    <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trust"</span>, <span class='st'>"not_trust"</span>, <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
+    <span class='kw'>numeric_value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>99997</span>, <span class='fl'>99999</span>)),
+  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
+  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey_id"</span>
+)</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
+#&gt; [1]     1     0     1     1     0 99997 99999
+#&gt; Missing values: 99997, 99999
+#&gt; 
+#&gt; Labels:
+#&gt;  value       label
+#&gt;      0   not_trust
+#&gt;      1       trust
+#&gt;  99997 do_not_know
+#&gt;  99999        inap</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
