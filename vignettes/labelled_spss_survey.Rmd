@@ -29,7 +29,7 @@ sl1 <- labelled_spss_survey (
   na_values = 8, 
   id = "survey1")
 
-str(sl1)
+print(sl1)
 ```
 You can check the type: 
 
@@ -46,6 +46,15 @@ labelled::val_labels(sl1)
 ```
 ```{r}
 labelled::na_values(sl1)
+```
+When used within a the modernized version of *data.frame*, `tibble::tibble()`, the summary of the variable contents prints in an informative way.
+
+```{r}
+df <- tibble::tibble (v1 = sl1)
+## Use tibble instead of data.frame(v1=sl1) ...
+print(df)
+## ... which inherits the methods of a data.frame 
+subset(df, v1 == 1)
 ```
 
 ## Coercion rules and type casting
@@ -66,7 +75,6 @@ Conversion to character works as expected:
 ```{r}
 as.character(sl1)
 ```
-
 The base `as.factor` converts to integer and uses the integers as levels, because base R factors are integers with a `levels` attribute.
 
 ```{r}
@@ -132,6 +140,3 @@ as_numeric(sl1)
 min ( as_numeric(sl1))
 min ( as_numeric(sl1), na.rm=TRUE)
 ```
-
-
-

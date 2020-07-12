@@ -168,7 +168,26 @@ is often missing and less likely to cause logical problems
 when joining survey answers.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"></pre>
+    <pre class="examples"><div class='input'><span class='no'>var1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span>),
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRUST"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+             <span class='st'>"NOT TRUST"</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+             <span class='st'>"DON'T KNOW"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+             <span class='st'>"INAP. HERE"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
+<span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>12</span>))
+
+<span class='fu'>na_range_to_values</span>(<span class='no'>var1</span>)</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
+#&gt; [1] 1 0 1 1 0 8 9
+#&gt; Missing values: 8, 9
+#&gt; Missing range:  [8, 12]
+#&gt; 
+#&gt; Labels:
+#&gt;  value      label
+#&gt;      1      TRUST
+#&gt;      0  NOT TRUST
+#&gt;      8 DON'T KNOW
+#&gt;      9 INAP. HERE</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_numeric</a></span>(<span class='fu'>na_range_to_values</span>(<span class='no'>var1</span>))</div><div class='output co'>#&gt; [1]  1  0  1  1  0 NA NA</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_character</a></span>(<span class='fu'>na_range_to_values</span>(<span class='no'>var1</span>))</div><div class='output co'>#&gt; [1] "TRUST"      "NOT TRUST"  "TRUST"      "TRUST"      "NOT TRUST" 
+#&gt; [6] "DON'T KNOW" "INAP. HERE"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

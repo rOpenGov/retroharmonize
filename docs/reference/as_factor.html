@@ -140,7 +140,7 @@ of factor." />
 of factor.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>as_factor</span>(<span class='no'>x</span>, <span class='kw'>levels</span> <span class='kw'>=</span> <span class='st'>"default"</span>, <span class='kw'>ordered</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>as_factor</span>(<span class='no'>x</span>, <span class='no'>...</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -150,19 +150,8 @@ of factor.</p>
       <td><p>Object to coerce to a factor.</p></td>
     </tr>
     <tr>
-      <th>levels</th>
-      <td><p>How to create the levels of the generated factor:</p><ul>
-<li><p>"default": uses labels where available, otherwise the values.
-Labels are sorted by value.</p></li>
-<li><p>"both": like "default", but pastes together the level and value</p></li>
-<li><p>"label": use only the labels; unlabelled values become <code>NA</code></p></li>
-<li><p>"values: use only the values</p></li>
-</ul></td>
-    </tr>
-    <tr>
-      <th>ordered</th>
-      <td><p>If <code>TRUE</code> create an ordered (ordinal) factor, if
-<code>FALSE</code> (the default) create a regular (nominal) factor.</p></td>
+      <th>...</th>
+      <td><p>Other arguments passed down to method.</p></td>
     </tr>
     </table>
 

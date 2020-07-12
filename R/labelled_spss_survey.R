@@ -14,6 +14,7 @@
 #' @importFrom haven labelled labelled_spss as_factor
 #' @inheritParams haven::labelled_spss
 #' @import vctrs
+#' @importFrom vctrs vec_is vec_assert
 #' @seealso as_factor
 #' @examples
 #' x1 <- labelled_spss_survey(
@@ -50,7 +51,6 @@ labelled_spss_survey <- function(
     #identical to haven:::vec_cast_named()
     stats::setNames(vctrs::vec_cast(x, to, ...), names(x))
   }
-  
   na_values <- vec_cast_named(na_values, x, 
                               x_arg = "na_values", to_arg = "x")
   labelled <- labelled::labelled(x, labels = labels, label = label)
@@ -65,10 +65,11 @@ labelled_spss_survey <- function(
   )
 }
 
-#' @importFrom vctrs vec_is
+#' @importFrom vctrs vec_assert vec_is
 new_labelled_spss_survey <- function(x, labels,
                                      na_values, na_range,
                                      label, id) {
+  
   if (!is.null(na_values) && !vctrs::vec_is(x, na_values)) {
     abort("`na_values` must be same type as `x`.")
   }
@@ -104,7 +105,7 @@ get_labeltext <- function(x, prefix=": ") {
 
 #' @export
 vec_ptype_full.retroharmonize_labelled_spss_survey <- function(x, ...) {
-  paste0("labelled_survey<", vec_ptype_full(vec_data(x)), ">")
+  paste0("labelled_spss_survey<", vec_ptype_full(vec_data(x)), ">")
 }
 
 #' @export
@@ -128,7 +129,6 @@ obj_print_header.retroharmonize_labelled_spss_survey <- function(x, ...) {
   invisible(x)
 }
 
-
 obj_print_footer.retroharmonize_labelled_spss_survey <- function(x, ...) {
   
   na_values <- attr(x, "na_values")
@@ -141,10 +141,11 @@ obj_print_footer.retroharmonize_labelled_spss_survey <- function(x, ...) {
     cat_line("Missing range:  [", paste(na_range, collapse = ", "), "]")
   }
 
-  cat_line("Survey ID:", attr(x, "id"))
+  cat_line("Survey ID: ", attr(x, "id"))
+  invisible(x)
 
-  NextMethod()
 }
+
 
 ## Missingness --------------------------------------
 

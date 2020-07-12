@@ -130,11 +130,16 @@ harmonize_values <- function(
 #' @importFrom tibble as_tibble
 #' @keywords  internal
 validate_harmonize_labels <- function( harmonize_labels ) {
+  
   if( inherits(harmonize_labels, "list") ) {
-    if(!all(sort (names ( harmonize_labels )) == c("from", "numeric_value", "to"))) {
+    if ( "numeric_values" %in% names(harmonize_labels)) {
+      harmonize_labels[which(names(harmonize_labels)=="numeric_values")] <- "numeric_value"
+    }
+    if( !all(sort (names ( harmonize_labels )) == c("from", "numeric_value", "to")) ) {
       stop( "<harmonize_label> must have <from>, <to>, <numeric_value> of equal lengths.")
     }
-    if(length(unique(vapply(harmonize_labels, length, integer(1)))) !=1) {
+    
+  if(length(unique(vapply(harmonize_labels, length, integer(1)))) !=1) {
       stop("<harmonize_label> must have <from>, <to>, <numeric_value> of equal lengths.")
     }
   } else if ( inherits(harmonize_labels, "data.frame") ) {
