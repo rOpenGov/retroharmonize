@@ -8,8 +8,9 @@ harmonize_values(
   x,
   harmonize_labels = list(from = c("^tend\\\\sto|^trust",
     "^tend\\\\snot|not\\\\strust", "^dk", "^inap"), to = c("trust", "not_trust",
-    "do_not_know", "inap"), numeric_value = c(1, 0, 99997, 99999)),
-  na_values = c("do_not_know", "inap"),
+    "do_not_know", "inap"), numeric_values = c(1, 0, 99997, 99999)),
+  na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
+  na_range = NULL,
   id = "survey_id"
 )
 }
@@ -37,9 +38,9 @@ var1 <- labelled::labelled_spss(
 harmonize_values (
   var1, 
   harmonize_labels = list ( 
-    from = c("^tend\\\\sto|^trust", "^tend\\\\snot|not\\\\strust", "^dk|^don", "^inap"), 
+    from = c("^tend\\\\sto|^trust", "^tend\\\\snot|not\\\\strust|^not", "^dk|^don", "^inap"), 
     to = c("trust", "not_trust", "do_not_know", "inap"),
-    numeric_value = c(1,0,99997, 99999)), 
+    numeric_values = c(1,0,99997, 99999)), 
   na_values = c("do_not_know", "inap"), 
   id = "survey_id"
 )

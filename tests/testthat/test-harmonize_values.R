@@ -6,6 +6,8 @@ var1 <- labelled::labelled_spss(
              "INAP. HERE" = 9), 
   na_values = c(8,9))
 
+str(var1)
+
 h1 <- harmonize_values (
   var1, 
   harmonize_labels = list ( 
