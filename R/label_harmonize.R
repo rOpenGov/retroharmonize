@@ -34,10 +34,9 @@ label_normalize <- function(x) {
   ## tests/testthat/test-label_normalize.R
   ## please add test after correcting for unexpected results
   
-  y <- trimws(tolower(as.character(x)), which = "both")
-  y <- gsub("\\s+", "_", y)
-  y <- gsub("\\s", "_", y)
-  y <- gsub( "don\\'t", "do_not", y)
+  y <- gsub("\\s+", " ", x)
+  y <- gsub( "don\\'t", "do not", y)
+  y <- gsub( "Don\\'t", "Do not", y)
   y <- gsub( '\\&', '_and_', y)
   y <- gsub( '\\+', '_plus_', y)
   y <- gsub( '\\%', '_pct_', y)
@@ -46,7 +45,7 @@ label_normalize <- function(x) {
   y <- gsub( '<', '_lt_', y)
   y <- gsub( '>', '_gt_', y)
   y <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!', '_', y)
-  y  <- gsub("15_plus", "gt_15", y)
+  y  <- gsub(tolower("15_plus"), "gt 15", y)
   y <- gsub( '__|___|___|\\s_|_\\s', '_', y )
   y <- gsub( '^_', '', y )
   y <- gsub( '_$', '', y )
@@ -57,7 +56,8 @@ label_normalize <- function(x) {
 #' @importFrom snakecase to_snake_case
 #' @export
 var_label_normalize <- function(x) {
-  snakecase::to_snake_case(label_normalize(x))
+  x <- trimws(as.character(x), which = "both")
+  snakecase::to_sentence_case(label_normalize(x))
 }
 
 #' @rdname label_normalize 
@@ -65,6 +65,7 @@ var_label_normalize <- function(x) {
 #' @export
 val_label_normalize <- function(x) {
   
+  y <- trimws(tolower(as.character(x)), which = "both")
   y <- label_normalize(x)
   y <- gsub( '^q[abcde]\\d{1,2}_\\d{1,2}', '', y )  # remove QA117_1
   y <- gsub( '^q[abcde]\\d{1,2}', '', y )  # remove QA1, QB25 etc
