@@ -45,7 +45,9 @@ harmonize_values <- function(
   
   if (is.null(id)) attr(x, "id") <- "unknown"
   
-  harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
+  if ( !is.null(harmonize_labels)) {
+    harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
+  }
   
   original_values <- tibble::tibble (
     x = unclass(x))
