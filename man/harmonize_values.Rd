@@ -6,6 +6,7 @@
 \usage{
 harmonize_values(
   x,
+  harmonize_label = NULL,
   harmonize_labels = NULL,
   na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
   na_range = NULL,
@@ -15,6 +16,10 @@ harmonize_values(
 }
 \arguments{
 \item{x}{A labelled vector}
+
+\item{harmonize_label}{A character vector of 1L containing the new,
+harmonize variable label. Defaults to \code{NULL}, in which case 
+it uses the variable label of \code{x}, unless it is also \code{NULL}.}
 
 \item{harmonize_labels}{A list of harmonization values}
 

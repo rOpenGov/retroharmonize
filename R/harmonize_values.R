@@ -1,6 +1,9 @@
 #' Harmonize the values and labels of labelled vectors
 #' 
 #' @param x A labelled vector
+#' @param harmonize_label A character vector of 1L containing the new,
+#' harmonize variable label. Defaults to \code{NULL}, in which case 
+#' it uses the variable label of \code{x}, unless it is also \code{NULL}.
 #' @param harmonize_labels A list of harmonization values
 #' @param na_values A named vector of \code{na_values}, the 
 #' observations that are defined to be treated as missing in 
@@ -8,9 +11,11 @@
 #' @param id A survey ID, defaults to \code{survey_id}
 #' @importFrom labelled to_character labelled na_values val_labels
 #' @importFrom tibble tibble 
-#' @importFrom dplyr mutate left_join distinct
+#' @importFrom dplyr mutate left_join distinct select
+#' @importFrom tidyselect all_of
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
+#' @importFrom vctrs vec_data
 #' @return A labelled vector that contains in its metadata attributes
 #' the original labelling, the original numeric coding and the current
 #' labelling, with the numerical values representing the harmonized
@@ -39,6 +44,7 @@
 
 harmonize_values <- function(
   x, 
+  harmonize_label  = NULL,
   harmonize_labels = NULL, 
   na_values = c("do_not_know" = 99997, 
                 "declined" = 99998, 
@@ -56,18 +62,20 @@ harmonize_values <- function(
     }
   }
   
-  original_x_name <- deparse(substitute(x))  #keep the name of the original object for recording in attributes
+  ## Get the original object name for recording it as metadata
+  original_x_name <- deparse(substitute(x))  
+  
+  ## Set a label, if it is present but not given.
+  if (is.null(harmonize_label)) harmonize_label <- attr(x, "label")
   
   if ( !is.null(harmonize_labels)) {
     harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
   }
   
-  if ( is.numeric(x)) original_x <- as.numeric(unclass(x)) else {
-    original_x <- as.character(unclass(x))
-  }
+  original_x <- vctrs::vec_data(x)
 
   original_values <- tibble::tibble (
-    x = unclass(x))
+    x = original_x)
   original_values$orig_labels = as_character(x)
   
   if (is.na_range_to_values(x)) {
@@ -89,7 +97,14 @@ harmonize_values <- function(
       str [which(grepl ( harmonize_labels$from[r], str))] <- harmonize_labels$to[r]
     }
     code_table$new_labels <- str
-    code_table$new_values <- harmonize_labels$numeric_values
+    
+    add_new_values <- harmonize_labels %>%
+      dplyr::select ( tidyselect::all_of(c("to", "numeric_values"))) %>%
+      stats::setNames( c("new_labels", "new_values"))
+    
+    code_table <- left_join ( code_table, 
+                              add_new_values, 
+                              by = "new_labels")
     code_table$original_values <- NULL
     } else {
       
@@ -152,7 +167,7 @@ harmonize_values <- function(
   return_value <- labelled_spss_survey(
     x = new_numerics$new_values,
     labels = labelled::val_labels(x),
-    label = labelled::var_label(x),
+    label = harmonize_label,
     na_values = labelled::na_values(x), 
     na_range = labelled::na_range(x), 
     id = id, 

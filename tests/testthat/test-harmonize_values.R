@@ -16,7 +16,8 @@ h1 <- harmonize_values (
     numeric_values = c(1,0,99997, 99999)), 
   na_values = c("do_not_know" = 99997,
                 "inap" = 99999), 
-  id = "survey_id"
+  id = "survey_id",
+  harmonize_label = "Do you trust the European Union?"
 )
 
 test_that("casting works", {
@@ -26,6 +27,7 @@ test_that("casting works", {
 })
 
 test_that("attributes work", {
+  expect_equal(attr(h1, "label"), "Do you trust the European Union?")
   expect_equal(attr(h1, "id"), "survey_id")
   expect_equal(attr(h1, "survey_id_labels"),
                c("TRUST" = 1, 

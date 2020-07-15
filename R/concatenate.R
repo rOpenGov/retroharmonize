@@ -5,7 +5,7 @@
 #' @return A concatenated haven_labelled_spss vector. Returns an error
 #' if the attributes do not match. Gives a warning when only the variable
 #' label do not match.
-#' @importFrom labelled labelled val_labels
+#' @importFrom labelled labelled val_labels is.labelled
 #' @importFrom haven labelled_spss
 #' @examples
 #' v1 <- labelled::labelled(
@@ -38,6 +38,10 @@
 
 concatenate <- function(x, y) {
   
+  is.labelled_spss <- function(x) {
+    inherits(x, "haven_labelled_spss")
+    }
+  
   validate_concatenate(x, y)
   label_x <- attr(x, "label")
   label_y <- attr(y, "label")
@@ -61,21 +65,13 @@ concatenate <- function(x, y) {
     }
   }
 
-  z <- c(unclass(x), unclass(y))
-  new_vctr(z,
-           label = attr(x, "label"),
-           labels = attr(x, "labels"),
-           na_range = attr(x, "na_range"),
-           na_values = attr(x, "na_values"),
-           class = class(x),
-           inherit_base_type = TRUE)
+  z <- joining_attributes(x,y)
+  z
 }
-
-
 
 validate_concatenate <- function(x, y) {
   
-  if ( ! all(c(is.labelled(x), is.labelled(y))) ) {
+  if ( ! all(c(labelled::is.labelled(x), labelled::is.labelled(y))) ) {
     stop ("Both arguments must be labelled")
   }
   
