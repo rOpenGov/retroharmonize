@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Function reference • retroharmonize</title>
+<title>Create a metadata table — metadata_create • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,7 +39,8 @@
 
 
 
-<meta property="og:title" content="Function reference" />
+<meta property="og:title" content="Create a metadata table — metadata_create" />
+<meta property="og:description" content="Create a metadata table" />
 
 
 
@@ -58,7 +59,7 @@
   </head>
 
   <body data-spy="scroll" data-target="#toc">
-    <div class="container template-reference-index">
+    <div class="container template-reference-topic">
       <header>
       <div class="navbar navbar-default navbar-fixed-top" role="navigation">
   <div class="container">
@@ -126,108 +127,50 @@
       </header>
 
 <div class="row">
-  <div class="contents col-md-9">
+  <div class="col-md-9 contents">
     <div class="page-header">
-      <h1>Reference</h1>
+    <h1>Create a metadata table</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/metadata_create.R'><code>R/metadata_create.R</code></a></small>
+    <div class="hidden name"><code>metadata_create.Rd</code></div>
     </div>
 
-    <table class="ref-index">
+    <div class="ref-description">
+    <p>Create a metadata table</p>
+    </div>
 
-    <colgroup>
-      
-      <col class="alias" />
-      <col class="title" />
-    </colgroup>
+    <pre class="usage"><span class='fu'>metadata_create</span>(<span class='no'>survey</span>)</pre>
 
-    <tbody>
-      <tr>
-        <th colspan="2">
-          <h2 id="section-all-functions" class="hasAnchor"><a href="#section-all-functions" class="anchor"></a>All functions</h2>
-          <p class="section-desc"></p>
-        </th>
-      </tr>
-      
-      
-    </tbody><tbody>
-      
-      
-      <tr>
-        
-        <td>
-          <p><code><a href="as_factor.html">as_factor()</a></code> </p>
-        </td>
-        <td><p>Convert labelled_spss_survey vector To Factor</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="concatenate.html">concatenate()</a></code> </p>
-        </td>
-        <td><p>Concatenate haven_labelled_spss vectors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="harmonize_na_values.html">harmonize_na_values()</a></code> </p>
-        </td>
-        <td><p>Harmonize na_values in haven_labelled_spss</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="harmonize_values.html">harmonize_values()</a></code> </p>
-        </td>
-        <td><p>Harmonize the values and labels of labelled vectors</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="labelled_spss_survey.html">labelled_spss_survey()</a></code> <code><a href="labelled_spss_survey.html">as_character()</a></code> <code><a href="labelled_spss_survey.html">is.labelled_spss_survey()</a></code> <code><a href="labelled_spss_survey.html">as_numeric()</a></code> </p>
-        </td>
-        <td><p>Labelled vectors for multiple SPSS surveys</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="label_normalize.html">label_normalize()</a></code> <code><a href="label_normalize.html">var_label_normalize()</a></code> <code><a href="label_normalize.html">val_label_normalize()</a></code> </p>
-        </td>
-        <td><p>Normalize value and variable labels</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="metadata_create.html">metadata_create()</a></code> </p>
-        </td>
-        <td><p>Create a metadata table</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="na_range_to_values.html">na_range_to_values()</a></code> <code><a href="na_range_to_values.html">is.na_range_to_values()</a></code> </p>
-        </td>
-        <td><p>Harmonize user-defined missing value ranges</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_rds.html">read_rds()</a></code> </p>
-        </td>
-        <td><p>Read survey from rds file</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="read_spss.html">read_spss()</a></code> </p>
-        </td>
-        <td><p>Read SPSS (`.sav`, `.zsav`, `.por`) files. Write `.sav` and `.zsav` files.</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="retrohamonize.html">retrohamonize</a></code> </p>
-        </td>
-        <td><p>retroharmonize: Retrospective harmonization of survey data files</p></td>
-      </tr><tr>
-        
-        <td>
-          <p><code><a href="survey.html">survey()</a></code> </p>
-        </td>
-        <td><p>Survey data frame</p></td>
-      </tr>
-    </tbody>
+    <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
+    <table class="ref-arguments">
+    <colgroup><col class="name" /><col class="desc" /></colgroup>
+    <tr>
+      <th>survey</th>
+      <td><p>A survey data frame.</p></td>
+    </tr>
     </table>
-  </div>
 
+
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'>metadata_create</span> (
+ <span class='kw'>survey</span> <span class='kw'>=</span> <span class='fu'><a href='read_rds.html'>read_rds</a></span> (
+          <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>,
+                      <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
+          )
+)</div><div class='output co'>#&gt; # A tibble: 56 x 8
+#&gt;    var_name_orig class_orig label_orig labels na_levels na_range n_na_values
+#&gt;    &lt;chr&gt;         &lt;chr&gt;      &lt;chr&gt;      &lt;name&gt; &lt;named l&gt; &lt;named &gt; &lt;named lis&gt;
+#&gt;  1 rowid         character  ""         &lt;NULL&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  2 doi           character  "Gesis ar~ &lt;NULL&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  3 version       character  "Unique r~ &lt;NULL&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  4 uniqid        numeric    "Kantar c~ &lt;NULL&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  5 caseid        numeric    "Serial c~ &lt;NULL&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  6 serialid      numeric    "Country ~ &lt;NULL&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  7 isocntry      character  "Date of ~ &lt;NULL&gt; &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  8 p1            haven_lab~ "Time of ~ &lt;dbl ~ &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt;  9 p2            haven_lab~ "Duration~ &lt;dbl ~ &lt;NULL&gt;    &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt; 10 p3            haven_lab~ "N of per~ &lt;dbl ~ &lt;dbl [1]&gt; &lt;NULL&gt;   &lt;int [1]&gt;  
+#&gt; # ... with 46 more rows, and 1 more variable: n_cat_values &lt;named list&gt;</div></pre>
+  </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
       <h2 data-toc-skip>Contents</h2>

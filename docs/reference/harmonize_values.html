@@ -142,8 +142,9 @@
   <span class='no'>x</span>,
   <span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(<span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>,
     <span class='st'>"^tend\\snot|not\\strust"</span>, <span class='st'>"^dk"</span>, <span class='st'>"^inap"</span>), <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trust"</span>, <span class='st'>"not_trust"</span>,
-    <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>), <span class='kw'>numeric_value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>99997</span>, <span class='fl'>99999</span>)),
-  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
+    <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>), <span class='kw'>numeric_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>, <span class='fl'>0</span>, <span class='fl'>99997</span>, <span class='fl'>99999</span>)),
+  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>do_not_know</span> <span class='kw'>=</span> <span class='fl'>99997</span>, <span class='kw'>declined</span> <span class='kw'>=</span> <span class='fl'>99998</span>, <span class='kw'>inap</span> <span class='kw'>=</span> <span class='fl'>99999</span>),
+  <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey_id"</span>
 )</pre>
 
@@ -185,21 +186,12 @@
 <span class='fu'>harmonize_values</span> (
   <span class='no'>var1</span>,
   <span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> (
-    <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>, <span class='st'>"^tend\\snot|not\\strust"</span>, <span class='st'>"^dk|^don"</span>, <span class='st'>"^inap"</span>),
+    <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>, <span class='st'>"^tend\\snot|not\\strust|^not"</span>, <span class='st'>"^dk|^don"</span>, <span class='st'>"^inap"</span>),
     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trust"</span>, <span class='st'>"not_trust"</span>, <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
-    <span class='kw'>numeric_value</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>99997</span>, <span class='fl'>99999</span>)),
+    <span class='kw'>numeric_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>99997</span>, <span class='fl'>99999</span>)),
   <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey_id"</span>
-)</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
-#&gt; [1]     1     0     1     1     0 99997 99999
-#&gt; Missing values: 99997, 99999
-#&gt; 
-#&gt; Labels:
-#&gt;  value       label
-#&gt;      0   not_trust
-#&gt;      1       trust
-#&gt;  99997 do_not_know
-#&gt;  99999        inap</div></pre>
+)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `new_labels`.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='error'>Error in ans[npos] &lt;- rep(no, length.out = len)[npos]: replacement has length zero</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

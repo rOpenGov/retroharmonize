@@ -168,19 +168,19 @@ be differently implemented for various survey series.</p>
     <pre class="examples"><div class='input'><span class='fu'>label_normalize</span> (
 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Don't know"</span>, <span class='st'>" TRUST"</span>, <span class='st'>"DO NOT  TRUST"</span>,
   <span class='st'>"inap in Q.3"</span>, <span class='st'>"Not 100%"</span>, <span class='st'>"TRUST &lt; 50%"</span>,
-  <span class='st'>"TRUST &gt;=90%"</span>, <span class='st'>"Verify &amp; Check"</span>, <span class='st'>"TRUST 99%+"</span>))</div><div class='output co'>#&gt; [1] "do_not_know"       "trust"             "do_not_trust"     
-#&gt; [4] "inap_in_q_3"       "not_100_pct"       "trust_lt_50_pct"  
-#&gt; [7] "trust_ge_90_pct"   "verify_and_check"  "trust_99_pct_plus"</div><div class='input'>
+  <span class='st'>"TRUST &gt;=90%"</span>, <span class='st'>"Verify &amp; Check"</span>, <span class='st'>"TRUST 99%+"</span>))</div><div class='output co'>#&gt; [1] "Do not know"       " TRUST"            "DO NOT TRUST"     
+#&gt; [4] "inap in Q_3"       "Not 100_pct"       "TRUST_lt_50_pct"  
+#&gt; [7] "TRUST_ge_90_pct"   "Verify_and_Check"  "TRUST 99_pct_plus"</div><div class='input'>
  <span class='fu'>var_label_normalize</span> (
       <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Q1_Do you trust the national government?"</span>,
         <span class='st'>" Do you trust the European Commission"</span>)
-        )</div><div class='output co'>#&gt; [1] "q_1_do_you_trust_the_national_government"
-#&gt; [2] "do_you_trust_the_european_commission"    </div><div class='input'>
+        )</div><div class='output co'>#&gt; [1] "Q 1 do you trust the national government"
+#&gt; [2] "Do you trust the european commission"    </div><div class='input'>
   <span class='fu'>val_label_normalize</span> (
       <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Q1_Do you trust the national government?"</span>,
         <span class='st'>" Do you trust the European Commission"</span>)
-        )</div><div class='output co'>#&gt; [1] "do_you_trust_the_national_government"
-#&gt; [2] "do_you_trust_the_european_commission"</div></pre>
+        )</div><div class='output co'>#&gt; [1] "q_1_do_you_trust_the_national_government"
+#&gt; [2] "do_you_trust_the_european_commission"    </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
