@@ -29,6 +29,7 @@ read_rds <- function(file,
   if ( is.null(id)) id <- fs::path_file(file)
   
   tmp$rowid <- paste0(id, "_", tmp$rowid)
+  labelled::var_label ( tmp$rowid ) <- paste0("Unique identifier in ", id)
   
-  survey (tmp, id =id, filename, doi)
+  survey (tmp, id=id, filename, doi)
 }

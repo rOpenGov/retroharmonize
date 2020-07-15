@@ -48,6 +48,7 @@ read_spss <- function(file,
   filename <- fs::path_file(file)
 
   tmp$rowid <- paste0(id, "_", tmp$rowid)
-
+  labelled::var_label ( tmp$rowid ) <- paste0("Unique identifier in ", id)
+  
   survey (tmp, id=id, filename=filename, doi=doi)
 }
