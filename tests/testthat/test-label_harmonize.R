@@ -23,8 +23,9 @@ test_that("normalization works", {
   expect_equal(vln, c("do_you_trust_the_national_government",
                       "do_you_trust_the_european_commission"))
   expect_equal(ln, 
-               c("do_not_know","trust","do_not_trust",     
-                 "inap_in_q_3", "not_100_pct","trust_lt_50_pct",
-                 "trust_ge_90_pct", "verify_and_check" ,
-                 "trust_99_pct_plus"))
+               c("do not know","trust","do not trust",     
+                 "inap in q 3", "not 100 pct","trust lt 50 pct",
+                 "trust ge 90 pct", "verify and check" ,
+                 "trust 99 pct plus"))
 })
+

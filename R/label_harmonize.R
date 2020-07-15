@@ -37,19 +37,20 @@ label_normalize <- function(x) {
   y <- gsub("\\s+", " ", x)
   y <- gsub( "don\\'t", "do not", y)
   y <- gsub( "Don\\'t", "Do not", y)
-  y <- gsub( '\\&', '_and_', y)
-  y <- gsub( '\\+', '_plus_', y)
-  y <- gsub( '\\%', '_pct_', y)
-  y <- gsub( '>=', '_ge_', y)
-  y <- gsub( '<=', '_le_', y)
-  y <- gsub( '<', '_lt_', y)
+  y <- gsub( '\\&', ' and ', y)
+  y <- gsub( '\\+', ' plus ', y)
+  y <- gsub( '\\%', ' pct ', y)
+  y <- gsub( '>=', ' ge ', y)
+  y <- gsub( '<=', ' le ', y)
+  y <- gsub( '<', ' lt ', y)
   y <- gsub( '>', '_gt_', y)
-  y <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!', '_', y)
+  y <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!', ' ', y)
   y  <- gsub(tolower("15_plus"), "gt 15", y)
   y <- gsub( '__|___|___|\\s_|_\\s', '_', y )
+  y <- gsub("\\s+", " ", y)
   y <- gsub( '^_', '', y )
   y <- gsub( '_$', '', y )
-  y
+  trimws(tolower(y), which = "both")
 }
 
 #' @rdname label_normalize 
@@ -57,7 +58,7 @@ label_normalize <- function(x) {
 #' @export
 var_label_normalize <- function(x) {
   x <- trimws(as.character(x), which = "both")
-  snakecase::to_sentence_case(label_normalize(x))
+  snakecase::to_snake_case(label_normalize(x))
 }
 
 #' @rdname label_normalize 

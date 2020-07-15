@@ -88,7 +88,3 @@ test_that("exception handling works", {
                                   harmonize_labels = c("a", "b"))
   )
 })
-
-
-
-
