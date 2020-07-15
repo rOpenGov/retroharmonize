@@ -2,13 +2,19 @@
 #' 
 #' @param x A labelled vector
 #' @param harmonize_labels A list of harmonization values
-#' @param na_values A named vector of na_values.
+#' @param na_values A named vector of \code{na_values}, the 
+#' observations that are defined to be treated as missing in 
+#' the SPSS-style coding.
 #' @param id A survey ID, defaults to \code{survey_id}
 #' @importFrom labelled to_character labelled na_values val_labels
 #' @importFrom tibble tibble 
 #' @importFrom dplyr mutate left_join distinct
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
+#' @return A labelled vector that contains in its metadata attributes
+#' the original labelling, the original numeric coding and the current
+#' labelling, with the numerical values representing the harmonized
+#' coding.
 #' @examples
 #' var1 <- labelled::labelled_spss(
 #'   x = c(1,0,1,1,0,8,9), 

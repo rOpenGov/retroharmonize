@@ -19,9 +19,17 @@ harmonize_values(
 
 \item{harmonize_labels}{A list of harmonization values}
 
-\item{na_values}{A named vector of na_values.}
+\item{na_values}{A named vector of \code{na_values}, the 
+observations that are defined to be treated as missing in 
+the SPSS-style coding.}
 
 \item{id}{A survey ID, defaults to \code{survey_id}}
+}
+\value{
+A labelled vector that contains in its metadata attributes
+the original labelling, the original numeric coding and the current
+labelling, with the numerical values representing the harmonized
+coding.
 }
 \description{
 Harmonize the values and labels of labelled vectors
