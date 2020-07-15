@@ -12,7 +12,7 @@ q_na     <- length(labelled::na_values ( test_survey$qd6.12))
 
 test_that("Correct values are returned", {
   expect_equal(is.null(unlist(example_metadata$na_levels[2])), TRUE)
-  expect_equal(example_metadata$label_orig[1], "Unique identifier in za 7576 rds")
+  expect_equal(example_metadata$label_orig[1], "unique identifier in za7576 rds")
   expect_equal(
     as.numeric(example_metadata$n_na_values[which ( names(test_survey) == "qd6.12")]), 
     q_na)

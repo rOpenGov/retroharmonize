@@ -44,7 +44,7 @@ label_normalize <- function(x) {
   y <- gsub( '<=', ' le ', y)
   y <- gsub( '<', ' lt ', y)
   y <- gsub( '>', '_gt_', y)
-  y <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!', ' ', y)
+  y <- gsub('\\.|-|\\:|\\;|\\/|\\(|\\)|\\!|\\?', ' ', y)
   y  <- gsub(tolower("15_plus"), "gt 15", y)
   y <- gsub( '__|___|___|\\s_|_\\s', '_', y )
   y <- gsub("\\s+", " ", y)
@@ -57,8 +57,7 @@ label_normalize <- function(x) {
 #' @importFrom snakecase to_snake_case
 #' @export
 var_label_normalize <- function(x) {
-  x <- trimws(as.character(x), which = "both")
-  snakecase::to_snake_case(label_normalize(x))
+  label_normalize(x)
 }
 
 #' @rdname label_normalize 

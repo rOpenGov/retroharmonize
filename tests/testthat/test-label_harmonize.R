@@ -8,18 +8,20 @@ vrn <- var_label_normalize (
       c("Q1_Do you trust the national government?", 
         " Do you trust the European Commission")
         )
+vrn
 
 vln <-  val_label_normalize ( 
       c("Q1_Do you trust the national government?", 
         " Do you trust the European Commission")
         )
+vln
 
 c( "do_you_trust_the_national_government",
    "do_you_trust_the_european_commission")
 
 test_that("normalization works", {
-  expect_equal(vrn, c("q_1_do_you_trust_the_national_government",
-                      "do_you_trust_the_european_commission"))
+  expect_equal(vrn, c("q1_do you trust the national government",
+                      "do you trust the european commission"))
   expect_equal(vln, c("do_you_trust_the_national_government",
                       "do_you_trust_the_european_commission"))
   expect_equal(ln, 
