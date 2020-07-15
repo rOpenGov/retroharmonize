@@ -46,11 +46,12 @@ var1 <- labelled::labelled_spss(
 harmonize_values (
   var1, 
   harmonize_labels = list ( 
-    from = c("^tend\\\\sto|^trust", "^tend\\\\snot|not\\\\strust|^not", "^dk|^don", "^inap"), 
+    from = c("^tend\\\\sto|^trust", "^tend\\\\snot|not\\\\strust", "^dk|^don", "^inap"), 
     to = c("trust", "not_trust", "do_not_know", "inap"),
     numeric_values = c(1,0,99997, 99999)), 
-  na_values = c("do_not_know", "inap"), 
-  id = "survey_id"
+    na_values = c("do_not_know" = 99997,
+                "inap" = 99999), 
+    id = "survey_id"
 )
 }
 \seealso{
