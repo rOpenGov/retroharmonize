@@ -161,7 +161,9 @@
     </tr>
     <tr>
       <th>na_values</th>
-      <td><p>A named vector of na_values.</p></td>
+      <td><p>A named vector of <code>na_values</code>, the 
+observations that are defined to be treated as missing in 
+the SPSS-style coding.</p></td>
     </tr>
     <tr>
       <th>id</th>
@@ -169,6 +171,12 @@
     </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A labelled vector that contains in its metadata attributes
+the original labelling, the original numeric coding and the current
+labelling, with the numerical values representing the harmonized
+coding.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other harmonization functions: 
@@ -186,12 +194,22 @@
 <span class='fu'>harmonize_values</span> (
   <span class='no'>var1</span>,
   <span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> (
-    <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>, <span class='st'>"^tend\\snot|not\\strust|^not"</span>, <span class='st'>"^dk|^don"</span>, <span class='st'>"^inap"</span>),
+    <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>, <span class='st'>"^tend\\snot|not\\strust"</span>, <span class='st'>"^dk|^don"</span>, <span class='st'>"^inap"</span>),
     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trust"</span>, <span class='st'>"not_trust"</span>, <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
     <span class='kw'>numeric_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>99997</span>, <span class='fl'>99999</span>)),
-  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
-  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey_id"</span>
-)</div><div class='output co'>#&gt; <span class='warning'>Warning: Unknown or uninitialised column: `new_labels`.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='error'>Error in ans[npos] &lt;- rep(no, length.out = len)[npos]: replacement has length zero</span></div></pre>
+    <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span> <span class='kw'>=</span> <span class='fl'>99997</span>,
+                <span class='st'>"inap"</span> <span class='kw'>=</span> <span class='fl'>99999</span>),
+    <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey_id"</span>
+)</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
+#&gt; [1]     1     0     1     1     0 99997 99999
+#&gt; Missing values: 99997, 99999
+#&gt; 
+#&gt; Labels:
+#&gt;  value       label
+#&gt;      0   not_trust
+#&gt;      1       trust
+#&gt;  99997 do_not_know
+#&gt;  99999        inap</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
