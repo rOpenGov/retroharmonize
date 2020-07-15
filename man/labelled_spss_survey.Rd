@@ -9,11 +9,12 @@
 \usage{
 labelled_spss_survey(
   x = double(),
+  label = NULL,
   labels = NULL,
   na_values = NULL,
   na_range = NULL,
-  label = NULL,
-  id = NULL
+  id = NULL,
+  name_orig = NULL
 )
 
 as_character(x)
@@ -26,6 +27,8 @@ as_numeric(x)
 \item{x}{A vector to label. Must be either numeric (integer or double) or
 character.}
 
+\item{label}{A short, human-readable description of the vector.}
+
 \item{labels}{A named vector or \code{NULL}. The vector should be the same type
 as \code{x}. Unlike factors, labels don't need to be exhaustive: only a fraction
 of the values might be labelled.}
@@ -35,8 +38,6 @@ of the values might be labelled.}
 \item{na_range}{A numeric vector of length two giving the (inclusive) extents
 of the range. Use \code{-Inf} and \code{Inf} if you want the range to be
 open ended.}
-
-\item{label}{A short, human-readable description of the vector.}
 
 \item{id}{Survey ID}
 }

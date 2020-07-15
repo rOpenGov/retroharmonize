@@ -6,12 +6,11 @@
 \usage{
 harmonize_values(
   x,
-  harmonize_labels = list(from = c("^tend\\\\sto|^trust",
-    "^tend\\\\snot|not\\\\strust", "^dk", "^inap"), to = c("trust", "not_trust",
-    "do_not_know", "inap"), numeric_values = c(1, 0, 99997, 99999)),
+  harmonize_labels = NULL,
   na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
   na_range = NULL,
-  id = "survey_id"
+  id = "survey_id",
+  names_orig = NULL
 )
 }
 \arguments{
