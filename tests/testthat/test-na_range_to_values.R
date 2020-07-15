@@ -27,7 +27,7 @@ var4 <- labelled::labelled_spss(
   na_range = c(8,9))
 
 test_that("harmonization_works", {
-  expect_equal(attr(na_range_to_values (x=var1), "na_values"),c(8,9))
+  expect_equal(attr(na_range_to_values (x=var1),"na_values"),c(8,9))
   expect_equal(attr(na_range_to_values(x=var2), "na_values"),c(7,9))
   expect_equal(attr(na_range_to_values(x=var2), "na_range"), c(7,12))
   expect_equal(as_numeric(na_range_to_values(var4)), c(1,0,NA_real_))
