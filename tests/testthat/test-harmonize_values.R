@@ -9,12 +9,13 @@ var1 <- labelled::labelled_spss(
 str(var1)
 
 h1 <- harmonize_values (
-  var1, 
+  x = var1, 
   harmonize_labels = list ( 
     from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
     to = c("trust", "not_trust", "do_not_know", "inap"),
-    numeric_value = c(1,0,99997, 99999)), 
-  na_values = c("do_not_know", "inap"), 
+    numeric_values = c(1,0,99997, 99999)), 
+  na_values = c("do_not_know" = 99997,
+                "inap" = 99999), 
   id = "survey_id"
 )
 
@@ -38,9 +39,19 @@ test_that("attributes work", {
                  "9" = 99999))
 })
 
+attributes(h1)
+
 test_that("recoding works", {
   expect_equal(vctrs::vec_data(h1), c(1,0,1,1,0,99997,99999))
 })
+
+lvar2 <- labelled::labelled_spss(x = c(1,0,7,9), 
+                                 labels = c("TRUST" = 1, 
+                                            "NOT TRUST" = 0, 
+                                            "DON'T KNOW" = 7, 
+                                            "INAP. HERE" = 9), 
+                                 na_values = c(8,9), 
+                                 na_range = c(7,9))
 
 test_that("recasting works", {
   expect_equal(as_numeric(h1), c(1,0,1,1,0,NA,NA))
@@ -56,18 +67,13 @@ test_that("recasting works", {
   expect_equal(
     # case when na_range and na_values must be adjusted first
     as_numeric(harmonize_values (
-      labelled::labelled_spss(x = c(1,0,7,9), 
-                              labels = c("TRUST" = 1, 
-                                         "NOT TRUST" = 0, 
-                                         "DON'T KNOW" = 7, 
-                                         "INAP. HERE" = 9), 
-                              na_values = c(8,9), 
-                              na_range = c(7,9)), 
+      x = lvar2, 
       harmonize_labels = list ( 
         from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
         to = c("trust", "not_trust", "do_not_know", "inap"),
         numeric_value = c(1,0,99997, 99999)), 
-        na_values = c("do_not_know", "inap"), 
+      na_values = c("do_not_know" = 99997,
+                    "inap" = 99999), 
         id = "survey_id"
       )), 
     c(1,0,NA,NA)

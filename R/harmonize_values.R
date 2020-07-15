@@ -27,11 +27,12 @@
 #' harmonize_values (
 #'   var1, 
 #'   harmonize_labels = list ( 
-#'     from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust|^not", "^dk|^don", "^inap"), 
+#'     from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
 #'     to = c("trust", "not_trust", "do_not_know", "inap"),
 #'     numeric_values = c(1,0,99997, 99999)), 
-#'   na_values = c("do_not_know", "inap"), 
-#'   id = "survey_id"
+#'     na_values = c("do_not_know" = 99997,
+#'                 "inap" = 99999), 
+#'     id = "survey_id"
 #' )
 #' @export
 #' @family harmonization functions
@@ -57,7 +58,6 @@ harmonize_values <- function(
   
   original_values <- tibble::tibble (
     x = unclass(x))
-  
   original_values$orig_labels = as_character(x)
   
   if (is.na_range_to_values(x)) {
@@ -69,45 +69,33 @@ harmonize_values <- function(
       test = grepl(paste ( harmonize_labels$from, collapse = "|"), 
                    tolower(original_values$orig_labels)), 
       yes = tolower(original_values$orig_labels), 
-      no  = "")
-    these_value_labels <- unique(original_values$orig_labels)
-    str <- these_value_labels
+      no  = "") 
+    
+    code_table <- dplyr::distinct_all(original_values)
+    str <- code_table$orig_labels
     
     for ( r in 1:length(harmonize_labels$to) ) {
+      ## harmonize the strings to new labelling by regex
       str [which(grepl ( harmonize_labels$from[r], str))] <- harmonize_labels$to[r]
     }
     
-    for ( j in 1:length(these_value_labels)) {
-      # create new value labels
-      original_values$new_labels <- ifelse ( 
-        original_values$orig_labels ==  these_value_labels[j], 
-        str[j], 
-        original_values$new_labels ) 
-      }
-  } else {
-    harmonize_labels <- get_labelled_attributes(x)
+    code_table$new_labels <- str
+    code_table$new_values <- harmonize_labels$numeric_values
+    } else {
+    code_table <- tibble::as_tibble(get_labelled_attributes(x))
+    names(code_table) <- c("orig_labels","new_labels","new_values")
   }
   
-  names ( harmonize_labels )
   new_values <- original_values %>%
     dplyr::left_join (
-      tibble::tibble ( 
-         orig_labels = harmonize_labels$from,
-         new_labels = harmonize_labels$to, 
-         new_values = harmonize_labels$numeric_values
-      ), 
-      by = "orig_labels") %>%
+      code_table, 
+      by = c("x", "orig_labels")) %>%
     dplyr::mutate ( new_values = ifelse ( is.na(new_values), 
                                           99901, 
                                           new_values )) %>%
     dplyr::mutate ( new_labels = ifelse( new_values == 99901, 
                                          "invalid_label", 
-                                         new_labels)) %>%
-    dplyr::mutate ( new_values = ifelse ( 
-          new_labels %in% names(na_values),
-          na_values, 
-          new_values)
-          )
+                                         new_labels)) 
   
   ## define new missing values, not with range
   new_na_values <- new_values$new_values[which(new_values$new_values >= 99900 )]
@@ -154,8 +142,8 @@ harmonize_values <- function(
 validate_harmonize_labels <- function( harmonize_labels ) {
   
   if( inherits(harmonize_labels, "list") ) {
-    if ( "numeric_valuess" %in% names(harmonize_labels)) {
-      names(harmonize_labels)[which(names(harmonize_labels)=="numeric_valuess")] <- "numeric_values"
+    if ( "numeric_value" %in% names(harmonize_labels) ) {
+      names(harmonize_labels)[which(names(harmonize_labels)=="numeric_value")] <- "numeric_values"
     }
     
   if( !all( 
