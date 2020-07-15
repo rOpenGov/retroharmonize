@@ -33,8 +33,8 @@ test_that("attributes work", {
                  "DON'T KNOW" = 8, 
                  "INAP. HERE" = 9))
   expect_equal(attr(h1, "survey_id_values"),
-               c("1" = 1, 
-                 "0" = 0, 
+               c("0" = 0, 
+                 "1" = 1, 
                  "8" = 99997, 
                  "9" = 99999))
 })

@@ -1,23 +1,29 @@
 x1 <- labelled_spss_survey(
-  1:10, c(Good = 1, Bad = 8), 
+  x = 1:10, 
+  labels = c(Good = 1, Bad = 8), 
   na_values = c(9, 10), 
   id = "survey1")
 
-x2 <- labelled_spss_survey( 1:10, 
- labels  = c(Good = 1, Bad = 8), 
- na_range = c(9, Inf),
- label = "Quality Rating", 
- id = "survey1")
+x1
 
+my_x <- 1:10
 
+x2 <- labelled_spss_survey( my_x, 
+                            labels  = c(Good = 1, Bad = 8), 
+                            na_range = c(9, Inf),
+                            label = "Quality Rating", 
+                            id = "survey2")
+
+x2
 #x3 <- labelled_spss_survey(
 #  c("good", "good", "bad", "bad", "inap"), c(Good = "good", Bad = "bad"), 
 #  na_values = "inap", 
 #  id = "survey1")
 
-
 test_that("type conversion is correct", {
   expect_equal(as_numeric(x1),c(1:8, NA, NA))
+  expect_equal(attr(x2, "survey2_labels"),  c(Good = 1, Bad = 8))
+  expect_equal(attr(x1, "survey1_na_values"),  c(9,10))
 })
 
 test_that("NA values are correct", {
@@ -31,8 +37,11 @@ test_that("errors work", {
 })
 
 test_that("attributes are present", {
-  expect_equal(attr(x2, "id"), "survey1")
+  expect_equal(attr(x1, "id"), "survey1")
   expect_equal(attr(x2, "label"), "Quality Rating")
+  expect_equal(attr(x2, "survey2_name"), "my_x")
+  expect_equal(attr(x2, "na_range"), c(9, Inf))
+  expect_equal(attr(x2, "survey2_na_range"), c(9, Inf))
 })
 
 test_that("arithmetic methods work", {

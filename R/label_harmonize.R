@@ -35,8 +35,12 @@ label_normalize <- function(x) {
   ## please add test after correcting for unexpected results
   
   y <- gsub("\\s+", " ", x)
-  y <- gsub( "don\\'t", "do not", y)
-  y <- gsub( "Don\\'t", "Do not", y)
+  y <- gsub( "on\\'t", "o not", y) # don't|Don't
+  y <- gsub( "ON\\'T", "O NOT", y)
+  y <- gsub( "an\\'t", "an not", y) # can't|Can't
+  y <- gsub( "AN\\'T", "AN NOT", y)
+  y <- gsub( "\\'ll", "will", y)  # you'll, he'll (can be confused with shall)
+  y <- gsub( "\\'LL", "WILL", y)
   y <- gsub( '\\&', ' and ', y)
   y <- gsub( '\\+', ' plus ', y)
   y <- gsub( '\\%', ' pct ', y)

@@ -39,23 +39,33 @@
 
 harmonize_values <- function(
   x, 
-  harmonize_labels = list ( 
-    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk", "^inap"), 
-    to = c("trust", "not_trust", "do_not_know", "inap"),
-    numeric_values = c(1,0,99997, 99999)
-  ), 
+  harmonize_labels = NULL, 
   na_values = c("do_not_know" = 99997, 
                 "declined" = 99998, 
                 "inap" = 99999), 
   na_range = NULL,
-  id = "survey_id") {
+  id = "survey_id",
+  names_orig = NULL ) {
   
-  if (is.null(id)) attr(x, "id") <- "unknown"
+  if (is.null(id)) { 
+    # if not otherwise stated, inherit the ID of x, if present
+    if (!is.null(attr(x, "id"))) {
+      id <- attr(x, "id")
+    } else {
+      id <- "unknown" 
+    }
+  }
+  
+  original_x_name <- deparse(substitute(x))  #keep the name of the original object for recording in attributes
   
   if ( !is.null(harmonize_labels)) {
     harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
   }
   
+  if ( is.numeric(x)) original_x <- as.numeric(unclass(x)) else {
+    original_x <- as.character(unclass(x))
+  }
+
   original_values <- tibble::tibble (
     x = unclass(x))
   original_values$orig_labels = as_character(x)
@@ -78,15 +88,28 @@ harmonize_values <- function(
       ## harmonize the strings to new labelling by regex
       str [which(grepl ( harmonize_labels$from[r], str))] <- harmonize_labels$to[r]
     }
-    
     code_table$new_labels <- str
     code_table$new_values <- harmonize_labels$numeric_values
+    code_table$original_values <- NULL
     } else {
-    code_table <- tibble::as_tibble(get_labelled_attributes(x))
-    names(code_table) <- c("orig_labels","new_labels","new_values")
-  }
+      
+      # no harmonization is given -----------------------
+      code_table <- get_labelled_attributes(x)
+      na_labels <- names(na_values)
+      
+      if (length(na_labels)>0) {
+        # if there is no valid label harmonization, still check for potential missings
+        potential_na_values <- sapply (na_labels, function(x) paste0("^", x,"|",x))
+        na_regex <- sapply ( potential_na_values, function(s) grepl(s, val_label_normalize(code_table$new_labels)))
+        for (c in 1:length(na_labels)){
+          code_table$new_labels[which( na_regex[,c])] <- na_labels[c]
+        }
+      }
+    }
   
-  new_values <- original_values %>%
+  code_table <- dplyr::arrange(.data =code_table, new_values )
+  
+  new_value_table <- original_values %>%
     dplyr::left_join (
       code_table, 
       by = c("x", "orig_labels")) %>%
@@ -95,39 +118,49 @@ harmonize_values <- function(
                                           new_values )) %>%
     dplyr::mutate ( new_labels = ifelse( new_values == 99901, 
                                          "invalid_label", 
-                                         new_labels)) 
+                                         new_labels)) %>%
+    dplyr::arrange( new_values )
   
   ## define new missing values, not with range
-  new_na_values <- new_values$new_values[which(new_values$new_values >= 99900 )]
+  new_na_values <- new_value_table$new_values[which(new_value_table$new_values >= 99900 )]
   new_na_values <- unique(new_na_values)
   
   # define new value - label pairs
-  new_labelling <- dplyr::distinct ( 
-    new_values, new_values, new_labels )
+  new_labelling <- new_value_table %>%
+    dplyr::distinct ( new_values, new_labels ) 
   new_labels = new_labelling$new_values
   names (new_labels) <- new_labelling$new_labels
   
   #define original labelling 
-  original_labelling <- new_values %>%
+  original_labelling <- new_value_table %>%
         dplyr::distinct ( .data$new_values, .data$orig_labels )
   
   original_labels <- original_labelling$new_values
   names(original_labels) <- original_labelling$orig_labels
   
   #define original numeric code
-  original_numerics <- dplyr::distinct ( new_values, new_values, x )
-  original_values <- original_numerics$new_values
-  names(original_values) <- original_numerics$x
+  original_numerics <-  new_value_table %>%
+    dplyr::distinct ( new_values, x )
+  original_numeric_values <- original_numerics$new_values
+  names(original_numeric_values) <- original_numerics$x
   
-  # create a labelled_spss
-  return_value <- haven::labelled_spss(new_values$new_values,
-                                labels = sort ( new_labels ), 
-                                na_values = new_na_values)
+  # create new numerics
+  new_numerics <- tibble( 
+    x = original_x) %>%
+    left_join (original_numerics, by = 'x' )
+
+  return_value <- labelled_spss_survey(
+    x = new_numerics$new_values,
+    labels = labelled::val_labels(x),
+    label = labelled::var_label(x),
+    na_values = labelled::na_values(x), 
+    na_range = labelled::na_range(x), 
+    id = id, 
+    name_orig = original_x_name )
   
-  
-  attr(return_value, paste0(id, "_labels")) <-  labelled::val_labels(x) 
-  attr(return_value, paste0(id, "_values")) <- original_values
-  attr(return_value, "id") <- id
+  attr(return_value, "labels") <- new_labels
+  attr(return_value, "na_values") <- new_na_values
+  attr(return_value, paste0(attr(return_value, "id"), "_values")) <- original_numeric_values
   
   assertthat::assert_that ( inherits(return_value, "haven_labelled_spss")) 
     
@@ -170,15 +203,20 @@ validate_harmonize_labels <- function( harmonize_labels ) {
                  tidyselect::all_of(c("from", "to", "numeric_values")))
 }
 
-
+#' @importFrom dplyr distinct_all
 get_labelled_attributes <- function(x) {
   
-  current_labels <- labelled::val_labels(x)
+  unlabelled_x <- sapply(attributes(x), function(i) { attributes(i) <- NULL; x })[,1]
+
+  code_table <- tibble::tibble (
+    x = unlabelled_x,
+    new_values = unlabelled_x
+  ) 
+
+  code_table$orig_labels <- as_character(x)  
+  code_table$new_labels <- as_character(x)  
   
-  list (
-    from = names(current_labels), 
-    to = names(current_labels), 
-    numeric_values = as_numeric(unclass(current_labels))
-  )
+  dplyr::distinct_at(code_table, dplyr::vars(
+    all_of(c("x", "new_values", "orig_labels", "new_labels"))))
   
 }

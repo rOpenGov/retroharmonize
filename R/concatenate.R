@@ -37,54 +37,8 @@
 #' @export
 
 concatenate <- function(x, y) {
-  if ( ! all(c(is.labelled(x), is.labelled(y))) ) {
-    stop ("Both arguments must be labelled")
-  }
-
-  if ( sum(is.labelled_spss(x), is.labelled_spss(y)) == 1 ) {
-    if ( ! is.labelled_spss(x) ) {
-
-      x_na_values <- labelled::na_values(y)
-      y_labels <- labelled::val_labels(y)
-
-      x <- convert_to_labelled_spss(x, y_labels [ y_labels  %in% x_na_values ])
-      }
-  }
-
-  if ( is.null(attr(x, "na_range")) ) {
-    if ( ! is.null(attr(y, "na_range")) ) {
-      stop("The first (x) na_range is NULL, the second (y) is not.")
-    }
-  } else if ( is.null(attr(y, "na_range")) ) {
-    stop("The second (y) na_range is NULL, the first (x) is not.")
-  } else {
-    if ( any( attr(x, "na_range" ) != attr(y, "na_range" )) ) {
-      stop ("The na_range attribute must be equal.")
-    }
-  }
-
-  if ( is.null(attr(x, "na_values")) ) {
-    if ( ! is.null(attr(y, "na_values")) ) {
-      stop("The first (x) na_values is NULL, the second (y) is not.")
-    }
-  } else if ( is.null(attr(y, "na_values")) ) {
-    stop("The second (y) na_values is NULL, the first (x) is not.")
-  } else {
-    if ( any( attr(x, "na_values" ) != attr(y, "na_values" )) ) {
-      stop ("The na_values attribute must be equal.")
-    }
-  }
-
-  if ( ! is.labelled (x) && is.labelled(y) ) {
-    stop ("Both x and y must be labelled.")
-  }
-
-  if ( ! all(class(x)==class(y)) ) {
-    stop ("class(x)=",
-          paste(class(x), collapse=","),
-          "\nbut class(y)=", paste(class(y), collapse =","))
-  }
-
+  
+  validate_concatenate(x, y)
   label_x <- attr(x, "label")
   label_y <- attr(y, "label")
 
@@ -117,3 +71,56 @@ concatenate <- function(x, y) {
            inherit_base_type = TRUE)
 }
 
+
+
+validate_concatenate <- function(x, y) {
+  
+  if ( ! all(c(is.labelled(x), is.labelled(y))) ) {
+    stop ("Both arguments must be labelled")
+  }
+  
+  if ( sum(is.labelled_spss(x), is.labelled_spss(y)) == 1 ) {
+    if ( ! is.labelled_spss(x) ) {
+      
+      x_na_values <- labelled::na_values(y)
+      y_labels <- labelled::val_labels(y)
+      
+      x <- convert_to_labelled_spss(x, y_labels [ y_labels  %in% x_na_values ])
+    }
+  }
+  
+  if ( is.null(attr(x, "na_range")) ) {
+    if ( ! is.null(attr(y, "na_range")) ) {
+      stop("The first (x) na_range is NULL, the second (y) is not.")
+    }
+  } else if ( is.null(attr(y, "na_range")) ) {
+    stop("The second (y) na_range is NULL, the first (x) is not.")
+  } else {
+    if ( any( attr(x, "na_range" ) != attr(y, "na_range" )) ) {
+      stop ("The na_range attribute must be equal.")
+    }
+  }
+  
+  if ( is.null(attr(x, "na_values")) ) {
+    if ( ! is.null(attr(y, "na_values")) ) {
+      stop("The first (x) na_values is NULL, the second (y) is not.")
+    }
+  } else if ( is.null(attr(y, "na_values")) ) {
+    stop("The second (y) na_values is NULL, the first (x) is not.")
+  } else {
+    if ( any( attr(x, "na_values" ) != attr(y, "na_values" )) ) {
+      stop ("The na_values attribute must be equal.")
+    }
+  }
+  
+  if ( ! is.labelled (x) && is.labelled(y) ) {
+    stop ("Both x and y must be labelled.")
+  }
+  
+  if ( ! all(class(x)==class(y)) ) {
+    stop ("class(x)=",
+          paste(class(x), collapse=","),
+          "\nbut class(y)=", paste(class(y), collapse =","))
+  }
+  
+}

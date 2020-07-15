@@ -42,34 +42,39 @@
 #' @export
 
 labelled_spss_survey <- function(
-  x = double(), labels = NULL,
-  na_values = NULL,
-  na_range = NULL, label = NULL,
-  id = NULL) {
+  x = double(), label = NULL, labels = NULL,
+  na_values = NULL, na_range = NULL, 
+  id = NULL, name_orig = NULL) {
 
-  x <- vctrs::vec_data(x)
+  x_vector <- vctrs::vec_data(x)
   vec_cast_named <- function(x, to, ...) {
     #identical to haven:::vec_cast_named()
     stats::setNames(vctrs::vec_cast(x, to, ...), names(x))
   }
-  na_values <- vec_cast_named(na_values, x, 
+  na_values <- vec_cast_named(na_values, x_vector, 
                               x_arg = "na_values", to_arg = "x")
   labelled <- labelled::labelled(x, labels = labels, label = label)
 
+  if ( is.null(name_orig) ) {
+    name_orig <- deparse(substitute(x))
+  }
+  
   new_labelled_spss_survey(
     vec_data(labelled),
-    labels = attr(labelled, "labels"),
+    labels = labels,
+    label = label,
     na_values = na_values,
     na_range = na_range,
-    id = id,
-    label = attr(labelled, "label", exact = TRUE)
+    id = id, 
+    name_orig = name_orig 
   )
 }
 
 #' @importFrom vctrs vec_assert vec_is
 new_labelled_spss_survey <- function(x, labels,
                                      na_values, na_range,
-                                     label, id) {
+                                     label, id, 
+                                     name_orig) {
   
   if (!is.null(na_values) && !vctrs::vec_is(x, na_values)) {
     abort("`na_values` must be same type as `x`.")
@@ -89,10 +94,19 @@ new_labelled_spss_survey <- function(x, labels,
                        na_values = na_values,
                        na_range = na_range)
   
+  original_coding <- sort(unique(x))
+  names(original_coding) <- original_coding
+  
   attr(tmp, "id") <- id
   attr(tmp, "class") <- c("retroharmonize_labelled_spss_survey",
                           "haven_labelled_spss", 
                           "haven_labelled")
+  attr(tmp, paste0(id, "_name")) <- name_orig
+  attr(tmp, paste0(id, "_values")) <- original_coding
+  attr(tmp, paste0(id, "_label")) <- label
+  attr(tmp, paste0(id, "_labels")) <- attr(tmp, "labels")
+  attr(tmp, paste0(id, "_na_values")) <- attr(tmp, "na_values")
+  attr(tmp, paste0(id, "_na_range")) <- attr(tmp, "na_range")
  tmp
 }
 
@@ -132,21 +146,37 @@ obj_print_header.retroharmonize_labelled_spss_survey <- function(x, ...) {
 
 obj_print_footer.retroharmonize_labelled_spss_survey <- function(x, ...) {
   
+  history_attributes <- names(attributes(x))
+  history_attributes <- history_attributes[! history_attributes %in% c("label", "labels", "na_values", 
+                                                 "na_range", "class", "id")]
+  
   na_values <- attr(x, "na_values")
   if (!is.null(na_values)) {
     cat_line("Missing values: ", paste(na_values, collapse = ", "))
   }
-
   na_range <- attr(x, "na_range")
   if (!is.null(na_range)) {
     cat_line("Missing range:  [", paste(na_range, collapse = ", "), "]")
   }
 
   cat_line("Survey ID: ", attr(x, "id"))
+  
+  if (length(history_attributes)>0) {
+    last_attribute <- history_attributes[length(history_attributes)]
+    history_attributes <- c(history_attributes[1:3], "...", last_attribute)
+    history_attributes <- paste (history_attributes, collapse = ", ")
+    history_attributes <- gsub("\\,\\s\\.\\.\\.", " [...]", history_attributes)
+  }
+  
+  cat_line (paste0("See all attributes ", 
+                   history_attributes, 
+                   " with attributes(",
+                   deparse (substitute(x)),
+                   ")")
+  )
   invisible(x)
 
 }
-
 
 ## Missingness --------------------------------------
 
