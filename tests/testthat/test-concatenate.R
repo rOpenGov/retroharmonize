@@ -62,8 +62,27 @@ b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
 
 c <- dplyr::bind_rows(a,b)
 
-d <- rbind(a,b)
+d <- vctrs::vec_rbind(a,b)
 
-attr(d$hvar, "survey2_labels")
-attr(c$hvar, "survey1_labels")
+test_that("correct values are returned", {
+  expect_equal(attr(d$hvar, "survey2_labels"),  c("Tend to trust" = 1, 
+                                                  "Tend not to trust" = 2, 
+                                                  "DK" = 8, 
+                                                  "Inap" = 9))
+  expect_equal(attr(c$hvar, "survey2_labels"),  c("Tend to trust" = 1, 
+                                                  "Tend not to trust" = 2, 
+                                                  "DK" = 8, 
+                                                  "Inap" = 9))
+  expect_equal(attr(c$hvar, "survey1_labels"), c("TRUST" = 1, 
+                                                 "NOT TRUST" = 0, 
+                                                 "DON'T KNOW" = 8, 
+                                                 "INAP. HERE" = 9)
+  )
+  
+})
+
+
+
+
+
 

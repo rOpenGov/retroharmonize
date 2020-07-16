@@ -217,20 +217,25 @@ as_character <- function(x) {
 #' Convert labelled_spss_survey vector To Factor
 #' 
 #' Convert a \code{\link{labelled_spss_survey}} vector to a type 
-#' of factor.
+#' of factor. Keeps only the \code{levels} and \class{attributes}.
 #' 
 #' @inheritParams haven::as_factor
 #' @export
 #' @importFrom haven as_factor
 #' @seealso \code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
-#as_factor <- function (x, 
-#                       levels = "default", 
-#                       ordered = FALSE) {
-#  
-#  haven::as_factor(x)
-#  haven::as_factor(x, levels = levels, ordered = ordered) 
-#}
-as_factor <- haven::as_factor
+
+as_factor <- function(x, levels = "default", ordered = FALSE) {
+  
+  tmp <- haven::as_factor(x, levels = levels, ordered = ordered) 
+  
+  attribute_names <- names(attributes(tmp))
+  
+  for (a in attribute_names[!attribute_names %in% c("class", "levels")]) {
+    attr(tmp, a) <- NULL
+  }
+  
+  tmp
+}
 
 #' @export
 levels.retroharmonize_labelled_spss_survey <- function(x) {
