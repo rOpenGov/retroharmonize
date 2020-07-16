@@ -11,8 +11,15 @@ v1 <- labelled_spss_survey (
              "inap" = 9),
   na_values = 9, 
   label = "Hello")
-attributes (v1)
-attr ( v1, "label")
+
+
+test_that("coercion works", {
+  expect_true(is.numeric(c(pi, v1)))
+  expect_true(is.double(c(v1, 1)))
+  expect_error(vctrs::vec_c("hello", v1))
+  expect_equal(is.na(v1), c(F,F,F,T))
+})
+
 
 x1 <- labelled_spss_survey(
   x = 1:10, 

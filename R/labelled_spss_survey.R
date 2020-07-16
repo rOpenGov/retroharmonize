@@ -41,9 +41,9 @@
 #' @export
 
 labelled_spss_survey <- function(
-  x = double(), label = NULL, labels = NULL,
+  x = double(), labels = NULL,
   na_values = NULL, na_range = NULL, 
-  id = NULL, name_orig = NULL) {
+  label = NULL, id = NULL, name_orig = NULL) {
 
   x_vector <- vctrs::vec_data(x)
   vec_cast_named <- function(x, to, ...) {
