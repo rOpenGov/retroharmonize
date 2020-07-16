@@ -11,11 +11,15 @@
 #' programmatic context.
 #' @section harmonization functions:
 #' Creating consistent coding and labelling.
+#' @section documentation functions:
+#' Make the workflow reproducible by recording all states of the
+#' harmonization process.
 #' @section type conversion functions:
 #' Consistently treat labels and SPSS-style user-defined missing 
 #' values in the R language.
 #' \code{\link{as_numeric}}: convert to numeric values
 #' \code{\link{as_factor}}: convert to labels to factor levels
+#' \code{\link{as_character}}: convert to labels to characters
 #' @docType package
 #' @import vctrs
 #' @import rlang

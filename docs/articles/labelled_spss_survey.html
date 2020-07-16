@@ -119,7 +119,17 @@
 <span class="co">#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                </span>
 <span class="co">#&gt; [3] "haven_labelled"                     </span>
 <span class="co">#&gt; attr(,"id")</span>
-<span class="co">#&gt; [1] "survey1"</span></pre></body></html></div>
+<span class="co">#&gt; [1] "survey1"</span>
+<span class="co">#&gt; attr(,"survey1_name")</span>
+<span class="co">#&gt; [1] "c(1, 1, 0, 8, 8, 8)"</span>
+<span class="co">#&gt; attr(,"survey1_values")</span>
+<span class="co">#&gt; 0 1 8 </span>
+<span class="co">#&gt; 0 1 8 </span>
+<span class="co">#&gt; attr(,"survey1_labels")</span>
+<span class="co">#&gt;      yes       no declined </span>
+<span class="co">#&gt;        1        0        8 </span>
+<span class="co">#&gt; attr(,"survey1_na_values")</span>
+<span class="co">#&gt; [1] 8</span></pre></body></html></div>
 <p>You can check the type:</p>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="fu"><a href="../reference/labelled_spss_survey.html">is.labelled_spss_survey</a></span> (<span class="no">sl1</span>)
 <span class="co">#&gt; [1] TRUE</span></pre></body></html></div>
@@ -213,9 +223,9 @@
 </ul>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">weights1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span> (<span class="kw">n</span> <span class="kw">=</span> <span class="fl">6</span>, <span class="kw">min</span> <span class="kw">=</span> <span class="fl">0</span>, <span class="kw">max</span> <span class="kw">=</span> <span class="fl">1</span>)
 <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/numeric.html">as.numeric</a></span>(<span class="no">sl1</span>), <span class="no">weights1</span>)
-<span class="co">#&gt; [1] 5.738133</span>
+<span class="co">#&gt; [1] 3.356071</span>
 <span class="fu"><a href="https://rdrr.io/r/stats/weighted.mean.html">weighted.mean</a></span>(<span class="no">sl1</span>, <span class="no">weights1</span>)
-<span class="co">#&gt; [1] 5.738133</span></pre></body></html></div>
+<span class="co">#&gt; [1] 3.356071</span></pre></body></html></div>
 <ul>
 <li>sum()</li>
 </ul>

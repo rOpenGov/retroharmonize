@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Harmonize the values and labels of labelled vectors — harmonize_values • retroharmonize</title>
+<title>Document survey harmonization — document_survey_item • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,8 +39,8 @@
 
 
 
-<meta property="og:title" content="Harmonize the values and labels of labelled vectors — harmonize_values" />
-<meta property="og:description" content="Harmonize the values and labels of labelled vectors" />
+<meta property="og:title" content="Document survey harmonization — document_survey_item" />
+<meta property="og:description" content="Document survey harmonization" />
 
 
 
@@ -129,104 +129,101 @@
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Harmonize the values and labels of labelled vectors</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/harmonize_values.R'><code>R/harmonize_values.R</code></a></small>
-    <div class="hidden name"><code>harmonize_values.Rd</code></div>
+    <h1>Document survey harmonization</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/document_survey_item.R'><code>R/document_survey_item.R</code></a></small>
+    <div class="hidden name"><code>document_survey_item.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Harmonize the values and labels of labelled vectors</p>
+    <p>Document survey harmonization</p>
     </div>
 
-    <pre class="usage"><span class='fu'>harmonize_values</span>(
-  <span class='no'>x</span>,
-  <span class='kw'>harmonize_label</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>do_not_know</span> <span class='kw'>=</span> <span class='fl'>99997</span>, <span class='kw'>declined</span> <span class='kw'>=</span> <span class='fl'>99998</span>, <span class='kw'>inap</span> <span class='kw'>=</span> <span class='fl'>99999</span>),
-  <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey_id"</span>,
-  <span class='kw'>names_orig</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
-)</pre>
+    <pre class="usage"><span class='fu'>document_survey_item</span>(<span class='no'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>x</th>
-      <td><p>A labelled vector</p></td>
-    </tr>
-    <tr>
-      <th>harmonize_label</th>
-      <td><p>A character vector of 1L containing the new,
-harmonize variable label. Defaults to <code>NULL</code>, in which case 
-it uses the variable label of <code>x</code>, unless it is also <code>NULL</code>.</p></td>
-    </tr>
-    <tr>
-      <th>harmonize_labels</th>
-      <td><p>A list of harmonization values</p></td>
-    </tr>
-    <tr>
-      <th>na_values</th>
-      <td><p>A named vector of <code>na_values</code>, the 
-observations that are defined to be treated as missing in 
-the SPSS-style coding.</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>A survey ID, defaults to <code>survey_id</code></p></td>
+      <td><p>A labelled_spss_survey vector from a single survey
+or concatenated from several surveys.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A labelled vector that contains in its metadata attributes
-the original labelling, the original numeric coding and the current
-labelling, with the numerical values representing the harmonized
-coding.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other harmonization functions: 
-<code><a href='harmonize_na_values.html'>harmonize_na_values</a>()</code></p></div>
+    <p>Returns a list of the current and historic coding, labelling
+of the valid range and missing values or range, the history of the 
+variable names and the history of the survey IDs.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>var1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span>),
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRUST"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-             <span class='st'>"NOT TRUST"</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-             <span class='st'>"DON'T KNOW"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-             <span class='st'>"INAP. HERE"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
+<span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span>),
+<span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRUST"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+           <span class='st'>"NOT TRUST"</span> <span class='kw'>=</span> <span class='fl'>0</span>,
+           <span class='st'>"DON'T KNOW"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+           <span class='st'>"INAP. HERE"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
+<span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>9</span>))
+
+<span class='no'>var2</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>2</span>,<span class='fl'>2</span>,<span class='fl'>8</span>,<span class='fl'>9</span>,<span class='fl'>1</span>,<span class='fl'>1</span> ),
+  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Tend to trust"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
+             <span class='st'>"Tend not to trust"</span> <span class='kw'>=</span> <span class='fl'>2</span>,
+             <span class='st'>"DK"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
+             <span class='st'>"Inap"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
   <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>9</span>))
 
-<span class='fu'>harmonize_values</span> (
-  <span class='no'>var1</span>,
+<span class='no'>h1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='harmonize_values.html'>harmonize_values</a></span> (
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>var1</span>,
+  <span class='kw'>harmonize_label</span> <span class='kw'>=</span> <span class='st'>"Do you trust the European Union?"</span>,
+<span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> (
+    <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>, <span class='st'>"^tend\\snot|not\\strust"</span>, <span class='st'>"^dk|^don"</span>, <span class='st'>"^inap"</span>),
+    <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trust"</span>, <span class='st'>"not_trust"</span>, <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
+  <span class='kw'>numeric_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>99997</span>, <span class='fl'>99999</span>)),
+<span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span> <span class='kw'>=</span> <span class='fl'>99997</span>,
+              <span class='st'>"inap"</span> <span class='kw'>=</span> <span class='fl'>99999</span>),
+  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey1"</span>,
+)
+
+<span class='no'>h2</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='harmonize_values.html'>harmonize_values</a></span> (
+  <span class='kw'>x</span> <span class='kw'>=</span> <span class='no'>var2</span>,
+  <span class='kw'>harmonize_label</span> <span class='kw'>=</span> <span class='st'>"Do you trust the European Union?"</span>,
   <span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span> (
     <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\sto|^trust"</span>, <span class='st'>"^tend\\snot|not\\strust"</span>, <span class='st'>"^dk|^don"</span>, <span class='st'>"^inap"</span>),
     <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"trust"</span>, <span class='st'>"not_trust"</span>, <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>),
     <span class='kw'>numeric_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>99997</span>, <span class='fl'>99999</span>)),
-    <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span> <span class='kw'>=</span> <span class='fl'>99997</span>,
+  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span> <span class='kw'>=</span> <span class='fl'>99997</span>,
                 <span class='st'>"inap"</span> <span class='kw'>=</span> <span class='fl'>99999</span>),
-    <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey_id"</span>
-)</div><div class='output co'>#&gt; [1]     1     0     1     1     0 99997 99999
-#&gt; attr(,"labels")
-#&gt;   not_trust       trust do_not_know        inap 
-#&gt;           0           1       99997       99999 
-#&gt; attr(,"na_values")
-#&gt; [1] 99997 99999
-#&gt; attr(,"class")
-#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                
-#&gt; [3] "haven_labelled"                     
-#&gt; attr(,"id")
-#&gt; [1] "survey_id"
-#&gt; attr(,"survey_id_name")
-#&gt; [1] "var1"
-#&gt; attr(,"survey_id_values")
-#&gt;     0     1     8     9 
-#&gt;     0     1 99997 99999 
-#&gt; attr(,"survey_id_labels")
-#&gt;      TRUST  NOT TRUST DON'T KNOW INAP. HERE 
-#&gt;          1          0          8          9 
-#&gt; attr(,"survey_id_na_values")
-#&gt; [1] 8 9</div></pre>
+  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"survey2"</span>
+)
+
+<span class='no'>h3</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='concatenate.html'>concatenate</a></span>(<span class='no'>h1</span>, <span class='no'>h2</span>)
+<span class='fu'>document_survey_item</span>(<span class='no'>h3</span>)</div><div class='output co'>#&gt; $code_table
+#&gt; # A tibble: 4 x 7
+#&gt;   values survey1_values survey2_values labels survey1_labels survey2_labels
+#&gt;    &lt;dbl&gt;          &lt;dbl&gt;          &lt;dbl&gt; &lt;chr&gt;  &lt;chr&gt;          &lt;chr&gt;         
+#&gt; 1      0              1              1 not_t~ TRUST          Tend to trust 
+#&gt; 2      1              0              2 trust  NOT TRUST      Tend not to t~
+#&gt; 3  99997              8              8 do_no~ DON'T KNOW     DK            
+#&gt; 4  99999              9              9 inap   INAP. HERE     Inap          
+#&gt; # ... with 1 more variable: missing &lt;lgl&gt;
+#&gt; 
+#&gt; $history_var_name
+#&gt;         name survey1_name survey2_name 
+#&gt;         "h3"       "var1"       "var2" 
+#&gt; 
+#&gt; $history_var_label
+#&gt;                              label                      survey1_label 
+#&gt; "Do you trust the European Union?" "Do you trust the European Union?" 
+#&gt;                      survey2_label 
+#&gt; "Do you trust the European Union?" 
+#&gt; 
+#&gt; $history_na_range
+#&gt; character(0)
+#&gt; 
+#&gt; $history_id
+#&gt; [1] "survey1" "survey2"
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

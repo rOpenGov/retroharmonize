@@ -104,9 +104,9 @@ library(retroharmonize)
 library(haven)
 #> 
 #> Attaching package: 'haven'
-#> The following object is masked from 'package:retroharmonize':
+#> The following objects are masked from 'package:retroharmonize':
 #> 
-#>     read_spss
+#>     as_factor, read_spss
 
 h2 <- harmonize_values(
   eb$qa14_2,  
@@ -116,38 +116,107 @@ h2 <- harmonize_values(
     numeric_values = c(1,0,99997,99999)
     ), 
   id = attr(eb, "id") )
-str(h2)
-#>  dbl+lbl [1:45]     0,     1,     1, 99997,     1,     1,     1, 99997, 999...
-#>  @ labels                             : Named num [1:4] 0 1 99997 99999
-#>   ..- attr(*, "names")= chr [1:4] "not_trust" "trust" "do_not_know" "inap"
-#>  @ na_values                          : num [1:2] 99997 99999
-#>  @ Eurobarometer_91_5_subsample_labels: Named num [1:4] 1 2 3 9
-#>   ..- attr(*, "names")= chr [1:4] "Tend to trust" "Tend not to trust" "DK" "Inap. (not CY-TCC in isocntry and not 1 in eu28)"
-#>  @ Eurobarometer_91_5_subsample_values: Named num [1:4] 0 1 99997 99999
-#>   ..- attr(*, "names")= chr [1:4] "2" "1" "3" "9"
-#>  @ id                                 : chr "Eurobarometer_91_5_subsample"
+
+h2_documentation <- document_survey_item(h2)
 ```
 
 ``` r
-#the label ordering is not yet harmonized!!!
-tibble::tibble (
-  values  = labelled::val_labels(h2), 
-  labels = names(labelled::val_labels(h2)),
-  label_orig = names(attr(h2, "Eurobarometer_91_5_subsample_labels")),
-  values_orig = names(attr(h2, "Eurobarometer_91_5_subsample_values"))
+h2_documentation$code_table
+#> # A tibble: 4 x 5
+#>   values Eurobarometer_91_5_subs~ labels   Eurobarometer_91_5_subsample~ missing
+#>    <dbl>                    <dbl> <chr>    <chr>                         <lgl>  
+#> 1      0                        1 not_tru~ Tend to trust                 FALSE  
+#> 2      1                        2 trust    Tend not to trust             FALSE  
+#> 3  99997                        3 do_not_~ DK                            TRUE   
+#> 4  99999                        9 inap     Inap. (not CY-TCC in isocntr~ TRUE
+```
+
+``` r
+h2_documentation$history_var_name
+#>                              name Eurobarometer_91_5_subsample_name 
+#>                              "h2"                       "eb$qa14_2"
+```
+
+``` r
+h2_documentation$history_var_label
+#>                              label Eurobarometer_91_5_subsample_label 
+#>      "EUROPEAN COMMISSION - TRUST"      "EUROPEAN COMMISSION - TRUST"
+```
+
+## Create a panel
+
+``` r
+var1 <- labelled::labelled_spss(
+  x = c(1,0,1,1,0,8,9), 
+  labels = c("TRUST" = 1, 
+             "NOT TRUST" = 0, 
+             "DON'T KNOW" = 8, 
+             "INAP. HERE" = 9), 
+  na_values = c(8,9))
+
+var2 <- labelled::labelled_spss(
+  x = c(2,2,8,9,1,1 ), 
+  labels = c("Tend to trust" = 1, 
+             "Tend not to trust" = 2, 
+             "DK" = 8, 
+             "Inap" = 9), 
+  na_values = c(8,9))
+
+
+h1 <- harmonize_values (
+  x = var1, 
+  harmonize_label = "Do you trust the European Union?",
+  harmonize_labels = list ( 
+    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"),
+    numeric_values = c(1,0,99997, 99999)), 
+  na_values = c("do_not_know" = 99997,
+                "inap" = 99999), 
+  id = "survey1",
+
 )
-#> # A tibble: 4 x 4
-#>   values labels      label_orig                                      values_orig
-#>    <dbl> <chr>       <chr>                                           <chr>      
-#> 1      0 not_trust   Tend to trust                                   2          
-#> 2      1 trust       Tend not to trust                               1          
-#> 3  99997 do_not_know DK                                              3          
-#> 4  99999 inap        Inap. (not CY-TCC in isocntry and not 1 in eu2~ 9
+
+h2 <- harmonize_values (
+  x = var2, 
+  harmonize_label = "Do you trust the European Union?",
+  harmonize_labels = list ( 
+    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"),
+    numeric_values = c(1,0,99997, 99999)), 
+  na_values = c("do_not_know" = 99997,
+                "inap" = 99999), 
+  id = "survey2"
+)
+
+a <- tibble::tibble ( rowid = paste0("survey1", 1:length(h1)),
+                      hvar = h1, 
+                      w = runif(n = length(h1), 0,1))
+b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
+                      hvar  = h2, 
+                      w = runif(n = length(h2), 0,1))
+
+dplyr::bind_rows(a,b)
+#> # A tibble: 13 x 3
+#>    rowid                        hvar      w
+#>    <chr>                <retroh_dbl>  <dbl>
+#>  1 survey11     1 [trust]            0.588 
+#>  2 survey12     0 [not_trust]        0.808 
+#>  3 survey13     1 [trust]            0.256 
+#>  4 survey14     1 [trust]            0.657 
+#>  5 survey15     0 [not_trust]        0.721 
+#>  6 survey16 99997 (NA) [do_not_know] 0.171 
+#>  7 survey17 99999 (NA) [inap]        0.781 
+#>  8 survey21     0 [not_trust]        0.308 
+#>  9 survey22     0 [not_trust]        0.245 
+#> 10 survey23 99997 (NA) [do_not_know] 0.0227
+#> 11 survey24 99999 (NA) [inap]        0.963 
+#> 12 survey25     1 [trust]            0.0277
+#> 13 survey26     1 [trust]            0.928
 ```
 
 ## Code of Conduct
 
-Please note that the surveyharmonize project is released with a
+Please note that the retroharmonize project is released with a
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

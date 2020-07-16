@@ -153,9 +153,9 @@
 <span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">haven</span>)
 <span class="co">#&gt; </span>
 <span class="co">#&gt; Attaching package: 'haven'</span>
-<span class="co">#&gt; The following object is masked from 'package:retroharmonize':</span>
+<span class="co">#&gt; The following objects are masked from 'package:retroharmonize':</span>
 <span class="co">#&gt; </span>
-<span class="co">#&gt;     read_spss</span>
+<span class="co">#&gt;     as_factor, read_spss</span>
 
 <span class="no">h2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/harmonize_values.html">harmonize_values</a></span>(
   <span class="no">eb</span>$<span class="no">qa14_2</span>,
@@ -165,35 +165,97 @@
     <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">99997</span>,<span class="fl">99999</span>)
     ),
   <span class="kw">id</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">eb</span>, <span class="st">"id"</span>) )
-<span class="fu"><a href="https://rdrr.io/r/utils/str.html">str</a></span>(<span class="no">h2</span>)
-<span class="co">#&gt;  dbl+lbl [1:45]     0,     1,     1, 99997,     1,     1,     1, 99997, 999...</span>
-<span class="co">#&gt;  @ labels                             : Named num [1:4] 0 1 99997 99999</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "not_trust" "trust" "do_not_know" "inap"</span>
-<span class="co">#&gt;  @ na_values                          : num [1:2] 99997 99999</span>
-<span class="co">#&gt;  @ Eurobarometer_91_5_subsample_labels: Named num [1:4] 1 2 3 9</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "Tend to trust" "Tend not to trust" "DK" "Inap. (not CY-TCC in isocntry and not 1 in eu28)"</span>
-<span class="co">#&gt;  @ Eurobarometer_91_5_subsample_values: Named num [1:4] 0 1 99997 99999</span>
-<span class="co">#&gt;   ..- attr(*, "names")= chr [1:4] "2" "1" "3" "9"</span>
-<span class="co">#&gt;  @ id                                 : chr "Eurobarometer_91_5_subsample"</span></pre></div>
-<div class="sourceCode" id="cb5"><pre class="r"><span class="co">#the label ordering is not yet harmonized!!!</span>
-<span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span> (
-  <span class="kw">values</span>  <span class="kw">=</span> <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">h2</span>),
-  <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">h2</span>)),
-  <span class="kw">label_orig</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">h2</span>, <span class="st">"Eurobarometer_91_5_subsample_labels"</span>)),
-  <span class="kw">values_orig</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/names.html">names</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">h2</span>, <span class="st">"Eurobarometer_91_5_subsample_values"</span>))
+
+<span class="no">h2_documentation</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/document_survey_item.html">document_survey_item</a></span>(<span class="no">h2</span>)</pre></div>
+<div class="sourceCode" id="cb5"><pre class="r"><span class="no">h2_documentation</span>$<span class="no">code_table</span>
+<span class="co">#&gt; # A tibble: 4 x 5</span>
+<span class="co">#&gt;   values Eurobarometer_91_5_subs~ labels   Eurobarometer_91_5_subsample~ missing</span>
+<span class="co">#&gt;    &lt;dbl&gt;                    &lt;dbl&gt; &lt;chr&gt;    &lt;chr&gt;                         &lt;lgl&gt;  </span>
+<span class="co">#&gt; 1      0                        1 not_tru~ Tend to trust                 FALSE  </span>
+<span class="co">#&gt; 2      1                        2 trust    Tend not to trust             FALSE  </span>
+<span class="co">#&gt; 3  99997                        3 do_not_~ DK                            TRUE   </span>
+<span class="co">#&gt; 4  99999                        9 inap     Inap. (not CY-TCC in isocntr~ TRUE</span></pre></div>
+<div class="sourceCode" id="cb6"><pre class="r"><span class="no">h2_documentation</span>$<span class="no">history_var_name</span>
+<span class="co">#&gt;                              name Eurobarometer_91_5_subsample_name </span>
+<span class="co">#&gt;                              "h2"                       "eb$qa14_2"</span></pre></div>
+<div class="sourceCode" id="cb7"><pre class="r"><span class="no">h2_documentation</span>$<span class="no">history_var_label</span>
+<span class="co">#&gt;                              label Eurobarometer_91_5_subsample_label </span>
+<span class="co">#&gt;      "EUROPEAN COMMISSION - TRUST"      "EUROPEAN COMMISSION - TRUST"</span></pre></div>
+</div>
+<div id="create-a-panel" class="section level2">
+<h2 class="hasAnchor">
+<a href="#create-a-panel" class="anchor"></a>Create a panel</h2>
+<div class="sourceCode" id="cb8"><pre class="r"><span class="no">var1</span> <span class="kw">&lt;-</span> <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/reexports.html">labelled_spss</a></span>(
+  <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">8</span>,<span class="fl">9</span>),
+  <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TRUST"</span> <span class="kw">=</span> <span class="fl">1</span>,
+             <span class="st">"NOT TRUST"</span> <span class="kw">=</span> <span class="fl">0</span>,
+             <span class="st">"DON'T KNOW"</span> <span class="kw">=</span> <span class="fl">8</span>,
+             <span class="st">"INAP. HERE"</span> <span class="kw">=</span> <span class="fl">9</span>),
+  <span class="kw">na_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">8</span>,<span class="fl">9</span>))
+
+<span class="no">var2</span> <span class="kw">&lt;-</span> <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/reexports.html">labelled_spss</a></span>(
+  <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">2</span>,<span class="fl">2</span>,<span class="fl">8</span>,<span class="fl">9</span>,<span class="fl">1</span>,<span class="fl">1</span> ),
+  <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Tend to trust"</span> <span class="kw">=</span> <span class="fl">1</span>,
+             <span class="st">"Tend not to trust"</span> <span class="kw">=</span> <span class="fl">2</span>,
+             <span class="st">"DK"</span> <span class="kw">=</span> <span class="fl">8</span>,
+             <span class="st">"Inap"</span> <span class="kw">=</span> <span class="fl">9</span>),
+  <span class="kw">na_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">8</span>,<span class="fl">9</span>))
+
+
+<span class="no">h1</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/harmonize_values.html">harmonize_values</a></span> (
+  <span class="kw">x</span> <span class="kw">=</span> <span class="no">var1</span>,
+  <span class="kw">harmonize_label</span> <span class="kw">=</span> <span class="st">"Do you trust the European Union?"</span>,
+  <span class="kw">harmonize_labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span> (
+    <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^tend\\sto|^trust"</span>, <span class="st">"^tend\\snot|not\\strust"</span>, <span class="st">"^dk|^don"</span>, <span class="st">"^inap"</span>),
+    <span class="kw">to</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"trust"</span>, <span class="st">"not_trust"</span>, <span class="st">"do_not_know"</span>, <span class="st">"inap"</span>),
+    <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">99997</span>, <span class="fl">99999</span>)),
+  <span class="kw">na_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"do_not_know"</span> <span class="kw">=</span> <span class="fl">99997</span>,
+                <span class="st">"inap"</span> <span class="kw">=</span> <span class="fl">99999</span>),
+  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"survey1"</span>,
+
 )
-<span class="co">#&gt; # A tibble: 4 x 4</span>
-<span class="co">#&gt;   values labels      label_orig                                      values_orig</span>
-<span class="co">#&gt;    &lt;dbl&gt; &lt;chr&gt;       &lt;chr&gt;                                           &lt;chr&gt;      </span>
-<span class="co">#&gt; 1      0 not_trust   Tend to trust                                   2          </span>
-<span class="co">#&gt; 2      1 trust       Tend not to trust                               1          </span>
-<span class="co">#&gt; 3  99997 do_not_know DK                                              3          </span>
-<span class="co">#&gt; 4  99999 inap        Inap. (not CY-TCC in isocntry and not 1 in eu2~ 9</span></pre></div>
+
+<span class="no">h2</span> <span class="kw">&lt;-</span> <span class="fu"><a href="reference/harmonize_values.html">harmonize_values</a></span> (
+  <span class="kw">x</span> <span class="kw">=</span> <span class="no">var2</span>,
+  <span class="kw">harmonize_label</span> <span class="kw">=</span> <span class="st">"Do you trust the European Union?"</span>,
+  <span class="kw">harmonize_labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span> (
+    <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^tend\\sto|^trust"</span>, <span class="st">"^tend\\snot|not\\strust"</span>, <span class="st">"^dk|^don"</span>, <span class="st">"^inap"</span>),
+    <span class="kw">to</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"trust"</span>, <span class="st">"not_trust"</span>, <span class="st">"do_not_know"</span>, <span class="st">"inap"</span>),
+    <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">99997</span>, <span class="fl">99999</span>)),
+  <span class="kw">na_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"do_not_know"</span> <span class="kw">=</span> <span class="fl">99997</span>,
+                <span class="st">"inap"</span> <span class="kw">=</span> <span class="fl">99999</span>),
+  <span class="kw">id</span> <span class="kw">=</span> <span class="st">"survey2"</span>
+)
+
+<span class="no">a</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span> ( <span class="kw">rowid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"survey1"</span>, <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">h1</span>)),
+                      <span class="kw">hvar</span> <span class="kw">=</span> <span class="no">h1</span>,
+                      <span class="kw">w</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">h1</span>), <span class="fl">0</span>,<span class="fl">1</span>))
+<span class="no">b</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span> ( <span class="kw">rowid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"survey2"</span>, <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">h2</span>)),
+                      <span class="kw">hvar</span>  <span class="kw">=</span> <span class="no">h2</span>,
+                      <span class="kw">w</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">h2</span>), <span class="fl">0</span>,<span class="fl">1</span>))
+
+<span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">a</span>,<span class="no">b</span>)
+<span class="co">#&gt; # A tibble: 13 x 3</span>
+<span class="co">#&gt;    rowid                        hvar      w</span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 survey11     1 [trust]            0.588 </span>
+<span class="co">#&gt;  2 survey12     0 [not_trust]        0.808 </span>
+<span class="co">#&gt;  3 survey13     1 [trust]            0.256 </span>
+<span class="co">#&gt;  4 survey14     1 [trust]            0.657 </span>
+<span class="co">#&gt;  5 survey15     0 [not_trust]        0.721 </span>
+<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.171 </span>
+<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.781 </span>
+<span class="co">#&gt;  8 survey21     0 [not_trust]        0.308 </span>
+<span class="co">#&gt;  9 survey22     0 [not_trust]        0.245 </span>
+<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.0227</span>
+<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.963 </span>
+<span class="co">#&gt; 12 survey25     1 [trust]            0.0277</span>
+<span class="co">#&gt; 13 survey26     1 [trust]            0.928</span></pre></div>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the surveyharmonize project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the retroharmonize project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </div>

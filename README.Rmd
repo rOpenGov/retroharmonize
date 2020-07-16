@@ -75,18 +75,77 @@ h2 <- harmonize_values(
     numeric_values = c(1,0,99997,99999)
     ), 
   id = attr(eb, "id") )
-str(h2)
+
+h2_documentation <- document_survey_item(h2)
+```
+
+```{r}
+h2_documentation$code_table
+```
+
+```{r}
+h2_documentation$history_var_name
 ```
 ```{r}
-#the label ordering is not yet harmonized!!!
-tibble::tibble (
-  values  = labelled::val_labels(h2), 
-  labels = names(labelled::val_labels(h2)),
-  label_orig = names(attr(h2, "Eurobarometer_91_5_subsample_labels")),
-  values_orig = names(attr(h2, "Eurobarometer_91_5_subsample_values"))
-)
+h2_documentation$history_var_label
 ```
+
+## Create a panel
+
+```{r}
+var1 <- labelled::labelled_spss(
+  x = c(1,0,1,1,0,8,9), 
+  labels = c("TRUST" = 1, 
+             "NOT TRUST" = 0, 
+             "DON'T KNOW" = 8, 
+             "INAP. HERE" = 9), 
+  na_values = c(8,9))
+
+var2 <- labelled::labelled_spss(
+  x = c(2,2,8,9,1,1 ), 
+  labels = c("Tend to trust" = 1, 
+             "Tend not to trust" = 2, 
+             "DK" = 8, 
+             "Inap" = 9), 
+  na_values = c(8,9))
+
+
+h1 <- harmonize_values (
+  x = var1, 
+  harmonize_label = "Do you trust the European Union?",
+  harmonize_labels = list ( 
+    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"),
+    numeric_values = c(1,0,99997, 99999)), 
+  na_values = c("do_not_know" = 99997,
+                "inap" = 99999), 
+  id = "survey1",
+
+)
+
+h2 <- harmonize_values (
+  x = var2, 
+  harmonize_label = "Do you trust the European Union?",
+  harmonize_labels = list ( 
+    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+    to = c("trust", "not_trust", "do_not_know", "inap"),
+    numeric_values = c(1,0,99997, 99999)), 
+  na_values = c("do_not_know" = 99997,
+                "inap" = 99999), 
+  id = "survey2"
+)
+
+a <- tibble::tibble ( rowid = paste0("survey1", 1:length(h1)),
+                      hvar = h1, 
+                      w = runif(n = length(h1), 0,1))
+b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
+                      hvar  = h2, 
+                      w = runif(n = length(h2), 0,1))
+
+dplyr::bind_rows(a,b)
+```
+
 
 ## Code of Conduct
 
-Please note that the surveyharmonize project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the retroharmonize project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
