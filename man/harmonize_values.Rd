@@ -11,7 +11,7 @@ harmonize_values(
   na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
   na_range = NULL,
   id = "survey_id",
-  names_orig = NULL
+  name_orig = NULL
 )
 }
 \arguments{
@@ -23,7 +23,11 @@ it uses the variable label of \code{x}, unless it is also \code{NULL}.}
 
 \item{harmonize_labels}{A list of harmonization values}
 
-\item{na_values}{A min, max range of  \code{na_range}, the 
+\item{na_values}{A named vector of \code{na_values}, the 
+observations that are defined to be treated as missing in 
+the SPSS-style coding.}
+
+\item{na_range}{A min, max range of  \code{na_range}, the 
 continuous missing value range. In most surveys this should be left 
 \code{NULL}.}
 
