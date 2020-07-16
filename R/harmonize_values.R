@@ -10,12 +10,12 @@
 #' the SPSS-style coding.
 #' @param id A survey ID, defaults to \code{survey_id}
 #' @importFrom labelled to_character labelled na_values val_labels
+#' @importFrom labelled var_label
 #' @importFrom tibble tibble 
 #' @importFrom dplyr mutate left_join distinct select
 #' @importFrom tidyselect all_of
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
-#' @importFrom vctrs vec_data
 #' @return A labelled vector that contains in its metadata attributes
 #' the original labelling, the original numeric coding and the current
 #' labelling, with the numerical values representing the harmonized
@@ -66,7 +66,9 @@ harmonize_values <- function(
   original_x_name <- deparse(substitute(x))  
   
   ## Set a label, if it is present but not given.
-  if (is.null(harmonize_label)) harmonize_label <- attr(x, "label")
+  if (is.null(harmonize_label)) { 
+    harmonize_label <- labelled::var_label(x)
+    }
   
   if ( !is.null(harmonize_labels)) {
     harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
@@ -102,7 +104,7 @@ harmonize_values <- function(
       dplyr::select ( tidyselect::all_of(c("to", "numeric_values"))) %>%
       stats::setNames( c("new_labels", "new_values"))
     
-    code_table <- left_join ( code_table, 
+    code_table <- dplyr::left_join ( code_table, 
                               add_new_values, 
                               by = "new_labels")
     code_table$original_values <- NULL
@@ -160,9 +162,9 @@ harmonize_values <- function(
   names(original_numeric_values) <- original_numerics$x
   
   # create new numerics
-  new_numerics <- tibble( 
-    x = original_x) %>%
-    left_join (original_numerics, by = 'x' )
+  new_numerics <- 
+    tibble::tibble( x = original_x) %>%
+    dplyr::left_join (original_numerics, by = 'x' )
 
   return_value <- labelled_spss_survey(
     x = new_numerics$new_values,
@@ -195,11 +197,14 @@ validate_harmonize_labels <- function( harmonize_labels ) {
     }
     
   if( !all( 
-    sort (names ( harmonize_labels )) == c("from", "numeric_values", "to")) ) {
+    sort (names ( harmonize_labels )) 
+    == c("from", "numeric_values", "to")) ) {
       stop( "<harmonize_label> must have <from>, <to>, <numeric_values> of equal lengths.")
     }
     
-  if(length(unique(vapply(harmonize_labels, length, integer(1)))) !=1) {
+  if(length(
+    unique(vapply(harmonize_labels, length, integer(1)))
+    ) !=1) {
       stop("<harmonize_label> must have <from>, <to>, <numeric_values> of equal lengths.")
     }
   } else if ( inherits(harmonize_labels, "data.frame") ) {

@@ -1,7 +1,5 @@
 ## Internal functions not to be exported ----------------------
 
-
-
 cat_line <- function(...) {
   # identical to haven:::cat_line
   cat(paste0(..., "\n", collapse = ""))

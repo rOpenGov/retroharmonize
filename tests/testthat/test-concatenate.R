@@ -41,9 +41,6 @@ h2 <- harmonize_values (
   id = "survey2"
 )
 
-vec_data(h1)
-vec_data(var2)
-vec_data(h2)
 h3 <- concatenate(h1, h2)
 
 test_that("correct values are returned", {
@@ -55,7 +52,6 @@ test_that("correct values are returned", {
   
 })
 
-length(h1)
 
 a <- tibble::tibble ( rowid = paste0("survey1", 1:length(h1)),
                       hvar = h1, 
@@ -64,8 +60,10 @@ b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
                       hvar  = h2, 
                       w = runif(n = length(h2), 0,1))
 
-library(vctrs)
-vec_c (h1,h2)
+c <- dplyr::bind_rows(a,b)
 
-vec_rbind(a, b)
-dplyr::bind_rows(a, b)
+d <- rbind(a,b)
+
+attr(d$hvar, "survey2_labels")
+attr(c$hvar, "survey1_labels")
+

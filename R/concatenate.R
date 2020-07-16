@@ -120,3 +120,37 @@ validate_concatenate <- function(x, y) {
   }
   
 }
+
+joining_attributes <- function(x, y) {
+  s1 <- attributes (x)
+  s2 <- attributes (y)
+  same_attributes <- intersect(names(s1), names(s2))
+  compare_attributes <- vapply ( same_attributes, function(x) setequal(s1[[x]],s2[[x]]), logical(1))
+  matching_arguments <- names(compare_attributes[ compare_attributes == TRUE ]) 
+  
+  
+  c_vector <- structure(
+    vctrs::vec_c(vctrs::vec_data(x), 
+                 vctrs::vec_data(y)),
+    id = c(attr(x,"id"), attr(y,"id"))
+  )
+  c_vector
+  
+  
+  for ( i in matching_arguments) {
+    attr(c_vector, i) <- attr(x, i)
+  }
+  
+  for (x_attr in setdiff(names(s1), names(s2))) {
+    
+    attr(c_vector, x_attr) <- attr(x, x_attr)
+    
+  }
+  
+  for (y_attr in setdiff(names(s2), names(s1))) {
+    attr(c_vector, y_attr) <- attr(y, y_attr)
+  }
+  
+  c_vector
+  
+}

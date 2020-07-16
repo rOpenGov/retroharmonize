@@ -1,3 +1,19 @@
+
+empty <- labelled_spss_survey(label = "hello")
+test_that("label is correct", {
+  expect_equal(attr(empty, "label"), "hello")
+})
+
+v1 <- labelled_spss_survey (
+  x = c(1,0,1,9), 
+  labels = c("yes" =1,
+             "no" = 0,
+             "inap" = 9),
+  na_values = 9, 
+  label = "Hello")
+attributes (v1)
+attr ( v1, "label")
+
 x1 <- labelled_spss_survey(
   x = 1:10, 
   labels = c(Good = 1, Bad = 8), 
