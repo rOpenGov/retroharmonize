@@ -217,7 +217,7 @@ as_character <- function(x) {
 #' Convert labelled_spss_survey vector To Factor
 #' 
 #' Convert a \code{\link{labelled_spss_survey}} vector to a type 
-#' of factor. Keeps only the \code{levels} and \class{attributes}.
+#' of factor. Keeps only the \code{levels} and \code{class} attributes.
 #' 
 #' @inheritParams haven::as_factor
 #' @export

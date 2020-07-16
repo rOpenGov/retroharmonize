@@ -23,7 +23,7 @@ Labels are sorted by value.
 }
 \description{
 Convert a \code{\link{labelled_spss_survey}} vector to a type 
-of factor. Keeps only the \code{levels} and \class{attributes}.
+of factor. Keeps only the \code{levels} and \code{class} attributes.
 }
 \seealso{
 \code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
