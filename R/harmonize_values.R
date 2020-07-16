@@ -8,6 +8,11 @@
 #' @param na_values A named vector of \code{na_values}, the 
 #' observations that are defined to be treated as missing in 
 #' the SPSS-style coding.
+#' @param na_values A min, max range of  \code{na_range}, the 
+#' continuous missing value range. In most surveys this should be left 
+#' \code{NULL}.
+#' @param  name_orig The original name of the variable. If left \code{NULL}
+#' it uses the latest name of the object \code{x}.
 #' @param id A survey ID, defaults to \code{survey_id}
 #' @importFrom labelled to_character labelled na_values val_labels
 #' @importFrom labelled var_label
@@ -52,6 +57,8 @@ harmonize_values <- function(
   na_range = NULL,
   id = "survey_id",
   names_orig = NULL ) {
+  
+  new_values <- NULL
   
   if (is.null(id)) { 
     # if not otherwise stated, inherit the ID of x, if present

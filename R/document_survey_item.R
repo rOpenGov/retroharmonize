@@ -55,6 +55,7 @@
 #' @export
 
 document_survey_item <- function(x) {
+  values <- NULL
   
   attribute_names <- names(attributes(x))
   original_x_name <- deparse(substitute(x)) 

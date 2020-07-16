@@ -23,11 +23,14 @@ it uses the variable label of \code{x}, unless it is also \code{NULL}.}
 
 \item{harmonize_labels}{A list of harmonization values}
 
-\item{na_values}{A named vector of \code{na_values}, the 
-observations that are defined to be treated as missing in 
-the SPSS-style coding.}
+\item{na_values}{A min, max range of  \code{na_range}, the 
+continuous missing value range. In most surveys this should be left 
+\code{NULL}.}
 
 \item{id}{A survey ID, defaults to \code{survey_id}}
+
+\item{name_orig}{The original name of the variable. If left \code{NULL}
+it uses the latest name of the object \code{x}.}
 }
 \value{
 A labelled vector that contains in its metadata attributes

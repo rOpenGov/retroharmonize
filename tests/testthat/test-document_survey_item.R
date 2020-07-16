@@ -43,7 +43,7 @@ h2 <- harmonize_values (
 
 h3 <- concatenate(h1, h2)
 
-documented <- document_survey(h3)
+documented <- document_survey_item(h3)
 
 
 test_that("attributes are present", {

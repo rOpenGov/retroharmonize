@@ -10,6 +10,8 @@
 #' coercion and validation rules.
 #'
 #' @param id Survey ID
+#' @param  name_orig The original name of the variable. If left \code{NULL}
+#' it uses the latest name of the object \code{x}.
 #' @rdname labelled_spss_survey
 #' @importFrom haven labelled labelled_spss as_factor
 #' @inheritParams haven::labelled_spss
@@ -452,6 +454,7 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
   c_vector
 }
 
+#' @importFrom haven is_tagged_na
 #' @export
 vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey <- function(x, to, ..., x_arg = "", to_arg = "") {
   out_data <- vec_cast(vec_data(x), vec_data(to), ..., x_arg = x_arg, to_arg = to_arg)
@@ -523,7 +526,7 @@ vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey
   
   # do we lose tagged na values? from haven
   if (is.double(x) && !is.double(out)) {
-    lossy <- is_tagged_na(x)
+    lossy <- haven::is_tagged_na(x)
     maybe_lossy_cast(out, x, to, lossy,
                      x_arg = x_arg,
                      to_arg = to_arg,

@@ -40,6 +40,9 @@ open ended.}
 \item{label}{A short, human-readable description of the vector.}
 
 \item{id}{Survey ID}
+
+\item{name_orig}{The original name of the variable. If left \code{NULL}
+it uses the latest name of the object \code{x}.}
 }
 \description{
 This class is amending \code{haven::\link[haven:labelled_spss]{labelled_spss}} with a unique object
