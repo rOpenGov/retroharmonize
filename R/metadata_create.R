@@ -51,8 +51,8 @@ metadata_create <- function( survey ) {
             0, 
             n-ifelse ( is.null(l), 0, l))}
   
-  value_labels_df$n_na_values  <- lapply (survey, number_na_values)
-  value_labels_df$n_cat_values <- lapply (survey, number_valid_values)
+  value_labels_df$n_na_values  <- as.numeric(unlist(lapply (survey, number_na_values)))
+  value_labels_df$n_cat_values <- as.numeric(unlist(lapply (survey, number_valid_values)))
   
   metadata %>%
     dplyr::left_join ( value_labels_df, 
