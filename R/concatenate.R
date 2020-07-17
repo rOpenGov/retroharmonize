@@ -43,6 +43,7 @@ concatenate <- function(x, y) {
     }
   
   validate_concatenate(x, y)
+
   label_x <- attr(x, "label")
   label_y <- attr(y, "label")
 
@@ -53,11 +54,6 @@ concatenate <- function(x, y) {
     } else {
       warning("The variable label of x <", label_x, "> will be used as variable label.")
     }
-
-    all.equal( label_x, label_y )
-
-    label_x
-    label_y
 
   } else {
     if ( ! all.equal( label_x, label_y ) ) {
