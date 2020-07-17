@@ -45,7 +45,7 @@ metadata_create <- function( survey ) {
       .f == "labels" ~ sapply ( survey, labelled::val_labels))
     
     x[sapply(x, is.null)] <- ""
-    
+   
     df <- purrr::map(x, list)
     names(df) <- rep(.f, length(df))
     df
