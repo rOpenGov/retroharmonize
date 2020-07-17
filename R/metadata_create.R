@@ -15,11 +15,11 @@
 
 metadata_create <- function( survey ) {
   
-  label_orig <- sapply ( survey, labelled::var_label)
+  label_orig <- as.character(sapply ( survey, labelled::var_label))
   
   metadata <- tibble::tibble (
     var_name_orig = names(survey), 
-    class_orig =  sapply( survey, function(x) class(x)[1]), 
+    class_orig =  as.character(sapply( survey, function(x) class(x)[1])), 
     label_orig = ifelse ( vapply(label_orig, is.null, logical(1)), 
                           "", 
                           unlist(label_orig)) %>%
@@ -32,8 +32,8 @@ metadata_create <- function( survey ) {
   value_labels_df <- data.frame (
     var_name_orig = names ( val_labels_orig  )
   )
-  value_labels_df$labels <- val_labels_orig
-  value_labels_df$na_levels <- sapply ( survey, labelled::na_values)
+  value_labels_df$labels <- as.character(val_labels_orig)
+  value_labels_df$na_values <- sapply ( survey, labelled::na_values)
   value_labels_df$na_range <-  sapply ( survey, labelled::na_range )
   
   
