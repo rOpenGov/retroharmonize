@@ -9,6 +9,10 @@ metadata_create(survey)
 \arguments{
 \item{survey}{A survey data frame.}
 }
+\value{
+A nested data frame with metadata and the range of 
+labels, na_values and the na_range itself.
+}
 \description{
 Create a metadata table
 }

@@ -35,7 +35,8 @@ Imports:
     assertthat,
     tidyselect,
     pillar,
-    snakecase
+    snakecase,
+    purrr
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 3.5.0)
