@@ -63,7 +63,7 @@ labelled_spss_survey <- function(
   if ( is.null(id) ) id <- name_orig
     
   tmp <- new_labelled_spss_survey(
-    vec_data(labelled),
+    vctrs::vec_data(labelled),
     labels = labels,
     label = label,
     na_values = na_values,
@@ -130,7 +130,7 @@ get_labeltext <- function(x, prefix=": ") {
 
 #' @export
 vec_ptype_full.retroharmonize_labelled_spss_survey <- function(x, ...) {
-  paste0("labelled_spss_survey<", vec_ptype_full(vec_data(x)), ">")
+  paste0("labelled_spss_survey<", vec_ptype_full(vctrs::vec_data(x)), ">")
 }
 
 #' @export
@@ -138,9 +138,9 @@ vec_ptype_abbr.retroharmonize_labelled_spss_survey <- function(x, ...) {
  
   if ( vec_ptype_full(vec_data(x)) == "character" ) {
     "retroh_chr"
-  } else if ( vec_ptype_full(vec_data(x)) == "integer") {
+  } else if ( vec_ptype_full(vctrs::vec_data(x)) == "integer") {
     "retroh_int"
-  } else if (vec_ptype_full(vec_data(x)) == "double") {
+  } else if (vec_ptype_full(vctrs::vec_data(x)) == "double") {
     "retroh_dbl"
   } else {
     "retroh"
@@ -193,7 +193,7 @@ obj_print_footer.retroharmonize_labelled_spss_survey <- function(x, ...) {
 #' @export
 is.na.retroharmonize_labelled_spss_survey <- function(x) {
   miss <- NextMethod()
-  val <- vec_data(x)
+  val <- vctrs::vec_data(x)
 
   na_values <- attr(x, "na_values")
   if (!is.null(na_values)) {
@@ -255,7 +255,7 @@ format.retroharmonize_labelled_spss_survey <- function(x, ..., digits = getOptio
   if (is.double(x)) {
     haven::format_tagged_na(x, digits = digits)
   } else {
-    format(vec_data(x), ...)
+    format(vctrs::vec_data(x), ...)
   }
 }
 
@@ -284,13 +284,13 @@ vec_ptype2.retroharmonize_labelled_spss_survey.integer <- function(x, y, ...) do
 
 
 #' @export
-vec_cast.double.retroharmonize_labelled_spss_survey  <- function(x, to, ...) vec_cast(vec_data(x), to)
+vec_cast.double.retroharmonize_labelled_spss_survey  <- function(x, to, ...) vec_cast(vctrs::vec_data(x), to)
 #' @export
-vec_cast.integer.retroharmonize_labelled_spss_survey  <- function(x, to, ...) vec_cast(vec_data(x), to)
+vec_cast.integer.retroharmonize_labelled_spss_survey  <- function(x, to, ...) vec_cast(vctrs::vec_data(x), to)
 #' @export
 vec_cast.character.retroharmonize_labelled_spss_survey  <- function(x, to, ...) {
   if (is.character(x)) {
-    vec_cast(vec_data(x), to, ...)
+    vec_cast(vctrs::vec_data(x), to, ...)
   } else {
     stop_incompatible_cast(x, to, ...)
   }
