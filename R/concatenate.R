@@ -5,8 +5,8 @@
 #' @return A concatenated haven_labelled_spss vector. Returns an error
 #' if the attributes do not match. Gives a warning when only the variable
 #' label do not match.
-#' @importFrom labelled labelled val_labels is.labelled
-#' @importFrom haven labelled_spss
+#' @importFrom labelled labelled val_labels 
+#' @importFrom haven labelled_spss is.labelled
 #' @examples
 #' v1 <- labelled::labelled(
 #' c(3,4,4,3,8, 9),
@@ -67,7 +67,7 @@ concatenate <- function(x, y) {
 
 validate_concatenate <- function(x, y) {
   
-  if ( ! all(c(labelled::is.labelled(x), labelled::is.labelled(y))) ) {
+  if ( ! all(c(haven::is.labelled(x), haven::is.labelled(y))) ) {
     stop ("Both arguments must be labelled")
   }
   
@@ -105,7 +105,7 @@ validate_concatenate <- function(x, y) {
     }
   }
   
-  if ( ! is.labelled (x) && is.labelled(y) ) {
+  if ( ! haven::is.labelled (x) && haven::is.labelled(y) ) {
     stop ("Both x and y must be labelled.")
   }
   
