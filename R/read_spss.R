@@ -7,13 +7,11 @@
 #'
 #' This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}} 
 #'
-#' @inheritParams haven::read_spss
-#' @param id An identifier of the tibble, if omitted, defaults to the
-#' file name.
-#' @param doi An optional document object identifier.
-#' @param filename An import file name.
+#' @param file An SPSS file.
+#' @inheritParams read_rds
 #' @importFrom haven read_spss read_sav write_sav
 #' @importFrom tibble rowid_to_column
+#' @importFrom fs path_ext_remove path_file
 #' @return A tibble, data frame variant with nice defaults.
 #'
 #'   Variable labels are stored in the "label" attribute of each variable.
@@ -30,25 +28,34 @@
 #' haven::write_sav(mtcars, tmp)
 #' haven::read_sav(tmp)
 #' @export
+#' 
 
 read_spss <- function(file, 
-                      user_na = NULL,
-                      col_select= NULL, skip = NULL,
-                      n_max=NULL, .name_repair = "unique",
+                      user_na = TRUE,
                       id = NULL, 
                       filename = NULL, 
-                      doi = NULL) {
+                      doi = NULL, 
+                      .name_repair = "unique",
+                      ...) {
+  
+  # to do: with ...
+  #skip = NULL,
+  #col_select = NULL 
+  #n_max =NULL
+  #col_select_input <- col_select
+  
+  if (! file.exists(file) ) stop ("The file does not exist.")
 
   # how to pass on optional parameters?
 
-  tmp <- haven::read_spss (file = file,
-                    .name_repair = .name_repair) %>%
-    tibble::rowid_to_column()
-
+  tmp <- haven::read_spss (file = file, 
+                           user_na = user_na, 
+                           .name_repair = .name_repair)
+  
+  tmp <- tmp %>% tibble::rowid_to_column()
   filename <- fs::path_file(file)
-
-  tmp$rowid <- paste0(id, "_", tmp$rowid)
-  labelled::var_label ( tmp$rowid ) <- paste0("Unique identifier in ", id)
+  
+  tmp <- amend_imported_survey (tmp, id, filename, doi)
   
   survey (tmp, id=id, filename=filename, doi=doi)
 }

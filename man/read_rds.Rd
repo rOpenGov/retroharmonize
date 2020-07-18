@@ -17,7 +17,7 @@ file name.}
 \item{doi}{An optional document object identifier.}
 }
 \value{
-A tibble, data frame variant with survey attributes
+A tibble, data frame variant with survey attributes.
 }
 \description{
 Read survey from rds file

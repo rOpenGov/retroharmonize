@@ -6,8 +6,8 @@
 #' @param doi An optional document object identifier.
 #' @param filename An import file name.
 #' @importFrom tibble rowid_to_column
-#' @importFrom fs path_file
-#' @return A tibble, data frame variant with survey attributes
+#' @return A tibble, data frame variant with survey attributes.
+#' @importFrom fs path_ext_remove path_file
 #' @family import functions
 #' @examples
 #' path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
@@ -22,14 +22,28 @@ read_rds <- function(file,
                       filename = NULL, 
                       doi = NULL) {
   
+  if (! file.exists(file) ) stop ("The file does not exist.")
+  filename <- fs::path_file(file)
+  
   tmp <- readRDS (file = file) %>%
     tibble::rowid_to_column()
   
-  filename <- fs::path_file(file)
-  if ( is.null(id)) id <- fs::path_file(file)
+  tmp <- amend_imported_survey (tmp, id, filename, doi)
+ 
+  survey (tmp, id=id, filename, doi)
+}
+
+#' @importFrom fs path_ext_remove path_file
+#' @importFrom labelled var_label
+#' @noRd
+amend_imported_survey <- function(tmp, id, filename, doi) {
+  
+  if ( is.null(id) ) {
+    id <- fs::path_ext_remove ( filename )
+  }
   
   tmp$rowid <- paste0(id, "_", tmp$rowid)
-  labelled::var_label ( tmp$rowid ) <- paste0("Unique identifier in ", id)
+  labelled::var_label ( 
+    tmp$rowid ) <- paste0("Unique identifier in ", id)
   
-  survey (tmp, id=id, filename, doi)
 }
