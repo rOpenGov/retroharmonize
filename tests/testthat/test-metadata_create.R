@@ -18,7 +18,7 @@ q_labels-q_na
 
 test_that("Correct values are returned", {
   expect_equal(as.character(unlist(example_metadata$na_values[2])), "")
-  expect_equal(example_metadata$label_orig[1], "unique identifier in za7576 rds")
+  expect_equal(example_metadata$label_orig[1], "unique identifier in za7576")
   expect_equal(
     length(test_value$na_values), 
     q_na)
@@ -27,3 +27,4 @@ test_that("Correct values are returned", {
     q_labels-q_na)
   expect_equal(example_metadata$var_name_orig[1], "rowid")
 })
+
