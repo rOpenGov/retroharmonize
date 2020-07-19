@@ -9,7 +9,8 @@ new_survey <- function ( df = tibble::tibble(),
  structure(df, 
            id = id, 
            filename = filename, 
-           doi = doi )
+           doi = doi, 
+           class = c("survey", class ( df)))
   
 }
 
