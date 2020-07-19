@@ -8,7 +8,6 @@ test_that("attributes work", {
   expect_equal(attr(test_read, "id"), "ZA7576")
   expect_equal(attr(test_read, "filename"), "ZA7576.rds")
   expect_equal(attr(test_read, "doi"), "test_doi")
-  expect_true(inherits(test_read, "survey"))
 })
 
 
