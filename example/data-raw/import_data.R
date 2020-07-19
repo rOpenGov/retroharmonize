@@ -4,6 +4,9 @@ source(file.path("not_included", "daniel_env.R"))
 testvars <- readRDS(file.path("example", "data-raw", "trust_eb_9waves.rds"))
 spss_files <- unique ( testvars$filename)[2:9]
 
+#first is not very good
+#no weights
+
 for ( i in seq_along(spss_files)) { 
   
   this_file <- spss_files[i]
