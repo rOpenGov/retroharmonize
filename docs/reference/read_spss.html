@@ -101,10 +101,7 @@ file extension." />
       <a href="../articles/harmonize_labels.html">Harmonize Value Labels</a>
     </li>
     <li>
-      <a href="../articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>
-    </li>
-    <li>
-      <a href="../articles/read_survey_files.html">Read Survey Files</a>
+      <a href="../articles/labelled_spss_survey.html">The labelled_spss_survey class</a>
     </li>
   </ul>
 </li>
@@ -146,14 +143,12 @@ file extension.</p>
 
     <pre class="usage"><span class='fu'>read_spss</span>(
   <span class='no'>file</span>,
-  <span class='kw'>user_na</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>col_select</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>skip</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>n_max</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>,
+  <span class='kw'>user_na</span> <span class='kw'>=</span> <span class='fl'>TRUE</span>,
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>
+  <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
+  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>,
+  <span class='no'>...</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -161,55 +156,7 @@ file extension.</p>
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
       <th>file</th>
-      <td><p>Either a path to a file, a connection, or literal data
-(either a single string or a raw vector).</p>
-<p>Files ending in <code>.gz</code>, <code>.bz2</code>, <code>.xz</code>, or <code>.zip</code> will
-be automatically uncompressed. Files starting with <code>http://</code>,
-<code>https://</code>, <code>ftp://</code>, or <code>ftps://</code> will be automatically
-downloaded. Remote gz files can also be automatically downloaded and
-decompressed.</p>
-<p>Literal data is most useful for examples and tests. It must contain at
-least one new line to be recognised as data (instead of a path) or be a
-vector of greater than length 1.</p>
-<p>Using a value of <code><a href='https://readr.tidyverse.org/reference/clipboard.html'>clipboard()</a></code> will read from the system clipboard.</p></td>
-    </tr>
-    <tr>
-      <th>user_na</th>
-      <td><p>If <code>TRUE</code> variables with user defined missing will
-be read into <code><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss()</a></code> objects. If <code>FALSE</code>, the
-default, user-defined missings will be converted to <code>NA</code>.</p></td>
-    </tr>
-    <tr>
-      <th>col_select</th>
-      <td><p>One or more selection expressions, like in
-<code><a href='https://dplyr.tidyverse.org/reference/select.html'>dplyr::select()</a></code>. Use <code><a href='https://rdrr.io/r/base/c.html'>c()</a></code> or <code><a href='https://rdrr.io/r/base/list.html'>list()</a></code> to use more than one expression.
-See <code><a href='https://dplyr.tidyverse.org/reference/select.html'>?dplyr::select</a></code> for details on available selection options. Only the
-specified columns will be read from <code>data_file</code>.</p></td>
-    </tr>
-    <tr>
-      <th>skip</th>
-      <td><p>Number of lines to skip before reading data.</p></td>
-    </tr>
-    <tr>
-      <th>n_max</th>
-      <td><p>Maximum number of lines to read.</p></td>
-    </tr>
-    <tr>
-      <th>.name_repair</th>
-      <td><p>Treatment of problematic column names:</p><ul>
-<li><p><code>"minimal"</code>: No name repair or checks, beyond basic existence,</p></li>
-<li><p><code>"unique"</code>: Make sure names are unique and not empty,</p></li>
-<li><p><code>"check_unique"</code>: (default value), no name repair, but check they are
-<code>unique</code>,</p></li>
-<li><p><code>"universal"</code>: Make the names <code>unique</code> and syntactic</p></li>
-<li><p>a function: apply custom name repair (e.g., <code>.name_repair = make.names</code>
-for names in the style of base R).</p></li>
-<li><p>A purrr-style anonymous function, see <code><a href='https://rlang.r-lib.org/reference/as_function.html'>rlang::as_function()</a></code></p></li>
-</ul>
-
-<p>This argument is passed on as <code>repair</code> to <code><a href='https://vctrs.r-lib.org/reference/vec_as_names.html'>vctrs::vec_as_names()</a></code>.
-See there for more details on these terms and the strategies used
-to enforce them.</p></td>
+      <td><p>An SPSS file.</p></td>
     </tr>
     <tr>
       <th>id</th>

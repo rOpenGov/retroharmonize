@@ -40,7 +40,7 @@
 
 
 <meta property="og:title" content="Create a metadata table — metadata_create" />
-<meta property="og:description" content="Create a metadata table" />
+<meta property="og:description" content="Create a metadata file from your surveys." />
 
 
 
@@ -98,10 +98,7 @@
       <a href="../articles/harmonize_labels.html">Harmonize Value Labels</a>
     </li>
     <li>
-      <a href="../articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>
-    </li>
-    <li>
-      <a href="../articles/read_survey_files.html">Read Survey Files</a>
+      <a href="../articles/labelled_spss_survey.html">The labelled_spss_survey class</a>
     </li>
   </ul>
 </li>
@@ -135,7 +132,7 @@
     </div>
 
     <div class="ref-description">
-    <p>Create a metadata table</p>
+    <p>Create a metadata file from your surveys.</p>
     </div>
 
     <pre class="usage"><span class='fu'>metadata_create</span>(<span class='no'>survey</span>)</pre>
@@ -153,6 +150,25 @@
 
     <p>A nested data frame with metadata and the range of 
 labels, na_values and the na_range itself.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The structure of the returned tibble:</p><dl'>
+  <dt>filename</dt><dd><p>The original file name.</p></dd>
+  <dt>id</dt><dd><p>The ID of the survey, if present.</p></dd>
+  <dt>var_name_orig</dt><dd><p>The original variable name in SPSS.</p></dd>
+  <dt>class_orig</dt><dd><p>The original variable class after importing with<code><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code>.</p></dd>
+  <dt>label_orig</dt><dd><p>The original variable label in SPSS.</p></dd>
+  <dt>labels</dt><dd><p>A list of the value labels.</p></dd>
+  <dt>valid_labels</dt><dd><p>A list of the value labels that are not marked as missing values.</p></dd>
+  <dt>na_labels</dt><dd><p>A list of the value labels that refer to user-defined missing values.</p></dd>
+  <dt>na_range</dt><dd><p>An optional range of a continous missing range, if present in the vector.</p></dd>
+  <dt>n_labels</dt><dd><p>Number of categories or unique levels, which may be different from the sum of missing and category labels.</p></dd>
+  <dt>n_valid_labels</dt><dd><p>Number of categories in the non-missing range.</p></dd>
+  <dt>n_na_labels</dt><dd><p>Number of categories of the variable, should be the sum of the former two.</p></dd>
+  <dt>na_levels</dt><dd><p>A list of the user-defined missing values.</p></dd>
+
+</dl>
+
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>metadata_create</span> (

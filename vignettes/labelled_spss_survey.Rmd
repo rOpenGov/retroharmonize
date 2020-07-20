@@ -1,5 +1,5 @@
 ---
-title: "Working With The labelled_spss_survey Class"
+title: "The labelled_spss_survey class"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{"The labelled_spss_survey class"}
@@ -133,6 +133,7 @@ weighted.mean(sl1, weights1)
 sum (as.numeric(sl1))
 sum (sl1, na.rm=TRUE)
 ```
+
 Behind the hoods is stays of course the conversion to numeric, which can be used for other mathematical / statistical function. 
 
 ```{r}

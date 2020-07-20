@@ -28,7 +28,6 @@
 #'         " Do you trust the European Commission")
 #'         )
 #' @export
-
 label_normalize <- function(x) {
   ## unit tests for this function are in
   ## tests/testthat/test-label_normalize.R
@@ -85,5 +84,3 @@ val_label_normalize <- function(x) {
   y <- gsub(' +',' ',y) 
   snakecase::to_snake_case(y)
 }
-
-
