@@ -7,6 +7,6 @@ example_survey <- survey(
 )
 
 test_that("correct casint", {
-  expect_true(inherits(test_read, "survey"))
+  expect_true(inherits(example_survey, "survey"))
   expect_equal(attr(example_survey, "filename"), "no_file")
 })

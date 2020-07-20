@@ -7,8 +7,6 @@ example_metadata <- metadata_create (
  survey = test_survey
 )
 
-names(example_metadata)
-
 q_labels <- length(labelled::val_labels ( test_survey$qd6.12))
 q_na     <- length(labelled::na_values  ( test_survey$qd6.12))
 

@@ -83,9 +83,6 @@ metadata_create <- function( survey ) {
     x
   }
   
-  aaa <- to_list_column( .f = "na_labels")
-
-  
   range_df  <- tibble::tibble (
     var_name_orig = names(survey),
     labels = to_list_column(.f = "labels"),
