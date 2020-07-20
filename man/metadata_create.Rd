@@ -14,7 +14,25 @@ A nested data frame with metadata and the range of
 labels, na_values and the na_range itself.
 }
 \description{
-Create a metadata table
+Create a metadata file from your surveys.
+}
+\details{
+The structure of the returned tibble:
+\describe{
+  \item{filename}{The original file name.}
+  \item{id}{The ID of the survey, if present.}
+  \item{var_name_orig}{The original variable name in SPSS.}
+  \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
+  \item{label_orig}{The original variable label in SPSS.}
+  \item{labels}{A list of the value labels.}
+  \item{valid_labels}{A list of the value labels that are not marked as missing values.}
+  \item{na_labels}{A list of the value labels that refer to user-defined missing values.}
+  \item{na_range}{An optional range of a continous missing range, if present in the vector.}
+  \item{n_labels}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
+  \item{n_valid_labels}{Number of categories in the non-missing range.}
+  \item{n_na_labels}{Number of categories of the variable, should be the sum of the former two.}
+  \item{na_levels}{A list of the user-defined missing values.}
+}
 }
 \examples{
 metadata_create (
