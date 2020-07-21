@@ -2,7 +2,8 @@ pandoc: 2.7.3
 pkgdown: 1.5.1
 pkgdown_sha: ~
 articles:
+  afrobarometer: afrobarometer.html
   harmonize_labels: harmonize_labels.html
   labelled_spss_survey: labelled_spss_survey.html
-last_built: 2020-07-20T13:43Z
+last_built: 2020-07-21T21:31Z
 
