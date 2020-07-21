@@ -223,14 +223,14 @@ as_character <- function(x) {
 #' 
 #' @inheritParams haven::as_factor
 #' @export
-#' @importFrom haven as_factor
+#' @importFrom haven as_factor labelled
 #' @seealso \code{as_factor} is imported from \code{haven::\link[haven:as_factor]{as_factor}}
 
 as_factor <- function(x, levels = "default", ordered = FALSE) {
   
+  attribute_names <- names(attributes(x))
+ 
   tmp <- haven::as_factor(x, levels = levels, ordered = ordered) 
-  
-  attribute_names <- names(attributes(tmp))
   
   for (a in attribute_names[!attribute_names %in% c("class", "levels")]) {
     attr(tmp, a) <- NULL

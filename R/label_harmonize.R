@@ -60,7 +60,21 @@ label_normalize <- function(x) {
 #' @importFrom snakecase to_snake_case
 #' @export
 var_label_normalize <- function(x) {
-  label_normalize(x)
+  y <- tolower (as.character(x))
+  y <- gsub( '^q[abcde]\\d{1,2}_\\d{1,2}', '', y )  # remove QA117_1
+  y <- gsub( '^q[abcde]\\d{1,2}', '', y )  # remove QA1, QB25 etc
+  y <- gsub( '^d\\d{1,2}', '', y )       # removed d26_ etc
+  y <- gsub( '^c\\d{1,2}', '', y )       # removed c26_ etc
+  y <- gsub ( "^p\\d+{1,}_", "", y)  #remove p6_ like starts
+  y <- gsub ( "^p\\d+{1,}\\s", "", y)  #remove p6  like starts
+  y <- gsub ( "^q\\d+{1,}_", "", y)  #remove q1_ like starts
+  y <- gsub ( "^q\\d+{1,}[abcdefghijkl]", "", y)  #remove q1  like starts
+  y <- gsub( '^\\d{1,2}_', '', y ) #remove leading number 1_
+  
+  y <- label_normalize(y)
+  y <- gsub(' +',' ',y) 
+  y <- trimws(tolower(as.character(y)), which = "both")
+  y
 }
 
 #' @rdname label_normalize 

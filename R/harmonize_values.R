@@ -85,6 +85,7 @@ harmonize_values <- function(
 
   original_values <- tibble::tibble (
     x = original_x)
+
   original_values$orig_labels = as_character(x)
   
   if (is.na_range_to_values(x)) {

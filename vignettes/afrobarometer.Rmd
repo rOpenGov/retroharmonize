@@ -1,0 +1,131 @@
+---
+title: "Working With Afrobarometer"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working With Afrobarometer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+
+if ( file.exists("not_included", "daniel_env.R")) {
+  source(file.path("not_included", "daniel_env.R"))
+} else {
+  source(file.path("..", "not_included", "daniel_env.R"))
+}
+
+```
+
+```{r setup}
+library(retroharmonize)
+```
+
+In this case study we harmonize data from Afrobarometer with Eurobarometer. Some elements of this vignette are not “live”, because we do not have permission to re-publish the microdata files from Afrobarometer, but you can access them [directly](http://afrobarometer.org/data/merged-data).  For reproducibility, we are storing only a small subsample from the files and the metadata. 
+
+## Importing Afrobarometer Files
+
+First, let’s read in the two rounds of Afrobarometer.
+
+```{r import}
+### use here your own directory
+ab <- dir ( afrobarometer_dir )
+afrobarometer_rounds <- file.path(afrobarometer_dir, ab)
+
+ab_waves <- read_surveys(afrobarometer_rounds, .f='read_spss')
+attr(ab_waves[[1]], "id") <- "Afrobarometer_2016"
+attr(ab_waves[[2]], "id") <- "Afrobarometer_2019"
+```
+
+Create a metadata file, or a data map with `metadata_create()`.
+
+```{r}
+ab_metadata <- lapply ( X = ab_waves, FUN = metadata_create )
+ab_metadata <- do.call(rbind, ab_metadata)
+```
+
+## Working with the metadata
+
+```{r, selection, message=FALSE}
+library(dplyr)
+
+to_harmonize <- ab_metadata %>%
+  filter ( var_name_orig %in% 
+             c("rowid", "COUNTRY", "REGION", "withinwt") |
+             grepl("trust ", label_orig ) ) %>%
+  mutate ( var_label = var_label_normalize(label_orig)) %>%
+  mutate ( var_label = case_when ( 
+    grepl("^unique identifier", var_label) ~ "unique_id", 
+    TRUE ~ var_label)) %>%
+  mutate ( var_name = val_label_normalize(var_label))
+```
+```{r}
+to_harmonize
+```
+
+The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and produces a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original variable names, the new variable names and their labels.
+
+```{r}
+merged_ab <- merge_waves ( waves = ab_waves, 
+                           var_harmonization = to_harmonize  )
+
+## We do not need the labels for the countries and provinces 
+merged_ab <- lapply ( merged_ab, 
+         FUN = function(x) x  %>%
+           mutate_at ( 
+             vars(all_of(c("country","province_or_region"))), 
+             as_character ) )
+```
+
+## Harmonize the values
+
+The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do.
+
+```{r}
+labelled::val_labels(merged_ab[[1]]$trust_president)
+```
+We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
+
+```{r}
+harmonize_ab_trust <- function(x) {
+  label_list <- list(
+    from = c("^not", "^just", "^somewhat",
+             "^a", "^don", "^ref", "^miss"), 
+    to = c("not_trust_2", "not_trust_1", "trust_1", 
+           "trust_2", "do_not_know", "declined", "inap"), 
+    numeric_values = c(0, 0.33333, 0.66666, 1, 99997, 99998, 99999)
+  )
+  
+  harmonize_values(
+    x, 
+    harmonize_labels = label_list, 
+    na_values = c("do_not_know"=99997,
+                  "declined"=99998,
+                  "inap"=99999)
+  )
+}
+```
+
+Let's apply these settings to the trust variables. The `harmonize_waves()`  function binds all variables that are present in all surveys.
+
+```{r}
+harmonized_waves <- harmonize_waves ( waves = merged_ab ) %>%
+  mutate ( year = ifelse (grepl("r6_data_2016", unique_id), 
+                          2016, 2019)) %>%
+  mutate_at ( vars(starts_with("trust")), harmonize_ab_trust ) 
+```
+
+## Numeric Presentation
+
+The numeric form of these trust variables is comparable with the numeric averages of the Eurobarometer trust variables.
+
+```{r}
+harmonized_waves %>%
+  select ( -all_of("within_country_weighting_factor")) %>%
+  group_by ( country ) %>%
+  summarize_if ( is.numeric, mean, na.rm=TRUE)
+```
