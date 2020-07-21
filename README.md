@@ -143,7 +143,7 @@ h2_documentation$history_var_label
 #>      "EUROPEAN COMMISSION - TRUST"      "EUROPEAN COMMISSION - TRUST"
 ```
 
-## Create a panel
+## Create a longitudional table
 
 ``` r
 var1 <- labelled::labelled_spss(
@@ -199,20 +199,24 @@ dplyr::bind_rows(a,b)
 #> # A tibble: 13 x 3
 #>    rowid                        hvar      w
 #>    <chr>                <retroh_dbl>  <dbl>
-#>  1 survey11     1 [trust]            0.588 
-#>  2 survey12     0 [not_trust]        0.808 
-#>  3 survey13     1 [trust]            0.256 
-#>  4 survey14     1 [trust]            0.657 
-#>  5 survey15     0 [not_trust]        0.721 
-#>  6 survey16 99997 (NA) [do_not_know] 0.171 
-#>  7 survey17 99999 (NA) [inap]        0.781 
-#>  8 survey21     0 [not_trust]        0.308 
-#>  9 survey22     0 [not_trust]        0.245 
-#> 10 survey23 99997 (NA) [do_not_know] 0.0227
-#> 11 survey24 99999 (NA) [inap]        0.963 
-#> 12 survey25     1 [trust]            0.0277
-#> 13 survey26     1 [trust]            0.928
+#>  1 survey11     1 [trust]            0.912 
+#>  2 survey12     0 [not_trust]        0.0166
+#>  3 survey13     1 [trust]            0.682 
+#>  4 survey14     1 [trust]            0.719 
+#>  5 survey15     0 [not_trust]        0.873 
+#>  6 survey16 99997 (NA) [do_not_know] 0.719 
+#>  7 survey17 99999 (NA) [inap]        0.879 
+#>  8 survey21     0 [not_trust]        0.953 
+#>  9 survey22     0 [not_trust]        0.928 
+#> 10 survey23 99997 (NA) [do_not_know] 0.0722
+#> 11 survey24 99999 (NA) [inap]        0.679 
+#> 12 survey25     1 [trust]            0.435 
+#> 13 survey26     1 [trust]            0.326
 ```
+
+See the [Case Study: Working With
+Afrobarometer](articles/harmonize_labels.html) for a futher automated
+workflow.
 
 ## Code of Conduct
 

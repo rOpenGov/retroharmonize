@@ -9,10 +9,11 @@ merge_waves(waves, var_harmonization)
 \arguments{
 \item{waves}{A list of surveys}
 
-\item{var_harmonization}{Metadata of surveys}
+\item{var_harmonization}{Metadata of surveys, including at least
+\code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.}
 }
 \value{
-A list of surveys.
+A list of surveys with harmonized names and labels.
 }
 \description{
 Merge a list of surveys into a list with harmonized variable names,

@@ -4,13 +4,15 @@
 #' variable labels and survey identifiers.
 #' 
 #' @param waves A list of surveys
-#' @param var_harmonization Metadata of surveys
-#' @return A list of surveys.
+#' @param var_harmonization Metadata of surveys, including at least
+#' \code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.
+#' @return A list of surveys with harmonized names and labels.
 #' @export
 #' @importFrom stats setNames
 #' @importFrom dplyr select mutate_if filter
 #' @importFrom haven is.labelled
 #' @importFrom tidyselect all_of
+#' @family harmonization functions
 #' @seealso survey
 
 merge_waves <- function(waves, var_harmonization ) {
@@ -30,7 +32,7 @@ merge_waves <- function(waves, var_harmonization ) {
       dplyr::select ( all_of (c("rowid", select_vars$var_name_orig)) ) %>%
       stats::setNames(., nm = select_vars$var_name ) 
     
-    tmp %>%
+    tmp <- tmp %>%
       mutate_if ( haven::is.labelled, 
                   ~as_labelled_spss_survey(., id = attr(tmp, "id"))) 
 

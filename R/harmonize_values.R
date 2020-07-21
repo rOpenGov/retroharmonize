@@ -21,6 +21,7 @@
 #' @importFrom tidyselect all_of
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
+#' @family harmonization functions
 #' @return A labelled vector that contains in its metadata attributes
 #' the original labelling, the original numeric coding and the current
 #' labelling, with the numerical values representing the harmonized

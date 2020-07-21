@@ -3,6 +3,7 @@
 #' @param x A vector of class haven_labelled or haven_labelled_spss.
 #' @param id The survey identifier.
 #' @return A vector of labelled_spss_survey
+#' @family type conversion functions
 #' @export
  
 as_labelled_spss_survey  <- function (x, id) {

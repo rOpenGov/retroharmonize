@@ -9,8 +9,10 @@ harmonize_waves(waves, .f)
 \arguments{
 \item{waves}{A list of surveys}
 
-\item{.f}{A function}
+\item{.f}{A function to apply for the harmonization.}
 }
 \description{
-Harmonize the values of surveys. Not fully functional yet.
+Harmonize the values of surveys. It binds together variables
+that are all present in the surveys, and applies a 
+harmonization function on them.
 }

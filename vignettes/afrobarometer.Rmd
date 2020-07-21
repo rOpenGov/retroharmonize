@@ -1,8 +1,8 @@
 ---
-title: "Working With Afrobarometer"
+title: "Case Study: Working With Afrobarometer"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Working With Afrobarometer}
+  %\VignetteIndexEntry{Case Study: Working With Afrobarometer}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -64,12 +64,12 @@ to_harmonize <- ab_metadata %>%
   mutate ( var_name = val_label_normalize(var_label))
 ```
 ```{r}
-to_harmonize
+head(to_harmonize, 10)
 ```
 
 The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and produces a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original variable names, the new variable names and their labels.
 
-```{r}
+```{r merge}
 merged_ab <- merge_waves ( waves = ab_waves, 
                            var_harmonization = to_harmonize  )
 
@@ -85,18 +85,18 @@ merged_ab <- lapply ( merged_ab,
 
 The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do.
 
-```{r}
+```{r check}
 labelled::val_labels(merged_ab[[1]]$trust_president)
 ```
 We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
 
-```{r}
+```{r specify}
 harmonize_ab_trust <- function(x) {
   label_list <- list(
     from = c("^not", "^just", "^somewhat",
              "^a", "^don", "^ref", "^miss"), 
-    to = c("not_trust_2", "not_trust_1", "trust_1", 
-           "trust_2", "do_not_know", "declined", "inap"), 
+    to = c("not_at_all", "little", "somewhat", 
+           "a_lot", "do_not_know", "declined", "inap"), 
     numeric_values = c(0, 0.33333, 0.66666, 1, 99997, 99998, 99999)
   )
   
@@ -112,20 +112,39 @@ harmonize_ab_trust <- function(x) {
 
 Let's apply these settings to the trust variables. The `harmonize_waves()`  function binds all variables that are present in all surveys.
 
-```{r}
-harmonized_waves <- harmonize_waves ( waves = merged_ab ) %>%
-  mutate ( year = ifelse (grepl("r6_data_2016", unique_id), 
-                          2016, 2019)) %>%
-  mutate_at ( vars(starts_with("trust")), harmonize_ab_trust ) 
+```{r harmonize}
+harmonized_waves <- harmonize_waves ( waves = merged_ab, 
+                                      .f = harmonize_ab_trust) %>%
+  mutate ( year = ifelse (
+    grepl("r6_data_2016", unique_id), 
+    yes = 2016, no = 2019)) 
 ```
 
-## Numeric Presentation
+## Analyze the results
 
 The numeric form of these trust variables is comparable with the numeric averages of the Eurobarometer trust variables.
 
-```{r}
+```{r numeric}
 harmonized_waves %>%
+  mutate_at ( vars(starts_with("trust")), 
+              ~as_numeric(.)*within_country_weighting_factor) %>%
   select ( -all_of("within_country_weighting_factor")) %>%
   group_by ( country ) %>%
   summarize_if ( is.numeric, mean, na.rm=TRUE)
 ```
+
+And the factor presentation, without weighting:
+
+```{r factor}
+require(tidyr)
+harmonized_waves %>%
+  select ( -all_of("within_country_weighting_factor")) %>%
+  mutate_if ( is.labelled_spss_survey, as_factor) %>%
+  tidyr::pivot_longer ( starts_with("trust"), 
+                        names_to  = "institution", 
+                        values_to = "category") %>%
+  mutate ( institution = gsub("^trust_", "", institution) ) %>%
+  group_by ( country, institution, category ) %>%
+  summarize ( n = n()) 
+```
+

@@ -90,7 +90,7 @@ h2_documentation$history_var_name
 h2_documentation$history_var_label
 ```
 
-## Create a panel
+## Create a longitudional table
 
 ```{r}
 var1 <- labelled::labelled_spss(
@@ -145,6 +145,7 @@ b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
 dplyr::bind_rows(a,b)
 ```
 
+See the [Case Study: Working With Afrobarometer](articles/harmonize_labels.html) for a futher automated workflow.
 
 ## Code of Conduct
 
