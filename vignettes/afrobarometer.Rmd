@@ -64,7 +64,8 @@ to_harmonize <- ab_metadata %>%
   mutate ( var_name = val_label_normalize(var_label))
 ```
 ```{r}
-head(to_harmonize, 10)
+head(to_harmonize %>%
+       select ( all_of(c("id", "var_name", "var_label"))), 10)
 ```
 
 The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and produces a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original variable names, the new variable names and their labels.
@@ -83,10 +84,11 @@ merged_ab <- lapply ( merged_ab,
 
 ## Harmonize the values
 
-The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do.
+The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do. The `document_survey_item()` function shows the metadata of a single variable.
 
 ```{r check}
-labelled::val_labels(merged_ab[[1]]$trust_president)
+q_item <- merged_ab[[1]]$trust_president
+document_survey_item(q_item)
 ```
 We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
 
