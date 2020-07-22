@@ -9,7 +9,8 @@
 as_labelled_spss_survey  <- function (x, id) {
   
   if ( ! haven::is.labelled(x)) {
-    stop( "x must be haven_labelled or a class that inherits its labels.")
+    
+    stop( deparse(substitute(x)), "must be haven_labelled or a class that inherits its labels.")
   }
   
    labelled_spss_survey(

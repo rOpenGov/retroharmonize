@@ -9,10 +9,12 @@
 #'
 #' @param file An SPSS file.
 #' @inheritParams read_rds
-#' @importFrom haven read_spss read_sav write_sav
+#' @importFrom haven read_spss read_sav write_sav is.labelled
 #' @importFrom tibble rowid_to_column
 #' @importFrom fs path_ext_remove path_file
 #' @importFrom labelled var_label
+#' @importFrom dplyr bind_cols select_if mutate_all select
+#' @importFrom tidyselect all_of
 #' @return A tibble, data frame variant with nice defaults.
 #'
 #'   Variable labels are stored in the "label" attribute of each variable.
@@ -54,6 +56,7 @@ read_spss <- function(file,
                            .name_repair = .name_repair)
   
   tmp <- tmp %>% tibble::rowid_to_column()
+  
   filename <- fs::path_file(file)
   
   if ( is.null(id) ) {
@@ -70,5 +73,17 @@ read_spss <- function(file,
   labelled::var_label ( 
     tmp$rowid ) <- paste0("Unique identifier in ", id)
   
+  all_vars <- names(tmp)
+  
+  converted <- tmp %>%
+    select_if( haven::is.labelled ) %>%
+    mutate_all ( as_labelled_spss_survey, id )
+  
+  not_converted <- tmp %>%
+    select( -all_of(names(converted)))
+  
+  tmp <- bind_cols ( not_converted, converted ) %>%
+    select ( all_of(all_vars) )
+
   survey (tmp, id=id, filename=filename, doi=doi)
 }
