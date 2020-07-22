@@ -29,6 +29,8 @@ Currently being generalized from problems solved in the
 [github.com/antaldaniel/eurobarometer](\(https://github.com/antaldaniel/eurobarometer\))
 package ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
+You can download the manual in [PDF](retroharmonize_0.1.1.pdf).
+
 ## Installation
 
 Soon you can install the released version of retroharmonize from
@@ -199,19 +201,19 @@ dplyr::bind_rows(a,b)
 #> # A tibble: 13 x 3
 #>    rowid                        hvar      w
 #>    <chr>                <retroh_dbl>  <dbl>
-#>  1 survey11     1 [trust]            0.912 
-#>  2 survey12     0 [not_trust]        0.0166
-#>  3 survey13     1 [trust]            0.682 
-#>  4 survey14     1 [trust]            0.719 
-#>  5 survey15     0 [not_trust]        0.873 
-#>  6 survey16 99997 (NA) [do_not_know] 0.719 
-#>  7 survey17 99999 (NA) [inap]        0.879 
-#>  8 survey21     0 [not_trust]        0.953 
-#>  9 survey22     0 [not_trust]        0.928 
-#> 10 survey23 99997 (NA) [do_not_know] 0.0722
-#> 11 survey24 99999 (NA) [inap]        0.679 
-#> 12 survey25     1 [trust]            0.435 
-#> 13 survey26     1 [trust]            0.326
+#>  1 survey11     1 [trust]            0.0802
+#>  2 survey12     0 [not_trust]        0.719 
+#>  3 survey13     1 [trust]            0.935 
+#>  4 survey14     1 [trust]            0.825 
+#>  5 survey15     0 [not_trust]        0.426 
+#>  6 survey16 99997 (NA) [do_not_know] 0.587 
+#>  7 survey17 99999 (NA) [inap]        0.291 
+#>  8 survey21     0 [not_trust]        0.142 
+#>  9 survey22     0 [not_trust]        0.181 
+#> 10 survey23 99997 (NA) [do_not_know] 0.477 
+#> 11 survey24 99999 (NA) [inap]        0.997 
+#> 12 survey25     1 [trust]            0.349 
+#> 13 survey26     1 [trust]            0.297
 ```
 
 See the [Case Study: Working With

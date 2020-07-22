@@ -29,6 +29,7 @@ The goal of `retroharmonize` is to allow the organization of data joins or panel
 
 Currently being generalized from problems solved in the  [github.com/antaldaniel/eurobarometer]((https://github.com/antaldaniel/eurobarometer)) package ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
+You can download the manual in [PDF](retroharmonize_0.1.1.pdf).
 
 ## Installation
 

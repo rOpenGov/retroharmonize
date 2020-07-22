@@ -203,7 +203,11 @@ it uses the latest name of the object <code>x</code>.</p></td>
 coercion and validation rules.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
-    <div class='dont-index'><p>as_factor</p></div>
+    <div class='dont-index'><p>as_factor</p>
+<p>Other type conversion functions: 
+<code><a href='as_labelled_spss_survey.html'>as_labelled_spss_survey</a>()</code></p>
+<p>Other type conversion functions: 
+<code><a href='as_labelled_spss_survey.html'>as_labelled_spss_survey</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>x1</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss_survey</span>(
@@ -222,8 +226,6 @@ coercion and validation rules.</p>
 #&gt; attr(,"class")
 #&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                
 #&gt; [3] "haven_labelled"                     
-#&gt; attr(,"id")
-#&gt; [1] "survey1"
 #&gt; attr(,"survey1_name")
 #&gt; [1] "1:10"
 #&gt; attr(,"survey1_values")
@@ -233,7 +235,9 @@ coercion and validation rules.</p>
 #&gt; Good  Bad 
 #&gt;    1    8 
 #&gt; attr(,"survey1_na_values")
-#&gt; [1]  9 10</div><div class='input'>
+#&gt; [1]  9 10
+#&gt; attr(,"id")
+#&gt; [1] "survey1"</div><div class='input'>
 <span class='no'>x2</span> <span class='kw'>&lt;-</span> <span class='fu'>labelled_spss_survey</span>( <span class='fl'>1</span>:<span class='fl'>10</span>,
  <span class='kw'>labels</span>  <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>Good</span> <span class='kw'>=</span> <span class='fl'>1</span>, <span class='kw'>Bad</span> <span class='kw'>=</span> <span class='fl'>8</span>),
  <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>9</span>, <span class='fl'>Inf</span>),
@@ -254,8 +258,6 @@ coercion and validation rules.</p>
 #&gt; attr(,"class")
 #&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                
 #&gt; [3] "haven_labelled"                     
-#&gt; attr(,"id")
-#&gt; [1] "survey1"
 #&gt; attr(,"survey1_name")
 #&gt; [1] "1:10"
 #&gt; attr(,"survey1_values")
@@ -267,7 +269,9 @@ coercion and validation rules.</p>
 #&gt; Good  Bad 
 #&gt;    1    8 
 #&gt; attr(,"survey1_na_range")
-#&gt; [1]   9 Inf</div></pre>
+#&gt; [1]   9 Inf
+#&gt; attr(,"id")
+#&gt; [1] "survey1"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

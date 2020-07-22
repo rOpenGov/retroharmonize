@@ -168,33 +168,127 @@
 <h2 class="hasAnchor">
 <a href="#harmonize-the-values" class="anchor"></a>Harmonize the values</h2>
 <p>The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do. The <code><a href="../reference/document_survey_item.html">document_survey_item()</a></code> function shows the metadata of a single variable.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">q_item</span> <span class="kw">&lt;-</span> <span class="no">merged_ab</span><span class="kw">[[</span><span class="fl">1</span>]]$<span class="no">trust_president</span>
-<span class="fu"><a href="../reference/document_survey_item.html">document_survey_item</a></span>(<span class="no">q_item</span>)
-<span class="co">#&gt; $code_table</span>
-<span class="co">#&gt; # A tibble: 7 x 5</span>
-<span class="co">#&gt;   values Afrobarometer_2016_v~ labels            Afrobarometer_2016_lab~ missing</span>
-<span class="co">#&gt;    &lt;dbl&gt;                 &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;                   &lt;lgl&gt;  </span>
-<span class="co">#&gt; 1     -1                    -1 Missing           Missing                 FALSE  </span>
-<span class="co">#&gt; 2      0                     0 Not at all        Not at all              FALSE  </span>
-<span class="co">#&gt; 3      1                     1 Just a little     Just a little           FALSE  </span>
-<span class="co">#&gt; 4      2                     2 Somewhat          Somewhat                FALSE  </span>
-<span class="co">#&gt; 5      3                     3 A lot             A lot                   FALSE  </span>
-<span class="co">#&gt; 6      9                     9 Don’t know/ Have~ Don’t know/ Haven't he~ FALSE  </span>
-<span class="co">#&gt; 7     98                    98 Refused           Refused                 FALSE  </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $history_var_name</span>
-<span class="co">#&gt;                    name Afrobarometer_2016_name </span>
-<span class="co">#&gt;                "q_item"                     "." </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $history_var_label</span>
-<span class="co">#&gt;                    label Afrobarometer_2016_label </span>
-<span class="co">#&gt;        "trust president"  "Q52a. Trust president" </span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $history_na_range</span>
-<span class="co">#&gt; character(0)</span>
-<span class="co">#&gt; </span>
-<span class="co">#&gt; $history_id</span>
-<span class="co">#&gt; [1] "Afrobarometer_2016"</span></pre></body></html></div>
+<p>… and its code table:</p>
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/document_survey_item.html">document_survey_item</a></span>(<span class="no">merged_ab</span><span class="kw">[[</span><span class="fl">1</span>]]$<span class="no">trust_president</span>) <span class="kw">%&gt;%</span>
+  <span class="kw pkg">knitr</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html">kable</a></span>()</pre></body></html></div>
+<table class="table kable_wrapper"><tbody><tr>
+<td>
+<table class="table">
+<thead><tr class="header">
+<th align="right">values</th>
+<th align="right">Afrobarometer_2016_values</th>
+<th align="left">labels</th>
+<th align="left">Afrobarometer_2016_labels</th>
+<th align="left">missing</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="right">-1</td>
+<td align="right">-1</td>
+<td align="left">Missing</td>
+<td align="left">Missing</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="right">0</td>
+<td align="right">0</td>
+<td align="left">Not at all</td>
+<td align="left">Not at all</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="odd">
+<td align="right">1</td>
+<td align="right">1</td>
+<td align="left">Just a little</td>
+<td align="left">Just a little</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="right">2</td>
+<td align="right">2</td>
+<td align="left">Somewhat</td>
+<td align="left">Somewhat</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="odd">
+<td align="right">3</td>
+<td align="right">3</td>
+<td align="left">A lot</td>
+<td align="left">A lot</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="even">
+<td align="right">9</td>
+<td align="right">9</td>
+<td align="left">Don’t know/ Haven’t heard enough</td>
+<td align="left">Don’t know/ Haven’t heard enough</td>
+<td align="left">FALSE</td>
+</tr>
+<tr class="odd">
+<td align="right">98</td>
+<td align="right">98</td>
+<td align="left">Refused</td>
+<td align="left">Refused</td>
+<td align="left">FALSE</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table class="table">
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">x</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">name</td>
+<td align="left">merged_ab[[1]]$trust_president</td>
+</tr>
+<tr class="even">
+<td align="left">Afrobarometer_2016_name</td>
+<td align="left">.</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table class="table">
+<thead><tr class="header">
+<th align="left"></th>
+<th align="left">x</th>
+</tr></thead>
+<tbody>
+<tr class="odd">
+<td align="left">label</td>
+<td align="left">trust president</td>
+</tr>
+<tr class="even">
+<td align="left">Afrobarometer_2016_label</td>
+<td align="left">Q52a. Trust president</td>
+</tr>
+</tbody>
+</table>
+</td>
+<td>
+<table class="table">
+<thead><tr class="header">
+<th align="left">x</th>
+</tr></thead>
+<tbody></tbody>
+</table>
+</td>
+<td>
+<table class="table">
+<thead><tr class="header">
+<th align="left">x</th>
+</tr></thead>
+<tbody><tr class="odd">
+<td align="left">Afrobarometer_2016</td>
+</tr></tbody>
+</table>
+</td>
+</tr></tbody></table>
 <p>We create a harmonization function from the <code><a href="../reference/harmonize_values.html">harmonize_values()</a></code> prototype function. In fact, this is just a re-setting the default values of the original function. It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with <code><a href="https://tidyr.tidyverse.org/reference/reexports.html">starts_with("trust")</a></code>.</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">harmonize_ab_trust</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
   <span class="no">label_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
@@ -214,8 +308,9 @@
   )
 }</pre></body></html></div>
 <p>Let’s apply these settings to the trust variables. The <code><a href="../reference/harmonize_waves.html">harmonize_waves()</a></code> function binds all variables that are present in all surveys.</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">harmonized_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> ( <span class="kw">waves</span> <span class="kw">=</span> <span class="no">merged_ab</span>,
-                                      <span class="kw">.f</span> <span class="kw">=</span> <span class="no">harmonize_ab_trust</span>) <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">harmonized_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> (
+  <span class="kw">waves</span> <span class="kw">=</span> <span class="no">merged_ab</span>,
+  <span class="kw">.f</span> <span class="kw">=</span> <span class="no">harmonize_ab_trust</span> ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/ifelse.html">ifelse</a></span> (
     <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"r6_data_2016"</span>, <span class="no">unique_id</span>),
     <span class="kw">yes</span> <span class="kw">=</span> <span class="fl">2016</span>, <span class="kw">no</span> <span class="kw">=</span> <span class="fl">2019</span>))</pre></body></html></div>
