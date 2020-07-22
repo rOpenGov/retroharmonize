@@ -21,4 +21,10 @@ variable labels and survey identifiers.
 }
 \seealso{
 survey
+
+Other harmonization functions: 
+\code{\link{harmonize_na_values}()},
+\code{\link{harmonize_values}()},
+\code{\link{harmonize_waves}()}
 }
+\concept{harmonization functions}

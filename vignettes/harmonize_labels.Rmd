@@ -229,4 +229,4 @@ summary(c)
 print(c)
 ```
 
-While dplyr's join functions may result in correct values, the metadata gets lost. 
+While dplyr's join functions may result in correct values, the metadata gets lost. A new join method will be developed.

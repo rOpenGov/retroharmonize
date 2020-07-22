@@ -78,5 +78,11 @@ x2
 }
 \seealso{
 as_factor
+
+Other type conversion functions: 
+\code{\link{as_labelled_spss_survey}()}
+
+Other type conversion functions: 
+\code{\link{as_labelled_spss_survey}()}
 }
 \concept{type conversion functions}

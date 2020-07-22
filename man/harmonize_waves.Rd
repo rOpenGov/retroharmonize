@@ -16,3 +16,10 @@ Harmonize the values of surveys. It binds together variables
 that are all present in the surveys, and applies a 
 harmonization function on them.
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{harmonize_na_values}()},
+\code{\link{harmonize_values}()},
+\code{\link{merge_waves}()}
+}
+\concept{harmonization functions}

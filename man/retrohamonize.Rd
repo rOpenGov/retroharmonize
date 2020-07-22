@@ -35,5 +35,7 @@ values in the R language.
 \code{\link{as_numeric}}: convert to numeric values
 \code{\link{as_factor}}: convert to labels to factor levels
 \code{\link{as_character}}: convert to labels to characters
+\code{\link{as_labelled_spss_survey}}: convert labelled and labelled_spss
+vectors to labelled_spss_survey vectors.
 }
 

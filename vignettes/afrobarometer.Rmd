@@ -87,9 +87,17 @@ merged_ab <- lapply ( merged_ab,
 The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do. The `document_survey_item()` function shows the metadata of a single variable.
 
 ```{r check}
-q_item <- merged_ab[[1]]$trust_president
-document_survey_item(q_item)
+
 ```
+
+... and its code table:
+
+```{r}
+document_survey_item(merged_ab[[1]]$trust_president) %>%
+  knitr::kable()
+```
+
+
 We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
 
 ```{r specify}
@@ -115,8 +123,9 @@ harmonize_ab_trust <- function(x) {
 Let's apply these settings to the trust variables. The `harmonize_waves()`  function binds all variables that are present in all surveys.
 
 ```{r harmonize}
-harmonized_waves <- harmonize_waves ( waves = merged_ab, 
-                                      .f = harmonize_ab_trust) %>%
+harmonized_waves <- harmonize_waves ( 
+  waves = merged_ab, 
+  .f = harmonize_ab_trust ) %>%
   mutate ( year = ifelse (
     grepl("r6_data_2016", unique_id), 
     yes = 2016, no = 2019)) 

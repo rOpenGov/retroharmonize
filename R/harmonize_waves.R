@@ -26,8 +26,6 @@ harmonize_waves <- function(waves, .f) {
   }
   tmp <- lapply(waves, fn_subset)
   
-  dat <- tmp[[1]]
-  
   fn_harmonize <- function(dat, .f) {
     
     dat %>%
@@ -37,6 +35,4 @@ harmonize_waves <- function(waves, .f) {
   tmp <- lapply ( tmp, function(x) fn_harmonize(x, .f) )
   
   do.call(rbind, tmp)
-  
-
 }

@@ -24,6 +24,8 @@ harmonize_na_values(ZA6863_sample)
 }
 \seealso{
 Other harmonization functions: 
-\code{\link{harmonize_values}()}
+\code{\link{harmonize_values}()},
+\code{\link{harmonize_waves}()},
+\code{\link{merge_waves}()}
 }
 \concept{harmonization functions}

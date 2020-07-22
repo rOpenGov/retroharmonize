@@ -83,6 +83,7 @@ new_labelled_spss_survey <- function(x, labels,
   if (!is.null(na_values) && !vctrs::vec_is(x, na_values)) {
     abort("`na_values` must be same type as `x`.")
   }
+  
   if (!is.null(na_range)) {
     if (!is.numeric(x)) {
       abort("`na_range` is only applicable for labelled numeric vectors.")
@@ -91,27 +92,42 @@ new_labelled_spss_survey <- function(x, labels,
       abort("`na_range` must be a numeric vector of length two.")
     }
   }
-
+  
   tmp <- haven::labelled_spss(x,
-                       labels = labels,
-                       label = label,
-                       na_values = na_values,
-                       na_range = na_range)
+                              labels = labels,
+                              label = label,
+                              na_values = na_values,
+                              na_range = na_range)
   
   original_coding <- sort(unique(x))
   names(original_coding) <- original_coding
-  
-  attr(tmp, "id") <- id
+
   attr(tmp, "class") <- c("retroharmonize_labelled_spss_survey",
                           "haven_labelled_spss", 
                           "haven_labelled")
-  attr(tmp, paste0(id, "_name")) <- name_orig
-  attr(tmp, paste0(id, "_values")) <- original_coding
-  attr(tmp, paste0(id, "_label")) <- label
-  attr(tmp, paste0(id, "_labels")) <- attr(tmp, "labels")
-  attr(tmp, paste0(id, "_na_values")) <- attr(tmp, "na_values")
-  attr(tmp, paste0(id, "_na_range")) <- attr(tmp, "na_range")
- tmp
+  if (  (length(id)==1) ) {
+    attr(tmp, paste0(id, "_name")) <- name_orig
+    attr(tmp, paste0(id, "_values")) <- original_coding
+    attr(tmp, paste0(id, "_label")) <- label
+    attr(tmp, paste0(id, "_labels")) <- attr(tmp, "labels")
+    attr(tmp, paste0(id, "_na_values")) <- attr(tmp, "na_values")
+    attr(tmp, paste0(id, "_na_range")) <- attr(tmp, "na_range")
+  } else {
+    id <- paste(id, collapse = ", ")
+  }
+  
+  attr(tmp, "id") <- id
+  
+  tmp
+}
+
+## Subsetting -------------------------------------------------
+#' @export
+`[.retroharmonize_labelled_spss_survey` <- function(x, i, ...) {
+  preserve_structure <- attributes(x)
+  x = vec_data(x)[i]
+  attributes(x) <- preserve_structure
+  x
 }
 
 ## Utility ----------------------------------------------------
@@ -128,9 +144,45 @@ get_labeltext <- function(x, prefix=": ") {
   }
 }
 
+print_attributes <- function(x, full = TRUE) {
+  
+  na_values <- attr(x, "na_values")
+  if (!is.null(na_values)) {
+    cat_line("Missing values: ", paste(na_values, collapse = ", "))
+  }
+  na_range <- attr(x, "na_range")
+  if (!is.null(na_range)) {
+    cat_line("Missing range:  [", paste(na_range, collapse = ", "), "]")
+  }
+  
+  if (full == FALSE) invisible(x)
+  ## full printing goes on below ---------------------
+  
+  history_attributes <- names(attributes(x))
+  history_attributes <- history_attributes[
+    ! history_attributes %in% c("label", "labels",
+                                "na_values", "na_range", "class", "id")]
+  
+  
+  if (length(history_attributes)>0) {
+    last_attribute <- history_attributes[length(history_attributes)]
+    history_attributes <- c(history_attributes[1:3], "...", last_attribute)
+    history_attributes <- paste (history_attributes, collapse = ", ")
+    history_attributes <- gsub("\\,\\s\\.\\.\\.", " [...]", history_attributes)
+  }
+  
+  cat_line (paste0("See all attributes ", 
+                   history_attributes, 
+                   " with attributes(",
+                   deparse (substitute(x)),
+                   ")")
+  )
+}
+
 #' @export
 vec_ptype_full.retroharmonize_labelled_spss_survey <- function(x, ...) {
   paste0("labelled_spss_survey<", vec_ptype_full(vctrs::vec_data(x)), ">")
+  cat_line("Survey ID: ", attr(x, "id"))
 }
 
 #' @export
@@ -155,38 +207,18 @@ obj_print_header.retroharmonize_labelled_spss_survey <- function(x, ...) {
 }
 
 obj_print_footer.retroharmonize_labelled_spss_survey <- function(x, ...) {
-  
-  history_attributes <- names(attributes(x))
-  history_attributes <- history_attributes[! history_attributes %in% c("label", "labels", "na_values", 
-                                                 "na_range", "class", "id")]
-  
-  na_values <- attr(x, "na_values")
-  if (!is.null(na_values)) {
-    cat_line("Missing values: ", paste(na_values, collapse = ", "))
-  }
-  na_range <- attr(x, "na_range")
-  if (!is.null(na_range)) {
-    cat_line("Missing range:  [", paste(na_range, collapse = ", "), "]")
-  }
-
-  cat_line("Survey ID: ", attr(x, "id"))
-  
-  if (length(history_attributes)>0) {
-    last_attribute <- history_attributes[length(history_attributes)]
-    history_attributes <- c(history_attributes[1:3], "...", last_attribute)
-    history_attributes <- paste (history_attributes, collapse = ", ")
-    history_attributes <- gsub("\\,\\s\\.\\.\\.", " [...]", history_attributes)
-  }
-  
-  cat_line (paste0("See all attributes ", 
-                   history_attributes, 
-                   " with attributes(",
-                   deparse (substitute(x)),
-                   ")")
-  )
+  print_attributes(x)
   invisible(x)
-
 }
+
+print.retroharmonize_labelled_spss_survey <- function(x, ...) {
+  cat_line("<", vec_ptype_full(x), "[", vec_size(x), "]>", get_labeltext(x))
+  cat( head(vec_data(x),20) )
+  cat("\n")
+  print_attributes(x)
+  invisible(x)
+}
+
 
 ## Missingness --------------------------------------
 
@@ -285,8 +317,10 @@ vec_ptype2.retroharmonize_labelled_spss_survey.integer <- function(x, y, ...) do
 
 #' @export
 vec_cast.double.retroharmonize_labelled_spss_survey  <- function(x, to, ...) vec_cast(vctrs::vec_data(x), to)
+
 #' @export
 vec_cast.integer.retroharmonize_labelled_spss_survey  <- function(x, to, ...) vec_cast(vctrs::vec_data(x), to)
+
 #' @export
 vec_cast.character.retroharmonize_labelled_spss_survey  <- function(x, to, ...) {
   if (is.character(x)) {
@@ -369,9 +403,30 @@ summary.retroharmonize_labelled_spss_survey <- function(object, ...) {
 
 ## Prototype --------------------------------------
 #' @export
-vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey  <- function(x, y, ..., x_arg = "", y_arg = "") {
+vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey  <- function(
+  x, y, ..., x_arg = "", y_arg = "") {
   data_type <- vctrs::vec_ptype2(vec_data(x), vec_data(y), ..., x_arg = x_arg, y_arg = y_arg)
-  #data_type <- vec_ptype2(vec_data(x), vec_data(y), x_arg = x_arg, y_arg = y_arg)
+  data_type <- vec_ptype2(vec_data(x), vec_data(y), x_arg = x_arg, y_arg = y_arg)
+ 
+  if (! setequal(attr(x, "labels"), attr(y, "labels")) ) {
+    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
+                           message = "The coding is not matching.")
+  }
+  
+  if (! setequal(names(attr(x, "labels")), names(attr(y, "labels"))) ) {
+    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
+                           message = "The labels are not matching." )
+  }
+  
+  if (! setequal(attr(x, "na_values"), attr(y, "na_values")) ) {
+    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
+                           message = "The missing values are not matching.")
+  }
+  
+  if (! setequal(attr(x, "na_range"), attr(y, "na_range")) ) {
+    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
+                           message = "The missing range is not matching.")
+  }
   
   x_labels <- vec_cast_named(attr(x, "labels"), data_type, x_arg = x_arg)
   y_labels <- vec_cast_named(attr(y, "labels"), data_type, x_arg = y_arg)
@@ -385,35 +440,19 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
   x_attr_names <- names(attributes(x))
   y_attr_names <- names(attributes(y))
   
-  x_orig_attr <- x_attr_names [which (x_attr_names ==  paste0(x_id, "_name" ))]
+  x_orig_attr <- x_attr_names[which (x_attr_names ==  paste0(x_id, "_name" ))]
   y_orig_attr <- y_attr_names[which (y_attr_names ==  paste0(y_id, "_name" ))]
   
   x_orig_name <- as.character(attr(x, x_orig_attr[1]))
   y_orig_name <- as.character(attr(y, y_orig_attr[1]))
   
-  name_orig <- vec_c(x_orig_name, y_orig_name)
-  
-  if (!identical(x_labels, y_labels)) {
-    # strip labels if not compatible
-    stop("Labels must be identifical for combining labelled_spss_survey")
-  }
+  name_orig <- paste(vec_c(x_orig_name, y_orig_name), collapse = ", ")
   
   x_na_values <- attr(x, "na_values")
   y_na_values <- attr(y, "na_values")
   
-  if (!identical(x_na_values, y_na_values)) {
-    # strip labels if not compatible
-    stop("User-defined missing values must be identifical for combining labelled_spss_survey")
-  }
-  
   x_na_range <- attr(x, "na_range")
   y_na_range <- attr(y, "na_range")
-  
-  if (!identical(x_na_range,y_na_range)) {
-    # strip labels if not compatible
-    stop("User-defined missing ranges must be identifical for combining labelled_spss_survey")
-    
-  }
   
   label <- x_label
   
@@ -433,7 +472,7 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
   matching_arguments <- names(compare_attributes[ compare_attributes == TRUE ]) 
   
   c_vector <- new_labelled_spss_survey(
-    data_type, 
+    x = vec_c(vec_data(x), vec_data(y)),
     labels = x_labels,
     label = label, 
     id = id, 
@@ -456,7 +495,8 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
 
 #' @importFrom haven is_tagged_na
 #' @export
-vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey <- function(x, to, ..., x_arg = "", to_arg = "") {
+vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey <- function(
+  x, to, ..., x_arg = "", to_arg = "") {
   out_data <- vec_cast(vec_data(x), vec_data(to), ..., x_arg = x_arg, to_arg = to_arg)
   #out_data <- vec_cast(vec_data(x), vec_data(to),  x_arg = x_arg, to_arg = to_arg)
   x_labels <- labelled::val_labels(x)
@@ -471,37 +511,22 @@ vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey
   x_attr_names <- names(attributes(x))
   to_attr_names <- names(attributes(to))
   
+  x_attr_names
+  to_attr_names
+  
   x_orig_attr <- x_attr_names [which (x_attr_names ==  paste0(x_id, "_name" ))]
-  #to_orig_attr <- to_attr_names[which (to_attr_names ==  paste0(to_id, "_name" ))]
+  to_orig_attr <- to_attr_names[which (to_attr_names ==  paste0(to_id, "_name" ))]
   
   x_orig_name <- as.character(attr(x, x_orig_attr[1]))
-  #to_orig_name <- as.character(attr(to, to_orig_attr[1]))
+  to_orig_name  <- as.character(attr(to, to_orig_attr[1]))
   
-  to_orig_name  <- x_orig_name
-  
-  name_orig <- vec_c(x_orig_name, to_orig_name)
-  
-  if (!identical(x_labels, to_labels)) {
-    # strip labels if not compatible
-    stop("Labels must be identifical for combining labelled_spss_survey")
-  }
+  name_orig <- paste(vec_c(x_orig_name, to_orig_name), collapse = ", ")
   
   x_na_values  <- attr(x, "na_values")
   to_na_values <- attr(to, "na_values")
   
-  if (!identical(x_na_values, to_na_values)) {
-    # strip labels if not compatible
-    stop("User-defined missing values must be identifical for combining labelled_spss_survey")
-  }
-  
   x_na_range  <- attr(x, "na_range")
   to_na_range <- attr(to, "na_range")
-  
-  if (!identical(x_na_range,to_na_range)) {
-    # strip labels if not compatible
-    stop("User-defined missing ranges must be identifical for combining labelled_spss_survey")
-    
-  }
   
   label <- x_label 
   
@@ -512,9 +537,9 @@ vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey
     }
   }
   
-  id <- vec_c(x_id, to_id)
+  id <- paste(vec_c(x_id, to_id), collapse = ", ")
   
-  out <- new_labelled_spss_survey(
+ out <- new_labelled_spss_survey(
     out_data, 
     labels = x_labels,
     label = label, 
@@ -522,7 +547,6 @@ vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey
     na_values = x_na_values,
     na_range = x_na_range,
     name_orig = name_orig )
-  
   
   # do we lose tagged na values? from haven
   if (is.double(x) && !is.double(out)) {

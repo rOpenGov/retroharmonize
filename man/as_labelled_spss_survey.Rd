@@ -17,3 +17,8 @@ A vector of labelled_spss_survey
 \description{
 Labelled to labelled_spss_survey
 }
+\seealso{
+Other type conversion functions: 
+\code{\link{labelled_spss_survey}()}
+}
+\concept{type conversion functions}

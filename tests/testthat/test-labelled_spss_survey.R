@@ -10,7 +10,59 @@ v1 <- labelled_spss_survey (
              "no" = 0,
              "inap" = 9),
   na_values = 9, 
-  label = "Hello")
+  label = "My survey item", 
+  id = "test"
+  )
+
+v2 <- labelled_spss_survey (
+  x = c(0,0,9,1,1), 
+  labels = c("yes" =1,
+             "no" = 0,
+             "inap" = 9),
+  na_values = 9, 
+  label = "Other survey item", 
+  id = "test2"
+)
+
+v3 <- labelled_spss_survey (
+  x = c(0,0,9,1,1), 
+  labels = c("ja" =1,
+             "nee" = 0,
+             "vermist" = 9),
+  na_values = 9, 
+  label = "Other survey item", 
+  id = "test2"
+)
+
+v4 <- labelled_spss_survey (
+  x = c(0,0,9,1,1), 
+  labels = c("ja" =1,
+             "nee" = 0,
+             "vermist" = 9),
+  na_values = 8, 
+  label = "Other survey item", 
+  id = "test2"
+)
+
+v5 <- labelled_spss_survey (
+  x = c(0,0,9,1,1), 
+  labels = c("ja" =1,
+             "nee" = 0,
+             "ontbekend" = 9),
+  na_values = 8, 
+  label = "Other survey item", 
+  id = "test2"
+)
+
+test_that("subsetting workds", {
+  expect_equal(as_numeric(v1[3:4]), c(1,NA))
+})
+
+test_that("coercion exception handling works", {
+  expect_error(vec_c(v1, v3))
+  expect_error(vec_c(v3, v4))
+  expect_error(vec_c(v5, v4))
+})
 
 
 test_that("coercion works", {
@@ -81,9 +133,9 @@ test_that("arithmetic methods work", {
   )
 })
 
-verify_output("retroh_int_shaft.txt", {
-  pillar::pillar_shaft(tibble(v1=x1))
-})
+#verify_output("retroh_int_shaft.txt", {
+#  pillar::pillar_shaft(tibble(v1=x1))
+#})
 
 verify_output("retroh_int.txt", {
   pillar::pillar(x1)
