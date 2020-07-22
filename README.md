@@ -199,25 +199,26 @@ b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
 
 dplyr::bind_rows(a,b)
 #> # A tibble: 13 x 3
-#>    rowid                        hvar      w
-#>    <chr>                <retroh_dbl>  <dbl>
-#>  1 survey11     1 [trust]            0.0802
-#>  2 survey12     0 [not_trust]        0.719 
-#>  3 survey13     1 [trust]            0.935 
-#>  4 survey14     1 [trust]            0.825 
-#>  5 survey15     0 [not_trust]        0.426 
-#>  6 survey16 99997 (NA) [do_not_know] 0.587 
-#>  7 survey17 99999 (NA) [inap]        0.291 
-#>  8 survey21     0 [not_trust]        0.142 
-#>  9 survey22     0 [not_trust]        0.181 
-#> 10 survey23 99997 (NA) [do_not_know] 0.477 
-#> 11 survey24 99999 (NA) [inap]        0.997 
-#> 12 survey25     1 [trust]            0.349 
-#> 13 survey26     1 [trust]            0.297
+#>    rowid                        hvar     w
+#>    <chr>                <retroh_dbl> <dbl>
+#>  1 survey11     1 [trust]            0.990
+#>  2 survey12     0 [not_trust]        0.631
+#>  3 survey13     1 [trust]            0.277
+#>  4 survey14     1 [trust]            0.933
+#>  5 survey15     0 [not_trust]        0.120
+#>  6 survey16 99997 (NA) [do_not_know] 0.355
+#>  7 survey17 99999 (NA) [inap]        0.793
+#>  8 survey21     0 [not_trust]        0.515
+#>  9 survey22     0 [not_trust]        0.341
+#> 10 survey23 99997 (NA) [do_not_know] 0.527
+#> 11 survey24 99999 (NA) [inap]        0.877
+#> 12 survey25     1 [trust]            0.183
+#> 13 survey26     1 [trust]            0.532
 ```
 
 See the [Case Study: Working With
-Afrobarometer](articles/harmonize_labels.html) for a futher automated
+Afrobarometer](articles/afrobarometer.html) and [Case Study: Working
+With Eurobarometer](articles/eurobarometer.html) for a futher automated
 workflow.
 
 ## Code of Conduct
