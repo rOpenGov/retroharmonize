@@ -112,32 +112,19 @@ harmonize_waves <- function(waves, .f) {
     
     retroh <- as_tibble(lapply ( dat[, retroharmonized], FUN = .f ))
   
-    set_na_labels <- function (x) {
-      
-      missing_labels <-  c(
-        "do_not_know"=99997,
-        "declined"=99998,
-        "inap"=99999) 
-      
-      attr(x, "na_values") <- missing_labels
-      
-      attr(x, "labels") <- sort(vec_c(
-        attr(x, "labels"), 
-        missing_labels[which( ! missing_labels  %in% attr(x, "labels"))]
-        ))
-      x
-    }
-    
-    rh2 <- lapply ( retroh, set_na_labels)
-    
-    dat %>% select ( -all_of(names(rh2))) %>%
-      bind_cols(rh2) %>%
+    dat %>% select ( -all_of(names(retroh))) %>%
+      bind_cols(retroh) %>%
       select (all_of(orig_name_order)) 
   }
   
   tmp <- lapply ( extended, function(x) fn_harmonize(x, .f))
   
-  do.call(vctrs::vec_rbind, tmp)
+  return_value <- tmp[[1]]
+  for ( i in 2:length(tmp)) {
+    #message ( "Joining ", i, "/", length(tmp), ": ", attr(tmp[[i]], "id") )
+    return_value <- vctrs::vec_rbind(tmp[[1]], tmp[[i]])
+  }
+  return_value
  
 }
 

@@ -101,14 +101,27 @@ document_survey_item(merged_ab[[1]]$trust_president) %>%
 
 We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
 
+
+```{r}
+collect_na_labels( to_harmonize )
+```
+
+Afrobarometer's SPSS files do not mark the missing values, so we have to be careful.  The valid category labels and the missing values are the following:
+  
+```{r}
+collect_val_labels (to_harmonize %>%
+                      filter ( grepl( "trust", var_name) ))
+```
+
+
 ```{r specify}
 harmonize_ab_trust <- function(x) {
   label_list <- list(
     from = c("^not", "^just", "^somewhat",
-             "^a", "^don", "^ref", "^miss"), 
+             "^a", "^don", "^ref", "^miss", "^not"), 
     to = c("not_at_all", "little", "somewhat", 
-           "a_lot", "do_not_know", "declined", "inap"), 
-    numeric_values = c(0, 0.33333, 0.66666, 1, 99997, 99998, 99999)
+           "a_lot", "do_not_know", "declined", "inap", "inap"), 
+    numeric_values = c(0,1,2,3, 99997, 99998, 99999,99999)
   )
   
   harmonize_values(

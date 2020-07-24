@@ -93,7 +93,7 @@ new_labelled_spss_survey <- function(x, labels,
     }
   }
   
-  tmp <- haven::labelled_spss(x,
+  tmp <- haven::labelled_spss(vec_data(x),
                               labels = labels,
                               label = label,
                               na_values = na_values,

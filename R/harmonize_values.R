@@ -74,10 +74,8 @@ harmonize_values <- function(
   ## Get the original object name for recording it as metadata
   original_x_name <- deparse(substitute(x))  
   
-  ## Set a label, if it is present but not given.
-  if (is.null(harmonize_label)) { 
-    harmonize_label <- labelled::var_label(x)
-    }
+  if (is.null(harmonize_label)) harmonize_label <- labelled::var_label(x)
+  if (is.null(harmonize_label)) harmonize_label <- original_x_name
   
   if ( !is.null(harmonize_labels)) {
     harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
@@ -191,18 +189,18 @@ harmonize_values <- function(
   
   
   add_to_value_range <- (!harmonize_labels$to %in% new_labelling$new_labels)
-  
   further_labels <- harmonize_labels$numeric_values[add_to_value_range ]
   names(further_labels) <- harmonize_labels$to[add_to_value_range ]
   
   new_total_labels <- sort(c( new_labels, further_labels,
                               input_na_values[which( !input_na_values %in% new_labelling$new_labels)] ))
 
-  attr(return_value, "labels") <- new_total_labels
-  attr(return_value, "na_values") <- new_na_values
+  attr(return_value, "labels") <- new_total_labels[unique(names(new_total_labels))]
+  attr(return_value, "na_values") <- unique(new_na_values)
   attr(return_value, paste0(attr(return_value, "id"), "_values")) <- original_numeric_values
   
-  assertthat::assert_that ( inherits(return_value, "haven_labelled_spss")) 
+  assertthat::assert_that ( 
+    inherits(return_value, "haven_labelled_spss") ) 
     
   return_value
   

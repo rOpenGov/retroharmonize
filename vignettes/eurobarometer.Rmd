@@ -138,10 +138,15 @@ harmonized_eb_waves %>%
 ```
 ```{r numericrepr}
 numeric_harmonization <- harmonized_eb_waves %>%
-  mutate_at ( vars(contains("trust")), as_numeric ) %>%
-  mutate_at ( vars(contains("trust")), ~.*weight_poststrat) 
-
+  mutate_at ( vars(contains("trust")), as_numeric )
 summary(numeric_harmonization)
+```
+
+```{r weightednumrepr}
+harmonized_eb_waves %>%
+  mutate_at ( vars(contains("trust")), as_numeric ) %>%
+  mutate_at ( vars(contains("trust")), ~.*weight_poststrat) %>%
+  summary()
 ```
 
 We have a problem: the invalid values should go out to the missing range, but they are not always correctly labelled as missing. The names in the tibble should also be fixed.
