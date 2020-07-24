@@ -22,6 +22,4 @@ as_labelled_spss_survey  <- function (x, id) {
     name_orig = deparse(substitute(x)), 
     id = id
   )
-  
-  
 }

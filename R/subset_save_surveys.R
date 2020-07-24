@@ -62,5 +62,4 @@ subset_save_surveys  <- function ( survey_list,
       export_path, save_file_name ), 
       version = 2)
   }
-  
 }

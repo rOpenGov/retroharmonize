@@ -11,7 +11,7 @@ collect_na_labels(metadata)
 }
 \arguments{
 \item{metadata}{A metadata data frame created by 
-\code\link{metadata_create}}
+\code{\link{metadata_create}}.}
 }
 \value{
 The unique valid labels or the user-defined missing 
