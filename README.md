@@ -85,11 +85,11 @@ print(eb)
 #> #   w1 <dbl>, w3 <dbl>, wex <dbl>
 ```
 
-The `labelled_spss_survey` class is an extension of haven’s
-`labelled_spss` class. It not only preserver variable and value labels
-and the user-defined missing range, but also gives an identifer, for
-example, the filename to the vector. See [Working With The
-labelled\_spss\_survey
+The `labelled_spss_survey()` class is an extension of haven’s
+[labelled\_spss](https://haven.tidyverse.org/reference/labelled_spss.html)
+class. It not only preserver variable and value labels and the
+user-defined missing range, but also gives an identifier, for example,
+the filename to the vector. See [Working With The labelled\_spss\_survey
 Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html).
 
 ## Harmonize categorical variables and missing values
@@ -199,31 +199,31 @@ b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
 
 dplyr::bind_rows(a,b)
 #> # A tibble: 13 x 3
-#>    rowid                        hvar     w
-#>    <chr>                <retroh_dbl> <dbl>
-#>  1 survey11     1 [trust]            0.990
-#>  2 survey12     0 [not_trust]        0.631
-#>  3 survey13     1 [trust]            0.277
-#>  4 survey14     1 [trust]            0.933
-#>  5 survey15     0 [not_trust]        0.120
-#>  6 survey16 99997 (NA) [do_not_know] 0.355
-#>  7 survey17 99999 (NA) [inap]        0.793
-#>  8 survey21     0 [not_trust]        0.515
-#>  9 survey22     0 [not_trust]        0.341
-#> 10 survey23 99997 (NA) [do_not_know] 0.527
-#> 11 survey24 99999 (NA) [inap]        0.877
-#> 12 survey25     1 [trust]            0.183
-#> 13 survey26     1 [trust]            0.532
+#>    rowid                        hvar      w
+#>    <chr>                <retroh_dbl>  <dbl>
+#>  1 survey11     1 [trust]            0.310 
+#>  2 survey12     0 [not_trust]        0.199 
+#>  3 survey13     1 [trust]            0.137 
+#>  4 survey14     1 [trust]            0.410 
+#>  5 survey15     0 [not_trust]        0.554 
+#>  6 survey16 99997 (NA) [do_not_know] 0.918 
+#>  7 survey17 99999 (NA) [inap]        0.129 
+#>  8 survey21     0 [not_trust]        0.201 
+#>  9 survey22     0 [not_trust]        0.406 
+#> 10 survey23 99997 (NA) [do_not_know] 0.0331
+#> 11 survey24 99999 (NA) [inap]        0.553 
+#> 12 survey25     1 [trust]            0.604 
+#> 13 survey26     1 [trust]            0.174
 ```
 
 See the [Case Study: Working With
 Afrobarometer](articles/afrobarometer.html) and [Case Study: Working
-With Eurobarometer](articles/eurobarometer.html) for a futher automated
+With Eurobarometer](articles/eurobarometer.html) for a further automated
 workflow.
 
 ## Code of Conduct
 
-Please note that the retroharmonize project is released with a
+Please note that the `retroharmonize` project is released with a
 [Contributor Code of
 Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html).
 By contributing to this project, you agree to abide by its terms.

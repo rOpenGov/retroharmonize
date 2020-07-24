@@ -46,9 +46,12 @@ subset_save_surveys  <- function ( survey_list,
       filter ( filename == this_file ) %>%
       select ( all_of(c("filename", "var_name_orig", "var_label_std")))
     
+    new_names <- as.character(survey_vars$var_label_std)
+    new_names <- gsub("-", "_", new_names)
+    
     save_survey <- this_survey %>%
       select ( all_of (survey_vars$var_name_orig) ) %>%
-      stats::setNames( nm = survey_vars$var_label_std )
+      stats::setNames( nm = new_names )
     
     save_file_name <- paste0(survey_files$id[i], "_", 
                              selection_name, ".rds")
@@ -58,7 +61,6 @@ subset_save_surveys  <- function ( survey_list,
     saveRDS(save_survey, file = file.path(
       export_path, save_file_name ), 
       version = 2)
-    
   }
   
 }

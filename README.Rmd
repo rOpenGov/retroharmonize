@@ -58,7 +58,7 @@ eb <- read_rds (
 print(eb)
 ```
 
-The `labelled_spss_survey` class is an extension of haven's `labelled_spss` class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifer, for example, the filename to the vector. See [Working With The labelled_spss_survey Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html).
+The `labelled_spss_survey()` class is an extension of haven's [labelled_spss](https://haven.tidyverse.org/reference/labelled_spss.html) class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifier, for example, the filename to the vector. See [Working With The labelled_spss_survey Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html).
 
 ## Harmonize categorical variables and missing values
 
@@ -146,8 +146,8 @@ b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
 dplyr::bind_rows(a,b)
 ```
 
-See the [Case Study: Working With Afrobarometer](articles/afrobarometer.html) and [Case Study: Working With Eurobarometer](articles/eurobarometer.html) for a futher automated workflow. 
+See the [Case Study: Working With Afrobarometer](articles/afrobarometer.html) and [Case Study: Working With Eurobarometer](articles/eurobarometer.html) for a further automated workflow. 
 
 ## Code of Conduct
 
-Please note that the retroharmonize project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.
+Please note that the `retroharmonize` project is released with a [Contributor Code of Conduct](https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html). By contributing to this project, you agree to abide by its terms.

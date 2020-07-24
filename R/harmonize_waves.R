@@ -24,7 +24,7 @@ harmonize_waves <- function(waves, .f) {
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
   characters <- unique(names(classes[which(classes %in% c("character"))]))
 
-  dat <- waves[[1]]
+
   extend_survey <- function (dat ) {
     
     to_add_rh <- retroharmonized[which(!retroharmonized %in% names(dat))]
@@ -47,7 +47,7 @@ harmonize_waves <- function(waves, .f) {
         bind_cols(add_numeric_df) 
     }
     
-    if ( length(to_add_characters)>0) {
+    if ( length(to_add_characters)>0 ) {
       
       add_character_df <- as.data.frame(
         matrix ( rep( NA_character_,
@@ -70,10 +70,23 @@ harmonize_waves <- function(waves, .f) {
         matrix (rep( 999999,
                      length(to_add_rh)*nrow(dat)), 
                      ncol = length(to_add_rh),
-                     nrow = nrow(dat))
-        ) %>%
+                     nrow = nrow(dat)
+                )
+        ) 
+      
+      names ( add_rh_df) <- gsub("`", "", to_add_rh)
+      
+      to_add_rh[1]
+      
+      add_rh_df$`trust_justice-system`
+      
+  
+      
+      %>%
         stats::setNames(to_add_rh) %>%
         mutate_all ( fn_inap )
+      
+      
      
       for ( i in ncol(add_rh_df)) {
         attr( add_rh_df[,i], "label") <- to_add_rh[i]
@@ -87,10 +100,14 @@ harmonize_waves <- function(waves, .f) {
       stop ( "Extension error in ", attr(dat, "id"))
     }
     
-    dat %>%
+   dat %>%
       select  (all_of(all_names))
     
   }
+  
+  ext <- extend_survey(dat)
+  names ( ext )
+  ext$trust_european-parliament
   
   extended <- lapply ( waves, extend_survey )
   
