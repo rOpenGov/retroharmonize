@@ -247,5 +247,4 @@ get_labelled_attributes <- function(x) {
   
   dplyr::distinct_at(code_table, dplyr::vars(
     all_of(c("x", "new_values", "orig_labels", "new_labels"))))
-  
 }
