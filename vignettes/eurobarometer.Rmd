@@ -118,7 +118,8 @@ We set a missing range, because we are not sure that all
 Let's see if it works:
 
 ```{r, check}
-harmonize_eb_trust(eb_waves[[4]]$`trust_european-commission`[1:10])
+test_trust_european_commission <- eb_waves[[4]]$trust_european_commission
+harmonize_eb_trust(test_trust_european_commission[1:10])
 ```
 Appears to give the correct results, let's run it through the 9 survey waves. Whenever a variable is missing from a wave, it is filled up with `inapproriate` missing values.
 

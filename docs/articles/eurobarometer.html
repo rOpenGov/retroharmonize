@@ -133,9 +133,9 @@
 <span class="co">#&gt; 1 ZA2828_trust.rds ZA2828_trust                     rowid</span>
 <span class="co">#&gt; 2 ZA2828_trust.rds ZA2828_trust                country_id</span>
 <span class="co">#&gt; 3 ZA2828_trust.rds ZA2828_trust          weight_poststrat</span>
-<span class="co">#&gt; 4 ZA2828_trust.rds ZA2828_trust trust_european-commission</span>
-<span class="co">#&gt; 5 ZA2828_trust.rds ZA2828_trust trust_national-government</span>
-<span class="co">#&gt; 6 ZA2828_trust.rds ZA2828_trust trust_european-parliament</span>
+<span class="co">#&gt; 4 ZA2828_trust.rds ZA2828_trust trust_european_commission</span>
+<span class="co">#&gt; 5 ZA2828_trust.rds ZA2828_trust trust_national_government</span>
+<span class="co">#&gt; 6 ZA2828_trust.rds ZA2828_trust trust_european_parliament</span>
 <span class="co">#&gt;                            class_orig</span>
 <span class="co">#&gt; 1                           character</span>
 <span class="co">#&gt; 2                           character</span>
@@ -158,46 +158,49 @@
 <span class="co">#&gt; 5         3       NA        3              2           1</span>
 <span class="co">#&gt; 6         3       NA        3              2           1</span></pre></body></html></div>
 <p>The value labels in this example are not too numerous. The only variable that stands out is the <code>Can rely on</code> and <code>Cannot rely on</code> labelled variable.</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="no">valid_labels</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span> (
-  <span class="no">eb_trust_metadata</span>$<span class="no">valid_labels</span>, <span class="no">unlist</span>) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span>(<span class="no">.</span>, <span class="no">names</span> )
-<span class="fu"><a href="https://rdrr.io/r/base/unique.html">unique</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/unlist.html">unlist</a></span>(<span class="no">valid_labels</span>)))
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_val_labels</a></span>(<span class="no">eb_trust_metadata</span>)
 <span class="co">#&gt; [1] "CAN RELY ON IT"    "CANNOT RELY ON IT" "Tend to trust"    </span>
 <span class="co">#&gt; [4] "Tend not to trust" "DK"</span></pre></body></html></div>
+<p>And the labels that were marked by GESIS as missing values:</p>
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_na_labels</a></span>(<span class="no">eb_trust_metadata</span>)
+<span class="co">#&gt; [1] "DK"                         "NA"                        </span>
+<span class="co">#&gt; [3] "Inap. (33 in V6)"           "Inap. (CY-TCC in isocntry)"</span></pre></body></html></div>
 </div>
 <div id="harmonize-the-labels" class="section level2">
 <h2 class="hasAnchor">
 <a href="#harmonize-the-labels" class="anchor"></a>Harmonize the labels</h2>
 <p>For easier looping we adopt the <code><a href="../reference/harmonize_values.html">harmonize_values()</a></code> function with new default settings. It would be tempting to preserve the <code>rely</code> labels, but if we use the same numeric coding, it will lead to confusion. If you want to keep the difference of the two type of category labels, than the harmonization should be done in a two-step process.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">harmonize_eb_trust</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">harmonize_eb_trust</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
   <span class="no">label_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
-    <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^tend\\snot"</span>, <span class="st">"^cannot"</span>,
-             <span class="st">"^tend\\sto"</span>, <span class="st">"^can\\srely"</span>,
-             <span class="st">"^dk"</span>, <span class="st">"^decline"</span>, <span class="st">"^inap"</span>),
+    <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^tend\\snot"</span>, <span class="st">"^cannot"</span>, <span class="st">"^tend\\sto"</span>, <span class="st">"^can\\srely"</span>,
+             <span class="st">"^dk"</span>, <span class="st">"^inap"</span>, <span class="st">"na"</span>),
     <span class="kw">to</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"not_trust"</span>, <span class="st">"not_trust"</span>, <span class="st">"trust"</span>, <span class="st">"trust"</span>,
-           <span class="st">"do_not_know"</span>, <span class="st">"declined"</span>, <span class="st">"inap"</span>),
-    <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">99997</span>,<span class="fl">99998</span>,<span class="fl">99999</span>)
+           <span class="st">"do_not_know"</span>, <span class="st">"inap"</span>, <span class="st">"inap"</span>),
+    <span class="kw">numeric_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">0</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>, <span class="fl">99997</span>,<span class="fl">99999</span>,<span class="fl">99999</span>)
   )
+
+  <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">x</span>, <span class="st">"labels"</span>)
+  <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/val_labels.html">val_labels</a></span>(<span class="no">x</span>)
 
   <span class="fu"><a href="../reference/harmonize_values.html">harmonize_values</a></span>(<span class="no">x</span>,
                    <span class="kw">harmonize_labels</span> <span class="kw">=</span> <span class="no">label_list</span>,
                    <span class="kw">na_values</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"do_not_know"</span><span class="kw">=</span><span class="fl">99997</span>,
                                  <span class="st">"declined"</span><span class="kw">=</span><span class="fl">99998</span>,
-                                 <span class="st">"inap"</span><span class="kw">=</span><span class="fl">99999</span>),
-                   <span class="kw">na_range</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>( <span class="fl">99900</span>, <span class="fl">99999</span>)
+                                 <span class="st">"inap"</span><span class="kw">=</span><span class="fl">99999</span>)
   )
 }</pre></body></html></div>
 <p>We set a missing range, because we are not sure that all</p>
 <p>Let’s see if it works:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu">harmonize_eb_trust</span>(<span class="no">eb_waves</span><span class="kw">[[</span><span class="fl">4</span>]]$<span class="no">`trust_european-commission`</span>[<span class="fl">1</span>:<span class="fl">10</span>])
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">test_trust_european_commission</span> <span class="kw">&lt;-</span> <span class="no">eb_waves</span><span class="kw">[[</span><span class="fl">4</span>]]$<span class="no">trust_european_commission</span>
+<span class="fu">harmonize_eb_trust</span>(<span class="no">test_trust_european_commission</span>[<span class="fl">1</span>:<span class="fl">10</span>])
 <span class="co">#&gt;  [1] 99997     1     0 99997     1     0     0     0     1 99997</span>
 <span class="co">#&gt; attr(,"labels")</span>
-<span class="co">#&gt;   not_trust       trust do_not_know </span>
-<span class="co">#&gt;           0           1       99997 </span>
+<span class="co">#&gt;   not_trust       trust do_not_know    declined        inap </span>
+<span class="co">#&gt;           0           1       99997       99998       99999 </span>
 <span class="co">#&gt; attr(,"label")</span>
 <span class="co">#&gt; [1] "QA27 EUROPEAN COMMISSION - TRUST"</span>
 <span class="co">#&gt; attr(,"na_values")</span>
-<span class="co">#&gt; [1] 99997</span>
+<span class="co">#&gt; [1] 99997 99998 99999</span>
 <span class="co">#&gt; attr(,"class")</span>
 <span class="co">#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                </span>
 <span class="co">#&gt; [3] "haven_labelled"                     </span>
@@ -216,127 +219,190 @@
 <span class="co">#&gt; attr(,"id")</span>
 <span class="co">#&gt; [1] "survey_id"</span></pre></body></html></div>
 <p>Appears to give the correct results, let’s run it through the 9 survey waves. Whenever a variable is missing from a wave, it is filled up with <code>inapproriate</code> missing values.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> ( <span class="kw">waves</span> <span class="kw">=</span> <span class="no">eb_waves</span>,
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> ( <span class="kw">waves</span> <span class="kw">=</span> <span class="no">eb_waves</span>,
                                       <span class="kw">.f</span> <span class="kw">=</span> <span class="no">harmonize_eb_trust</span>)
-<span class="co">#&gt; Warning: The `x` argument of `as_tibble.matrix()` must have unique column names if `.name_repair` is omitted as of tibble 2.0.0.</span>
-<span class="co">#&gt; Using compatibility `.name_repair`.</span>
-<span class="co">#&gt; This warning is displayed once every 8 hours.</span>
-<span class="co">#&gt; Call `lifecycle::last_warnings()` to see where this warning was generated.</span></pre></body></html></div>
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+
+<span class="co">#&gt; Warning: Unknown or uninitialised column: `trust_tax_department`.</span>
+<span class="co">#&gt; Joining 2/9: ZA3171_trust</span>
+<span class="co">#&gt; Joining 3/9: ZA3639_trust</span>
+<span class="co">#&gt; Joining 4/9: ZA4414_trust</span>
+<span class="co">#&gt; Joining 5/9: ZA4744_trust</span>
+<span class="co">#&gt; Joining 6/9: ZA5481_trust</span>
+<span class="co">#&gt; Joining 7/9: ZA5913_trust</span>
+<span class="co">#&gt; Joining 8/9: ZA6863_trust</span>
+<span class="co">#&gt; Joining 9/9: ZA7562_trust</span></pre></body></html></div>
 </div>
 <div id="analyze-the-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analyze-the-data" class="anchor"></a>Analyze the data</h2>
 <p>If there is a <code>99901</code> value, it refers to an invalid observation. The missing value range is not correctly identified. It should be made sure that if there is an unrecognized category label it goes into the missing range (and is marked that it was not recognized.)</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), <span class="no">as_factor</span> ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>()
 <span class="co">#&gt;     rowid            country_id        weight_poststrat</span>
-<span class="co">#&gt;  Length:277374      Length:277374      Min.   :0.0095  </span>
-<span class="co">#&gt;  Class :character   Class :character   1st Qu.:0.7471  </span>
-<span class="co">#&gt;  Mode  :character   Mode  :character   Median :0.9451  </span>
+<span class="co">#&gt;  Length:92702       Length:92702       Min.   :0.0095  </span>
+<span class="co">#&gt;  Class :character   Class :character   1st Qu.:0.6852  </span>
+<span class="co">#&gt;  Mode  :character   Mode  :character   Median :0.9491  </span>
 <span class="co">#&gt;                                        Mean   :1.0000  </span>
-<span class="co">#&gt;                                        3rd Qu.:1.1763  </span>
-<span class="co">#&gt;                                        Max.   :6.9678  </span>
+<span class="co">#&gt;                                        3rd Qu.:1.2338  </span>
+<span class="co">#&gt;                                        Max.   :6.7316  </span>
 <span class="co">#&gt;                                                        </span>
-<span class="co">#&gt;  trust_european-commission trust_national-government trust_european-parliament</span>
-<span class="co">#&gt;  not_trust  : 87687        not_trust  :149351        not_trust  : 86910       </span>
-<span class="co">#&gt;  trust      :109047        trust      :105644        trust      :117200       </span>
-<span class="co">#&gt;  99901      : 27534        99901      :    23        99901      : 27537       </span>
-<span class="co">#&gt;  do_not_know: 53106        do_not_know: 20856        do_not_know: 45727       </span>
-<span class="co">#&gt;                            99999      :  1500                                 </span>
+<span class="co">#&gt;  trust_european_commission trust_national_government trust_european_parliament</span>
+<span class="co">#&gt;  not_trust  :24781         not_trust  :45045         not_trust  :24640        </span>
+<span class="co">#&gt;  trust      :25508         trust      :37955         trust      :25921        </span>
+<span class="co">#&gt;  do_not_know:14889         do_not_know: 9702         do_not_know:14617        </span>
+<span class="co">#&gt;  declined   :    0         declined   :    0         declined   :    0        </span>
+<span class="co">#&gt;  inap       :27524         inap       :    0         inap       :27524        </span>
 <span class="co">#&gt;                                                                               </span>
 <span class="co">#&gt;                                                                               </span>
-<span class="co">#&gt;  trust_national-parliament    trust_justice-system        trust_police   </span>
-<span class="co">#&gt;  not_trust  :144288        0            : 55727    0            : 39423  </span>
-<span class="co">#&gt;  trust      :107434        1            : 59928    1            : 78946  </span>
-<span class="co">#&gt;  99901      :    19        invalid_label:152414    invalid_label:152417  </span>
-<span class="co">#&gt;  do_not_know: 24133        99997        :  8305    99997        :  6088  </span>
-<span class="co">#&gt;  99999      :  1500        99999        :  1000    99999        :   500  </span>
-<span class="co">#&gt;                                                                          </span>
-<span class="co">#&gt;                                                                          </span>
-<span class="co">#&gt;          trust_army      trust_political-parties      trust_companies  </span>
-<span class="co">#&gt;  0            : 27338   0            :132638     0            : 31669  </span>
-<span class="co">#&gt;  1            : 84711   1            : 35656     1            : 21416  </span>
-<span class="co">#&gt;  invalid_label:152421   invalid_label: 96966     invalid_label:215780  </span>
-<span class="co">#&gt;  99997        : 11904   99997        : 11614     99997        :  8509  </span>
-<span class="co">#&gt;  99999        :  1000   99999        :   500                           </span>
-<span class="co">#&gt;                                                                        </span>
-<span class="co">#&gt;                                                                        </span>
-<span class="co">#&gt;     trust_european-union    trust_united-nations weight_extrapolated</span>
-<span class="co">#&gt;  0            :90665     0            : 50559    Min.   :   140.8   </span>
-<span class="co">#&gt;  1            :95971     1            : 81663    1st Qu.:  2674.3   </span>
-<span class="co">#&gt;  invalid_label:65199     invalid_label:120656    Median :  6695.4   </span>
-<span class="co">#&gt;  99997        :25039     99997        : 23996    Mean   : 15015.7   </span>
-<span class="co">#&gt;  99999        :  500     99999        :   500    3rd Qu.: 18032.9   </span>
-<span class="co">#&gt;                                                  Max.   :171193.5   </span>
-<span class="co">#&gt;                                                  NA's   :126799</span></pre></body></html></div>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">&lt;-</span> <span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), <span class="no">as_numeric</span> ) <span class="kw">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), ~<span class="no">.</span>*<span class="no">weight_poststrat</span>)
-
+<span class="co">#&gt;  trust_national_parliament  trust_justice_system      trust_police  </span>
+<span class="co">#&gt;  not_trust  :42463         not_trust  :    0     not_trust  :    0  </span>
+<span class="co">#&gt;  trust      :39147         trust      :    0     trust      :    0  </span>
+<span class="co">#&gt;  do_not_know:11092         do_not_know:    0     do_not_know:    0  </span>
+<span class="co">#&gt;  declined   :    0         declined   :    0     declined   :    0  </span>
+<span class="co">#&gt;  inap       :    0         inap       :92702     inap       :92702  </span>
+<span class="co">#&gt;                                                                     </span>
+<span class="co">#&gt;                                                                     </span>
+<span class="co">#&gt;        trust_army    trust_political_parties    trust_companies </span>
+<span class="co">#&gt;  not_trust  :    0   not_trust  :20535       not_trust  :    0  </span>
+<span class="co">#&gt;  trust      :    0   trust      : 5612       trust      :    0  </span>
+<span class="co">#&gt;  do_not_know:    0   do_not_know: 1377       do_not_know:    0  </span>
+<span class="co">#&gt;  declined   :    0   declined   :    0       declined   :    0  </span>
+<span class="co">#&gt;  inap       :92702   inap       :65178       inap       :92702  </span>
+<span class="co">#&gt;                                                                 </span>
+<span class="co">#&gt;                                                                 </span>
+<span class="co">#&gt;   trust_european_union  trust_united_nations weight_extrapolated</span>
+<span class="co">#&gt;  not_trust  :13185     not_trust  :    0     Min.   :   241.8   </span>
+<span class="co">#&gt;  trust      :11573     trust      :    0     1st Qu.:  2801.3   </span>
+<span class="co">#&gt;  do_not_know: 2766     do_not_know:    0     Median :  6840.6   </span>
+<span class="co">#&gt;  declined   :    0     declined   :    0     Mean   : 15675.5   </span>
+<span class="co">#&gt;  inap       :65178     inap       :92702     3rd Qu.: 17136.6   </span>
+<span class="co">#&gt;                                              Max.   :171193.5   </span>
+<span class="co">#&gt;                                              NA's   :65178</span></pre></body></html></div>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">&lt;-</span> <span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), <span class="no">as_numeric</span> )
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">numeric_harmonization</span>)
 <span class="co">#&gt;     rowid            country_id        weight_poststrat</span>
-<span class="co">#&gt;  Length:277374      Length:277374      Min.   :0.0095  </span>
-<span class="co">#&gt;  Class :character   Class :character   1st Qu.:0.7471  </span>
-<span class="co">#&gt;  Mode  :character   Mode  :character   Median :0.9451  </span>
+<span class="co">#&gt;  Length:92702       Length:92702       Min.   :0.0095  </span>
+<span class="co">#&gt;  Class :character   Class :character   1st Qu.:0.6852  </span>
+<span class="co">#&gt;  Mode  :character   Mode  :character   Median :0.9491  </span>
 <span class="co">#&gt;                                        Mean   :1.0000  </span>
-<span class="co">#&gt;                                        3rd Qu.:1.1763  </span>
-<span class="co">#&gt;                                        Max.   :6.9678  </span>
+<span class="co">#&gt;                                        3rd Qu.:1.2338  </span>
+<span class="co">#&gt;                                        Max.   :6.7316  </span>
 <span class="co">#&gt;                                                        </span>
-<span class="co">#&gt;  trust_european-commission trust_national-government trust_european-parliament</span>
-<span class="co">#&gt;  Min.   :     0.00         Min.   :     0.00         Min.   :     0.00        </span>
-<span class="co">#&gt;  1st Qu.:     0.00         1st Qu.:     0.00         1st Qu.:     0.00        </span>
-<span class="co">#&gt;  Median :     0.74         Median :     0.00         Median :     0.76        </span>
-<span class="co">#&gt;  Mean   : 12265.78         Mean   :   594.50         Mean   : 11877.61        </span>
-<span class="co">#&gt;  3rd Qu.:     1.16         3rd Qu.:     0.86         3rd Qu.:     1.17        </span>
-<span class="co">#&gt;  Max.   :303529.21         Max.   :300017.00         Max.   :303529.21        </span>
-<span class="co">#&gt;  NA's   :53106             NA's   :20856             NA's   :45727            </span>
-<span class="co">#&gt;  trust_national-parliament trust_justice-system  trust_police     </span>
-<span class="co">#&gt;  Min.   :     0.00         Min.   :     0.0     Min.   :     0.0  </span>
-<span class="co">#&gt;  1st Qu.:     0.00         1st Qu.:     0.0     1st Qu.:     0.0  </span>
-<span class="co">#&gt;  Median :     0.00         Median :     0.6     Median :     0.8  </span>
-<span class="co">#&gt;  Mean   :   599.67         Mean   :  7380.7     Mean   :  5151.0  </span>
-<span class="co">#&gt;  3rd Qu.:     0.88         3rd Qu.:     1.0     3rd Qu.:     1.1  </span>
-<span class="co">#&gt;  Max.   :300017.00         Max.   :383748.5     Max.   :321540.4  </span>
-<span class="co">#&gt;  NA's   :24133             NA's   :152414       NA's   :152417    </span>
-<span class="co">#&gt;    trust_army       trust_political-parties trust_companies   </span>
-<span class="co">#&gt;  Min.   :     0.0   Min.   :     0.0        Min.   :     0.0  </span>
-<span class="co">#&gt;  1st Qu.:     0.5   1st Qu.:     0.0        1st Qu.:     0.0  </span>
-<span class="co">#&gt;  Median :     0.9   Median :     0.0        Median :     0.0  </span>
-<span class="co">#&gt;  Mean   : 10198.6   Mean   :  6735.4        Mean   : 13632.8  </span>
-<span class="co">#&gt;  3rd Qu.:     1.2   3rd Qu.:     0.5        3rd Qu.:     1.1  </span>
-<span class="co">#&gt;  Max.   :558193.3   Max.   :696757.1        Max.   :476545.7  </span>
-<span class="co">#&gt;  NA's   :152421     NA's   :96966           NA's   :215780    </span>
-<span class="co">#&gt;  trust_european-union trust_united-nations weight_extrapolated</span>
-<span class="co">#&gt;  Min.   :     0.0     Min.   :     0.0     Min.   :   140.8   </span>
-<span class="co">#&gt;  1st Qu.:     0.0     1st Qu.:     0.0     1st Qu.:  2674.3   </span>
-<span class="co">#&gt;  Median :     0.7     Median :     0.8     Median :  6695.4   </span>
-<span class="co">#&gt;  Mean   : 11878.7     Mean   : 15439.7     Mean   : 15015.7   </span>
-<span class="co">#&gt;  3rd Qu.:     1.1     3rd Qu.:     1.3     3rd Qu.: 18032.9   </span>
-<span class="co">#&gt;  Max.   :476545.7     Max.   :416817.5     Max.   :171193.5   </span>
-<span class="co">#&gt;  NA's   :65199        NA's   :120656       NA's   :126799</span></pre></body></html></div>
+<span class="co">#&gt;  trust_european_commission trust_national_government trust_european_parliament</span>
+<span class="co">#&gt;  Min.   :0.00              Min.   :0.000             Min.   :0.00             </span>
+<span class="co">#&gt;  1st Qu.:0.00              1st Qu.:0.000             1st Qu.:0.00             </span>
+<span class="co">#&gt;  Median :1.00              Median :0.000             Median :1.00             </span>
+<span class="co">#&gt;  Mean   :0.51              Mean   :0.457             Mean   :0.51             </span>
+<span class="co">#&gt;  3rd Qu.:1.00              3rd Qu.:1.000             3rd Qu.:1.00             </span>
+<span class="co">#&gt;  Max.   :1.00              Max.   :1.000             Max.   :1.00             </span>
+<span class="co">#&gt;  NA's   :42413             NA's   :9702              NA's   :42141            </span>
+<span class="co">#&gt;  trust_national_parliament trust_justice_system  trust_police     trust_army   </span>
+<span class="co">#&gt;  Min.   :0.00              Min.   : NA          Min.   : NA     Min.   : NA    </span>
+<span class="co">#&gt;  1st Qu.:0.00              1st Qu.: NA          1st Qu.: NA     1st Qu.: NA    </span>
+<span class="co">#&gt;  Median :0.00              Median : NA          Median : NA     Median : NA    </span>
+<span class="co">#&gt;  Mean   :0.48              Mean   :NaN          Mean   :NaN     Mean   :NaN    </span>
+<span class="co">#&gt;  3rd Qu.:1.00              3rd Qu.: NA          3rd Qu.: NA     3rd Qu.: NA    </span>
+<span class="co">#&gt;  Max.   :1.00              Max.   : NA          Max.   : NA     Max.   : NA    </span>
+<span class="co">#&gt;  NA's   :11092             NA's   :92702        NA's   :92702   NA's   :92702  </span>
+<span class="co">#&gt;  trust_political_parties trust_companies trust_european_union</span>
+<span class="co">#&gt;  Min.   :0.00            Min.   : NA     Min.   :0.00        </span>
+<span class="co">#&gt;  1st Qu.:0.00            1st Qu.: NA     1st Qu.:0.00        </span>
+<span class="co">#&gt;  Median :0.00            Median : NA     Median :0.00        </span>
+<span class="co">#&gt;  Mean   :0.21            Mean   :NaN     Mean   :0.47        </span>
+<span class="co">#&gt;  3rd Qu.:0.00            3rd Qu.: NA     3rd Qu.:1.00        </span>
+<span class="co">#&gt;  Max.   :1.00            Max.   : NA     Max.   :1.00        </span>
+<span class="co">#&gt;  NA's   :66555           NA's   :92702   NA's   :67944       </span>
+<span class="co">#&gt;  trust_united_nations weight_extrapolated</span>
+<span class="co">#&gt;  Min.   : NA          Min.   :   241.8   </span>
+<span class="co">#&gt;  1st Qu.: NA          1st Qu.:  2801.3   </span>
+<span class="co">#&gt;  Median : NA          Median :  6840.6   </span>
+<span class="co">#&gt;  Mean   :NaN          Mean   : 15675.5   </span>
+<span class="co">#&gt;  3rd Qu.: NA          3rd Qu.: 17136.6   </span>
+<span class="co">#&gt;  Max.   : NA          Max.   :171193.5   </span>
+<span class="co">#&gt;  NA's   :92702        NA's   :65178</span></pre></body></html></div>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), <span class="no">as_numeric</span> ) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), ~<span class="no">.</span>*<span class="no">weight_poststrat</span>) <span class="kw">%&gt;%</span>
+  <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>()
+<span class="co">#&gt;     rowid            country_id        weight_poststrat</span>
+<span class="co">#&gt;  Length:92702       Length:92702       Min.   :0.0095  </span>
+<span class="co">#&gt;  Class :character   Class :character   1st Qu.:0.6852  </span>
+<span class="co">#&gt;  Mode  :character   Mode  :character   Median :0.9491  </span>
+<span class="co">#&gt;                                        Mean   :1.0000  </span>
+<span class="co">#&gt;                                        3rd Qu.:1.2338  </span>
+<span class="co">#&gt;                                        Max.   :6.7316  </span>
+<span class="co">#&gt;                                                        </span>
+<span class="co">#&gt;  trust_european_commission trust_national_government trust_european_parliament</span>
+<span class="co">#&gt;  Min.   :0.00              Min.   :0.000             Min.   :0.00             </span>
+<span class="co">#&gt;  1st Qu.:0.00              1st Qu.:0.000             1st Qu.:0.00             </span>
+<span class="co">#&gt;  Median :0.13              Median :0.000             Median :0.15             </span>
+<span class="co">#&gt;  Mean   :0.51              Mean   :0.456             Mean   :0.51             </span>
+<span class="co">#&gt;  3rd Qu.:0.99              3rd Qu.:0.903             3rd Qu.:0.99             </span>
+<span class="co">#&gt;  Max.   :6.43              Max.   :6.732             Max.   :6.43             </span>
+<span class="co">#&gt;  NA's   :42413             NA's   :9702              NA's   :42141            </span>
+<span class="co">#&gt;  trust_national_parliament trust_justice_system  trust_police     trust_army   </span>
+<span class="co">#&gt;  Min.   :0.000             Min.   : NA          Min.   : NA     Min.   : NA    </span>
+<span class="co">#&gt;  1st Qu.:0.000             1st Qu.: NA          1st Qu.: NA     1st Qu.: NA    </span>
+<span class="co">#&gt;  Median :0.000             Median : NA          Median : NA     Median : NA    </span>
+<span class="co">#&gt;  Mean   :0.479             Mean   :NaN          Mean   :NaN     Mean   :NaN    </span>
+<span class="co">#&gt;  3rd Qu.:0.931             3rd Qu.: NA          3rd Qu.: NA     3rd Qu.: NA    </span>
+<span class="co">#&gt;  Max.   :6.732             Max.   : NA          Max.   : NA     Max.   : NA    </span>
+<span class="co">#&gt;  NA's   :11092             NA's   :92702        NA's   :92702   NA's   :92702  </span>
+<span class="co">#&gt;  trust_political_parties trust_companies trust_european_union</span>
+<span class="co">#&gt;  Min.   :0.00            Min.   : NA     Min.   :0.00        </span>
+<span class="co">#&gt;  1st Qu.:0.00            1st Qu.: NA     1st Qu.:0.00        </span>
+<span class="co">#&gt;  Median :0.00            Median : NA     Median :0.00        </span>
+<span class="co">#&gt;  Mean   :0.21            Mean   :NaN     Mean   :0.47        </span>
+<span class="co">#&gt;  3rd Qu.:0.00            3rd Qu.: NA     3rd Qu.:0.85        </span>
+<span class="co">#&gt;  Max.   :3.04            Max.   : NA     Max.   :3.04        </span>
+<span class="co">#&gt;  NA's   :66555           NA's   :92702   NA's   :67944       </span>
+<span class="co">#&gt;  trust_united_nations weight_extrapolated</span>
+<span class="co">#&gt;  Min.   : NA          Min.   :   241.8   </span>
+<span class="co">#&gt;  1st Qu.: NA          1st Qu.:  2801.3   </span>
+<span class="co">#&gt;  Median : NA          Median :  6840.6   </span>
+<span class="co">#&gt;  Mean   :NaN          Mean   : 15675.5   </span>
+<span class="co">#&gt;  3rd Qu.: NA          3rd Qu.: 17136.6   </span>
+<span class="co">#&gt;  Max.   : NA          Max.   :171193.5   </span>
+<span class="co">#&gt;  NA's   :92702        NA's   :65178</span></pre></body></html></div>
 <p>We have a problem: the invalid values should go out to the missing range, but they are not always correctly labelled as missing. The names in the tibble should also be fixed.</p>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">country_id</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise_all.html">summarize_if</a></span> ( <span class="no">is.numeric</span>, <span class="no">mean</span>, <span class="kw">na.rm</span><span class="kw">=</span><span class="fl">TRUE</span>)
-<span class="co">#&gt; # A tibble: 38 x 14</span>
-<span class="co">#&gt;    country_id weight_poststrat `trust_european~ `trust_national~</span>
+<span class="co">#&gt; # A tibble: 31 x 14</span>
+<span class="co">#&gt;    country_id weight_poststrat trust_european_~ trust_national_~</span>
 <span class="co">#&gt;    &lt;chr&gt;                 &lt;dbl&gt;            &lt;dbl&gt;            &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 AL                     1.00            0.750            0.515</span>
-<span class="co">#&gt;  2 AT                     1.00        11126.               0.544</span>
-<span class="co">#&gt;  3 BE                     1.00        10227.              64.8  </span>
-<span class="co">#&gt;  4 BG                     1.00        21616.               0.277</span>
-<span class="co">#&gt;  5 CY                     1.00        19855.               0.458</span>
-<span class="co">#&gt;  6 CY-TCC                 1.00            0.657        76647.   </span>
-<span class="co">#&gt;  7 CZ                     1.00        19581.               0.245</span>
-<span class="co">#&gt;  8 DE-E                   1.00         8305.             136.   </span>
-<span class="co">#&gt;  9 DE-W                   1.00         9172.              52.1  </span>
-<span class="co">#&gt; 10 DK                     1.00        10429.               0.537</span>
-<span class="co">#&gt; # ... with 28 more rows, and 10 more variables:</span>
-<span class="co">#&gt; #   `trust_european-parliament` &lt;dbl&gt;, `trust_national-parliament` &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   `trust_justice-system` &lt;dbl&gt;, trust_police &lt;dbl&gt;, trust_army &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   `trust_political-parties` &lt;dbl&gt;, trust_companies &lt;dbl&gt;,</span>
-<span class="co">#&gt; #   `trust_european-union` &lt;dbl&gt;, `trust_united-nations` &lt;dbl&gt;,</span>
+<span class="co">#&gt;  1 AT                     1.00            0.444            0.595</span>
+<span class="co">#&gt;  2 BE                     1.00            0.580            0.430</span>
+<span class="co">#&gt;  3 BG                     1.00          NaN                0.272</span>
+<span class="co">#&gt;  4 CY                     1.00          NaN                0.298</span>
+<span class="co">#&gt;  5 CZ                     1             NaN                0.383</span>
+<span class="co">#&gt;  6 DE-E                   1.00            0.309            0.396</span>
+<span class="co">#&gt;  7 DE-W                   1.00            0.324            0.471</span>
+<span class="co">#&gt;  8 DK                     1.00            0.446            0.581</span>
+<span class="co">#&gt;  9 EE                     1.00          NaN                0.570</span>
+<span class="co">#&gt; 10 ES                     1.00            0.675            0.402</span>
+<span class="co">#&gt; # ... with 21 more rows, and 10 more variables:</span>
+<span class="co">#&gt; #   trust_european_parliament &lt;dbl&gt;, trust_national_parliament &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   trust_justice_system &lt;dbl&gt;, trust_police &lt;dbl&gt;, trust_army &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   trust_political_parties &lt;dbl&gt;, trust_companies &lt;dbl&gt;,</span>
+<span class="co">#&gt; #   trust_european_union &lt;dbl&gt;, trust_united_nations &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   weight_extrapolated &lt;dbl&gt;</span></pre></body></html></div>
 </div>
   </div>
