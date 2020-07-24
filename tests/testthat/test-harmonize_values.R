@@ -15,6 +15,7 @@ h1 <- harmonize_values (
     to = c("trust", "not_trust", "do_not_know", "inap"),
     numeric_values = c(1,0,99997, 99999)), 
   na_values = c("do_not_know" = 99997,
+                "declined" = 99998,
                 "inap" = 99999), 
   id = "survey_id",
   harmonize_label = "Do you trust the European Union?"
@@ -57,7 +58,8 @@ lvar2 <- labelled::labelled_spss(x = c(1,0,7,9),
 
 test_that("recasting works", {
   expect_equal(as_numeric(h1), c(1,0,1,1,0,NA,NA))
-  expect_equal(levels(as_factor(h1)), c("not_trust", "trust", "do_not_know", "inap"))
+  expect_equal(levels(as_factor(h1)), 
+               c("not_trust", "trust", "do_not_know", "declined", "inap"))
   expect_equal(as_character(h1), c("trust", "not_trust",
                                    "trust", "trust", "not_trust", 
                                    "do_not_know", "inap"))
@@ -65,7 +67,7 @@ test_that("recasting works", {
     x = c("trust", "not_trust",
           "trust", "trust", "not_trust", 
           "do_not_know", "inap"), 
-    levels = c("not_trust","trust",  "do_not_know", "inap")))
+    levels = c("not_trust","trust",  "do_not_know", "declined", "inap")))
   expect_equal(
     # case when na_range and na_values must be adjusted first
     as_numeric(harmonize_values (

@@ -60,7 +60,8 @@ harmonize_values <- function(
   name_orig = NULL ) {
   
   new_values <- NULL
-  
+  input_na_values <- na_values
+
   if (is.null(id)) { 
     # if not otherwise stated, inherit the ID of x, if present
     if (!is.null(attr(x, "id"))) {
@@ -110,20 +111,22 @@ harmonize_values <- function(
     code_table$new_labels <- str
     
     add_new_values <- harmonize_labels %>%
-      dplyr::select ( tidyselect::all_of(c("to", "numeric_values"))) %>%
+      dplyr::select ( tidyselect::all_of(
+        c("to", "numeric_values")) ) %>%
       stats::setNames( c("new_labels", "new_values"))
     
     code_table <- dplyr::left_join ( code_table, 
                               add_new_values, 
                               by = "new_labels")
+    
     code_table$original_values <- NULL
     } else {
       
       # no harmonization is given -----------------------
-      code_table <- get_labelled_attributes(x)
+      code_table <- get_labelled_attributes(x) ## see below main function
       na_labels <- names(na_values)
       
-      if (length(na_labels)>0) {
+      if ( length(na_labels)>0 ) {
         # if there is no valid label harmonization, still check for potential missings
         potential_na_values <- sapply (na_labels, function(x) paste0("^", x,"|",x))
         na_regex <- sapply ( potential_na_values, function(s) grepl(s, val_label_normalize(code_table$new_labels)))
@@ -150,11 +153,13 @@ harmonize_values <- function(
   ## define new missing values, not with range
   new_na_values <- new_value_table$new_values[which(new_value_table$new_values >= 99900 )]
   new_na_values <- unique(new_na_values)
+  new_na_values <- union(input_na_values, new_na_values)
+  
   
   # define new value - label pairs
   new_labelling <- new_value_table %>%
     dplyr::distinct ( new_values, new_labels ) 
-  new_labels = new_labelling$new_values
+  new_labels <- new_labelling$new_values
   names (new_labels) <- new_labelling$new_labels
   
   #define original labelling 
@@ -184,7 +189,16 @@ harmonize_values <- function(
     id = id, 
     name_orig = original_x_name )
   
-  attr(return_value, "labels") <- new_labels
+  
+  add_to_value_range <- (!harmonize_labels$to %in% new_labelling$new_labels)
+  
+  further_labels <- harmonize_labels$numeric_values[add_to_value_range ]
+  names(further_labels) <- harmonize_labels$to[add_to_value_range ]
+  
+  new_total_labels <- sort(c( new_labels, further_labels,
+                              input_na_values[which( !input_na_values %in% new_labelling$new_labels)] ))
+
+  attr(return_value, "labels") <- new_total_labels
   attr(return_value, "na_values") <- new_na_values
   attr(return_value, paste0(attr(return_value, "id"), "_values")) <- original_numeric_values
   

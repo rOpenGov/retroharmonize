@@ -409,12 +409,7 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
  
   if (! setequal(attr(x, "labels"), attr(y, "labels")) ) {
     stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
-                           message = "The coding is not matching.")
-  }
-  
-  if (! setequal(names(attr(x, "labels")), names(attr(y, "labels"))) ) {
-    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
-                           message = "The labels are not matching." )
+                           message = "The labels are not matching.")
   }
   
   if (! setequal(attr(x, "na_values"), attr(y, "na_values")) ) {
