@@ -147,7 +147,7 @@
 <span class="co">#&gt; #   qd6.9 &lt;dbl+lbl&gt;, qd6.10 &lt;dbl+lbl&gt;, qd6.11 &lt;dbl+lbl&gt;, qd6.12 &lt;dbl+lbl&gt;,</span>
 <span class="co">#&gt; #   qd6.13 &lt;dbl+lbl&gt;, qd6.14 &lt;dbl+lbl&gt;, qg1b &lt;dbl+lbl&gt;, qg8 &lt;dbl+lbl&gt;,</span>
 <span class="co">#&gt; #   w1 &lt;dbl&gt;, w3 &lt;dbl&gt;, wex &lt;dbl&gt;</span></pre></div>
-<p>The <code>labelled_spss_survey</code> class is an extension of haven’s <code>labelled_spss</code> class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifer, for example, the filename to the vector. See <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>.</p>
+<p>The <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class is an extension of haven’s <a href="https://haven.tidyverse.org/reference/labelled_spss.html">labelled_spss</a> class. It not only preserver variable and value labels and the user-defined missing range, but also gives an identifier, for example, the filename to the vector. See <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a>.</p>
 </div>
 <div id="harmonize-categorical-variables-and-missing-values" class="section level2">
 <h2 class="hasAnchor">
@@ -240,27 +240,27 @@
 
 <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">a</span>,<span class="no">b</span>)
 <span class="co">#&gt; # A tibble: 13 x 3</span>
-<span class="co">#&gt;    rowid                        hvar     w</span>
-<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 survey11     1 [trust]            0.990</span>
-<span class="co">#&gt;  2 survey12     0 [not_trust]        0.631</span>
-<span class="co">#&gt;  3 survey13     1 [trust]            0.277</span>
-<span class="co">#&gt;  4 survey14     1 [trust]            0.933</span>
-<span class="co">#&gt;  5 survey15     0 [not_trust]        0.120</span>
-<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.355</span>
-<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.793</span>
-<span class="co">#&gt;  8 survey21     0 [not_trust]        0.515</span>
-<span class="co">#&gt;  9 survey22     0 [not_trust]        0.341</span>
-<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.527</span>
-<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.877</span>
-<span class="co">#&gt; 12 survey25     1 [trust]            0.183</span>
-<span class="co">#&gt; 13 survey26     1 [trust]            0.532</span></pre></div>
-<p>See the <a href="articles/afrobarometer.html">Case Study: Working With Afrobarometer</a> and <a href="articles/eurobarometer.html">Case Study: Working With Eurobarometer</a> for a futher automated workflow.</p>
+<span class="co">#&gt;    rowid                        hvar      w</span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 survey11     1 [trust]            0.310 </span>
+<span class="co">#&gt;  2 survey12     0 [not_trust]        0.199 </span>
+<span class="co">#&gt;  3 survey13     1 [trust]            0.137 </span>
+<span class="co">#&gt;  4 survey14     1 [trust]            0.410 </span>
+<span class="co">#&gt;  5 survey15     0 [not_trust]        0.554 </span>
+<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.918 </span>
+<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.129 </span>
+<span class="co">#&gt;  8 survey21     0 [not_trust]        0.201 </span>
+<span class="co">#&gt;  9 survey22     0 [not_trust]        0.406 </span>
+<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.0331</span>
+<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.553 </span>
+<span class="co">#&gt; 12 survey25     1 [trust]            0.604 </span>
+<span class="co">#&gt; 13 survey26     1 [trust]            0.174</span></pre></div>
+<p>See the <a href="articles/afrobarometer.html">Case Study: Working With Afrobarometer</a> and <a href="articles/eurobarometer.html">Case Study: Working With Eurobarometer</a> for a further automated workflow.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
 <a href="#code-of-conduct" class="anchor"></a>Code of Conduct</h2>
-<p>Please note that the retroharmonize project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
+<p>Please note that the <code>retroharmonize</code> project is released with a <a href="https://contributor-covenant.org/version/2/0/CODE_OF_CONDUCT.html">Contributor Code of Conduct</a>. By contributing to this project, you agree to abide by its terms.</p>
 </div>
 </div>
   </div>
