@@ -118,10 +118,11 @@ collect_val_labels (to_harmonize %>%
 harmonize_ab_trust <- function(x) {
   label_list <- list(
     from = c("^not", "^just", "^somewhat",
-             "^a", "^don", "^ref", "^miss", "^not"), 
+             "^a", "^don", "^ref", "^miss", "^not", "^inap"), 
     to = c("not_at_all", "little", "somewhat", 
-           "a_lot", "do_not_know", "declined", "inap", "inap"), 
-    numeric_values = c(0,1,2,3, 99997, 99998, 99999,99999)
+           "a_lot", "do_not_know", "declined", "inap", "inap", 
+           "inap"), 
+    numeric_values = c(0,1,2,3, 99997, 99998, 99999,99999, 99999)
   )
   
   harmonize_values(
@@ -147,7 +148,7 @@ harmonized_waves <- harmonize_waves (
 
 ## Analyze the results
 
-The numeric form of these trust variables is comparable with the numeric averages of the Eurobarometer trust variables.
+The numeric form of these trust variables is not directly comparable with the numeric averages of the Eurobarometer trust variables, because it is interred around `r mean (0:3)` and not `r mean(0:1)`.
 
 ```{r numeric}
 harmonized_waves %>%

@@ -24,8 +24,6 @@ harmonize_waves <- function(waves, .f) {
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
   characters <- unique(names(classes[which(classes %in% c("character"))]))
 
-
-  dat <- waves[[1]]
   extend_survey <- function (dat ) {
     
     to_add_rh <- retroharmonized[which(!retroharmonized %in% names(dat))]
@@ -103,6 +101,8 @@ harmonize_waves <- function(waves, .f) {
     
   }
   
+  #test_ext <- extend_survey ( waves[[1]] )
+  
   extended <- lapply ( waves, extend_survey )
   
   fn_harmonize <- function(dat, .f) {
@@ -111,6 +111,8 @@ harmonize_waves <- function(waves, .f) {
     #message ( "Harmonize ", attr(dat, "id"))
     
     retroh <- as_tibble(lapply ( dat[, retroharmonized], FUN = .f ))
+    
+    x <-dat$trust_tax_department
   
     dat %>% select ( -all_of(names(retroh))) %>%
       bind_cols(retroh) %>%
@@ -121,9 +123,24 @@ harmonize_waves <- function(waves, .f) {
   
   return_value <- tmp[[1]]
   for ( i in 2:length(tmp)) {
-    #message ( "Joining ", i, "/", length(tmp), ": ", attr(tmp[[i]], "id") )
+    
+    match_labels <-sapply ( 1:ncol(return_value), function(x) {
+      
+      as.character(labelled::val_labels (return_value)) ==
+        as.character(labelled::val_labels (tmp[[i]]))}
+      )
+    
+    not_matching <- match_labels[which(!match_labels)]
+    
+    if ( length(not_matching)>0 ) {
+      warning( "The join ", i, " is not matching in ", not_matching, 
+               " in ", attr(tmp[[i]], "id") ,'.' )
+    }
+    
+    message ( "Joining ", i, "/", length(tmp), ": ", attr(tmp[[i]], "id") )
     return_value <- vctrs::vec_rbind(tmp[[1]], tmp[[i]])
   }
+  
   return_value
  
 }
