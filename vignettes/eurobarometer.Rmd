@@ -78,11 +78,14 @@ head(eb_trust_metadata)
 
 The value labels in this example are not too numerous.  The only variable that stands out is the `Can rely on` and `Cannot rely on` labelled variable. 
 
-```{r all-labels}
-valid_labels <- sapply (
-  eb_trust_metadata$valid_labels, unlist) %>%
-  sapply(., names )
-unique(as.character(unlist(valid_labels)))
+```{r valid-labels}
+collect_val_labels(eb_trust_metadata)
+```
+
+And the labels that were marked by GESIS as missing values:
+
+```{r missing-labels}
+collect_na_labels(eb_trust_metadata)
 ```
 ## Harmonize the labels
 
@@ -91,20 +94,21 @@ For easier looping we adopt the `harmonize_values()` function with new default s
 ```{r specificfunction}
 harmonize_eb_trust <- function(x) {
   label_list <- list(
-    from = c("^tend\\snot", "^cannot", 
-             "^tend\\sto", "^can\\srely", 
-             "^dk", "^decline", "^inap"), 
-    to = c("not_trust", "not_trust", "trust", "trust", 
-           "do_not_know", "declined", "inap"), 
-    numeric_values = c(0,0,1,1,99997,99998,99999)
+    from = c("^tend\\snot", "^cannot", "^tend\\sto", "^can\\srely",
+             "^dk", "^inap", "na"), 
+    to = c("not_trust", "not_trust", "trust", "trust",
+           "do_not_know", "inap", "inap"), 
+    numeric_values = c(0,0,1,1, 99997,99999,99999)
   )
+  
+  attr(x, "labels")
+  labelled::val_labels(x)
   
   harmonize_values(x, 
                    harmonize_labels = label_list, 
                    na_values = c("do_not_know"=99997,
                                  "declined"=99998,
-                                 "inap"=99999), 
-                   na_range = c( 99900, 99999)
+                                 "inap"=99999)
   )
 }
 ```

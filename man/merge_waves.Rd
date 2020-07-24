@@ -23,6 +23,7 @@ variable labels and survey identifiers.
 survey
 
 Other harmonization functions: 
+\code{\link{collect_val_labels}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_waves}()}
