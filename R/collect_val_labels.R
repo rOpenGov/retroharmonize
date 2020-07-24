@@ -1,9 +1,5 @@
 #' Collect labels from metadata file
 #' 
-#' Use \code{collect_val_labels} for the valid range and 
-#' \code{collect_na_labels} for the user-defined missing value
-#' range.
-#' 
 #' @param metadata A metadata data frame created by 
 #' \code{\link{metadata_create}}.
 #' @return The unique valid labels or the user-defined missing 
@@ -17,9 +13,10 @@
 #' )
 #' example_metadata <- metadata_create (test_survey)
 #'
-#'collect_val_labels (metadata = example_metadata )
-#'collect_na_labels ( metadata = example_metadata )
+#' collect_val_labels (metadata = example_metadata )
+#' collect_na_labels ( metadata = example_metadata )
 #' @export
+
 collect_val_labels <- function(metadata) {
   
   valid_labels <- lapply (metadata$valid_labels, unlist) %>%
@@ -37,4 +34,3 @@ collect_na_labels <- function(metadata) {
   unique(as.character(unlist(na_labels)))
   
 }
-usethis::use_test()

@@ -18,9 +18,7 @@ The unique valid labels or the user-defined missing
 labels found in all the files analysed in \code{metadata}.
 }
 \description{
-Use \code{collect_val_labels} for the valid range and 
-\code{collect_na_labels} for the user-defined missing value
-range.
+Collect labels from metadata file
 }
 \examples{
 test_survey <- retroharmonize::read_rds (

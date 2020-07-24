@@ -164,7 +164,7 @@ harmonize_values <- function(
   original_labels <- original_labelling$new_values
   names(original_labels) <- original_labelling$orig_labels
   
-  #define original numeric code
+  # define original numeric code
   original_numerics <-  new_value_table %>%
     dplyr::distinct ( new_values, x )
   original_numeric_values <- original_numerics$new_values
