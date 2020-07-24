@@ -25,6 +25,7 @@ harmonize_waves <- function(waves, .f) {
   characters <- unique(names(classes[which(classes %in% c("character"))]))
 
 
+  dat <- waves[[1]]
   extend_survey <- function (dat ) {
     
     to_add_rh <- retroharmonized[which(!retroharmonized %in% names(dat))]
@@ -62,9 +63,12 @@ harmonize_waves <- function(waves, .f) {
     
     if ( length(to_add_rh)>0 ) {
       
-      fn_inap <- function(x) haven::labelled_spss(x,
-                                                  labels = c(inap = 999999), 
-                                                  na_values = 999999)
+      fn_inap <- function(x) haven::labelled_spss(
+        x,
+        labels = c(inap = 999999), 
+        na_values = c("do_not_know"=99997,
+                      "declined"=99998,
+                      "inap"=99999))
       
       add_rh_df <- as.data.frame( 
         matrix (rep( 999999,
@@ -72,28 +76,22 @@ harmonize_waves <- function(waves, .f) {
                      ncol = length(to_add_rh),
                      nrow = nrow(dat)
                 )
-        ) 
-      
-      names ( add_rh_df) <- gsub("`", "", to_add_rh)
-      
-      to_add_rh[1]
-      
-      add_rh_df$`trust_justice-system`
-      
-  
-      
-      %>%
+        ) %>%
         stats::setNames(to_add_rh) %>%
         mutate_all ( fn_inap )
       
-      
-     
       for ( i in ncol(add_rh_df)) {
         attr( add_rh_df[,i], "label") <- to_add_rh[i]
       }
       
+      fn_convert <- function(x) {
+        as_labelled_spss_survey(x, attr(dat, "id"))
+      }
+      
+      add_rh_df2 <- as_tibble(lapply ( add_rh_df , fn_convert))
+
       dat <- dat %>%
-        bind_cols(add_rh_df)
+        bind_cols(add_rh_df2)
     }
     
     if ( ! all(sort(names ( dat )) == sort(all_names))) {
@@ -105,10 +103,6 @@ harmonize_waves <- function(waves, .f) {
     
   }
   
-  ext <- extend_survey(dat)
-  names ( ext )
-  ext$trust_european-parliament
-  
   extended <- lapply ( waves, extend_survey )
   
   fn_harmonize <- function(dat, .f) {
@@ -116,15 +110,34 @@ harmonize_waves <- function(waves, .f) {
     orig_name_order <- names(dat)
     #message ( "Harmonize ", attr(dat, "id"))
     
-    retroh <- lapply ( dat[, retroharmonized], FUN = .f )
-    dat %>% select ( -all_of(names(retroh))) %>%
-      bind_cols(retroh) %>%
-      select (all_of(orig_name_order))
+    retroh <- as_tibble(lapply ( dat[, retroharmonized], FUN = .f ))
+  
+    set_na_labels <- function (x) {
+      
+      missing_labels <-  c(
+        "do_not_know"=99997,
+        "declined"=99998,
+        "inap"=99999) 
+      
+      attr(x, "na_values") <- missing_labels
+      
+      attr(x, "labels") <- sort(vec_c(
+        attr(x, "labels"), 
+        missing_labels[which( ! missing_labels  %in% attr(x, "labels"))]
+        ))
+      x
+    }
     
+    rh2 <- lapply ( retroh, set_na_labels)
+    
+    dat %>% select ( -all_of(names(rh2))) %>%
+      bind_cols(rh2) %>%
+      select (all_of(orig_name_order)) 
   }
-  fn_harmonize ( dat = extended[[1]], .f = .f)
   
-  tmp <- lapply ( extended, function(x) fn_harmonize(x, .f) )
+  tmp <- lapply ( extended, function(x) fn_harmonize(x, .f))
   
-  do.call(rbind, tmp)
+  do.call(vctrs::vec_rbind, tmp)
+ 
 }
+

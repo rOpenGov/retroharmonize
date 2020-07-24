@@ -314,7 +314,6 @@ vec_ptype2.double.retroharmonize_labelled_spss_survey <- function(x, y, ...) dou
 vec_ptype2.integer.retroharmonize_labelled_spss_survey <- function(x, y, ...) double()
 vec_ptype2.retroharmonize_labelled_spss_survey.integer <- function(x, y, ...) double()
 
-
 #' @export
 vec_cast.double.retroharmonize_labelled_spss_survey  <- function(x, to, ...) vec_cast(vctrs::vec_data(x), to)
 
@@ -405,7 +404,7 @@ summary.retroharmonize_labelled_spss_survey <- function(object, ...) {
 #' @export
 vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey  <- function(
   x, y, ..., x_arg = "", y_arg = "") {
-  data_type <- vctrs::vec_ptype2(vec_data(x), vec_data(y), ..., x_arg = x_arg, y_arg = y_arg)
+  #data_type <- vctrs::vec_ptype2(vec_data(x), vec_data(y), ..., x_arg = x_arg, y_arg = y_arg)
   data_type <- vec_ptype2(vec_data(x), vec_data(y), x_arg = x_arg, y_arg = y_arg)
  
   if (! setequal(attr(x, "labels"), attr(y, "labels")) ) {
