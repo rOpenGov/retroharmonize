@@ -24,13 +24,15 @@ harmonize_waves <- function(waves, .f) {
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
   characters <- unique(names(classes[which(classes %in% c("character"))]))
 
-  extend_survey <- function (dat ) {
+  dat <- waves[[1]]
+  
+  extend_survey <- function (dat) {
     
     to_add_rh <- retroharmonized[which(!retroharmonized %in% names(dat))]
     to_add_numerics <- numerics[which(!numerics %in% names(dat))]
     to_add_characters <- characters[which(!characters %in% names(dat))]
     
-    if ( length(to_add_numerics)>0) {
+    if ( length(to_add_numerics)>0 ) {
       ## There are numeric values in other surveys that need to be 
       ## added with NA_real_ values here.
       
@@ -92,7 +94,7 @@ harmonize_waves <- function(waves, .f) {
         bind_cols(add_rh_df2)
     }
     
-    if ( ! all(sort(names ( dat )) == sort(all_names))) {
+    if ( ! all(sort(names (dat)) == sort(all_names))) {
       stop ( "Extension error in ", attr(dat, "id"))
     }
     
@@ -112,20 +114,20 @@ harmonize_waves <- function(waves, .f) {
     
     retroh <- as_tibble(lapply ( dat[, retroharmonized], FUN = .f ))
     
-    x <-dat$trust_tax_department
+    #x <-dat$trust_tax_department
   
     dat %>% select ( -all_of(names(retroh))) %>%
       bind_cols(retroh) %>%
       select (all_of(orig_name_order)) 
   }
   
-  tmp <- lapply ( extended, function(x) fn_harmonize(x, .f))
+  dat <- extended[[1]]
+  tmp <- lapply (extended, function(x) fn_harmonize(x, .f))
   
   return_value <- tmp[[1]]
-  for ( i in 2:length(tmp)) {
+  for (i in 2:length(tmp)) {
     
     match_labels <-sapply ( 1:ncol(return_value), function(x) {
-      
       as.character(labelled::val_labels (return_value)) ==
         as.character(labelled::val_labels (tmp[[i]]))}
       )
