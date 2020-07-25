@@ -17,7 +17,7 @@
 #' @importFrom labelled to_character labelled na_values val_labels
 #' @importFrom labelled var_label
 #' @importFrom tibble tibble 
-#' @importFrom dplyr mutate left_join distinct select
+#' @importFrom dplyr mutate left_join distinct select if_else
 #' @importFrom tidyselect all_of
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
@@ -81,12 +81,14 @@ harmonize_values <- function(
     harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
   }
   
-  original_x <- vctrs::vec_data(x)
-
   original_values <- tibble::tibble (
-    x = original_x)
+    x = vctrs::vec_data(x) )
 
-  original_values$orig_labels = as_character(x)
+  original_values$orig_labels = if_else (
+    condition = original_values$x %in% labelled::val_labels(x), 
+    true = as_character(x), 
+    false = NA_character_
+  )
   
   if (is.na_range_to_values(x)) {
     x <- na_range_to_values(x)
@@ -113,9 +115,11 @@ harmonize_values <- function(
         c("to", "numeric_values")) ) %>%
       stats::setNames( c("new_labels", "new_values"))
     
-    code_table <- dplyr::left_join ( code_table, 
-                              add_new_values, 
-                              by = "new_labels")
+    code_table <- dplyr::left_join ( 
+      code_table, 
+      add_new_values, 
+      by = "new_labels") %>%
+      filter ( !is.na(new_values) )
     
     code_table$original_values <- NULL
     } else {
@@ -140,19 +144,17 @@ harmonize_values <- function(
     dplyr::left_join (
       code_table, 
       by = c("x", "orig_labels")) %>%
-    dplyr::mutate ( new_values = ifelse ( is.na(new_values), 
-                                          99901, 
-                                          new_values )) %>%
-    dplyr::mutate ( new_labels = ifelse( new_values == 99901, 
-                                         "invalid_label", 
-                                         new_labels)) %>%
+    dplyr::mutate ( new_values = if_else (
+      condition = is.na(new_labels),
+      true = x, 
+      false = new_values
+    )) %>%  #invalid labels should be treated elsewhere 
     dplyr::arrange( new_values )
   
   ## define new missing values, not with range
   new_na_values <- new_value_table$new_values[which(new_value_table$new_values >= 99900 )]
   new_na_values <- unique(new_na_values)
   new_na_values <- union(input_na_values, new_na_values)
-  
   
   # define new value - label pairs
   new_labelling <- new_value_table %>%
@@ -175,7 +177,7 @@ harmonize_values <- function(
   
   # create new numerics
   new_numerics <- 
-    tibble::tibble( x = original_x) %>%
+    tibble::tibble( x = original_values$x ) %>%
     dplyr::left_join (original_numerics, by = 'x' )
 
   return_value <- labelled_spss_survey(
@@ -187,7 +189,6 @@ harmonize_values <- function(
     id = id, 
     name_orig = original_x_name )
   
-  
   add_to_value_range <- (!harmonize_labels$to %in% new_labelling$new_labels)
   further_labels <- harmonize_labels$numeric_values[add_to_value_range ]
   names(further_labels) <- harmonize_labels$to[add_to_value_range ]
@@ -195,7 +196,9 @@ harmonize_values <- function(
   new_total_labels <- sort(c( new_labels, further_labels,
                               input_na_values[which( !input_na_values %in% new_labelling$new_labels)] ))
 
-  attr(return_value, "labels") <- new_total_labels[unique(names(new_total_labels))]
+  new_total_labels2 <- new_total_labels[unique(names(new_total_labels))]
+
+  attr(return_value, "labels") <- new_total_labels2[!is.na(new_total_labels2)]
   attr(return_value, "na_values") <- unique(new_na_values)
   attr(return_value, paste0(attr(return_value, "id"), "_values")) <- original_numeric_values
   
