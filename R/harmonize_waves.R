@@ -24,8 +24,6 @@ harmonize_waves <- function(waves, .f) {
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
   characters <- unique(names(classes[which(classes %in% c("character"))]))
 
-  dat <- waves[[1]]
-  
   extend_survey <- function (dat) {
     
     to_add_rh <- retroharmonized[which(!retroharmonized %in% names(dat))]
@@ -121,7 +119,6 @@ harmonize_waves <- function(waves, .f) {
       select (all_of(orig_name_order)) 
   }
   
-  dat <- extended[[1]]
   tmp <- lapply (extended, function(x) fn_harmonize(x, .f))
   
   return_value <- tmp[[1]]
