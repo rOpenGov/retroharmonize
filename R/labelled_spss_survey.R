@@ -513,7 +513,7 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
     }
   }
   
-  id <- vec_c(x_id, y_id)
+  id <- "multi-wave"
   
   s1 <- attributes (x)
   s2 <- attributes (y)

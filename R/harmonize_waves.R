@@ -169,6 +169,8 @@ harmonize_waves <- function(waves, .f) {
   }
   
   return_value <- rth[[1]]
+  
+  attributes (return_value)
   for (i in 2:length(rth)) {
    return_value <- vctrs::vec_rbind(return_value, rth[[i]])
   }
@@ -176,6 +178,7 @@ harmonize_waves <- function(waves, .f) {
   if ( ncol(full_join_numerics) > 0 ) {
     return_value <- bind_cols ( full_join_numerics, return_value)
   }
+  
   if ( ncol(full_join_characters) > 0 ) {
     return_value <- bind_cols ( full_join_characters, return_value)
   }
