@@ -47,19 +47,15 @@ eurobarometer_waves <- file.path("working", dir("working"))
 eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
 ```
 
-```{r, eval=FALSE}
+```{r, echo=FALSE}
 if ( dir.exists("working") ) {
-  eurobarometer_waves <- file.path("working", dir("working"))
-} else { 
-  eurobarometer_waves <- file.path("..", "working", dir("working"))
+  working_dir  <- file.path("working")
+  eurobarometer_waves <- file.path(working_dir, dir(working_dir))
+} else {
+  working_dir  <- file.path("..", "working")
+  eurobarometer_waves <- file.path(working_dir,  dir(working_dir))
 }
 
-eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
-```
-
-```{r trick-rel-dear, echo=FALSE}
-#this should be nicer ....
-eurobarometer_waves <- file.path(working_dir, dir(working_dir))
 eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
 ```
 
@@ -100,10 +96,7 @@ harmonize_eb_trust <- function(x) {
            "do_not_know", "inap", "inap"), 
     numeric_values = c(0,0,1,1, 99997,99999,99999)
   )
-  
-  attr(x, "labels")
-  labelled::val_labels(x)
-  
+
   harmonize_values(x, 
                    harmonize_labels = label_list, 
                    na_values = c("do_not_know"=99997,

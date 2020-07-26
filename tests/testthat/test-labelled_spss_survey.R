@@ -1,9 +1,12 @@
 
+## Labelling ---------------------------------------------------
 empty <- labelled_spss_survey(label = "hello")
 test_that("label is correct", {
   expect_equal(attr(empty, "label"), "hello")
 })
 
+
+## Scenarios with different labels ----------------------------
 v1 <- labelled_spss_survey (
   x = c(1,0,1,9), 
   labels = c("yes" =1,
@@ -133,9 +136,9 @@ test_that("arithmetic methods work", {
   )
 })
 
-#verify_output("retroh_int_shaft.txt", {
-#  pillar::pillar_shaft(tibble(v1=x1))
-#})
+verify_output("retroh_int_shaft.txt", {
+  pillar::pillar_shaft(tibble(v1=x1))
+})
 
 verify_output("retroh_int.txt", {
   pillar::pillar(x1)

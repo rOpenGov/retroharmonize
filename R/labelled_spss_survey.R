@@ -295,9 +295,9 @@ format.retroharmonize_labelled_spss_survey <- function(x, ..., digits = getOptio
 
 # Import to avoid R CMD check NOTE
 #' @importFrom methods setOldClass
-setOldClass(c("retroharmonize_labelled_spss_survey", 
-              "haven_labelled_spss", 
-              "haven_labelled", "vctrs_vctr"))
+#setOldClass(c("retroharmonize_labelled_spss_survey", 
+#              "haven_labelled_spss", 
+#              "haven_labelled", "vctrs_vctr"))
 
 
 #' @rdname labelled_spss_survey
@@ -407,20 +407,76 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
   #data_type <- vctrs::vec_ptype2(vec_data(x), vec_data(y), ..., x_arg = x_arg, y_arg = y_arg)
   data_type <- vec_ptype2(vec_data(x), vec_data(y), x_arg = x_arg, y_arg = y_arg)
  
-  if (! setequal(attr(x, "labels"), attr(y, "labels")) ) {
-    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
-                           message = "The labels are not matching.")
+  x_labels <- labelled::val_labels(x)
+  y_labels <- labelled::val_labels(y)
+  
+  dots <- list2(...)
+  
+  if ( is.null(dots) ) { 
+    dots <- list ( orig_name ="")
+    
+    same_in <- paste0(
+        attr(x, "id"), " and ", 
+        attr(y, "id"), "."
+    )
+  } else {
+    same_in <- paste0(
+      attr(x, "id"), "$", dots$orig_name, " and ", 
+      attr(y, "id"), "$", dots$orig_name 
+    )
+  }
+  
+  if ( length(x_labels)  == 0 | length(y_labels) == 0) {
+
+    stop_incompatible_type(
+      x, y, 
+      x_arg = dots$orig_name,
+      y_arg = paste (names(y_labels), collapse = ", "), 
+      details = paste0(
+        "Must be labelled in ", dots$orig_name)
+    )
+  }
+  
+  x_var_label <- labelled::var_label(x)
+  y_var_label <- labelled::var_label(y)
+  
+ if (! setequal(x_labels, y_labels) ) {
+    
+    stop_incompatible_type(
+      x, y, 
+      x_arg = paste (names(x_labels), collapse = ", "),
+      y_arg = paste (names(y_labels), collapse = ", "), 
+      details = paste0(
+        "The labelled numeric values must be the same in ", same_in)
+      )
+  }
+  
+  
+  if (! setequal(names(x_labels), names(y_labels)) ) {
+    
+    stop_incompatible_type(
+      x, y, 
+      x_arg = paste (names(x_labels), collapse = ", "),
+      y_arg = paste (names(y_labels), collapse = ", "), 
+      details = paste0(
+        "The labels must be the same in ", same_in)
+    )
   }
   
   if (! setequal(attr(x, "na_values"), attr(y, "na_values")) ) {
-    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
-                           message = "The missing values are not matching.")
+    stop_incompatible_type(
+      x, y, 
+      x_arg = paste(names(attr(x, "na_values")), collapse = ", "), 
+      y_arg = paste(names(attr(y, "na_values")), collapse = ", "), 
+      message = "The na_values attributes are not the same in ", same_in)
   }
   
   if (! setequal(attr(x, "na_range"), attr(y, "na_range")) ) {
-    stop_incompatible_type(x, y, x_arg = x_arg, y_arg = y_arg, 
-                           message = "The missing range is not matching.")
-  }
+    stop_incompatible_type(
+      x, y, 
+      x_arg = paste(names(attr(x, "na_range")), collapse = ", "), 
+      y_arg = paste(names(attr(y, "na_range")), collapse = ", "), 
+      message = "The na_range attributes are not the same in ", same_in)  }
   
   x_labels <- vec_cast_named(attr(x, "labels"), data_type, x_arg = x_arg)
   y_labels <- vec_cast_named(attr(y, "labels"), data_type, x_arg = y_arg)

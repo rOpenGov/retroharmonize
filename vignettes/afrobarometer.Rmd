@@ -37,8 +37,9 @@ ab <- dir ( afrobarometer_dir )
 afrobarometer_rounds <- file.path(afrobarometer_dir, ab)
 
 ab_waves <- read_surveys(afrobarometer_rounds, .f='read_spss')
-attr(ab_waves[[1]], "id") <- "Afrobarometer_2016"
-attr(ab_waves[[2]], "id") <- "Afrobarometer_2019"
+attr(ab_waves[[1]], "id") <- "Afrobarometer_2012"
+attr(ab_waves[[2]], "id") <- "Afrobarometer_2016"
+attr(ab_waves[[3]], "id") <- "Afrobarometer_2019"
 ```
 
 Create a metadata file, or a data map with `metadata_create()`.
@@ -55,7 +56,7 @@ library(dplyr)
 
 to_harmonize <- ab_metadata %>%
   filter ( var_name_orig %in% 
-             c("rowid", "COUNTRY", "REGION", "withinwt") |
+             c("rowid", "DATEINTR", "COUNTRY", "REGION", "withinwt") |
              grepl("trust ", label_orig ) ) %>%
   mutate ( var_label = var_label_normalize(label_orig)) %>%
   mutate ( var_label = case_when ( 
@@ -87,7 +88,7 @@ merged_ab <- lapply ( merged_ab,
 The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do. The `document_survey_item()` function shows the metadata of a single variable.
 
 ```{r check}
-test_trust_president <- merged_ab[[1]]$trust_president
+test_trust_president <- merged_ab[[2]]$trust_president
 test_trust_president[1:20]
 ```
 ... and its code table:
@@ -141,9 +142,8 @@ Let's apply these settings to the trust variables. The `harmonize_waves()`  func
 harmonized_waves <- harmonize_waves ( 
   waves = merged_ab, 
   .f = harmonize_ab_trust ) %>%
-  mutate ( year = ifelse (
-    grepl("r6_data_2016", unique_id), 
-    yes = 2016, no = 2019)) 
+  mutate ( year = as.integer(substr(as.character(
+    date_of_interview),1,4)))
 ```
 
 ## Analyze the results
@@ -154,7 +154,7 @@ The numeric form of these trust variables is not directly comparable with the nu
 harmonized_waves %>%
   mutate_at ( vars(starts_with("trust")), 
               ~as_numeric(.)*within_country_weighting_factor) %>%
-  select ( -all_of("within_country_weighting_factor")) %>%
+  select ( -all_of("within_country_weighting_factor") ) %>%
   group_by ( country, year ) %>%
   summarize_if ( is.numeric, mean, na.rm=TRUE ) 
 ```
@@ -164,7 +164,7 @@ And the factor presentation, without weighting:
 ```{r factor}
 require(tidyr)
 harmonized_waves %>%
-  select ( -all_of("within_country_weighting_factor")) %>%
+  select ( -all_of("within_country_weighting_factor") ) %>%
   mutate_if ( is.labelled_spss_survey, as_factor) %>%
   tidyr::pivot_longer ( starts_with("trust"), 
                         names_to  = "institution", 
