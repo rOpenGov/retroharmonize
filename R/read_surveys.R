@@ -17,9 +17,9 @@
 #' @importFrom purrr safely
 #' @examples
 #' file1 <- system.file(
-#'     "examples", "ZA7576.rds", package = "eurobarometer")
+#'     "examples", "ZA7576.rds", package = "retroharmonize")
 #' file2 <- system.file(
-#'     "examples", "ZA5913.rds", package = "eurobarometer")
+#'     "examples", "ZA5913.rds", package = "retroharmonize")
 #'
 #' read_surveys (c(file1,file2), .f = 'read_rds' )
 #' @export

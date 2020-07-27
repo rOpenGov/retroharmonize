@@ -1,10 +1,10 @@
+examples_dir <- system.file( "examples", package = "retroharmonize")
 
-survey_list <- dir (
-  here::here( "inst", "examples"))[grepl(".rds", 
-                                         dir (here( "inst", "examples")))]
+my_rds_files <- dir( examples_dir)[grepl(".rds", 
+                                         dir(examples_dir))]
 
-example_surveys <- read_surveys(
-  here::here( "inst", "examples", survey_list))
+example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+
 
 documented <- document_waves ( example_surveys )
 
