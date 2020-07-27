@@ -1,4 +1,3 @@
-
 var1 <- labelled::labelled_spss(
   x = c(1,0,1,1,0,8,9), 
   labels = c("TRUST" = 1, 

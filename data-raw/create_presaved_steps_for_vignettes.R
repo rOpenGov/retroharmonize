@@ -1,3 +1,16 @@
+
+save ( ab_waves, documented_ab_waves, 
+       ab_metadata, merged_ab, documenteded_merged_ab, R6, 
+       harmonized_ab_waves, h_ab_structure, 
+       file = file.path( "not_included", "afrob.rda"))
+
+save (ab_metadata, to_harmonize, R6, 
+      documented_ab_waves,documenteded_merged_ab, h_ab_structure,
+      harmonized_ab_waves, file =file.path("inst", "afrob", "afrob_vignette.rda") , 
+      compress = T)
+
+merged_ab[[1]]$country
+
 R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6")
 R6 <- select(R6, all_of(c("unique_id", "trust_president" )))
 
@@ -13,10 +26,7 @@ View ( harmonized_ab_waves )
 
 as_factor ( harmonized_ab_waves$country)
 
-save (ab_metadata, to_harmonize, R6, 
-      documented_ab_waves,documenteded_merged_ab, h_ab_structure,
-      harmonized_ab_waves2, file =file.path("inst", "afrob", "afrob_vignette.rda") , 
-      compress = T)
+
 
 load(system.file( file.path("afrob", "afrob_vignette.rda"),
              package = "retroharmonize"))
