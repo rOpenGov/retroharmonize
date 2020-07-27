@@ -210,21 +210,21 @@ b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
 
 dplyr::bind_rows(a,b)
 #> # A tibble: 13 x 3
-#>    rowid                        hvar      w
-#>    <chr>                <retroh_dbl>  <dbl>
-#>  1 survey11     1 [trust]            0.138 
-#>  2 survey12     0 [not_trust]        0.0298
-#>  3 survey13     1 [trust]            0.498 
-#>  4 survey14     1 [trust]            0.442 
-#>  5 survey15     0 [not_trust]        0.709 
-#>  6 survey16 99997 (NA) [do_not_know] 0.803 
-#>  7 survey17 99999 (NA) [inap]        0.757 
-#>  8 survey21     0 [not_trust]        0.419 
-#>  9 survey22     0 [not_trust]        0.416 
-#> 10 survey23 99997 (NA) [do_not_know] 0.997 
-#> 11 survey24 99999 (NA) [inap]        0.636 
-#> 12 survey25     1 [trust]            0.417 
-#> 13 survey26     1 [trust]            0.752
+#>    rowid                        hvar     w
+#>    <chr>                <retroh_dbl> <dbl>
+#>  1 survey11     1 [trust]            0.453
+#>  2 survey12     0 [not_trust]        0.376
+#>  3 survey13     1 [trust]            0.901
+#>  4 survey14     1 [trust]            0.984
+#>  5 survey15     0 [not_trust]        0.449
+#>  6 survey16 99997 (NA) [do_not_know] 0.936
+#>  7 survey17 99999 (NA) [inap]        0.427
+#>  8 survey21     0 [not_trust]        0.866
+#>  9 survey22     0 [not_trust]        0.881
+#> 10 survey23 99997 (NA) [do_not_know] 0.472
+#> 11 survey24 99999 (NA) [inap]        0.216
+#> 12 survey25     1 [trust]            0.782
+#> 13 survey26     1 [trust]            0.138
 ```
 
 See the [Case Study: Working With
