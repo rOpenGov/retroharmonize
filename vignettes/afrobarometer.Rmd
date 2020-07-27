@@ -16,8 +16,8 @@ library(retroharmonize)
 library(dplyr)
 library(tidyr)
 load(file = system.file(
-  "examples", "afrob_vignette.rda", package = "retroharmonize"))
-# source( here ("not_included", "daniel_env.R"))
+  "afrob", "afrob_vignette.rda", package = "retroharmonize"))
+#source( here ("not_included", "daniel_env.R"))
 ```
 
 ```{r setup, eval=FALSE}
@@ -38,7 +38,6 @@ ab <- dir ( afrobarometer_dir )
 afrobarometer_rounds <- file.path(afrobarometer_dir, ab)
 
 ab_waves <- read_surveys(afrobarometer_rounds, .f='read_spss')
-
 ```
 
 Let's give a bit more meaningful identifiers than the file names:
@@ -52,7 +51,10 @@ attr(ab_waves[[3]], "id") <- "Afrobarometer_R7"
 We can review if the main descriptive metadata is correctly present with `document_waves()`.
 
 ```{r document-ab, eval=FALSE}
-document_waves(ab_waves)
+documented_ab_waves <- document_waves(ab_waves)
+```
+```{r}
+print(documented_ab_waves)
 ```
 
 Create a metadata file, or a data map with `metadata_create()`.
@@ -66,7 +68,6 @@ ab_metadata <- do.call(rbind, ab_metadata)
 
 ```{r, selection, eval=FALSE}
 library(dplyr)
-
 to_harmonize <- ab_metadata %>%
   filter ( var_name_orig %in% 
              c("rowid", "DATEINTR", "COUNTRY", "REGION", "withinwt") |
@@ -77,6 +78,17 @@ to_harmonize <- ab_metadata %>%
     TRUE ~ var_label)) %>%
   mutate ( var_name = val_label_normalize(var_label))
 ```
+
+Let's keep the example managable by chosing only a few variables.
+
+```{r}
+to_harmonize <- to_harmonize %>%
+  filter ( 
+    grepl ( "president|parliament|religious|traditional|unique_id|weight|country|date_of_int", var_name)
+    )
+```
+
+
 ```{r}
 head(to_harmonize %>%
        select ( all_of(c("id", "var_name", "var_label"))), 10)
@@ -87,40 +99,36 @@ The `merge_waves()` function harmonizes the variable names, the variable labels 
 ```{r merge, eval=FALSE}
 merged_ab <- merge_waves ( waves = ab_waves, 
                            var_harmonization = to_harmonize  )
-```
-```{r live}
-## Due to size and file permissions, the actual live example starts here. 
-## You can reproduce the previous steps from the actual Afrobarometer files.
 
-## We do not need the labels for the countries and provinces 
 merged_ab <- lapply ( merged_ab, 
          FUN = function(x) x  %>%
-           mutate_at ( 
-             vars(all_of(c("country","province_or_region"))), 
-             as_character ) )
+           mutate( country = as_character(country)))
 ```
 
 Review the most important metadata with `document_survey()`:
 
-```{r}
-document_waves(merged_ab)
+```{r, eval=FALSE}
+documenteded_merged_ab <- document_waves(merged_ab)
 ```
+```{r}
+print(documenteded_merged_ab)
+```
+
 
 ## Harmonize the values
 
 The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do. The `document_survey_item()` function shows the metadata of a single variable. To review the harmonization on a single survey use `pull_survey()`
 
-```{r check}
+```{r check, eval=FALSE}
 R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6")
-
+```
+```{r pulled-attributes, eval=FALSE}
 attributes(R6$trust_president[1:20])
 ```
 ... and its code table:
 
-```{r}
-require(knitr)
-document_survey_item(R6$trust_president) %>%
-  kable()
+```{r document-item}
+document_survey_item(R6$trust_president)
 ```
 
 
@@ -162,7 +170,7 @@ harmonize_ab_trust <- function(x) {
 
 Let's apply these settings to the trust variables. The `harmonize_waves()`  function binds all variables that are present in all surveys.
 
-```{r harmonize}
+```{r harmonize, eval=FALSE}
 harmonized_ab_waves <- harmonize_waves ( 
   waves = merged_ab, 
   .f = harmonize_ab_trust ) 
@@ -170,19 +178,30 @@ harmonized_ab_waves <- harmonize_waves (
 
 Let's see what we get:
 
-```{r}
+```{r, eval=FALSE}
 h_ab_structure <- attributes(harmonized_ab_waves)
+```
+```{r}
 h_ab_structure$row.names <- NULL # We have over 100K row names
 h_ab_structure
 ```
 
 Let's add the year of the interview:
 
-```{r year}
+```{r year, eval=FALSE}
 harmonized_ab_waves <- harmonized_ab_waves %>%
   mutate ( year = as.integer(substr(as.character(
     date_of_interview),1,4)))
 ```
+
+To keep or example manageable, we subset the datasets.
+
+```{r, eval=FALSE}
+harmonized_ab_waves <- harmonized_ab_waves %>%
+  filter ( country %in% c("Niger", "Nigeria", "Algeria", 
+                          "South Africa", "Madagascar"))
+```
+
 
 ## Analyze the results
 
