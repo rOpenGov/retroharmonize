@@ -6,7 +6,8 @@ example_survey <- survey(
   filename = "no_file"
 )
 
-test_that("correct casint", {
+test_that("correct casting", {
   expect_true(inherits(example_survey, "survey"))
+  expect_true(is.survey(example_survey))
   expect_equal(attr(example_survey, "filename"), "no_file")
 })

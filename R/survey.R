@@ -65,3 +65,8 @@ survey <- function ( df = data.frame(),
   new_survey (df, id, filename, doi)
   }
 
+#' @rdname survey
+#' @export
+is.survey <- function (df) {
+  inherits(df, "survey")
+}

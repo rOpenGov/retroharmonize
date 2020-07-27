@@ -1,5 +1,6 @@
-path <- system.file("examples", "ZA7576.rds", package = "retroharmonize")
-test_read <- read_rds ( path, id = "ZA7576", 
+path <- here("inst", "examples")
+test_read <- read_rds ( file.path(path, "ZA7576.rds"),
+                        id = "ZA7576", 
                         doi = "test_doi")
 
 attributes( test_read )

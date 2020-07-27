@@ -15,7 +15,9 @@
 #' @family harmonization functions
 #' @seealso survey
 
-merge_waves <- function(waves, var_harmonization ) {
+merge_waves <- function(waves, var_harmonization) {
+  
+  validate_survey_list(waves)
   
   if (any( ! c("filename", "var_name_orig", "var_name", "var_label") %in% names(var_harmonization))) {
     stop ( "var_harmonization must contain ", 

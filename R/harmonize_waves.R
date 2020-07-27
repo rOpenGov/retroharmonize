@@ -16,6 +16,8 @@
 
 harmonize_waves <- function(waves, .f, status_message = FALSE) {
   
+  validate_survey_list(waves)
+  
   all_names <-  unique(unlist(sapply ( waves, names )))
   
   classes <- unlist(sapply ( waves, function(x) sapply( x, function(y) class(y)[1]) ))
