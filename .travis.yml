@@ -2,9 +2,11 @@
 
 language: R
 cache: packages
+# --no-build-vignettes
+# --no-build-vignettes
 
-r_build_args: --no-build-vignettes --no-manual --no-resave-data
-r_check_args: --no-build-vignettes --no-manual
+r_build_args: --no-manual --no-resave-data
+r_check_args: --no-manual
 r_packages:
   - backports
   - vctrs
@@ -25,6 +27,8 @@ r_packages:
   - haven
   - labelled
   - rprojroot
+  - snakecase
+  - assertthat
   
 r_github_packages:
   - jimhester/covr
