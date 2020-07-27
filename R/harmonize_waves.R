@@ -86,7 +86,10 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     to_add_characters <- characters[which(!characters %in% names(dat))]
     to_add_dates <- dates[which(!dates %in% names(dat))]
     
-    vars_to_add <- c(to_add_rh, to_add_numerics, to_add_characters, to_add_dates)
+    vars_to_add <- c(to_add_rh, to_add_numerics, 
+                     to_add_characters, to_add_dates)
+    
+    if ( length(vars_to_add) == 0) return (dat)
     assert_that ( all(vars_to_add %in% names(dat))== FALSE)
     
     return_data <- dat
@@ -171,8 +174,6 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
       select  (all_of(all_names))
     
   }
-  
-  #test_ext <- extend_survey ( dat = waves[[1]] )
   
   extended <- lapply ( waves, extend_survey )
   
