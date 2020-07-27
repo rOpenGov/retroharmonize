@@ -21,12 +21,12 @@ A single survey identified by \code{id} or \code{filename}.
 Pull a survey by survey code or id.
 }
 \examples{
-survey_list <- dir (
-  here( "inst", "examples"))[grepl(".rds", 
-                        dir (here( "inst", "examples")))]
+examples_dir <- system.file( "examples", package = "retroharmonize")
 
-example_surveys <- read_surveys(
-  here( "inst", "examples", survey_list))
-  
+my_rds_files <- dir( examples_dir)[grepl(".rds", 
+                                        dir(examples_dir))]
+
+example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+
 pull_survey(example_surveys, id = "ZA5913")
 }
