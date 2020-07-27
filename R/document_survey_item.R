@@ -1,4 +1,4 @@
-#' @title Document survey harmonization
+#' @title Document survey item harmonization
 #'
 #' @param x A labelled_spss_survey vector from a single survey
 #' or concatenated from several surveys.

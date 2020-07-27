@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Survey data frame — survey • retroharmonize</title>
+<title>Document survey lists — document_waves • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Survey data frame — survey" />
-<meta property="og:description" content="Store the data of a survey in a tibble (data frame) with a unique
-survey identifier, import filename, and optional doi." />
+<meta property="og:title" content="Document survey lists — document_waves" />
+<meta property="og:description" content="Document survey lists" />
 
 
 
@@ -133,57 +132,51 @@ survey identifier, import filename, and optional doi." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Survey data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/survey.R'><code>R/survey.R</code></a></small>
-    <div class="hidden name"><code>survey.Rd</code></div>
+    <h1>Document survey lists</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/document_waves.R'><code>R/document_waves.R</code></a></small>
+    <div class="hidden name"><code>document_waves.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Store the data of a survey in a tibble (data frame) with a unique
-survey identifier, import filename, and optional doi.</p>
+    <p>Document survey lists</p>
     </div>
 
-    <pre class="usage"><span class='fu'>survey</span>(
-  <span class='kw'>df</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(),
-  <span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>filename</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>doi</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>document_waves</span>(<span class='no'>survey_list</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>A tibble or data frame that contains the survey data.</p></td>
-    </tr>
-    <tr>
-      <th>id</th>
-      <td><p>A mandatory identifier for the survey</p></td>
-    </tr>
-    <tr>
-      <th>filename</th>
-      <td><p>The import file name.</p></td>
-    </tr>
-    <tr>
-      <th>doi</th>
-      <td><p>Optional doi, can be omitted.</p></td>
+      <th>survey_list</th>
+      <td><p>A list of <code><a href='survey.html'>survey</a></code> objects.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with <code>id</code>,  <code>filename</code>,  <code>doi</code> 
-metadata information.</p>
+    <p>Returns a data frame with the key attributes of the surveys in
+a survey list.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>Other documentation functions: 
+<code><a href='document_survey_item.html'>document_survey_item</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>example_survey</span> <span class='kw'>&lt;-</span> <span class='fu'>survey</span>(
-  <span class='kw'>df</span> <span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span> (
-    <span class='kw'>rowid</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>6</span>,
-    <span class='kw'>observations</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>)),
-  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>'example'</span>,
-  <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"no_file"</span>
-)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (
+    <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>))[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
+                        <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (<span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>)))]
+
+<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
+    <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>, <span class='no'>survey_list</span>))
+
+<span class='no'>waves_document</span> <span class='kw'>&lt;-</span> <span class='fu'>document_waves</span>(<span class='no'>example_surveys</span>)
+
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>waves_document</span>, <span class='st'>"original_list"</span> )</div><div class='output co'>#&gt; [1] "example_surveys"</div><div class='input'><span class='no'>waves_document</span></div><div class='output co'>#&gt; # A tibble: 3 x 5
+#&gt;   id     filename    ncol  nrow object_size
+#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;
+#&gt; 1 ZA5913 ZA5913.rds    38    35      110192
+#&gt; 2 ZA6863 ZA6863.rds    49    50      144848
+#&gt; 3 ZA7576 ZA7576.rds    56    45      165824</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

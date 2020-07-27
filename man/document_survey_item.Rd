@@ -2,7 +2,7 @@
 % Please edit documentation in R/document_survey_item.R
 \name{document_survey_item}
 \alias{document_survey_item}
-\title{Document survey harmonization}
+\title{Document survey item harmonization}
 \usage{
 document_survey_item(x)
 }
@@ -16,7 +16,7 @@ of the valid range and missing values or range, the history of the
 variable names and the history of the survey IDs.
 }
 \description{
-Document survey harmonization
+Document survey item harmonization
 }
 \examples{
 var1 <- labelled::labelled_spss(
@@ -61,5 +61,9 @@ h2 <- harmonize_values (
 
 h3 <- concatenate(h1, h2) 
 document_survey_item(h3)
+}
+\seealso{
+Other documentation functions: 
+\code{\link{document_waves}()}
 }
 \concept{documentation functions}

@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Survey data frame — survey • retroharmonize</title>
+<title>Pull a survey from a survey list — pull_survey • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Survey data frame — survey" />
-<meta property="og:description" content="Store the data of a survey in a tibble (data frame) with a unique
-survey identifier, import filename, and optional doi." />
+<meta property="og:title" content="Pull a survey from a survey list — pull_survey" />
+<meta property="og:description" content="Pull a survey by survey code or id." />
 
 
 
@@ -133,57 +132,68 @@ survey identifier, import filename, and optional doi." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Survey data frame</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/survey.R'><code>R/survey.R</code></a></small>
-    <div class="hidden name"><code>survey.Rd</code></div>
+    <h1>Pull a survey from a survey list</h1>
+    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/pull_survey.R'><code>R/pull_survey.R</code></a></small>
+    <div class="hidden name"><code>pull_survey.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Store the data of a survey in a tibble (data frame) with a unique
-survey identifier, import filename, and optional doi.</p>
+    <p>Pull a survey by survey code or id.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>survey</span>(
-  <span class='kw'>df</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span>(),
-  <span class='kw'>id</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>filename</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>(),
-  <span class='kw'>doi</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/character.html'>character</a></span>()
-)</pre>
+    <pre class="usage"><span class='fu'>pull_survey</span>(<span class='no'>survey_list</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>df</th>
-      <td><p>A tibble or data frame that contains the survey data.</p></td>
+      <th>survey_list</th>
+      <td><p>A list of surveys</p></td>
     </tr>
     <tr>
       <th>id</th>
-      <td><p>A mandatory identifier for the survey</p></td>
+      <td><p>The id of the requested survey. If <code>NULL</code> use 
+<code>filename</code></p></td>
     </tr>
     <tr>
       <th>filename</th>
-      <td><p>The import file name.</p></td>
-    </tr>
-    <tr>
-      <th>doi</th>
-      <td><p>Optional doi, can be omitted.</p></td>
+      <td><p>The filename of the requested survey.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble with <code>id</code>,  <code>filename</code>,  <code>doi</code> 
-metadata information.</p>
+    <p>A single survey identified by <code>id</code> or <code>filename</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>example_survey</span> <span class='kw'>&lt;-</span> <span class='fu'>survey</span>(
-  <span class='kw'>df</span> <span class='kw'>=</span><span class='fu'><a href='https://rdrr.io/r/base/data.frame.html'>data.frame</a></span> (
-    <span class='kw'>rowid</span> <span class='kw'>=</span> <span class='fl'>1</span>:<span class='fl'>6</span>,
-    <span class='kw'>observations</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/stats/Uniform.html'>runif</a></span>(<span class='fl'>6</span>)),
-  <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>'example'</span>,
-  <span class='kw'>filename</span> <span class='kw'>=</span> <span class='st'>"no_file"</span>
-)</div></pre>
+    <pre class="examples"><div class='input'><span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (
+  <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>))[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
+                        <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (<span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>)))]
+
+<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
+  <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>, <span class='no'>survey_list</span>))
+
+<span class='fu'>pull_survey</span>(<span class='no'>example_surveys</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"ZA5913"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 38
+#&gt;    rowid doi   version uniqid isocntry       p1    p3      p4      p5 nuts      
+#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;chr+lbl&gt; 
+#&gt;  1 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        8 [Tue~    27 1 [Two~ 1 [Exc~ NL21 [Ove~
+#&gt;  2 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        8 [Tue~    31 1 [Two~ 1 [Exc~ NL33 [Zui~
+#&gt;  3 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    26 1 [Two~ 1 [Exc~ NL32 [Noo~
+#&gt;  4 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       14 [Mon~    23 1 [Two~ 1 [Exc~ NL22 [Gel~
+#&gt;  5 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    31 2 [Thr~ 1 [Exc~ NL33 [Zui~
+#&gt;  6 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        8 [Tue~    33 1 [Two~ 1 [Exc~ NL41 [Noo~
+#&gt;  7 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    21 1 [Two~ 1 [Exc~ NL13 [Dre~
+#&gt;  8 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    44 1 [Two~ 1 [Exc~ NL13 [Dre~
+#&gt;  9 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        5 [Sat~    19 1 [Two~ 2 [Fai~ NL34 [Zee~
+#&gt; 10 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       14 [Mon~    22 1 [Two~ 1 [Exc~ NL22 [Gel~
+#&gt; # ... with 25 more rows, and 28 more variables: d7 &lt;dbl+lbl&gt;, d8 &lt;dbl+lbl&gt;,
+#&gt; #   d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;, qa10_3 &lt;dbl+lbl&gt;, qa10_2 &lt;dbl+lbl&gt;,
+#&gt; #   qa10_1 &lt;dbl+lbl&gt;, qa7_4 &lt;dbl+lbl&gt;, qa7_2 &lt;dbl+lbl&gt;, qa7_3 &lt;dbl+lbl&gt;,
+#&gt; #   qa7_1 &lt;dbl+lbl&gt;, qa7_5 &lt;dbl+lbl&gt;, qd3_1 &lt;dbl+lbl&gt;, qd3_2 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_3 &lt;dbl+lbl&gt;, qd3_4 &lt;dbl+lbl&gt;, qd3_5 &lt;dbl+lbl&gt;, qd3_6 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_7 &lt;dbl+lbl&gt;, qd3_8 &lt;dbl+lbl&gt;, qd3_9 &lt;dbl+lbl&gt;, qd3_10 &lt;dbl+lbl&gt;,
+#&gt; #   qd3_11 &lt;dbl+lbl&gt;, qd3_12 &lt;dbl+lbl&gt;, qd3_13 &lt;dbl+lbl&gt;, qd3_14 &lt;dbl+lbl&gt;,
+#&gt; #   w1 &lt;dbl&gt;, w3 &lt;dbl&gt;</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

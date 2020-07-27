@@ -14,7 +14,7 @@
 #' @importFrom haven labelled_spss
 #' @family harmonization functions
 
-harmonize_waves <- function(waves, .f) {
+harmonize_waves <- function(waves, .f, status_message = FALSE) {
   
   all_names <-  unique(unlist(sapply ( waves, names )))
   
@@ -24,6 +24,8 @@ harmonize_waves <- function(waves, .f) {
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
   characters <- unique(names(classes[which(classes %in% c("character"))]))
   dates <- unique(names(classes[which(classes %in% c("Date"))]))
+  
+  original_attributes <- document_waves(waves)
   
   extend_survey <- function (dat) {
     
@@ -119,6 +121,8 @@ harmonize_waves <- function(waves, .f) {
   #test_ext <- extend_survey ( waves[[1]] )
   
   extended <- lapply ( waves, extend_survey )
+  
+  document_waves ( extended )
 
   full_join_characters <- do.call(
     vctrs::vec_rbind, 
@@ -139,12 +143,10 @@ harmonize_waves <- function(waves, .f) {
   fn_harmonize <- function(dat, .f) {
     
     orig_name_order <- names(dat)
-    #message ( "Harmonize ", attr(dat, "id"))
-    
+    if (status_message) message ( "Harmonize ", attr(dat, "id"))
+
     retroh <- as_tibble(lapply ( dat[, retroharmonized], FUN = .f ))
     
-    #x <-dat$trust_tax_department
-  
     dat %>% select ( -all_of(names(retroh))) %>%
       bind_cols(retroh) %>%
       select (all_of(orig_name_order)) 
@@ -152,7 +154,7 @@ harmonize_waves <- function(waves, .f) {
   
   rth <- lapply ( to_harmonize_labelled,
                   function(x) fn_harmonize(x, .f) )
-  
+
   for ( j in 2:length(rth) ) {
     ## Validate all possible retroharmonized pairs before merging.
     survey1 <- rth[[j-1]]
@@ -187,6 +189,11 @@ harmonize_waves <- function(waves, .f) {
     return_value <- bind_cols ( full_join_dates, return_value)
   }
   
+  attr(return_value, "id") <- paste0("Waves: ", 
+                                     paste ( original_attributes$id, collapse = "; " ))
+  
+  attr(return_value, "filename") <- paste0("Original files: ", 
+                                     paste ( original_attributes$filename, collapse = "; " ))
+
   return_value
 }
-

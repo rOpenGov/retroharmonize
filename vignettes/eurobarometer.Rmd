@@ -12,12 +12,8 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-if ( file.exists("not_included", "daniel_env.R")) {
-  source(file.path("not_included", "daniel_env.R"))
-} else {
-  source(file.path("..", "not_included", "daniel_env.R"))
-}
-
+library(retroharmonize)
+source(here ("not_included", "daniel_env.R"))
 ```
 
 In the [Afrobaromter Case Study](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) we have shown how to merge two waves of a survey with a limited number of variables.  This workflow is not feasible with Eurobarometer on a PC or laptop, because there are too many large files to handle. 
@@ -42,22 +38,25 @@ subset_save_surveys (
 
 ```
 
-```{r, eval=FALSE}
+```{r import-display, eval=FALSE}
 eurobarometer_waves <- file.path("working", dir("working"))
 eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
 ```
 
-```{r, echo=FALSE}
-if ( dir.exists("working") ) {
-  working_dir  <- file.path("working")
-  eurobarometer_waves <- file.path(working_dir, dir(working_dir))
-} else {
-  working_dir  <- file.path("..", "working")
-  eurobarometer_waves <- file.path(working_dir,  dir(working_dir))
-}
-
+```{r import-here, echo=FALSE}
+working_dir  <- here::here("working")
+eurobarometer_waves <- file.path(working_dir, dir(working_dir))
 eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
 ```
+
+We can review if the main descriptive metadata is correctly present with `document_waves()`.
+
+```{r document-waves}
+documented_waves <- document_waves (eb_waves) 
+message("Wave list: ", attr(documented_waves, "original_list"))
+print(documented_waves)
+```
+
 
 ## Metadata map
 
@@ -106,22 +105,50 @@ harmonize_eb_trust <- function(x) {
 }
 ```
 
-We set a missing range, because we are not sure that all 
+Let's see if things did work out fine:
 
-Let's see if it works:
+```{r}
+document_waves(eb_waves)
+```
+
+To review the harmonization on a single survey use `pull_survey()`. Before running our adapted harmonization function, we have this:
+
 
 ```{r, check}
-test_trust_european_commission <- eb_waves[[4]]$trust_european_commission
-harmonize_eb_trust(test_trust_european_commission[1:10])
+test_trust <- pull_survey(eb_waves, filename = "ZA4414_trust.rds")
+test_trust$trust_european_commission[1:16]
 ```
-Appears to give the correct results, let's run it through the 9 survey waves. Whenever a variable is missing from a wave, it is filled up with `inapproriate` missing values.
+```{r}
+harmonize_eb_trust(test_trust$trust_european_commission[1:16])
+```
+
+If you are satisfied with the results, run `harmonize_eb_trust``()` through the 9 survey waves. Whenever a variable is missing from a wave, it is filled up with `inapproriate` missing values.
+
+## Harmonize waves
 
 ```{r harmonizewaves, cache=TRUE}
 harmonized_eb_waves <- harmonize_waves ( waves = eb_waves, 
                                       .f = harmonize_eb_trust )
 ```
 
+We cannot rely on `document_waves()` anymore, because the result is a single data frame. Let's have a look at the descriptive metadata.
+
+```{r}
+wave_attributes <- attributes(harmonized_eb_waves)
+wave_attributes$id
+wave_attributes$filename
+wave_attributes$names
+```
+Let's review a bit the results:
+
+```{r}
+ZA2828 <- pull_survey(eb_waves, id = "ZA2828_trust")
+document_survey_item(ZA2828$trust_national_government)
+```
+
 ## Analyze the data
+
+If you did not save your work to use for another statistical software, from now on you can analyze the harmonized data in R.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html))
 
 If there is a `99901` value, it refers to an invalid observation. The missing value range is not correctly identified. It should be made sure that if there is an unrecognized category label it goes into the missing range (and is marked that it was not recognized.)
 

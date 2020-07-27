@@ -587,7 +587,7 @@ vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey
     }
   }
   
-  id <- paste(vec_c(x_id, to_id), collapse = ", ")
+ id <- paste(vec_c(x_id, to_id), collapse = ", ")
   
  out <- new_labelled_spss_survey(
     out_data, 

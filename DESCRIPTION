@@ -1,7 +1,7 @@
 Package: retroharmonize
 Type: Package
 Title: Ex Post Survey Table Harmonization
-Version: 0.1.3
+Version: 0.1.4
 Authors@R: 
     c(person(given = "Daniel",
            family = "Antal",
@@ -37,7 +37,8 @@ Imports:
     pillar,
     snakecase,
     purrr,
-    tidyr
+    tidyr,
+    here
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 3.5.0)

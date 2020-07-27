@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.3</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
       </span>
     </div>
 
@@ -115,13 +115,30 @@
   <span class="kw">export_path</span> <span class="kw">=</span> <span class="st">"working"</span> )</pre></body></html></div>
 <div class="sourceCode" id="cb3"><html><body><pre class="r"><span class="no">eurobarometer_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="st">"working"</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span>(<span class="st">"working"</span>))
 <span class="no">eb_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/read_surveys.html">read_surveys</a></span>(<span class="no">eurobarometer_waves</span>, <span class="kw">.f</span><span class="kw">=</span><span class="st">'read_rds'</span>)</pre></body></html></div>
+<p>We can review if the main descriptive metadata is correctly present with <code><a href="../reference/document_waves.html">document_waves()</a></code>.</p>
+<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">documented_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/document_waves.html">document_waves</a></span> (<span class="no">eb_waves</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/message.html">message</a></span>(<span class="st">"Wave list: "</span>, <span class="fu"><a href="https://rdrr.io/r/base/attr.html">attr</a></span>(<span class="no">documented_waves</span>, <span class="st">"original_list"</span>))
+<span class="co">#&gt; Wave list: eb_waves</span>
+<span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">documented_waves</span>)
+<span class="co">#&gt; # A tibble: 9 x 5</span>
+<span class="co">#&gt;   id           filename          ncol  nrow object_size</span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;            &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 ZA2828_trust ZA2828_trust.rds     7 65178     8881288</span>
+<span class="co">#&gt; 2 ZA3171_trust ZA3171_trust.rds    14 16179     3150696</span>
+<span class="co">#&gt; 3 ZA3639_trust ZA3639_trust.rds    14 16012     3116544</span>
+<span class="co">#&gt; 4 ZA4414_trust ZA4414_trust.rds    14 29430     5693504</span>
+<span class="co">#&gt; 5 ZA4744_trust ZA4744_trust.rds    14 30170     5833760</span>
+<span class="co">#&gt; 6 ZA5481_trust ZA5481_trust.rds    10 31769     5109472</span>
+<span class="co">#&gt; 7 ZA5913_trust ZA5913_trust.rds    10 27932     4494592</span>
+<span class="co">#&gt; 8 ZA6863_trust ZA6863_trust.rds    14 33180     6411712</span>
+<span class="co">#&gt; 9 ZA7562_trust ZA7562_trust.rds     8 27524     3980296</span></pre></body></html></div>
 <div id="metadata-map" class="section level2">
 <h2 class="hasAnchor">
 <a href="#metadata-map" class="anchor"></a>Metadata map</h2>
 <p>Let’s analyze the metadata of each survey file.</p>
-<div class="sourceCode" id="cb4"><html><body><pre class="r"><span class="no">eb_trust_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> ( <span class="kw">X</span> <span class="kw">=</span> <span class="no">eb_waves</span>, <span class="kw">FUN</span> <span class="kw">=</span> <span class="no">metadata_create</span>   )
+<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">eb_trust_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> ( <span class="kw">X</span> <span class="kw">=</span> <span class="no">eb_waves</span>, <span class="kw">FUN</span> <span class="kw">=</span> <span class="no">metadata_create</span>   )
 <span class="no">eb_trust_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="no">rbind</span>, <span class="no">eb_trust_metadata</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">eb_trust_metadata</span>)
+<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">eb_trust_metadata</span>)
 <span class="co">#&gt;           filename           id             var_name_orig</span>
 <span class="co">#&gt; 1 ZA2828_trust.rds ZA2828_trust                     rowid</span>
 <span class="co">#&gt; 2 ZA2828_trust.rds ZA2828_trust                country_id</span>
@@ -151,11 +168,11 @@
 <span class="co">#&gt; 5         3       NA        3              2           1</span>
 <span class="co">#&gt; 6         3       NA        3              2           1</span></pre></body></html></div>
 <p>The value labels in this example are not too numerous. The only variable that stands out is the <code>Can rely on</code> and <code>Cannot rely on</code> labelled variable.</p>
-<div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_val_labels</a></span>(<span class="no">eb_trust_metadata</span>)
+<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_val_labels</a></span>(<span class="no">eb_trust_metadata</span>)
 <span class="co">#&gt; [1] "CAN RELY ON IT"    "CANNOT RELY ON IT" "Tend to trust"    </span>
 <span class="co">#&gt; [4] "Tend not to trust" "DK"</span></pre></body></html></div>
 <p>And the labels that were marked by GESIS as missing values:</p>
-<div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_na_labels</a></span>(<span class="no">eb_trust_metadata</span>)
+<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_na_labels</a></span>(<span class="no">eb_trust_metadata</span>)
 <span class="co">#&gt; [1] "DK"                         "NA"                        </span>
 <span class="co">#&gt; [3] "Inap. (33 in V6)"           "Inap. (CY-TCC in isocntry)"</span></pre></body></html></div>
 </div>
@@ -163,7 +180,7 @@
 <h2 class="hasAnchor">
 <a href="#harmonize-the-labels" class="anchor"></a>Harmonize the labels</h2>
 <p>For easier looping we adopt the <code><a href="../reference/harmonize_values.html">harmonize_values()</a></code> function with new default settings. It would be tempting to preserve the <code>rely</code> labels, but if we use the same numeric coding, it will lead to confusion. If you want to keep the difference of the two type of category labels, than the harmonization should be done in a two-step process.</p>
-<div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">harmonize_eb_trust</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
+<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">harmonize_eb_trust</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
   <span class="no">label_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
     <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^tend\\snot"</span>, <span class="st">"^cannot"</span>, <span class="st">"^tend\\sto"</span>, <span class="st">"^can\\srely"</span>,
              <span class="st">"^dk"</span>, <span class="st">"^inap"</span>, <span class="st">"na"</span>),
@@ -179,11 +196,51 @@
                                  <span class="st">"inap"</span><span class="kw">=</span><span class="fl">99999</span>)
   )
 }</pre></body></html></div>
-<p>We set a missing range, because we are not sure that all</p>
-<p>Let’s see if it works:</p>
-<div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">test_trust_european_commission</span> <span class="kw">&lt;-</span> <span class="no">eb_waves</span><span class="kw">[[</span><span class="fl">4</span>]]$<span class="no">trust_european_commission</span>
-<span class="fu">harmonize_eb_trust</span>(<span class="no">test_trust_european_commission</span>[<span class="fl">1</span>:<span class="fl">10</span>])
-<span class="co">#&gt;  [1] 99997     1     0 99997     1     0     0     0     1 99997</span>
+<p>Let’s see if things did work out fine:</p>
+<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="fu"><a href="../reference/document_waves.html">document_waves</a></span>(<span class="no">eb_waves</span>)
+<span class="co">#&gt; # A tibble: 9 x 5</span>
+<span class="co">#&gt;   id           filename          ncol  nrow object_size</span>
+<span class="co">#&gt;   &lt;chr&gt;        &lt;chr&gt;            &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
+<span class="co">#&gt; 1 ZA2828_trust ZA2828_trust.rds     7 65178     8881288</span>
+<span class="co">#&gt; 2 ZA3171_trust ZA3171_trust.rds    14 16179     3150696</span>
+<span class="co">#&gt; 3 ZA3639_trust ZA3639_trust.rds    14 16012     3116544</span>
+<span class="co">#&gt; 4 ZA4414_trust ZA4414_trust.rds    14 29430     5693504</span>
+<span class="co">#&gt; 5 ZA4744_trust ZA4744_trust.rds    14 30170     5833760</span>
+<span class="co">#&gt; 6 ZA5481_trust ZA5481_trust.rds    10 31769     5109472</span>
+<span class="co">#&gt; 7 ZA5913_trust ZA5913_trust.rds    10 27932     4494592</span>
+<span class="co">#&gt; 8 ZA6863_trust ZA6863_trust.rds    14 33180     6411712</span>
+<span class="co">#&gt; 9 ZA7562_trust ZA7562_trust.rds     8 27524     3980296</span></pre></body></html></div>
+<p>To review the harmonization on a single survey use <code><a href="../reference/pull_survey.html">pull_survey()</a></code>. Before running our adapted harmonization function, we have this:</p>
+<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">test_trust</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/pull_survey.html">pull_survey</a></span>(<span class="no">eb_waves</span>, <span class="kw">filename</span> <span class="kw">=</span> <span class="st">"ZA4414_trust.rds"</span>)
+<span class="no">test_trust</span>$<span class="no">trust_european_commission</span>[<span class="fl">1</span>:<span class="fl">16</span>]
+<span class="co">#&gt;  [1] 3 1 2 3 1 2 2 2 1 3 1 1 1 1 1 1</span>
+<span class="co">#&gt; attr(,"labels")</span>
+<span class="co">#&gt;     Tend to trust Tend not to trust                DK </span>
+<span class="co">#&gt;                 1                 2                 3 </span>
+<span class="co">#&gt; attr(,"label")</span>
+<span class="co">#&gt; [1] "QA27 EUROPEAN COMMISSION - TRUST"</span>
+<span class="co">#&gt; attr(,"na_values")</span>
+<span class="co">#&gt; [1] 3</span>
+<span class="co">#&gt; attr(,"ZA4414_name")</span>
+<span class="co">#&gt; [1] "v213"</span>
+<span class="co">#&gt; attr(,"ZA4414_values")</span>
+<span class="co">#&gt; 1 2 3 </span>
+<span class="co">#&gt; 1 2 3 </span>
+<span class="co">#&gt; attr(,"ZA4414_label")</span>
+<span class="co">#&gt; [1] "QA27 EUROPEAN COMMISSION - TRUST"</span>
+<span class="co">#&gt; attr(,"ZA4414_labels")</span>
+<span class="co">#&gt;     Tend to trust Tend not to trust                DK </span>
+<span class="co">#&gt;                 1                 2                 3 </span>
+<span class="co">#&gt; attr(,"ZA4414_na_values")</span>
+<span class="co">#&gt; [1] 3</span>
+<span class="co">#&gt; attr(,"id")</span>
+<span class="co">#&gt; [1] "ZA4414"</span>
+<span class="co">#&gt; attr(,"class")</span>
+<span class="co">#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                </span>
+<span class="co">#&gt; [3] "haven_labelled"</span></pre></body></html></div>
+<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu">harmonize_eb_trust</span>(<span class="no">test_trust</span>$<span class="no">trust_european_commission</span>[<span class="fl">1</span>:<span class="fl">16</span>])
+<span class="co">#&gt;  [1] 99997     1     0 99997     1     0     0     0     1 99997     1     1</span>
+<span class="co">#&gt; [13]     1     1     1     1</span>
 <span class="co">#&gt; attr(,"labels")</span>
 <span class="co">#&gt;   not_trust       trust do_not_know    declined        inap </span>
 <span class="co">#&gt;           0           1       99997       99998       99999 </span>
@@ -208,15 +265,59 @@
 <span class="co">#&gt; [1] 3</span>
 <span class="co">#&gt; attr(,"id")</span>
 <span class="co">#&gt; [1] "survey_id"</span></pre></body></html></div>
-<p>Appears to give the correct results, let’s run it through the 9 survey waves. Whenever a variable is missing from a wave, it is filled up with <code>inapproriate</code> missing values.</p>
-<div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> ( <span class="kw">waves</span> <span class="kw">=</span> <span class="no">eb_waves</span>,
+<p>If you are satisfied with the results, run <code>harmonize_eb_trust``()</code> through the 9 survey waves. Whenever a variable is missing from a wave, it is filled up with <code>inapproriate</code> missing values.</p>
+</div>
+<div id="harmonize-waves" class="section level2">
+<h2 class="hasAnchor">
+<a href="#harmonize-waves" class="anchor"></a>Harmonize waves</h2>
+<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> ( <span class="kw">waves</span> <span class="kw">=</span> <span class="no">eb_waves</span>,
                                       <span class="kw">.f</span> <span class="kw">=</span> <span class="no">harmonize_eb_trust</span> )</pre></body></html></div>
+<p>We cannot rely on <code><a href="../reference/document_waves.html">document_waves()</a></code> anymore, because the result is a single data frame. Let’s have a look at the descriptive metadata.</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">wave_attributes</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span>(<span class="no">harmonized_eb_waves</span>)
+<span class="no">wave_attributes</span>$<span class="no">id</span>
+<span class="co">#&gt; [1] "Waves: ZA2828_trust; ZA3171_trust; ZA3639_trust; ZA4414_trust; ZA4744_trust; ZA5481_trust; ZA5913_trust; ZA6863_trust; ZA7562_trust"</span>
+<span class="no">wave_attributes</span>$<span class="no">filename</span>
+<span class="co">#&gt; [1] "Original files: ZA2828_trust.rds; ZA3171_trust.rds; ZA3639_trust.rds; ZA4414_trust.rds; ZA4744_trust.rds; ZA5481_trust.rds; ZA5913_trust.rds; ZA6863_trust.rds; ZA7562_trust.rds"</span>
+<span class="no">wave_attributes</span>$<span class="no">names</span>
+<span class="co">#&gt;  [1] "rowid"                     "country_id"               </span>
+<span class="co">#&gt;  [3] "weight_poststrat"          "weight_extrapolated"      </span>
+<span class="co">#&gt;  [5] "trust_european_commission" "trust_national_government"</span>
+<span class="co">#&gt;  [7] "trust_european_parliament" "trust_national_parliament"</span>
+<span class="co">#&gt;  [9] "trust_justice_system"      "trust_police"             </span>
+<span class="co">#&gt; [11] "trust_army"                "trust_political_parties"  </span>
+<span class="co">#&gt; [13] "trust_companies"           "trust_european_union"     </span>
+<span class="co">#&gt; [15] "trust_united_nations"</span></pre></body></html></div>
+<p>Let’s review a bit the results:</p>
+<div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="no">ZA2828</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/pull_survey.html">pull_survey</a></span>(<span class="no">eb_waves</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="st">"ZA2828_trust"</span>)
+<span class="fu"><a href="../reference/document_survey_item.html">document_survey_item</a></span>(<span class="no">ZA2828</span>$<span class="no">trust_national_government</span>)
+<span class="co">#&gt; $code_table</span>
+<span class="co">#&gt; # A tibble: 3 x 5</span>
+<span class="co">#&gt;   values ZA2828_values labels            ZA2828_labels     missing</span>
+<span class="co">#&gt;    &lt;dbl&gt;         &lt;dbl&gt; &lt;chr&gt;             &lt;chr&gt;             &lt;lgl&gt;  </span>
+<span class="co">#&gt; 1      1             1 CAN RELY ON IT    CAN RELY ON IT    FALSE  </span>
+<span class="co">#&gt; 2      2             2 CANNOT RELY ON IT CANNOT RELY ON IT FALSE  </span>
+<span class="co">#&gt; 3      3             3 DK                DK                TRUE   </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $history_var_name</span>
+<span class="co">#&gt;                               name                        ZA2828_name </span>
+<span class="co">#&gt; "ZA2828$trust_national_government"                             "v468" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $history_var_label</span>
+<span class="co">#&gt;                              label                       ZA2828_label </span>
+<span class="co">#&gt; "Q39B RELY ON NATIONAL GOVERNMENT" "Q39B RELY ON NATIONAL GOVERNMENT" </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $history_na_range</span>
+<span class="co">#&gt; character(0)</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $history_id</span>
+<span class="co">#&gt; [1] "ZA2828"</span></pre></body></html></div>
 </div>
 <div id="analyze-the-data" class="section level2">
 <h2 class="hasAnchor">
 <a href="#analyze-the-data" class="anchor"></a>Analyze the data</h2>
+<p>If you did not save your work to use for another statistical software, from now on you can analyze the harmonized data in R. The labelled survey data is stored in <code><a href="../reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with <code><a href="../reference/labelled_spss_survey.html">as_numeric()</a></code> or as categorical with <code><a href="../reference/as_factor.html">as_factor()</a></code>. (See more why you should not fall back on the more generic <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code> or <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> methods in <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">The labelled_spss_survey class vignette.</a>)</p>
 <p>If there is a <code>99901</code> value, it refers to an invalid observation. The missing value range is not correctly identified. It should be made sure that if there is an unrecognized category label it goes into the missing range (and is marked that it was not recognized.)</p>
-<div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), <span class="no">as_factor</span> ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>()
 <span class="co">#&gt;     rowid            country_id        weight_poststrat weight_extrapolated</span>
@@ -259,7 +360,7 @@
 <span class="co">#&gt;  inap       :65699     inap       :121156   </span>
 <span class="co">#&gt;                                             </span>
 <span class="co">#&gt; </span></pre></body></html></div>
-<div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">&lt;-</span> <span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">&lt;-</span> <span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), <span class="no">as_numeric</span> )
 <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">numeric_harmonization</span>)
 <span class="co">#&gt;     rowid            country_id        weight_poststrat weight_extrapolated</span>
@@ -302,7 +403,7 @@
 <span class="co">#&gt;  3rd Qu.:1.00        </span>
 <span class="co">#&gt;  Max.   :1.00        </span>
 <span class="co">#&gt;  NA's   :145152</span></pre></body></html></div>
-<div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">harmonized_eb_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), <span class="no">as_numeric</span> ) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">contains</a></span>(<span class="st">"trust"</span>)), ~<span class="no">.</span>*<span class="no">weight_poststrat</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>()
@@ -347,7 +448,7 @@
 <span class="co">#&gt;  Max.   :6.97        </span>
 <span class="co">#&gt;  NA's   :145152</span></pre></body></html></div>
 <p>We have a problem: the invalid values should go out to the missing range, but they are not always correctly labelled as missing. The names in the tibble should also be fixed.</p>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">%&gt;%</span>
+<div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">numeric_harmonization</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/group_by.html">group_by</a></span>(<span class="no">country_id</span>) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise_all.html">summarize_if</a></span> ( <span class="no">is.numeric</span>, <span class="no">mean</span>, <span class="kw">na.rm</span><span class="kw">=</span><span class="fl">TRUE</span>)
 <span class="co">#&gt; # A tibble: 38 x 14</span>

@@ -4,7 +4,7 @@
 \alias{harmonize_waves}
 \title{Harmonize waves}
 \usage{
-harmonize_waves(waves, .f)
+harmonize_waves(waves, .f, status_message = FALSE)
 }
 \arguments{
 \item{waves}{A list of surveys}
