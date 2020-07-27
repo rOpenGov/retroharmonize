@@ -48,7 +48,7 @@ documented_eb_waves <- document_waves (eb_waves)
 
 Let's analyze the metadata of each survey file. 
 
-```{r metadata, eval=TRUE}
+```{r metadata, eval=FALSE}
 eb_trust_metadata <- lapply ( X = eb_waves, FUN = metadata_create   )
 eb_trust_metadata <- do.call(rbind, eb_trust_metadata)
 #let's keep the example managable:
