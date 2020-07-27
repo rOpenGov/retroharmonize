@@ -29,7 +29,7 @@ The goal of `retroharmonize` is to allow the organization of data joins or panel
 
 Currently being generalized from problems solved in the  [github.com/antaldaniel/eurobarometer]((https://github.com/antaldaniel/eurobarometer)) package ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
-You can download the manual in [PDF](retroharmonize_0.1.1.pdf).
+You can download the manual in [PDF](retroharmonize_0.1.6.pdf).
 
 ## Installation
 
@@ -77,18 +77,7 @@ h2 <- harmonize_values(
     ), 
   id = attr(eb, "id") )
 
-h2_documentation <- document_survey_item(h2)
-```
-
-```{r}
-h2_documentation$code_table
-```
-
-```{r}
-h2_documentation$history_var_name
-```
-```{r}
-h2_documentation$history_var_label
+h2
 ```
 
 ## Create a longitudional table

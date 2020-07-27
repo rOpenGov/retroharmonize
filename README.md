@@ -29,7 +29,7 @@ Currently being generalized from problems solved in the
 [github.com/antaldaniel/eurobarometer](\(https://github.com/antaldaniel/eurobarometer\))
 package ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
-You can download the manual in [PDF](retroharmonize_0.1.1.pdf).
+You can download the manual in [PDF](retroharmonize_0.1.6.pdf).
 
 ## Installation
 
@@ -119,30 +119,41 @@ h2 <- harmonize_values(
     ), 
   id = attr(eb, "id") )
 
-h2_documentation <- document_survey_item(h2)
-```
-
-``` r
-h2_documentation$code_table
-#> # A tibble: 4 x 5
-#>   values Eurobarometer_91_5_subs~ labels   Eurobarometer_91_5_subsample~ missing
-#>    <dbl>                    <dbl> <chr>    <chr>                         <lgl>  
-#> 1      0                        1 not_tru~ Tend to trust                 FALSE  
-#> 2      1                        2 trust    Tend not to trust             FALSE  
-#> 3  99997                        3 do_not_~ DK                            TRUE   
-#> 4  99999                        9 inap     Inap. (not CY-TCC in isocntr~ TRUE
-```
-
-``` r
-h2_documentation$history_var_name
-#>                              name Eurobarometer_91_5_subsample_name 
-#>                              "h2"                       "eb$qa14_2"
-```
-
-``` r
-h2_documentation$history_var_label
-#>                              label Eurobarometer_91_5_subsample_label 
-#>      "EUROPEAN COMMISSION - TRUST"      "EUROPEAN COMMISSION - TRUST"
+h2
+#>  [1]     0     1     1 99997     1     1     1 99997 99997     0     1     0
+#> [13]     0     1     0     0     0     0 99997     1     1     1     0     0
+#> [25]     1     1     0     0     0     0     1     1     1     0     1     0
+#> [37] 99999 99999 99999 99999 99999 99997     0     1     1
+#> attr(,"labels")
+#>   not_trust       trust do_not_know    declined        inap 
+#>           0           1       99997       99998       99999 
+#> attr(,"label")
+#> [1] "EUROPEAN COMMISSION - TRUST"
+#> attr(,"na_values")
+#> [1] 99997 99998 99999
+#> attr(,"class")
+#> [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                
+#> [3] "haven_labelled"                     
+#> attr(,"Eurobarometer_91_5_subsample_name")
+#> [1] "eb$qa14_2"
+#> attr(,"Eurobarometer_91_5_subsample_values")
+#>     2     1     3     9 
+#>     0     1 99997 99999 
+#> attr(,"Eurobarometer_91_5_subsample_label")
+#> [1] "EUROPEAN COMMISSION - TRUST"
+#> attr(,"Eurobarometer_91_5_subsample_labels")
+#>                                    Tend to trust 
+#>                                                1 
+#>                                Tend not to trust 
+#>                                                2 
+#>                                               DK 
+#>                                                3 
+#> Inap. (not CY-TCC in isocntry and not 1 in eu28) 
+#>                                                9 
+#> attr(,"Eurobarometer_91_5_subsample_na_values")
+#> [1] 9
+#> attr(,"id")
+#> [1] "Eurobarometer_91_5_subsample"
 ```
 
 ## Create a longitudional table
@@ -201,19 +212,19 @@ dplyr::bind_rows(a,b)
 #> # A tibble: 13 x 3
 #>    rowid                        hvar      w
 #>    <chr>                <retroh_dbl>  <dbl>
-#>  1 survey11     1 [trust]            0.310 
-#>  2 survey12     0 [not_trust]        0.199 
-#>  3 survey13     1 [trust]            0.137 
-#>  4 survey14     1 [trust]            0.410 
-#>  5 survey15     0 [not_trust]        0.554 
-#>  6 survey16 99997 (NA) [do_not_know] 0.918 
-#>  7 survey17 99999 (NA) [inap]        0.129 
-#>  8 survey21     0 [not_trust]        0.201 
-#>  9 survey22     0 [not_trust]        0.406 
-#> 10 survey23 99997 (NA) [do_not_know] 0.0331
-#> 11 survey24 99999 (NA) [inap]        0.553 
-#> 12 survey25     1 [trust]            0.604 
-#> 13 survey26     1 [trust]            0.174
+#>  1 survey11     1 [trust]            0.138 
+#>  2 survey12     0 [not_trust]        0.0298
+#>  3 survey13     1 [trust]            0.498 
+#>  4 survey14     1 [trust]            0.442 
+#>  5 survey15     0 [not_trust]        0.709 
+#>  6 survey16 99997 (NA) [do_not_know] 0.803 
+#>  7 survey17 99999 (NA) [inap]        0.757 
+#>  8 survey21     0 [not_trust]        0.419 
+#>  9 survey22     0 [not_trust]        0.416 
+#> 10 survey23 99997 (NA) [do_not_know] 0.997 
+#> 11 survey24 99999 (NA) [inap]        0.636 
+#> 12 survey25     1 [trust]            0.417 
+#> 13 survey26     1 [trust]            0.752
 ```
 
 See the [Case Study: Working With
