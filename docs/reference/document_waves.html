@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -162,12 +162,12 @@ a survey list.</p>
 <code><a href='document_survey_item.html'>document_survey_item</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (
-    <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>))[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
-                        <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (<span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>)))]
+    <pre class="examples"><div class='input'><span class='no'>examples_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>( <span class='st'>"examples"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
 
-<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
-    <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>, <span class='no'>survey_list</span>))
+<span class='no'>my_rds_files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>( <span class='no'>examples_dir</span>)[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
+                                   <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='no'>examples_dir</span>))]
+
+<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>examples_dir</span>, <span class='no'>my_rds_files</span>))
 
 <span class='no'>waves_document</span> <span class='kw'>&lt;-</span> <span class='fu'>document_waves</span>(<span class='no'>example_surveys</span>)
 

@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.6</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.7</span>
       </span>
     </div>
 
@@ -142,7 +142,7 @@
     </div>
 
     <pre class="usage"><span class='fu'>subset_save_surveys</span>(
-  <span class='no'>survey_list</span>,
+  <span class='no'>var_harmonization</span>,
   <span class='kw'>selection_name</span> <span class='kw'>=</span> <span class='st'>"trust"</span>,
   <span class='kw'>import_path</span> <span class='kw'>=</span> <span class='st'>""</span>,
   <span class='kw'>export_path</span> <span class='kw'>=</span> <span class='st'>"working"</span>
@@ -152,8 +152,9 @@
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>survey_list</th>
-      <td><p>A vector of file names to import.</p></td>
+      <th>var_harmonization</th>
+      <td><p>Metadata of surveys, including at least
+<code>filename</code>, <code>var_name_orig</code>, <code>var_name</code>, <code>var_label</code>.</p></td>
     </tr>
     <tr>
       <th>selection_name</th>
