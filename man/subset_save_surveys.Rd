@@ -20,6 +20,15 @@ subset_save_surveys(
 
 \item{export_path}{The path where the subsets should be saved.}
 }
+\value{
+The function does not return a value. It saves the subsetted
+surveys into .rds files.
+}
 \description{
 Read a predefined survey list and variables.
+}
+\examples{
+\dontrun{
+## See Eurobaromter case study
+}
 }

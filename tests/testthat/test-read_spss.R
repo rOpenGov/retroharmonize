@@ -1,7 +1,7 @@
-path <- here("inst", "examples")
+examples_dir <- system.file( "examples", package = "retroharmonize")
 
 read_example <- read_spss(
-  file = file.path(path, "iris1.sav"),
+  file = file.path(examples_dir, "iris1.sav"),
   id = "my_iris")
 
 test_that("attributes work", {

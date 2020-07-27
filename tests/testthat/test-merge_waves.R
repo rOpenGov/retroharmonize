@@ -1,10 +1,10 @@
 require(dplyr)
-survey_list <- dir (
-  here::here( "inst", "examples"))[grepl(".rds", 
-                                         dir (here( "inst", "examples")))]
+examples_dir <- system.file( "examples", package = "retroharmonize")
 
-example_surveys <- read_surveys(
-  here::here( "inst", "examples", survey_list))
+my_rds_files <- dir( examples_dir)[grepl(".rds", 
+                                         dir(examples_dir))]
+
+example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
 
 metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 metadata <- do.call(rbind, metadata)
@@ -22,3 +22,4 @@ test_that("correct structure is returned", {
   expect_true(is.list(
     merge_waves ( example_surveys, to_harmonize )))
 })
+

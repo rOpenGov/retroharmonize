@@ -12,7 +12,13 @@
 #' @importFrom stats setNames
 #' @importFrom utils object.size
 #' @importFrom fs is_dir
+#' @return The function does not return a value. It saves the subsetted
+#' surveys into .rds files.
 #' @export
+#' @examples
+#' \dontrun{
+#' ## See Eurobaromter case study
+#' }
 
 subset_save_surveys  <- function ( survey_list, 
                                    selection_name = "trust",
