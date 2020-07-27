@@ -166,12 +166,13 @@
     <p>A single survey identified by <code>id</code> or <code>filename</code>.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (
-  <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>))[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
-                        <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (<span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>)))]
+    <pre class="examples"><div class='input'><span class='no'>examples_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>( <span class='st'>"examples"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
+
+<span class='no'>my_rds_files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>( <span class='no'>examples_dir</span>)[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
+                                   <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='no'>examples_dir</span>))]
 
 <span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
-  <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>, <span class='no'>survey_list</span>))
+    <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>examples_dir</span>, <span class='no'>my_rds_files</span>) )
 
 <span class='fu'>pull_survey</span>(<span class='no'>example_surveys</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"ZA5913"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 38
 #&gt;    rowid doi   version uniqid isocntry       p1    p3      p4      p5 nuts      

@@ -158,8 +158,16 @@ harmonization function on them.</p>
       <th>.f</th>
       <td><p>A function to apply for the harmonization.</p></td>
     </tr>
+    <tr>
+      <th>status_message</th>
+      <td><p>Defaults to <code>FALSE</code>. If set to <code>TRUE</code>
+it shows the id of the survey that is being joined.</p></td>
+    </tr>
     </table>
 
+    <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
+
+    <p>A natural full join of all surveys into a data frame.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other harmonization functions: 
@@ -169,12 +177,11 @@ harmonization function on them.</p>
 <code><a href='merge_waves.html'>merge_waves</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (
-  <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>))[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
-                             <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (<span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>)))]
+    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
+<span class='no'>examples_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
 
 <span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
-  <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>, <span class='no'>survey_list</span>))
+  <span class='fu'><a href='here.html'>here</a></span>( <span class='no'>examples_dir</span>, <span class='no'>survey_list</span>))
 
 <span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span> ( <span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>example_surveys</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>metadata_create</span> )
 <span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='no'>rbind</span>, <span class='no'>metadata</span>)
@@ -184,7 +191,8 @@ harmonization function on them.</p>
              <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"rowid"</span>, <span class='st'>"w1"</span>) <span class='kw'>|</span>
              <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"trust "</span>, <span class='no'>label_orig</span> ) ) <span class='kw'>%&gt;%</span>
   <span class='fu'>mutate</span> ( <span class='kw'>var_label</span> <span class='kw'>=</span> <span class='fu'><a href='label_normalize.html'>var_label_normalize</a></span>(<span class='no'>label_orig</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span> ( <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='fu'><a href='label_normalize.html'>val_label_normalize</a></span>(<span class='no'>var_label</span>))</div><div class='output co'>#&gt; <span class='error'>Error in data.matrix(data): 'list' object cannot be coerced to type 'double'</span></div><div class='input'>
+  <span class='fu'>mutate</span> ( <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='fu'><a href='label_normalize.html'>val_label_normalize</a></span>(<span class='no'>var_label</span>))
+
 <span class='no'>harmonize_eb_trust</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) {
   <span class='no'>label_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
     <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\snot"</span>, <span class='st'>"^cannot"</span>, <span class='st'>"^tend\\sto"</span>, <span class='st'>"^can\\srely"</span>,
@@ -202,12 +210,14 @@ harmonization function on them.</p>
                    )
 }
 
-<span class='no'>merged_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='merge_waves.html'>merge_waves</a></span> ( <span class='no'>example_surveys</span>, <span class='kw'>var_harmonization</span> <span class='kw'>=</span> <span class='no'>to_harmonize</span>  )</div><div class='output co'>#&gt; <span class='error'>Error in c("filename", "var_name_orig", "var_name", "var_label") %in%     names(var_harmonization): object 'to_harmonize' not found</span></div><div class='input'>
+<span class='no'>merged_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='merge_waves.html'>merge_waves</a></span> ( <span class='no'>example_surveys</span>, <span class='kw'>var_harmonization</span> <span class='kw'>=</span> <span class='no'>to_harmonize</span>  )
+
 <span class='no'>harmonized</span> <span class='kw'>&lt;-</span> <span class='fu'>harmonize_waves</span>(<span class='kw'>waves</span> <span class='kw'>=</span> <span class='no'>merged_surveys</span>,
                               <span class='kw'>.f</span> <span class='kw'>=</span> <span class='no'>harmonize_eb_trust</span>,
-                              <span class='kw'>status_message</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</div><div class='output co'>#&gt; <span class='error'>Error in eval(assertion, env): object 'merged_surveys' not found</span></div><div class='input'>                              
-# For details see Afrobarometer and Eurobarometer Case Study vignettes.
-</div></pre>
+                              <span class='kw'>status_message</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
+
+<span class='co'># For details see Afrobarometer and Eurobarometer Case Study vignettes.</span>
+}</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

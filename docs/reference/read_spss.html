@@ -153,8 +153,7 @@ file extension.</p>
   <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
   <span class='kw'>doi</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>,
-  <span class='no'>...</span>
+  <span class='kw'>.name_repair</span> <span class='kw'>=</span> <span class='st'>"unique"</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -163,6 +162,11 @@ file extension.</p>
     <tr>
       <th>file</th>
       <td><p>An SPSS file.</p></td>
+    </tr>
+    <tr>
+      <th>user_na</th>
+      <td><p>Should user-defined na_values be imported? Defaults
+to <code>TRUE</code>.</p></td>
     </tr>
     <tr>
       <th>id</th>
@@ -176,6 +180,11 @@ file name.</p></td>
     <tr>
       <th>doi</th>
       <td><p>An optional document object identifier.</p></td>
+    </tr>
+    <tr>
+      <th>.name_repair</th>
+      <td><p>Defaults to <code>"unique"</code> See 
+<code>tibble::<a href='https://tibble.tidyverse.org/reference/as_tibble.html'>as_tibble</a></code> for details.</p></td>
     </tr>
     </table>
 
