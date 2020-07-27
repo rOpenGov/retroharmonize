@@ -2,7 +2,8 @@
 #' 
 #' Read a predefined survey list and variables. 
 #' 
-#' @param survey_list A vector of file names to import.
+#' @param var_harmonization Metadata of surveys, including at least
+#' \code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.
 #' @param selection_name An identifier for the survey subset.
 #' @param import_path The path to the survey files.
 #' @param export_path The path where the subsets should be saved.
@@ -11,7 +12,7 @@
 #' @importFrom tidyselect all_of
 #' @importFrom stats setNames
 #' @importFrom utils object.size
-#' @importFrom fs is_dir
+#' @importFrom fs dir_exists
 #' @return The function does not return a value. It saves the subsetted
 #' surveys into .rds files.
 #' @export
@@ -20,16 +21,17 @@
 #' ## See Eurobaromter case study
 #' }
 
-subset_save_surveys  <- function ( survey_list, 
+subset_save_surveys  <- function ( var_harmonization, 
                                    selection_name = "trust",
                                    import_path = "", 
                                    export_path = "working") {
   
   filename <- id <- var_name_orig <- var_label_std <- NULL
-  
-  assertthat::assert_that(fs::is_dir(import_path) == TRUE)
+  validate_survey_list(survey_list)
 
-  selection <- survey_list %>%
+  assertthat::assert_that(fs::dir_exists(import_path) == TRUE)
+
+  selection <- var_harmonization %>%
     distinct (filename, id, var_name_orig, var_label_std ) %>%
     mutate ( filename = file.path(import_path, filename)) 
   
@@ -38,7 +40,7 @@ subset_save_surveys  <- function ( survey_list,
   
   for (i in 1:length(survey_files$filename)) {
     this_file <- survey_files$filename[i]
-    
+
     if ( ! fs::file_exists(this_file) ) {
       warning( this_file, " does not exist.")
       next

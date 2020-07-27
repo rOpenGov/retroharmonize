@@ -5,14 +5,15 @@
 \title{Subset and Save Surveys}
 \usage{
 subset_save_surveys(
-  survey_list,
+  var_harmonization,
   selection_name = "trust",
   import_path = "",
   export_path = "working"
 )
 }
 \arguments{
-\item{survey_list}{A vector of file names to import.}
+\item{var_harmonization}{Metadata of surveys, including at least
+\code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.}
 
 \item{selection_name}{An identifier for the survey subset.}
 
