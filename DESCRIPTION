@@ -29,7 +29,7 @@ LazyData: true
 Imports: 
     vctrs,
     haven,
-    dplyr,
+    dplyr (>= 1.0.0),
     magrittr,
     stats,
     tibble,
