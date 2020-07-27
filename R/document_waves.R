@@ -22,6 +22,8 @@
 
 document_waves <- function( survey_list ) {
   
+  validate_survey_list(survey_list)
+  
   n_survey <- length(survey_list)
   
   tmp <- tibble(
@@ -31,6 +33,7 @@ document_waves <- function( survey_list ) {
     nrow =  vapply ( survey_list, nrow, integer(1)),
     object_size =  vapply ( survey_list, object.size, double(1))
     )
+  
   attr(tmp, "original_list")  <- deparse(substitute(survey_list))
   
   tmp
