@@ -6,6 +6,9 @@
 #' 
 #' @param waves A list of surveys
 #' @param .f A function to apply for the harmonization.
+#' @param status_message Defaults to \code{FALSE}. If set to \code{TRUE}
+#' it shows the id of the survey that is being joined.
+#' @return A natural full join of all surveys into a data frame.
 #' @export
 #' @importFrom dplyr select bind_cols mutate_all pull
 #' @importFrom tidyselect all_of
@@ -14,13 +17,11 @@
 #' @importFrom haven labelled_spss
 #' @family harmonization functions
 #' @examples
-
-#' survey_list <- dir (
-#'   here( "inst", "examples"))[grepl(".rds", 
-#'                              dir (here( "inst", "examples")))]
+#' \dontrun{
+#' examples_dir <- system.file("examples", package = "retroharmonize")
 #' 
 #' example_surveys <- read_surveys(
-#'   here( "inst", "examples", survey_list))
+#'   here( examples_dir, survey_list))
 #' 
 #' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 #' metadata <- do.call(rbind, metadata)
@@ -56,6 +57,7 @@
 #'                               status_message = FALSE)
 #'                               
 #' # For details see Afrobarometer and Eurobarometer Case Study vignettes.
+#' }
 
 harmonize_waves <- function(waves, .f, status_message = FALSE) {
   

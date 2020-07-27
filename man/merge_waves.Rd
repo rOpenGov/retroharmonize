@@ -20,6 +20,7 @@ Merge a list of surveys into a list with harmonized variable names,
 variable labels and survey identifiers.
 }
 \examples{
+\dontrun{
 require(dplyr)
 survey_list <- dir (
     here( "inst", "examples"))[grepl(".rds", 
@@ -39,6 +40,7 @@ to_harmonize <- metadata \%>\%
   mutate ( var_name = val_label_normalize(var_label) )
 
 merge_waves ( example_surveys, to_harmonize )
+}
 }
 \seealso{
 survey

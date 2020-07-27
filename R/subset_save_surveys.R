@@ -27,7 +27,7 @@ subset_save_surveys  <- function ( survey_list,
   
   filename <- id <- var_name_orig <- var_label_std <- NULL
   
-  assertthat(fs::is_dir(import_path) == TRUE)
+  assertthat::assert_that(fs::is_dir(import_path) == TRUE)
 
   selection <- survey_list %>%
     distinct (filename, id, var_name_orig, var_label_std ) %>%

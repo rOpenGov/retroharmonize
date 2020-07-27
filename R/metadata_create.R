@@ -37,7 +37,7 @@
 #' @export
 
 metadata_create <- function( survey ) {
-  var_name_orig <- n_na_labels <-  NULL
+  var_name_orig <- n_na_labels <- n_valid_labels <- n_labels <- NULL
   
   assert_that(is.survey(survey))
   

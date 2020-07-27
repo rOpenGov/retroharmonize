@@ -10,12 +10,14 @@ read_spss(
   id = NULL,
   filename = NULL,
   doi = NULL,
-  .name_repair = "unique",
-  ...
+  .name_repair = "unique"
 )
 }
 \arguments{
 \item{file}{An SPSS file.}
+
+\item{user_na}{Should user-defined na_values be imported? Defaults
+to \code{TRUE}.}
 
 \item{id}{An identifier of the tibble, if omitted, defaults to the
 file name.}
@@ -23,6 +25,9 @@ file name.}
 \item{filename}{An import file name.}
 
 \item{doi}{An optional document object identifier.}
+
+\item{.name_repair}{Defaults to \code{"unique"} See 
+\code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.}
 }
 \value{
 A tibble, data frame variant with nice defaults.

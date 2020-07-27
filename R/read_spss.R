@@ -8,6 +8,10 @@
 #' This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}} 
 #'
 #' @param file An SPSS file.
+#' @param user_na Should user-defined na_values be imported? Defaults
+#' to \code{TRUE}.
+#' @param .name_repair Defaults to \code{"unique"} See 
+#' \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.
 #' @inheritParams read_rds
 #' @importFrom haven read_spss read_sav write_sav is.labelled
 #' @importFrom tibble rowid_to_column
@@ -32,14 +36,12 @@
 #' haven::read_sav(tmp)
 #' @export
 #' 
-
 read_spss <- function(file, 
                       user_na = TRUE,
                       id = NULL, 
                       filename = NULL, 
                       doi = NULL, 
-                      .name_repair = "unique",
-                      ...) {
+                      .name_repair = "unique") {
   
   # to do: with ...
   #skip = NULL,

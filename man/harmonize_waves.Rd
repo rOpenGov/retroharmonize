@@ -10,6 +10,12 @@ harmonize_waves(waves, .f, status_message = FALSE)
 \item{waves}{A list of surveys}
 
 \item{.f}{A function to apply for the harmonization.}
+
+\item{status_message}{Defaults to \code{FALSE}. If set to \code{TRUE}
+it shows the id of the survey that is being joined.}
+}
+\value{
+A natural full join of all surveys into a data frame.
 }
 \description{
 Harmonize the values of surveys. It binds together variables
@@ -17,12 +23,11 @@ that are all present in the surveys, and applies a
 harmonization function on them.
 }
 \examples{
-survey_list <- dir (
-  here( "inst", "examples"))[grepl(".rds", 
-                             dir (here( "inst", "examples")))]
+\dontrun{
+examples_dir <- system.file("examples", package = "retroharmonize")
 
 example_surveys <- read_surveys(
-  here( "inst", "examples", survey_list))
+  here( examples_dir, survey_list))
 
 metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 metadata <- do.call(rbind, metadata)
@@ -58,6 +63,7 @@ harmonized <- harmonize_waves(waves = merged_surveys,
                               status_message = FALSE)
                               
 # For details see Afrobarometer and Eurobarometer Case Study vignettes.
+}
 }
 \seealso{
 Other harmonization functions: 

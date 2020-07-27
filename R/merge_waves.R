@@ -15,6 +15,7 @@
 #' @family harmonization functions
 #' @seealso survey
 #' @examples 
+#' \dontrun{
 #' require(dplyr)
 #' survey_list <- dir (
 #'     here( "inst", "examples"))[grepl(".rds", 
@@ -34,6 +35,7 @@
 #'   mutate ( var_name = val_label_normalize(var_label) )
 #' 
 #' merge_waves ( example_surveys, to_harmonize )
+#' }
 
 merge_waves <- function(waves, var_harmonization) {
   
