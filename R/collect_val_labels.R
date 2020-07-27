@@ -3,7 +3,7 @@
 #' @param metadata A metadata data frame created by 
 #' \code{\link{metadata_create}}.
 #' @return The unique valid labels or the user-defined missing 
-#' labels found in all the files analysed in \code{metadata}.
+#' labels found in all the files analyzed in \code{metadata}.
 #' @family harmonization functions
 #' @examples 
 #' test_survey <- retroharmonize::read_rds (

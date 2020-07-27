@@ -15,7 +15,7 @@ collect_na_labels(metadata)
 }
 \value{
 The unique valid labels or the user-defined missing 
-labels found in all the files analysed in \code{metadata}.
+labels found in all the files analyzed in \code{metadata}.
 }
 \description{
 Collect labels from metadata file

@@ -12,7 +12,7 @@
 #'   \item{labels}{A list of the value labels.}
 #'   \item{valid_labels}{A list of the value labels that are not marked as missing values.}
 #'   \item{na_labels}{A list of the value labels that refer to user-defined missing values.}
-#'   \item{na_range}{An optional range of a continous missing range, if present in the vector.}
+#'   \item{na_range}{An optional range of a continuous missing range, if present in the vector.}
 #'   \item{n_labels}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
 #'   \item{n_valid_labels}{Number of categories in the non-missing range.}
 #'   \item{n_na_labels}{Number of categories of the variable, should be the sum of the former two.}
