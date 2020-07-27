@@ -73,7 +73,7 @@ variable labels and survey identifiers." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.4</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.5</span>
       </span>
     </div>
 
@@ -171,6 +171,104 @@ variable labels and survey identifiers.</p>
 <code><a href='harmonize_values.html'>harmonize_values</a>()</code>,
 <code><a href='harmonize_waves.html'>harmonize_waves</a>()</code></p></div>
 
+    <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
+    <pre class="examples"><div class='input'><span class='fu'><a href='https://rdrr.io/r/base/library.html'>require</a></span>(<span class='no'>dplyr</span>)</div><div class='output co'>#&gt; <span class='message'>Loading required package: dplyr</span></div><div class='output co'>#&gt; <span class='message'></span>
+#&gt; <span class='message'>Attaching package: 'dplyr'</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:stats':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    filter, lag</span></div><div class='output co'>#&gt; <span class='message'>The following objects are masked from 'package:base':</span>
+#&gt; <span class='message'></span>
+#&gt; <span class='message'>    intersect, setdiff, setequal, union</span></div><div class='input'><span class='no'>survey_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (
+    <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>))[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
+                        <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span> (<span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>)))]
+
+<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
+    <span class='fu'><a href='here.html'>here</a></span>( <span class='st'>"inst"</span>, <span class='st'>"examples"</span>, <span class='no'>survey_list</span>))
+
+<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span> ( <span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>example_surveys</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>metadata_create</span> )
+<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='no'>rbind</span>, <span class='no'>metadata</span>)
+
+<span class='no'>to_harmonize</span> <span class='kw'>&lt;-</span> <span class='no'>metadata</span> <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span> ( <span class='no'>var_name_orig</span> <span class='kw'>%in%</span>
+             <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"rowid"</span>, <span class='st'>"w1"</span>) <span class='kw'>|</span>
+             <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"trust "</span>, <span class='no'>label_orig</span> ) ) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span> ( <span class='kw'>var_label</span> <span class='kw'>=</span> <span class='fu'><a href='label_normalize.html'>var_label_normalize</a></span>(<span class='no'>label_orig</span>) ) <span class='kw'>%&gt;%</span>
+  <span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span> ( <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='fu'><a href='label_normalize.html'>val_label_normalize</a></span>(<span class='no'>var_label</span>) )
+
+<span class='fu'>merge_waves</span> ( <span class='no'>example_surveys</span>, <span class='no'>to_harmonize</span> )</div><div class='output co'>#&gt; [[1]]
+#&gt; # A tibble: 35 x 7
+#&gt;    unique_identifi~ trust_in_instit~ trust_in_instit~ trust_in_instit~
+#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;     &lt;retroh_dbl&gt;     &lt;retroh_dbl&gt;
+#&gt;  1 ZA5913_1         2 [Tend not to ~ 2 [Tend not to ~ 2 [Tend not to ~
+#&gt;  2 ZA5913_2         2 [Tend not to ~ 2 [Tend not to ~ 2 [Tend not to ~
+#&gt;  3 ZA5913_3         1 [Tend to trus~ 1 [Tend to trus~ 1 [Tend to trus~
+#&gt;  4 ZA5913_4         2 [Tend not to ~ 1 [Tend to trus~ 1 [Tend to trus~
+#&gt;  5 ZA5913_5         1 [Tend to trus~ 1 [Tend to trus~ 2 [Tend not to ~
+#&gt;  6 ZA5913_6         1 [Tend to trus~ 2 [Tend not to ~ 2 [Tend not to ~
+#&gt;  7 ZA5913_7         2 [Tend not to ~ 3 (NA) [DK]      2 [Tend not to ~
+#&gt;  8 ZA5913_8         1 [Tend to trus~ 1 [Tend to trus~ 1 [Tend to trus~
+#&gt;  9 ZA5913_9         2 [Tend not to ~ 2 [Tend not to ~ 2 [Tend not to ~
+#&gt; 10 ZA5913_10        2 [Tend not to ~ 2 [Tend not to ~ 2 [Tend not to ~
+#&gt; # ... with 25 more rows, and 3 more variables:
+#&gt; #   trust_in_institutions_political_parties &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_reg_loc_authorities &lt;retroh_dbl&gt;,
+#&gt; #   weight_result_from_target &lt;dbl&gt;
+#&gt; 
+#&gt; [[2]]
+#&gt; # A tibble: 50 x 15
+#&gt;    unique_identifi~ trust_in_instit~ trust_in_instit~ trust_in_instit~
+#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;     &lt;retroh_dbl&gt;     &lt;retroh_dbl&gt;
+#&gt;  1 ZA6863_1         1 [Tend to trus~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  2 ZA6863_2         2 [Tend not to ~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  3 ZA6863_3         3 [DK]           3 [DK]           9 (NA) [Inap. (~
+#&gt;  4 ZA6863_4         2 [Tend not to ~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  5 ZA6863_5         3 [DK]           1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  6 ZA6863_6         2 [Tend not to ~ 2 [Tend not to ~ 9 (NA) [Inap. (~
+#&gt;  7 ZA6863_7         1 [Tend to trus~ 3 [DK]           9 (NA) [Inap. (~
+#&gt;  8 ZA6863_8         1 [Tend to trus~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  9 ZA6863_9         1 [Tend to trus~ 2 [Tend not to ~ 9 (NA) [Inap. (~
+#&gt; 10 ZA6863_10        1 [Tend to trus~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt; # ... with 40 more rows, and 11 more variables:
+#&gt; #   trust_in_institutions_justice_legal_system &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_national_government &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_national_parliament &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_police &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_political_parties &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_political_parties_tcc &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_public_administration &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_reg_local_public_authorities &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_united_nations &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_united_nations_tcc &lt;retroh_dbl&gt;,
+#&gt; #   weight_result_from_target_redressment &lt;dbl&gt;
+#&gt; 
+#&gt; [[3]]
+#&gt; # A tibble: 45 x 17
+#&gt;    unique_identifi~ trust_in_instit~ trust_in_instit~ trust_in_instit~
+#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;     &lt;retroh_dbl&gt;     &lt;retroh_dbl&gt;
+#&gt;  1 ZA7576_1         1 [Tend to trus~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  2 ZA7576_2         1 [Tend to trus~ 3 [DK]           9 (NA) [Inap. (~
+#&gt;  3 ZA7576_3         1 [Tend to trus~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  4 ZA7576_4         1 [Tend to trus~ 2 [Tend not to ~ 9 (NA) [Inap. (~
+#&gt;  5 ZA7576_5         1 [Tend to trus~ 3 [DK]           9 (NA) [Inap. (~
+#&gt;  6 ZA7576_6         1 [Tend to trus~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  7 ZA7576_7         1 [Tend to trus~ 2 [Tend not to ~ 9 (NA) [Inap. (~
+#&gt;  8 ZA7576_8         2 [Tend not to ~ 1 [Tend to trus~ 9 (NA) [Inap. (~
+#&gt;  9 ZA7576_9         2 [Tend not to ~ 2 [Tend not to ~ 9 (NA) [Inap. (~
+#&gt; 10 ZA7576_10        1 [Tend to trus~ 2 [Tend not to ~ 9 (NA) [Inap. (~
+#&gt; # ... with 35 more rows, and 13 more variables:
+#&gt; #   trust_in_institutions_justice_legal_system &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_media &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_media_tcc &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_national_government &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_national_parliament &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_police &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_political_parties &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_political_parties_tcc &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_public_administration &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_reg_local_public_authorities &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_united_nations &lt;retroh_dbl&gt;,
+#&gt; #   trust_in_institutions_united_nations_tcc &lt;retroh_dbl&gt;,
+#&gt; #   weight_result_from_target_redressment &lt;dbl&gt;
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
