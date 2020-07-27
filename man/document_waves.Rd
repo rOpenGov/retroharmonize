@@ -17,13 +17,13 @@ a survey list.
 Document survey lists
 }
 \examples{
-survey_list <- dir (
-    here( "inst", "examples"))[grepl(".rds", 
-                        dir (here( "inst", "examples")))]
+examples_dir <- system.file( "examples", package = "retroharmonize")
                         
-example_surveys <- read_surveys(
-    here( "inst", "examples", survey_list))
-    
+my_rds_files <- dir( examples_dir)[grepl(".rds", 
+                                   dir(examples_dir))]
+
+example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+ 
 waves_document <- document_waves(example_surveys)
 
 attr(waves_document, "original_list" )
