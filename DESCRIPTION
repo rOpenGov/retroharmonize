@@ -20,7 +20,7 @@ Description: The goal of retroharmonize is to allow the organization
     survey microdata files, by retrospective harmonization the value codes,
     the value labels, and the missing value ranges of the data in a
     reproducible manner with the help of comprehensive s3 classes.
-License: GPL-3 + LICENSE
+License: GPL-3
 Encoding: UTF-8
 Language: en-US
 URL: https://http://retroharmonize.satellitereport.com/

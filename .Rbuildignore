@@ -16,3 +16,4 @@
 ^working$
 ^retroh_int
 ^\.RDataTmp$
+^\.rhub_check\.R$

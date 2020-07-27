@@ -1,14 +1,32 @@
-save (ab_metadata, to_harmonize, merged_ab, file = 
-        file.path("inst", "examples", "afrob_vignette.rda") )
+R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6")
+R6 <- select(R6, all_of(c("unique_id", "trust_president" )))
 
-load(system.file( file.path("examples", "afrob_vignette.rda"),
+
+names ( test_trust)
+test_trust <- select ( test_trust, all_of(
+  c("rowid", "trust_european_commission")))
+test_trust <- test_trust [1:100,]
+
+names ( harmonized_ab_waves)
+
+View ( harmonized_ab_waves )
+
+as_factor ( harmonized_ab_waves$country)
+
+save (ab_metadata, to_harmonize, R6, 
+      documented_ab_waves,documenteded_merged_ab, h_ab_structure,
+      harmonized_ab_waves2, file =file.path("inst", "afrob", "afrob_vignette.rda") , 
+      compress = T)
+
+load(system.file( file.path("afrob", "afrob_vignette.rda"),
              package = "retroharmonize"))
 
 documented_eb_waves <- document_waves(eb_waves)
 test_trust <- pull_survey(eb_waves, filename = "ZA4414_trust.rds")
 
-save ( eb_trust_metadata, test_trust, harmonized_eb_waves, documented_eb_waves, 
-       file = file.path("inst", "examples", "eurob_vignette.rda" ))
+save ( eb_trust_metadata, 
+       test_trust, harmonized_eb_waves, documented_eb_waves, 
+       file = file.path("inst", "eurob", "eurob_vignette.rda" ))
       
 eb_plot <- numeric_harmonization %>%
   tidyr::pivot_longer( cols = contains("trust")) %>%
