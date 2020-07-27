@@ -2,7 +2,7 @@
 title: "The labelled_spss_survey class"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{"The labelled_spss_survey class"}
+  %\VignetteIndexEntry{The labelled_spss_survey class}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
