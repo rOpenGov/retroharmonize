@@ -10,3 +10,4 @@ rhub::check(
   platform="windows-x86_64-release",
   env_vars=c(R_COMPILE_AND_INSTALL_PACKAGES = "always")
 )
+

@@ -123,7 +123,6 @@ documented_eb_waves
 
 To review the harmonization on a single survey use `pull_survey()`. Before running our adapted harmonization function, we have this:
 
-
 ```{r, check, eval=FALSE}
 test_trust <- pull_survey(eb_waves, filename = "ZA4414_trust.rds")
 ```

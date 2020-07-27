@@ -391,29 +391,29 @@
 <span class="no">c</span> <span class="kw">&lt;-</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">a</span>, <span class="no">b</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">c</span>)
 <span class="co">#&gt;     rowid                hvar             w         </span>
-<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.1427  </span>
-<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.3209  </span>
-<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.5256  </span>
-<span class="co">#&gt;                     Mean   :30769   Mean   :0.5377  </span>
-<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.7296  </span>
-<span class="co">#&gt;                     Max.   :99999   Max.   :0.9634</span></pre></body></html></div>
+<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.1085  </span>
+<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.5534  </span>
+<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.6792  </span>
+<span class="co">#&gt;                     Mean   :30769   Mean   :0.6333  </span>
+<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.8030  </span>
+<span class="co">#&gt;                     Max.   :99999   Max.   :0.9314</span></pre></body></html></div>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">c</span>)
 <span class="co">#&gt; # A tibble: 13 x 3</span>
 <span class="co">#&gt;    rowid                        hvar     w</span>
 <span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 survey11     1 [trust]            0.797</span>
-<span class="co">#&gt;  2 survey12     0 [not_trust]        0.221</span>
-<span class="co">#&gt;  3 survey13     1 [trust]            0.730</span>
-<span class="co">#&gt;  4 survey14     1 [trust]            0.473</span>
-<span class="co">#&gt;  5 survey15     0 [not_trust]        0.963</span>
-<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.348</span>
-<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.886</span>
-<span class="co">#&gt;  8 survey21     0 [not_trust]        0.724</span>
-<span class="co">#&gt;  9 survey22     0 [not_trust]        0.164</span>
-<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.526</span>
-<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.143</span>
-<span class="co">#&gt; 12 survey25     1 [trust]            0.321</span>
-<span class="co">#&gt; 13 survey26     1 [trust]            0.695</span></pre></body></html></div>
+<span class="co">#&gt;  1 survey11     1 [trust]            0.931</span>
+<span class="co">#&gt;  2 survey12     0 [not_trust]        0.553</span>
+<span class="co">#&gt;  3 survey13     1 [trust]            0.679</span>
+<span class="co">#&gt;  4 survey14     1 [trust]            0.877</span>
+<span class="co">#&gt;  5 survey15     0 [not_trust]        0.657</span>
+<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.743</span>
+<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.108</span>
+<span class="co">#&gt;  8 survey21     0 [not_trust]        0.219</span>
+<span class="co">#&gt;  9 survey22     0 [not_trust]        0.622</span>
+<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.545</span>
+<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.690</span>
+<span class="co">#&gt; 12 survey25     1 [trust]            0.803</span>
+<span class="co">#&gt; 13 survey26     1 [trust]            0.805</span></pre></body></html></div>
 <p>While dplyr’s join functions may result in correct values, the metadata gets lost. A new join method will be developed.</p>
 </div>
   </div>
