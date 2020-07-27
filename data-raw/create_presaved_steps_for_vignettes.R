@@ -7,8 +7,8 @@ load(system.file( file.path("examples", "afrob_vignette.rda"),
 documented_eb_waves <- document_waves(eb_waves)
 test_trust <- pull_survey(eb_waves, filename = "ZA4414_trust.rds")
 
-save ( eb_trust_metadata, test_trust, harmonized_eb_waves, documented_waves, 
-       file = file.path("inst", "examples", "euroob_vignette.rda" ))
+save ( eb_trust_metadata, test_trust, harmonized_eb_waves, documented_eb_waves, 
+       file = file.path("inst", "examples", "eurob_vignette.rda" ))
       
 eb_plot <- numeric_harmonization %>%
   tidyr::pivot_longer( cols = contains("trust")) %>%

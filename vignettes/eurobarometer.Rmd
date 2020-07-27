@@ -54,7 +54,7 @@ eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
 We can review if the main descriptive metadata is correctly present with `document_waves()`.
 
 ```{r document-waves}
-documented_waves <- document_waves (eb_waves) 
+documented_eb_waves <- document_waves (eb_waves) 
 ```
 
 
