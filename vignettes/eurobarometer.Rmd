@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 library(retroharmonize)
 load(file = system.file(
-  "examples", "eurob_vignette.rda", package = "retroharmonize"))
+  "eurob", "eurob_vignette.rda", package = "retroharmonize"))
 #source(here("not_included", "daniel_env.R"))
 ```
 
@@ -26,19 +26,6 @@ library(retroharmonize)
 library(dplyr)
 ```
 
-We have created a helper function `subset_save_survey()` that programmatically reads in SPSS files, makes the necessary type conversion to `labelled_spss_survey()` without harmonization, and saves a small, subsetted `rds` file. Because this is a native R file, it is far more efficient to handle in the actual workflow.
-
-```{r subsetting, eval=FALSE}
-# To replicate the worklist, you need to have the SPSS file names 
-# as a list, and you have to set up your own import and export path.
-
-subset_save_surveys ( 
-  survey_list = eb_metadata, 
-  selection_name = "trust",
-  import_path = gesis_dir, 
-  export_path = "working" )
-
-```
 
 ```{r import-display, eval=FALSE}
 eurobarometer_waves <- file.path("working", dir("working"))
@@ -65,6 +52,10 @@ Let's analyze the metadata of each survey file.
 ```{r metadata, eval=TRUE}
 eb_trust_metadata <- lapply ( X = eb_waves, FUN = metadata_create   )
 eb_trust_metadata <- do.call(rbind, eb_trust_metadata)
+#let's keep the example managable:
+eb_trust_metadata  <- eb_trust_metadata %>%
+  filter ( grepl( "parliament|commission|rowid|weight_poststrat|country_id", var_name_orig ))
+
 ```
 
 ```{r head}
@@ -82,6 +73,23 @@ And the labels that were marked by GESIS as missing values:
 ```{r missing-labels}
 collect_na_labels(eb_trust_metadata)
 ```
+
+We have created a helper function `subset_save_survey()` that programmatically reads in SPSS files, makes the necessary type conversion to `labelled_spss_survey()` without harmonization, and saves a small, subsetted `rds` file. Because this is a native R file, it is far more efficient to handle in the actual workflow.
+
+```{r subsetting, eval=FALSE}
+# To replicate the worklist, you need to have the SPSS file names 
+# as a list, and you have to set up your own import and export path.
+selected_eb_metadata <- readRDS(system.file("eurob", "selected_eb_waves.rds", package = "retroharmonize")) %>%
+  mutate ( id = substr(filename,1,6))
+
+subset_save_surveys ( 
+  var_harmonization = selected_eb_metadata, 
+  selection_name = "trust",
+  import_path = gesis_dir, 
+  export_path = "working" )
+
+```
+
 ## Harmonize the labels
 
 For easier looping we adopt the `harmonize_values()` function with new default settings. It would be tempting to preserve the `rely` labels, but if we use the same numeric coding, it will lead to confusion. If you want to keep the difference of the two type of category labels, than the harmonization should be done in a two-step process. 
@@ -131,9 +139,21 @@ If you are satisfied with the results, run `harmonize_eb_trust``()` through the 
 
 ## Harmonize waves
 
+```{r}
+eb_waves_selected <- lapply ( eb_waves, function(x) x %>% select ( 
+  any_of (c("rowid", "country_id", "weight_poststrat", 
+            "trust_national_parliament", "trust_european_commission", 
+            "trust_european_parliament"))) %>%
+    filter ( country_id %in% c("NL", "PL", "HU", "SK", "BE", 
+                               "MT", "IT")))
+
+```
+
+
 ```{r harmonizewaves, eval=FALSE}
-harmonized_eb_waves <- harmonize_waves ( waves = eb_waves, 
-                                      .f = harmonize_eb_trust )
+harmonized_eb_waves <- harmonize_waves ( 
+  waves = eb_waves_selected, 
+  .f = harmonize_eb_trust )
 ```
 
 We cannot rely on `document_waves()` anymore, because the result is a single data frame. Let's have a look at the descriptive metadata.
@@ -167,9 +187,6 @@ harmonized_eb_waves %>%
   mutate_at ( vars(contains("trust")), ~.*weight_poststrat) %>%
   summary()
 ```
-
-We have a problem: the invalid values should go out to the missing range, but they are not always correctly labelled as missing. The names in the tibble should also be fixed.
-
 ```{r}
 numeric_harmonization %>%
   group_by(country_id) %>%
