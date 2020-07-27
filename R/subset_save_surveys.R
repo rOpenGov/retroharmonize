@@ -10,12 +10,19 @@
 #' @importFrom fs file_exists path_ext
 #' @importFrom tidyselect all_of
 #' @importFrom stats setNames
+#' @importFrom utils object.size
+#' @importFrom fs is_dir
 #' @export
 
 subset_save_surveys  <- function ( survey_list, 
                                    selection_name = "trust",
-                                   import_path = gesis_dir, 
+                                   import_path = "", 
                                    export_path = "working") {
+  
+  filename <- id <- var_name_orig <- var_label_std <- NULL
+  
+  assertthat(fs::is_dir(import_path) == TRUE)
+
   selection <- survey_list %>%
     distinct (filename, id, var_name_orig, var_label_std ) %>%
     mutate ( filename = file.path(import_path, filename)) 

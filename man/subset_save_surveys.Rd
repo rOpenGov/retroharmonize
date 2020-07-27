@@ -7,7 +7,7 @@
 subset_save_surveys(
   survey_list,
   selection_name = "trust",
-  import_path = gesis_dir,
+  import_path = "",
   export_path = "working"
 )
 }

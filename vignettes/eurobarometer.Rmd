@@ -62,7 +62,7 @@ print(documented_waves)
 
 Let's analyze the metadata of each survey file. 
 
-```{r metadata, cache=TRUE}
+```{r metadata}
 eb_trust_metadata <- lapply ( X = eb_waves, FUN = metadata_create   )
 eb_trust_metadata <- do.call(rbind, eb_trust_metadata)
 ```
@@ -126,7 +126,7 @@ If you are satisfied with the results, run `harmonize_eb_trust``()` through the 
 
 ## Harmonize waves
 
-```{r harmonizewaves, cache=TRUE}
+```{r harmonizewaves}
 harmonized_eb_waves <- harmonize_waves ( waves = eb_waves, 
                                       .f = harmonize_eb_trust )
 ```

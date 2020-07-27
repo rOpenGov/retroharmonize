@@ -19,6 +19,8 @@
 
 collect_val_labels <- function(metadata) {
   
+  . <- NULL
+  
   valid_labels <- lapply (metadata$valid_labels, unlist) %>%
     sapply(., names )
   unique(as.character(unlist(valid_labels)))
@@ -28,6 +30,8 @@ collect_val_labels <- function(metadata) {
 #' @rdname collect_val_labels
 #' @export
 collect_na_labels <- function(metadata) {
+  
+  . <- NULL
   
   na_labels <- lapply (metadata$na_labels, unlist) %>%
     sapply(., names )

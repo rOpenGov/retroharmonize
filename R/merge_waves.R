@@ -37,6 +37,8 @@
 
 merge_waves <- function(waves, var_harmonization) {
   
+  . <- filename <- NULL
+  
   validate_survey_list(waves)
   
   if (any( ! c("filename", "var_name_orig", "var_name", "var_label") %in% names(var_harmonization))) {

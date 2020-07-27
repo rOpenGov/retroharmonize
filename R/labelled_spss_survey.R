@@ -211,6 +211,7 @@ obj_print_footer.retroharmonize_labelled_spss_survey <- function(x, ...) {
   invisible(x)
 }
 
+#' @importFrom utils head
 print.retroharmonize_labelled_spss_survey <- function(x, ...) {
   cat_line("<", vec_ptype_full(x), "[", vec_size(x), "]>", get_labeltext(x))
   cat( head(vec_data(x),20) )
