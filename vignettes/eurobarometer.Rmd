@@ -13,7 +13,9 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 library(retroharmonize)
-source(here("not_included", "daniel_env.R"))
+load(file = system.file(
+  "examples", "eurob_vignette.rda", package = "retroharmonize"))
+#source(here("not_included", "daniel_env.R"))
 ```
 
 In the [Afrobaromter Case Study](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) we have shown how to merge two waves of a survey with a limited number of variables.  This workflow is not feasible with Eurobarometer on a PC or laptop, because there are too many large files to handle. 
@@ -53,8 +55,6 @@ We can review if the main descriptive metadata is correctly present with `docume
 
 ```{r document-waves}
 documented_waves <- document_waves (eb_waves) 
-message("Wave list: ", attr(documented_waves, "original_list"))
-print(documented_waves)
 ```
 
 
@@ -62,7 +62,7 @@ print(documented_waves)
 
 Let's analyze the metadata of each survey file. 
 
-```{r metadata}
+```{r metadata, eval=TRUE}
 eb_trust_metadata <- lapply ( X = eb_waves, FUN = metadata_create   )
 eb_trust_metadata <- do.call(rbind, eb_trust_metadata)
 ```
@@ -107,15 +107,20 @@ harmonize_eb_trust <- function(x) {
 
 Let's see if things did work out fine:
 
-```{r}
+```{r, eval=FALSE}
 document_waves(eb_waves)
+```
+```{r, echo=FALSE}
+documented_eb_waves
 ```
 
 To review the harmonization on a single survey use `pull_survey()`. Before running our adapted harmonization function, we have this:
 
 
-```{r, check}
+```{r, check, eval=FALSE}
 test_trust <- pull_survey(eb_waves, filename = "ZA4414_trust.rds")
+```
+```{r, pulled-check}
 test_trust$trust_european_commission[1:16]
 ```
 ```{r}
@@ -126,7 +131,7 @@ If you are satisfied with the results, run `harmonize_eb_trust``()` through the 
 
 ## Harmonize waves
 
-```{r harmonizewaves}
+```{r harmonizewaves, eval=FALSE}
 harmonized_eb_waves <- harmonize_waves ( waves = eb_waves, 
                                       .f = harmonize_eb_trust )
 ```
@@ -139,13 +144,6 @@ wave_attributes$id
 wave_attributes$filename
 wave_attributes$names
 ```
-Let's review a bit the results:
-
-```{r}
-ZA2828 <- pull_survey(eb_waves, id = "ZA2828_trust")
-document_survey_item(ZA2828$trust_national_government)
-```
-
 ## Analyze the data
 
 If you did not save your work to use for another statistical software, from now on you can analyze the harmonized data in R.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html))

@@ -15,11 +15,15 @@ knitr::opts_chunk$set(
 library(retroharmonize)
 library(dplyr)
 library(tidyr)
-source( here ("not_included", "daniel_env.R"))
+load(file = system.file(
+  "examples", "afrob_vignette.rda", package = "retroharmonize"))
+# source( here ("not_included", "daniel_env.R"))
 ```
 
 ```{r setup, eval=FALSE}
 library(retroharmonize)
+library(dplyr)
+library(tidyr)
 ```
 
 In this case study we harmonize data from Afrobarometer with Eurobarometer. Some elements of this vignette are not “live”, because we do not have permission to re-publish the microdata files from Afrobarometer, but you can access them [directly](http://afrobarometer.org/data/merged-data).  For reproducibility, we are storing only a small subsample from the files and the metadata. 
@@ -28,7 +32,7 @@ In this case study we harmonize data from Afrobarometer with Eurobarometer. Some
 
 First, let’s read in the two rounds of Afrobarometer.
 
-```{r import}
+```{r import, eval=FALSE}
 ### use here your own directory
 ab <- dir ( afrobarometer_dir )
 afrobarometer_rounds <- file.path(afrobarometer_dir, ab)
@@ -37,13 +41,9 @@ ab_waves <- read_surveys(afrobarometer_rounds, .f='read_spss')
 
 ```
 
-```{r}
-document_waves(ab_waves)
-```
-
 Let's give a bit more meaningful identifiers than the file names:
 
-```{r}
+```{r set-id, eval=FALSE}
 attr(ab_waves[[1]], "id") <- "Afrobarometer_R5"
 attr(ab_waves[[2]], "id") <- "Afrobarometer_R6"
 attr(ab_waves[[3]], "id") <- "Afrobarometer_R7"
@@ -51,20 +51,20 @@ attr(ab_waves[[3]], "id") <- "Afrobarometer_R7"
 
 We can review if the main descriptive metadata is correctly present with `document_waves()`.
 
-```{r}
+```{r document-ab, eval=FALSE}
 document_waves(ab_waves)
 ```
 
 Create a metadata file, or a data map with `metadata_create()`.
 
-```{r}
+```{r create-metadata, eval=FALSE}
 ab_metadata <- lapply ( X = ab_waves, FUN = metadata_create )
 ab_metadata <- do.call(rbind, ab_metadata)
 ```
 
 ## Working with the metadata
 
-```{r, selection, message=FALSE}
+```{r, selection, eval=FALSE}
 library(dplyr)
 
 to_harmonize <- ab_metadata %>%
@@ -84,9 +84,13 @@ head(to_harmonize %>%
 
 The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and produces a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original variable names, the new variable names and their labels.
 
-```{r merge}
+```{r merge, eval=FALSE}
 merged_ab <- merge_waves ( waves = ab_waves, 
                            var_harmonization = to_harmonize  )
+```
+```{r live}
+## Due to size and file permissions, the actual live example starts here. 
+## You can reproduce the previous steps from the actual Afrobarometer files.
 
 ## We do not need the labels for the countries and provinces 
 merged_ab <- lapply ( merged_ab, 
@@ -95,6 +99,8 @@ merged_ab <- lapply ( merged_ab,
              vars(all_of(c("country","province_or_region"))), 
              as_character ) )
 ```
+
+Review the most important metadata with `document_survey()`:
 
 ```{r}
 document_waves(merged_ab)
@@ -169,6 +175,7 @@ h_ab_structure <- attributes(harmonized_ab_waves)
 h_ab_structure$row.names <- NULL # We have over 100K row names
 h_ab_structure
 ```
+
 Let's add the year of the interview:
 
 ```{r year}
@@ -205,5 +212,9 @@ harmonized_ab_waves %>%
   mutate ( institution = gsub("^trust_", "", institution) ) %>%
   group_by ( country, year, institution, category ) %>%
   summarize ( n = n() ) 
+```
+
+```{r plot, echo=FALSE, out.width='95%'}
+knitr::include_graphics(here ("vignettes", "ab_plot1.png"))
 ```
 
