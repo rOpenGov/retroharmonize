@@ -13,7 +13,7 @@ knitr::opts_chunk$set(
   comment = "#>"
 )
 library(retroharmonize)
-source(here ("not_included", "daniel_env.R"))
+source(here("not_included", "daniel_env.R"))
 ```
 
 In the [Afrobaromter Case Study](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) we have shown how to merge two waves of a survey with a limited number of variables.  This workflow is not feasible with Eurobarometer on a PC or laptop, because there are too many large files to handle. 

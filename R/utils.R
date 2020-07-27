@@ -40,6 +40,7 @@ validate_survey_list <- function(survey_list) {
   n_survey <- length(survey_list)
   
   filenames <-  sapply ( survey_list, function(x) attr(x, "filenames"))
+  ids <-  sapply ( survey_list, function(x) attr(x, "ids"))
   
   duplicate_ids <- ids[duplicated (ids )]
   missing_ids <- vapply ( survey_list, function(x) is.null(attr(x, "id")), logical(1))

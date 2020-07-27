@@ -8,6 +8,6 @@ example_surveys <- read_surveys(
 
 documented <- document_waves ( example_surveys )
 
-test_that("multiplication works", {
+test_that("correct attributes are returned", {
   expect_equal(documented$id, c("ZA5913", "ZA6863", "ZA7576"))
 })

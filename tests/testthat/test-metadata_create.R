@@ -3,6 +3,11 @@ test_survey <- read_rds (
                      package = "retroharmonize")
 )
 
+test_that("Only surveys are accepted", {
+  expect_error(metadata_create ( data.frame ( a = 1:2, 
+                                        b = c("b", "C"))))
+  })
+
 example_metadata <- metadata_create (
  survey = test_survey
 )

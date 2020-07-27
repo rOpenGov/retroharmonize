@@ -2,6 +2,7 @@
 % Please edit documentation in R/survey.R
 \name{survey}
 \alias{survey}
+\alias{is.survey}
 \title{Survey data frame}
 \usage{
 survey(
@@ -10,6 +11,8 @@ survey(
   filename = character(),
   doi = character()
 )
+
+is.survey(df)
 }
 \arguments{
 \item{df}{A tibble or data frame that contains the survey data.}

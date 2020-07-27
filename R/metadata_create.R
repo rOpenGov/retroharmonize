@@ -39,6 +39,8 @@
 metadata_create <- function( survey ) {
   var_name_orig <- NULL
   
+  assert_that(is.survey(survey))
+  
   filename <- attr(survey, "filename")
   if (is.null(filename)) filename <- "unknown"
   id <- attr(survey, "id")

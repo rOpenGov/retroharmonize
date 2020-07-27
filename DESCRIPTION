@@ -1,13 +1,18 @@
 Package: retroharmonize
 Type: Package
 Title: Ex Post Survey Table Harmonization
-Version: 0.1.4
+Version: 0.1.5
 Authors@R: 
     c(person(given = "Daniel",
            family = "Antal",
            role = c("aut", "cre"),
            email = "daniel.antal@ceemid.eu",
-           comment = c(ORCID = "0000-0001-7513-6760"))
+           comment = c(ORCID = "0000-0001-7513-6760")),
+      person(given = "Marta",
+           family = "Kolczynska",
+           role = c("ctb"),
+           email = "mkolczynska@gmail.com",
+           comment = c(ORCID = "0000-0003-4981-0437"))
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
 Description: The goal of retroharmonize is to allow the organization 

@@ -13,6 +13,49 @@
 #' @importFrom stats setNames
 #' @importFrom haven labelled_spss
 #' @family harmonization functions
+#' @examples
+
+#' survey_list <- dir (
+#'   here( "inst", "examples"))[grepl(".rds", 
+#'                              dir (here( "inst", "examples")))]
+#' 
+#' example_surveys <- read_surveys(
+#'   here( "inst", "examples", survey_list))
+#' 
+#' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
+#' metadata <- do.call(rbind, metadata)
+#' 
+#' to_harmonize <- metadata %>%
+#'   filter ( var_name_orig %in% 
+#'              c("rowid", "w1") |
+#'              grepl("trust ", label_orig ) ) %>%
+#'   mutate ( var_label = var_label_normalize(label_orig)) %>%
+#'   mutate ( var_name = val_label_normalize(var_label))
+#' 
+#' harmonize_eb_trust <- function(x) {
+#'   label_list <- list(
+#'     from = c("^tend\\snot", "^cannot", "^tend\\sto", "^can\\srely",
+#'              "^dk", "^inap", "na"), 
+#'    to = c("not_trust", "not_trust", "trust", "trust",
+#'            "do_not_know", "inap", "inap"), 
+#'     numeric_values = c(0,0,1,1, 99997,99999,99999)
+#'   )
+#'   
+#'   harmonize_values(x, 
+#'                    harmonize_labels = label_list, 
+#'                    na_values = c("do_not_know"=99997,
+#'                                  "declined"=99998,
+#'                                  "inap"=99999)
+#'                    )
+#' }
+#' 
+#' merged_surveys <- merge_waves ( example_surveys, var_harmonization = to_harmonize  )
+#' 
+#' harmonized <- harmonize_waves(waves = merged_surveys, 
+#'                               .f = harmonize_eb_trust,
+#'                               status_message = FALSE)
+#'                               
+#' # For details see Afrobarometer and Eurobarometer Case Study vignettes.
 
 harmonize_waves <- function(waves, .f, status_message = FALSE) {
   
@@ -27,6 +70,11 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   characters <- unique(names(classes[which(classes %in% c("character"))]))
   dates <- unique(names(classes[which(classes %in% c("Date"))]))
   
+  other_types <- all_names[which(! all_names %in% c(retroharmonized, numerics, characters, dates))]
+  
+  assert_that(length(other_types)==0, 
+              msg = "Only labelled_spss_survey, numeric, character and Date types are allowed.")
+  
   original_attributes <- document_waves(waves)
   
   extend_survey <- function (dat) {
@@ -36,6 +84,10 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     to_add_characters <- characters[which(!characters %in% names(dat))]
     to_add_dates <- dates[which(!dates %in% names(dat))]
     
+    vars_to_add <- c(to_add_rh, to_add_numerics, to_add_characters, to_add_dates)
+    assert_that ( all(vars_to_add %in% names(dat))== FALSE)
+    
+    return_data <- dat
     if ( length(to_add_numerics)>0 ) {
       ## There are numeric values in other surveys that need to be 
       ## added with NA_real_ values here.
@@ -48,8 +100,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
         ) %>%
         stats::setNames(to_add_numerics)
       
-      dat <- dat %>% 
-        bind_cols(add_numeric_df) 
+      return_data <- bind_cols ( return_data, add_numeric_df)  
     }
     
     if ( length(to_add_characters)>0 ) {
@@ -57,12 +108,11 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
       add_character_df <- as.data.frame(
         matrix ( rep( NA_character_,
                       length(to_add_characters)*nrow(dat)), 
-                 nrow = nrow(dat)) %>%
-          stats::setNames(to_add_characters)
-      )
-     
-      dat <- dat %>% 
-        bind_cols(add_character_df) 
+                 nrow = nrow(dat)) 
+       ) %>%
+        stats::setNames(to_add_characters)
+      
+      return_data <- bind_cols ( return_data, add_character_df )
     }
     
     if ( length(to_add_dates)>0 ) {
@@ -70,12 +120,11 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
       add_dates_df <- as.data.frame(
         matrix ( rep( as.Date(NA),
                       length(to_add_dates)*nrow(dat)), 
-                 nrow = nrow(dat)) %>%
-          stats::setNames(to_add_dates)
-      )
+                 nrow = nrow(dat)) 
+      ) %>%
+        stats::setNames(to_add_dates)
       
-      dat <- dat %>% 
-        bind_cols(add_dates_df) 
+      return_data <- bind_cols ( to_add_dates, return_data )
     }
     
     if ( length(to_add_rh)>0 ) {
@@ -107,33 +156,36 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
       
       add_rh_df2 <- as_tibble(lapply ( add_rh_df , fn_convert))
 
-      dat <- dat %>%
-        bind_cols(add_rh_df2)
+      return_data <- bind_cols ( return_data, add_rh_df2 )
     }
     
-    if ( ! all(sort(names (dat)) == sort(all_names))) {
-      stop ( "Extension error in ", attr(dat, "id"))
-    }
-    
-   dat %>%
+  not_added <- vars_to_add [! vars_to_add %in% names ( return_data )]
+ 
+  assert_that( length(not_added ) == 0, 
+              msg = paste0( "Could not add ", 
+                            paste(not_added, collapse = ",")))
+  
+  return_data %>%
       select  (all_of(all_names))
     
   }
   
-  #test_ext <- extend_survey ( waves[[1]] )
+  #test_ext <- extend_survey ( dat = waves[[1]] )
   
   extended <- lapply ( waves, extend_survey )
   
-  document_waves ( extended )
+  #document_waves ( extended )
 
   full_join_characters <- do.call(
     vctrs::vec_rbind, 
-    lapply ( extended, function(x)  x %>% select ( all_of ( characters )) ))
+    lapply ( extended, 
+             function(x)  x %>% select ( all_of ( characters )) ))
   
   
   full_join_numerics <- do.call(
     vctrs::vec_rbind, 
-    lapply ( extended, function(x)  x %>% select ( all_of ( numerics )) ))
+    lapply ( extended, 
+             function(x)  x %>% select ( all_of ( numerics )) ))
   
   full_join_dates <- do.call(
     vctrs::vec_rbind, 
