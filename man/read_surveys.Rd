@@ -23,8 +23,9 @@ Defaults to \code{TRUE}.}
 }
 \value{
 A list of the surveys.  Each element of the list is a data
-frame. The respective file names are added to each data frame as a
-constant column \code{filename}.
+frame-like \code{\link{survey}} type object where some metadata, 
+such as the original file name, doi identifier if present, and other
+information is recorded for a reproducible workflow.
 }
 \description{
 Read Survey Files
@@ -40,3 +41,13 @@ file2 <- system.file(
 
 read_surveys (c(file1,file2), .f = 'read_rds' )
 }
+\seealso{
+survey
+
+Other import functions: 
+\code{\link{pull_survey}()},
+\code{\link{read_rds}()},
+\code{\link{read_spss}()},
+\code{\link{subset_save_surveys}()}
+}
+\concept{import functions}

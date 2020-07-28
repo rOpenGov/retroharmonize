@@ -1,8 +1,9 @@
 #' @title Document survey lists
 #'
 #' @param survey_list A list of \code{\link{survey}} objects.
-#' @return Returns a data frame with the key attributes of the surveys in
-#' a survey list.
+#' @return Returns a data frame with the key attributes of the surveys 
+#' in a survey list: the name of the data file, the number of rows and 
+#' columns, and the size of the object as stored in memory.
 #' @importFrom tibble tibble
 #' @importFrom here here
 #' @family documentation functions

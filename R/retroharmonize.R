@@ -9,8 +9,20 @@
 #' @section import functions:
 #' The naming functions make the GESIS SPSS files usable in a 
 #' programmatic context.
+#' \code{\link{read_spss}}: read an SPSS file and record metadata for reproducibility
+#' \code{\link{read_rds}}: read an rds file and record metadata for reproducibility
+#' \code{\link{read_surveys}}: programmatically read a list of surveys
+#' \code{\link{subset_save_surveys}}:  programmatically read a list of surveys, 
+#' and subset them (pre-harmonize the same variables.)
+#' \code{\link{pull_survey}}: pull a single survey from a survey list.
 #' @section harmonization functions:
 #' Creating consistent coding and labelling.
+#' \code{\link{harmonize_values}}:
+#' \code{\link{merge_waves}}: Create a list of surveys with harmonized names and variable labels.
+#' \code{\link{harmonize_waves}}: Create a list of surveys with harmonized value labels.
+#' \code{\link{label_normalize}}:
+#' \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
+#' as imported from SPSS, consistent with the \code{na_values} attributes.
 #' @section documentation functions:
 #' Make the workflow reproducible by recording all states of the
 #' harmonization process.

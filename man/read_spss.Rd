@@ -56,6 +56,9 @@ haven::read_sav(tmp)
 }
 \seealso{
 Other import functions: 
-\code{\link{read_rds}()}
+\code{\link{pull_survey}()},
+\code{\link{read_rds}()},
+\code{\link{read_surveys}()},
+\code{\link{subset_save_surveys}()}
 }
 \concept{import functions}

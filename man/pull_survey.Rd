@@ -31,3 +31,11 @@ example_surveys <- read_surveys(
 
 pull_survey(example_surveys, id = "ZA5913")
 }
+\seealso{
+Other import functions: 
+\code{\link{read_rds}()},
+\code{\link{read_spss}()},
+\code{\link{read_surveys}()},
+\code{\link{subset_save_surveys}()}
+}
+\concept{import functions}

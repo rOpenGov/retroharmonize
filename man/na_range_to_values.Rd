@@ -42,4 +42,12 @@ na_range_to_values(var1)
 as_numeric(na_range_to_values(var1))
 as_character(na_range_to_values(var1))
 }
-\concept{harmonize functions}
+\seealso{
+Other harmonization functions: 
+\code{\link{collect_val_labels}()},
+\code{\link{harmonize_na_values}()},
+\code{\link{harmonize_values}()},
+\code{\link{harmonize_waves}()},
+\code{\link{merge_waves}()}
+}
+\concept{harmonization functions}

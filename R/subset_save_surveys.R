@@ -16,6 +16,7 @@
 #' @return The function does not return a value. It saves the subsetted
 #' surveys into .rds files.
 #' @export
+#' @family import functions
 #' @examples
 #' \dontrun{
 #' ## See Eurobaromter case study

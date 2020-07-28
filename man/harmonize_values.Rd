@@ -70,12 +70,14 @@ Other harmonization functions:
 \code{\link{collect_val_labels}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_waves}()},
-\code{\link{merge_waves}()}
+\code{\link{merge_waves}()},
+\code{\link{na_range_to_values}()}
 
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_waves}()},
-\code{\link{merge_waves}()}
+\code{\link{merge_waves}()},
+\code{\link{na_range_to_values}()}
 }
 \concept{harmonization functions}

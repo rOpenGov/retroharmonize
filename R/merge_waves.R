@@ -6,7 +6,7 @@
 #' @param waves A list of surveys
 #' @param var_harmonization Metadata of surveys, including at least
 #' \code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.
-#' @return A list of surveys with harmonized names and labels.
+#' @return A list of surveys with harmonized names and variable labels.
 #' @export
 #' @importFrom stats setNames
 #' @importFrom dplyr select mutate_if filter

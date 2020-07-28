@@ -33,3 +33,11 @@ Read a predefined survey list and variables.
 ## See Eurobaromter case study
 }
 }
+\seealso{
+Other import functions: 
+\code{\link{pull_survey}()},
+\code{\link{read_rds}()},
+\code{\link{read_spss}()},
+\code{\link{read_surveys}()}
+}
+\concept{import functions}

@@ -134,7 +134,6 @@ documenteded_merged_ab <- document_waves(merged_ab)
 print(documenteded_merged_ab)
 ```
 
-
 ## Harmonization
 
 In the Afrobarometer trust is measured with four-point ordinal rating scales. Such data are best analyzed with ordinal models, which do not assume that the poinst are equidistant. However, to get a quick idea of how the data look like, we will assign numbers 0-3, with 0 corresponding to the least trust, and 3 corresponding to the most trust, and for the time-being analyze the data as if they were metric.
@@ -144,7 +143,7 @@ To review the harmonization on a single survey use `pull_survey()`. Here we sele
 ```{r check, eval=FALSE}
 R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6")
 ```
-```{r pulled-attributes, eval=FALSE}
+```{r pulled-attributes}
 attributes(R6$trust_president[1:20])
 ```
 
