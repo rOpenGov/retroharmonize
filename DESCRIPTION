@@ -1,6 +1,6 @@
 Package: retroharmonize
 Type: Package
-Title: Ex Post Survey Table Harmonization
+Title: Ex Post Survey Data Harmonization
 Version: 0.1.7
 Authors@R: 
     c(person(given = "Daniel",
@@ -15,15 +15,15 @@ Authors@R:
            comment = c(ORCID = "0000-0003-4981-0437"))
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
-Description: The goal of retroharmonize is to allow the organization 
-    of data joins or panels from various data sources, particularly 
-    survey microdata files, by retrospective harmonization the value codes,
-    the value labels, and the missing value ranges of the data in a
-    reproducible manner with the help of comprehensive s3 classes.
+Description: Assist in reproducible retrospective (ex-post) harmonization of data,
+    particularly survey microdata, by providing tools for organizing metadata,
+    standardizing the coding of variables, and variable names and value labels, 
+    including missing values, and documenting the data transformations,
+    with the help of comprehensive s3 classes.
 License: GPL-3 + file LICENSE
 Encoding: UTF-8
 Language: en-US
-URL: https://http://retroharmonize.satellitereport.com/
+URL: http://retroharmonize.satellitereport.com/
 BugReports: https://github.com/antaldaniel/retroharmonize/issues
 LazyData: true
 Imports: 
