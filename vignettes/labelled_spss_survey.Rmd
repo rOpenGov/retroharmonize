@@ -37,7 +37,7 @@ You can check the type:
 ```{r}
 is.labelled_spss_survey (sl1)
 ```
-Which inherits some properties from `haven::labelled()` which can be manipulated by the [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) package.
+The `labelled_spss_survey()` class inherits some properties from `haven::labelled()`, which can be manipulated by the [labelled](https://cran.r-project.org/web/packages/labelled/vignettes/intro_labelled.html) package.
 
 ```{r}
 haven::is.labelled(sl1)
@@ -48,14 +48,13 @@ labelled::val_labels(sl1)
 ```{r}
 labelled::na_values(sl1)
 ```
-And it can be subsetted:
+It can also be subsetted:
 
 ```{r}
 sl1[3:4]
 ```
 
-
-When used within a the modernized version of *data.frame*, `tibble::tibble()`, the summary of the variable contents prints in an informative way.
+When used within the modernized version of *data.frame*, `tibble::tibble()`, the summary of the variable content prints in an informative way.
 
 ```{r}
 df <- tibble::tibble (v1 = sl1)
@@ -140,7 +139,7 @@ sum (as.numeric(sl1))
 sum (sl1, na.rm=TRUE)
 ```
 
-Behind the hoods is stays of course the conversion to numeric, which can be used for other mathematical / statistical function. 
+The result of the conversion to numeric can be used for other mathematical / statistical function. 
 
 ```{r}
 as_numeric(sl1)

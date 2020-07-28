@@ -20,15 +20,15 @@ library(retroharmonize)
 
 ## Harmonize value codes and labels
 
-The function `harmonize_values()` solves the following problems:
+The function `harmonize_values()` solves problems in the following situations:
 
-1. When the variable is read in from SPSS, `survey1$trust` has no user defined missing values, but `survey2$trust` has. The two variables cannot be combined. We add harmonized missing values to the missing value range, even if they are not present among the observations.   
+1. When the data are read from an SPSS file, in one dataset the variable `survey1$trust` has no user-defined missing values, but in another dataset the variable `survey2$trust` does have missing values defined. The two variables cannot be combined. We add harmonized missing values to the missing value range, even if they are not present among the observations.   
 
 2. The labels are not matching in `survey1$trust` and `survey2$trust`. We harmonize the labels, and record their initial values for reproducibility.
 
-3. The missing value range is not matching in `survey1$trust` and `survey2$trust`. We harmonize the missing values, and record their initial values for reproducibility.
+3. The missing value ranges in `survey1$trust` and `survey2$trust` do not match. We harmonize the missing values, and record their initial values for reproducibility.
 
-4. There are unexpected labels present in the value or missing range.  They are taken out from the value range with a special code and marked with a special label.
+4. There are unexpected labels present in the range of substantive or missing values.  They are taken out from the value range with a special code and marked with a special label.
 
 
 ### Scenario 1
@@ -53,11 +53,11 @@ h1 <- harmonize_values(
 
 str(h1)
 ```
-* `survey1_original_values` may be used to restore the original coding.
+* the attribute `survey1_values` may be used to restore the original coding.
 
-* `survey1_labels_orig` may be used to restore the original labelling.
+* the attribute `survey1_labels` may be used to restore the original labelling.
 
-* `na_values` can re-define if a category should be treated as missing.
+* the attribute `na_values` can re-define if a category should be treated as missing.
 
 The `to_numeric()` method converts the missing value range to `NA_real_`.
 
@@ -101,7 +101,7 @@ str(h2b)
 
 ### Scenario 3
 
-The original vector is of class `haven_labelled`, therefore it has no defined missing value range. We want to remove `DK` from the value range to the missing range as `do_not_know`. The original vector has an uncoded element. Because we believe that in this vector all values should have a value label, we treat it as an invalid observation.
+The original vector is of class `haven_labelled`, therefore it has no defined missing value range. We want to remove `DK` from the value range to the missing range as `do_not_know`. The original vector also has an unlabelled value (9). Because we believe that in this vector all values should have a value label, we treat it as an invalid observation.
 
 ```{r}
 var3 <- labelled::labelled(
@@ -153,7 +153,7 @@ unique(as_character(h3))
 
 You can combine `labelled_spss_survey` vectors if the metadata describing their current state is an exact match. This means that the labels, missing values and missing range are defined the same way, and the base type of the vector is matching numeric or character --- though labelling character vectors makes little sense.
 
-The historic metadata, i.e. the earlier naming and coding of the variable does not have to match, it is added to all "inherited vectors".
+The historic metadata, i.e. the earlier naming and coding of the variable do not have to match, they are added to all "inherited vectors".
 
 
 ```{r}
@@ -208,7 +208,7 @@ vctrs::vec_c(h1,h2)
 ```
 ## Binding surveys together
 
-As soon as you have only compatible variables with matching names in two data frames, you can bind them together in a way that their history is preserved.  You can do this with `vctrs::vec_rbind` or `dplyr::bind_rows()`. The generic `rbind()` will lose 
+As soon as you have only compatible variables with matching names in two data frames, you can bind them together in a way that their history is preserved.  You can do this with `vctrs::vec_rbind` or `dplyr::bind_rows()`. The generic `rbind()` will lose
 
 ```{r}
 a <- tibble::tibble ( rowid = paste0("survey1", 1:length(h1)),
@@ -229,4 +229,4 @@ summary(c)
 print(c)
 ```
 
-While dplyr's join functions may result in correct values, the metadata gets lost. A new join method will be developed.
+While dplyr's join functions may result in correct values, the metadata get lost. A new join method will be developed.
