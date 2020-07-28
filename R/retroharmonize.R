@@ -1,19 +1,19 @@
 #' retroharmonize: Retrospective harmonization of survey data files
 #'
-#' The goal of \code{retroharmonize} is to allow the organization of data 
-#' joins or panels from various data sources, particularly survey 
-#' microdata files, by retrospective harmonization the value codes, 
-#' the value labels, and the missing value ranges of the data in a 
-#' reproducible manner with the help of comprehensive s3 classes.
+#' The goal of `retroharmonize` is to facilitate retrospective (ex-post) 
+#' harmonization of data, particularly survey data, in a reproducible manner. 
+#' The package provides tools for organizing the metadata, standardizing the 
+#' coding of variables, variable names and value labels, including missing 
+#' values, and for documenting all transformations, with the help of 
+#' comprehensive s3 classes.
 #'
 #' @section import functions:
-#' The naming functions make the GESIS SPSS files usable in a 
-#' programmatic context.
+#' Make data stored in formats with rich metadata, such as SPSS (.sav) files, 
+#' usable in a programmatic context.
 #' @section harmonization functions:
-#' Creating consistent coding and labelling.
+#' Create consistent coding and labelling.
 #' @section documentation functions:
-#' Make the workflow reproducible by recording all states of the
-#' harmonization process.
+#' Make the workflow reproducible by recording the harmonization process.
 #' @section type conversion functions:
 #' Consistently treat labels and SPSS-style user-defined missing 
 #' values in the R language.
