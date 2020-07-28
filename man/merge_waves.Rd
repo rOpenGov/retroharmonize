@@ -13,7 +13,7 @@ merge_waves(waves, var_harmonization)
 \code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.}
 }
 \value{
-A list of surveys with harmonized names and labels.
+A list of surveys with harmonized names and variable labels.
 }
 \description{
 Merge a list of surveys into a list with harmonized variable names,
@@ -49,6 +49,7 @@ Other harmonization functions:
 \code{\link{collect_val_labels}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_values}()},
-\code{\link{harmonize_waves}()}
+\code{\link{harmonize_waves}()},
+\code{\link{na_range_to_values}()}
 }
 \concept{harmonization functions}

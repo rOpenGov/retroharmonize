@@ -31,6 +31,9 @@ attr(read_survey, "doi")
 }
 \seealso{
 Other import functions: 
-\code{\link{read_spss}()}
+\code{\link{pull_survey}()},
+\code{\link{read_spss}()},
+\code{\link{read_surveys}()},
+\code{\link{subset_save_surveys}()}
 }
 \concept{import functions}

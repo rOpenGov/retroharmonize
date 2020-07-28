@@ -12,8 +12,9 @@
 #' @param save_to_rds Should it save the imported survey to .rds?
 #' Defaults to \code{TRUE}.
 #' @return A list of the surveys.  Each element of the list is a data
-#' frame. The respective file names are added to each data frame as a
-#' constant column \code{filename}.
+#' frame-like \code{\link{survey}} type object where some metadata, 
+#' such as the original file name, doi identifier if present, and other
+#' information is recorded for a reproducible workflow.
 #' @importFrom purrr safely
 #' @examples
 #' file1 <- system.file(
@@ -23,6 +24,8 @@
 #'
 #' read_surveys (c(file1,file2), .f = 'read_rds' )
 #' @export
+#' @family import functions
+#' @seealso survey
 
 read_surveys <- function ( import_file_names,
                            .f = 'read_rds',

@@ -185,10 +185,6 @@ The harmonized data can be analyzed in R.  The labelled survey data is stored in
 
 First, let's treat the trust variables as factors. A summary of the resulting data allows us to screen for values that are outside of the expected range. In the trust variables, any values other than "trust" and "not trust" that are not defined as missing, are unacceptable. In our example, this is not the case. In our example, this is not the case. 
 
-If there is a `99901` value, it refers to an invalid observation. The missing value range is not correctly identified. It should be made sure that if there is an unrecognized category label it goes into the missing range (and is marked that it was not recognized). See `harmonize_na_values()` for details on when the code `99901` is used.
-
-If there is a `99901` value, it refers to an invalid observation. The missing value range is not correctly identified. It should be made sure that if there is an unrecognized category label it goes into the missing range (and is marked that it was not recognized.)
-
 We also see some basic information about the weighting factors, which in the selected Eurobarometer subset range from below 0.01 to almost 7. The range of these values is pretty large, which needs to be taken into account when analyzing the data.
 
 ```{r factor}

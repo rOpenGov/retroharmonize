@@ -8,6 +8,7 @@
 #' @param filename The filename of the requested survey.
 #' @return A single survey identified by \code{id} or \code{filename}. 
 #' @export
+#' @family import functions
 #' @examples 
 #' examples_dir <- system.file( "examples", package = "retroharmonize")
 #'

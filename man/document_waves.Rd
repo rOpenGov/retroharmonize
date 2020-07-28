@@ -10,8 +10,9 @@ document_waves(survey_list)
 \item{survey_list}{A list of \code{\link{survey}} objects.}
 }
 \value{
-Returns a data frame with the key attributes of the surveys in
-a survey list.
+Returns a data frame with the key attributes of the surveys 
+in a survey list: the name of the data file, the number of rows and 
+columns, and the size of the object as stored in memory.
 }
 \description{
 Document survey lists

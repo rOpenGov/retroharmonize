@@ -208,7 +208,7 @@ vctrs::vec_c(h1,h2)
 ```
 ## Binding surveys together
 
-As soon as you have only compatible variables with matching names in two data frames, you can bind them together in a way that their history is preserved.  You can do this with `vctrs::vec_rbind` or `dplyr::bind_rows()`. The generic `rbind()` will lose
+As soon as you have only compatible variables with matching names in two data frames, you can bind them together in a way that their history is preserved.  You can do this with `vctrs::vec_rbind` or `dplyr::bind_rows()`. The generic `rbind()` will lose the labelling information.
 
 ```{r}
 a <- tibble::tibble ( rowid = paste0("survey1", 1:length(h1)),

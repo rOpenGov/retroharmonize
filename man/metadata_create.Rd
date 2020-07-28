@@ -14,13 +14,13 @@ A nested data frame with metadata and the range of
 labels, na_values and the na_range itself.
 }
 \description{
-Create a metadata file from your surveys.
+Create a metadata table from the survey data files.
 }
 \details{
 The structure of the returned tibble:
 \describe{
-  \item{filename}{The original file name.}
-  \item{id}{The ID of the survey, if present.}
+  \item{filename}{The original file name; if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
+  \item{id}{The ID of the survey, if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
   \item{var_name_orig}{The original variable name in SPSS.}
   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
   \item{label_orig}{The original variable label in SPSS.}
