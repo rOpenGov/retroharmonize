@@ -7,6 +7,21 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+```{r, echo = FALSE}
+## https://github.com/tidyverse/rvest/blob/master/vignettes/selectorgadget.Rmd
+requireNamespace("png", quietly = TRUE)
+embed_png <- function(path, dpi = NULL) {
+  meta <- attr(png::readPNG(path, native = TRUE, info = TRUE), "info")
+  if (!is.null(dpi)) meta$dpi <- rep(dpi, 2)
+  knitr::asis_output(paste0(
+    "<img src='", path, "'",
+    " width=", round(meta$dim[1] / (meta$dpi[1] / 96)),
+    " height=", round(meta$dim[2] / (meta$dpi[2] / 96)),
+    " />"
+  ))
+}
+```
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
@@ -254,9 +269,9 @@ harmonized_ab_waves %>%
   summarize ( n = n() ) 
 ```
 
-
+We subsetted the datasets to meet the vignette size limitations. If you are following our code without reducing the number of countries, you get the following results:
 
 ```{r plot, echo=FALSE, out.width='95%'}
-knitr::include_graphics(here ("vignettes", "ab_plot1.png"))
+embed_png("ab_plot1.png")
 ```
 

@@ -141,7 +141,7 @@ Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
 <div id="working-with-metadata" class="section level2">
 <h2 class="hasAnchor">
 <a href="#working-with-metadata" class="anchor"></a>Working with metadata</h2>
-<p>From the metadata file we select only those rows that correspond to the variables that we’re interested in: the <code>rowid</code> being the unique case identifier, <code>DATEINTR</code> with the interview date, <code>COUNTRY</code> containing informaiton about the country where the interview was conducted, <code>REGION</code> with the region (sub-national unit) where the interview was conducted, and <code>withinwt</code> being the weighting factor.</p>
+<p>From the metadata file we select only those rows that correspond to the variables that we’re interested in: the <code>rowid</code> being the unique case identifier, <code>DATEINTR</code> with the interview date, <code>COUNTRY</code> containing information about the country where the interview was conducted, <code>REGION</code> with the region (sub-national unit) where the interview was conducted, and <code>withinwt</code> being the weighting factor.</p>
 <p>Further, we select all variables that have the word “trust” in the normalized variable label.</p>
 <p>For these variables, we create normalized variable names (<code>var_name</code>) and labels (<code>var_label</code>).</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
@@ -307,7 +307,7 @@ Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
                   <span class="st">"inap"</span><span class="kw">=</span><span class="fl">99999</span>)
   )
 }</pre></body></html></div>
-<p>We apply this funciton to the trust variables. The <code><a href="../reference/harmonize_waves.html">harmonize_waves()</a></code> function binds all variables that are present in all surveys.</p>
+<p>We apply this function to the trust variables. The <code><a href="../reference/harmonize_waves.html">harmonize_waves()</a></code> function binds all variables that are present in all surveys.</p>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">harmonized_ab_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> (
   <span class="kw">waves</span> <span class="kw">=</span> <span class="no">merged_ab</span>,
   <span class="kw">.f</span> <span class="kw">=</span> <span class="no">harmonize_ab_trust</span> )</pre></body></html></div>
@@ -404,7 +404,8 @@ Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
 <span class="co">#&gt;  9 Algeria  2013 parliament_national_assembly                   do_not_kn~   131</span>
 <span class="co">#&gt; 10 Algeria  2013 parliament_national_assembly                   inap         242</span>
 <span class="co">#&gt; # ... with 301 more rows</span></pre></body></html></div>
-<p><img src="../../../../../Daniel%20Antal/OneDrive%20-%20Visegrad%20Investments/_package/retroharmonize/vignettes/ab_plot1.png" width="95%"></p>
+<p>We subsetted the datasets to meet the vignette size limitations. If you are following our code without reducing the number of countries, you get the following results:</p>
+<p><img src="ab_plot1.png" width="680" height="491"></p>
 </div>
   </div>
 

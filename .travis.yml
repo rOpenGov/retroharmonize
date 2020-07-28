@@ -30,6 +30,7 @@ r_packages:
   - snakecase
   - assertthat
   - here
+  - png
   
 r_github_packages:
   - jimhester/covr
