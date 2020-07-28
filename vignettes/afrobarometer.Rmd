@@ -77,7 +77,7 @@ ab_metadata <- do.call(rbind, ab_metadata)
 
 ## Working with metadata
 
-From the metadata file we select only those rows that correspond to the variables that we're interested in: the `rowid` being the unique case identifier, `DATEINTR` with the interview date, `COUNTRY` containing informaiton about the country where the interview was conducted, `REGION` with the region (sub-national unit) where the interview was conducted, and `withinwt` being the weighting factor. 
+From the metadata file we select only those rows that correspond to the variables that we're interested in: the `rowid` being the unique case identifier, `DATEINTR` with the interview date, `COUNTRY` containing information about the country where the interview was conducted, `REGION` with the region (sub-national unit) where the interview was conducted, and `withinwt` being the weighting factor. 
 
 Further, we select all variables that have the word "trust" in the normalized variable label.
 
@@ -189,7 +189,7 @@ harmonize_ab_trust <- function(x) {
 }
 ```
 
-We apply this funciton to the trust variables. The `harmonize_waves()` function binds all variables that are present in all surveys.
+We apply this function to the trust variables. The `harmonize_waves()` function binds all variables that are present in all surveys.
 
 ```{r harmonize, eval=FALSE}
 harmonized_ab_waves <- harmonize_waves ( 

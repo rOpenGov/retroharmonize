@@ -27,6 +27,7 @@
 #'       c("Q1_Do you trust the national government?", 
 #'         " Do you trust the European Commission")
 #'         )
+#' @family harmonization functions
 #' @export
 label_normalize <- function(x) {
   ## unit tests for this function are in
@@ -58,6 +59,7 @@ label_normalize <- function(x) {
 
 #' @rdname label_normalize 
 #' @importFrom snakecase to_snake_case
+#' @family harmonization functions
 #' @export
 var_label_normalize <- function(x) {
   y <- tolower (as.character(x))
@@ -79,6 +81,7 @@ var_label_normalize <- function(x) {
 
 #' @rdname label_normalize 
 #' @importFrom snakecase to_snake_case
+#' @family harmonization functions
 #' @export
 val_label_normalize <- function(x) {
   

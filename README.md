@@ -19,218 +19,91 @@ coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/b
 status](https://travis-ci.com/antaldaniel/retroharmonize.svg?branch=master)](https://travis-ci.com/antaldaniel/retroharmonize)
 <!-- badges: end -->
 
-The goal of `retroharmonize` is to allow the organization of data joins
-or panels from various data sources, particularly survey microdata
-files, by *retrospective harmonization* the value codes, the value
-labels, and the missing value ranges of the data in a reproducible
-manner with the help of comprehensive s3 classes.
+The goal of `retroharmonize` is to facilitate retrospective (ex-post)
+harmonization of data, particularly survey data, in a reproducible
+manner. The package provides tools for organizing the metadata,
+standardizing the coding of variables, variable names and value labels,
+including missing values, and for documenting all transformations, with
+the help of comprehensive s3 classes.
 
 Currently being generalized from problems solved in the
 [github.com/antaldaniel/eurobarometer](\(https://github.com/antaldaniel/eurobarometer\))
 package ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
-You can download the manual in [PDF](retroharmonize_0.1.6.pdf).
+You can download the manual in [PDF](retroharmonize_0.1.7.pdf).
 
 ## Installation
 
-Soon you can install the released version of retroharmonize from
-[CRAN](https://CRAN.R-project.org) with:
+The package will be available for install via after review on
+[CRAN](https://CRAN.R-project.org):
 
 ``` r
 install.packages("retroharmonize")
 ```
 
-And the development version from [GitHub](https://github.com/) with:
+The development version from [GitHub](https://github.com/) can be
+installed with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("antaldaniel/retroharmonize")
 ```
 
-## Classes for retrospective harmonization
+## Retrospective data harmonization
 
-``` r
-library(retroharmonize)
-eb <- read_rds ( 
-  file = system.file(
-    "examples", "ZA7576.rds", package = "retroharmonize"), 
-  id = "Eurobarometer_91_5_subsample", 
-  doi = "10.4232/1.13393"
-  )
-print(eb)
-#> # A tibble: 45 x 56
-#>    rowid doi   version uniqid caseid serialid isocntry       p1      p2    p3
-#>  * <chr> <chr> <chr>    <dbl>  <dbl>    <dbl> <chr>    <dbl+lb> <dbl+l> <dbl>
-#>  1 Euro~ doi:~ 1.0.0 ~ 5.00e7    481     3209 ES        4 [Mon~ 3 [13 ~    25
-#>  2 Euro~ doi:~ 1.0.0 ~ 1.10e8     76     8706 NL        6 [Wed~ 3 [13 ~    58
-#>  3 Euro~ doi:~ 1.0.0 ~ 1.10e8    343     8890 NL       11 [Mon~ 3 [13 ~    56
-#>  4 Euro~ doi:~ 1.0.0 ~ 1.10e8    473     8989 NL        5 [Tue~ 3 [13 ~    62
-#>  5 Euro~ doi:~ 1.0.0 ~ 1.10e8    493     9001 NL        8 [Fri~ 4 [17 ~    30
-#>  6 Euro~ doi:~ 1.0.0 ~ 1.10e8    897     9272 NL        6 [Wed~ 3 [13 ~    56
-#>  7 Euro~ doi:~ 1.0.0 ~ 1.10e8   1041     9379 NL        5 [Tue~ 3 [13 ~    57
-#>  8 Euro~ doi:~ 1.0.0 ~ 1.10e8   1192     9493 NL        6 [Wed~ 2 [8 -~    60
-#>  9 Euro~ doi:~ 1.0.0 ~ 1.10e8   1274     9543 NL        7 [Thu~ 4 [17 ~    57
-#> 10 Euro~ doi:~ 1.0.0 ~ 1.10e8   1344     9590 NL        6 [Wed~ 2 [8 -~    83
-#> # ... with 35 more rows, and 46 more variables: p4 <dbl+lbl>, p5 <dbl+lbl>,
-#> #   nuts <chr+lbl>, d7 <dbl+lbl>, d8 <dbl+lbl>, d25 <dbl+lbl>, d60 <dbl+lbl>,
-#> #   qa14_5 <dbl+lbl>, qa14_3 <dbl+lbl>, qa14_2 <dbl+lbl>, qa14_4 <dbl+lbl>,
-#> #   qa14_1 <dbl+lbl>, qa6a_5 <dbl+lbl>, qa6a_10 <dbl+lbl>, qa6b_2 <dbl+lbl>,
-#> #   qa6a_3 <dbl+lbl>, qa6a_1 <dbl+lbl>, qa6b_4 <dbl+lbl>, qa6a_8 <dbl+lbl>,
-#> #   qa6a_9 <dbl+lbl>, qa6a_4 <dbl+lbl>, qa6a_2 <dbl+lbl>, qa6b_1 <dbl+lbl>,
-#> #   qa6a_6 <dbl+lbl>, qa6a_7 <dbl+lbl>, qa6a_11 <dbl+lbl>, qa6b_3 <dbl+lbl>,
-#> #   qd6.1 <dbl+lbl>, qd6.2 <dbl+lbl>, qd6.3 <dbl+lbl>, qd6.4 <dbl+lbl>,
-#> #   qd6.5 <dbl+lbl>, qd6.6 <dbl+lbl>, qd6.7 <dbl+lbl>, qd6.8 <dbl+lbl>,
-#> #   qd6.9 <dbl+lbl>, qd6.10 <dbl+lbl>, qd6.11 <dbl+lbl>, qd6.12 <dbl+lbl>,
-#> #   qd6.13 <dbl+lbl>, qd6.14 <dbl+lbl>, qg1b <dbl+lbl>, qg8 <dbl+lbl>,
-#> #   w1 <dbl>, w3 <dbl>, wex <dbl>
-```
+The aim of `retroharmonize` is to provide tools for reproducible
+retrospective (ex-post) harmonization of datasets that contain variables
+measuring the same concepts but coded in different ways. Ex-post data
+harmonization enables better use of existing data and creates new
+research opportunities. For example, harmonizing data from different
+countries enables cross-national comparisons, while merging data from
+different time points makes it possible to track changes over time.
 
-The `labelled_spss_survey()` class is an extension of haven’s
-[labelled\_spss](https://haven.tidyverse.org/reference/labelled_spss.html)
-class. It not only preserver variable and value labels and the
-user-defined missing range, but also gives an identifier, for example,
-the filename to the vector. See [Working With The labelled\_spss\_survey
-Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html).
+Retrospective data harmonization is associated with challenges including
+conceptual issues with establishing equivalence and comparability,
+practical complications of having to standardize the naming and coding
+of variables, technical difficulties with merging data stored in
+different formats, and the need to document a large number of data
+transformations. The `retroharmonize` package assists with the latter
+three components, freeing up the capacity of researchers to focus on the
+first.
 
-## Harmonize categorical variables and missing values
+Specifically, the `retroharmonize` package proposes a reproducible
+workflow, including a new class for storing data together with the
+harmonized and original metadata, as well as functions for importing
+data from different formats, harmonizing data and metadata, documenting
+the harmonization process, and converting between data types. See
+[here](http://retroharmonize.satellitereport.com/reference/retrohamonize.html)
+for an overview of the functionalities.
 
-The aim of `retroharmonize` is to help the reproducible harmonization of
-survey data. This means that not only the numeric codes, the labels and
-the missing range is harmonized, but the original coding is preserved as
-metadata attributes for documentation and validation purposes. See more
-in the article [Harmonize Value
-Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html).
+The new `labelled_spss_survey()` class is an extension of [haven’s
+labelled\_spss
+class](https://haven.tidyverse.org/reference/labelled_spss.html). It not
+only preserves variable and value labels and the user-defined missing
+range, but also gives an identifier, for example, the filename or the
+wave number, to the vector. Additionally, it enables the preservation –
+as metadata attributes – of the original variable names, labels, and
+value codes and labels, from the source data, in addition to the
+harmonized variable names, labels, and value codes and labels. This way,
+the harmonized data also contain the pre-harmonization record. The
+stored original metadata can be used for validation and documentation
+purposes.
 
-``` r
-library(retroharmonize)
-library(haven)
-#> 
-#> Attaching package: 'haven'
-#> The following objects are masked from 'package:retroharmonize':
-#> 
-#>     as_factor, read_spss
+The vignette [Working With The labelled\_spss\_survey
+Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html)
+provides more information about the `labelled_spss_survey()` class.
 
-h2 <- harmonize_values(
-  eb$qa14_2,  
-  harmonize_labels = list(
-    from = c("^tend to", "^tend not", "dk", "^inap"), 
-    to = c("trust", "not_trust", "do_not_know", "inap"), 
-    numeric_values = c(1,0,99997,99999)
-    ), 
-  id = attr(eb, "id") )
+In [Harmonize Value
+Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html)
+we discuss the characteristics of the `labelled_spss_survey()` class and
+demonstrates the problems that using this class solves.
 
-h2
-#>  [1]     0     1     1 99997     1     1     1 99997 99997     0     1     0
-#> [13]     0     1     0     0     0     0 99997     1     1     1     0     0
-#> [25]     1     1     0     0     0     0     1     1     1     0     1     0
-#> [37] 99999 99999 99999 99999 99999 99997     0     1     1
-#> attr(,"labels")
-#>   not_trust       trust do_not_know    declined        inap 
-#>           0           1       99997       99998       99999 
-#> attr(,"label")
-#> [1] "EUROPEAN COMMISSION - TRUST"
-#> attr(,"na_values")
-#> [1] 99997 99998 99999
-#> attr(,"class")
-#> [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                
-#> [3] "haven_labelled"                     
-#> attr(,"Eurobarometer_91_5_subsample_name")
-#> [1] "eb$qa14_2"
-#> attr(,"Eurobarometer_91_5_subsample_values")
-#>     2     1     3     9 
-#>     0     1 99997 99999 
-#> attr(,"Eurobarometer_91_5_subsample_label")
-#> [1] "EUROPEAN COMMISSION - TRUST"
-#> attr(,"Eurobarometer_91_5_subsample_labels")
-#>                                    Tend to trust 
-#>                                                1 
-#>                                Tend not to trust 
-#>                                                2 
-#>                                               DK 
-#>                                                3 
-#> Inap. (not CY-TCC in isocntry and not 1 in eu28) 
-#>                                                9 
-#> attr(,"Eurobarometer_91_5_subsample_na_values")
-#> [1] 9
-#> attr(,"id")
-#> [1] "Eurobarometer_91_5_subsample"
-```
-
-## Create a longitudional table
-
-``` r
-var1 <- labelled::labelled_spss(
-  x = c(1,0,1,1,0,8,9), 
-  labels = c("TRUST" = 1, 
-             "NOT TRUST" = 0, 
-             "DON'T KNOW" = 8, 
-             "INAP. HERE" = 9), 
-  na_values = c(8,9))
-
-var2 <- labelled::labelled_spss(
-  x = c(2,2,8,9,1,1 ), 
-  labels = c("Tend to trust" = 1, 
-             "Tend not to trust" = 2, 
-             "DK" = 8, 
-             "Inap" = 9), 
-  na_values = c(8,9))
-
-
-h1 <- harmonize_values (
-  x = var1, 
-  harmonize_label = "Do you trust the European Union?",
-  harmonize_labels = list ( 
-    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
-    to = c("trust", "not_trust", "do_not_know", "inap"),
-    numeric_values = c(1,0,99997, 99999)), 
-  na_values = c("do_not_know" = 99997,
-                "inap" = 99999), 
-  id = "survey1",
-
-)
-
-h2 <- harmonize_values (
-  x = var2, 
-  harmonize_label = "Do you trust the European Union?",
-  harmonize_labels = list ( 
-    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
-    to = c("trust", "not_trust", "do_not_know", "inap"),
-    numeric_values = c(1,0,99997, 99999)), 
-  na_values = c("do_not_know" = 99997,
-                "inap" = 99999), 
-  id = "survey2"
-)
-
-a <- tibble::tibble ( rowid = paste0("survey1", 1:length(h1)),
-                      hvar = h1, 
-                      w = runif(n = length(h1), 0,1))
-b <- tibble::tibble ( rowid = paste0("survey2", 1:length(h2)),
-                      hvar  = h2, 
-                      w = runif(n = length(h2), 0,1))
-
-dplyr::bind_rows(a,b)
-#> # A tibble: 13 x 3
-#>    rowid                        hvar     w
-#>    <chr>                <retroh_dbl> <dbl>
-#>  1 survey11     1 [trust]            0.453
-#>  2 survey12     0 [not_trust]        0.376
-#>  3 survey13     1 [trust]            0.901
-#>  4 survey14     1 [trust]            0.984
-#>  5 survey15     0 [not_trust]        0.449
-#>  6 survey16 99997 (NA) [do_not_know] 0.936
-#>  7 survey17 99999 (NA) [inap]        0.427
-#>  8 survey21     0 [not_trust]        0.866
-#>  9 survey22     0 [not_trust]        0.881
-#> 10 survey23 99997 (NA) [do_not_know] 0.472
-#> 11 survey24 99999 (NA) [inap]        0.216
-#> 12 survey25     1 [trust]            0.782
-#> 13 survey26     1 [trust]            0.138
-```
-
-See the [Case Study: Working With
-Afrobarometer](articles/afrobarometer.html) and [Case Study: Working
-With Eurobarometer](articles/eurobarometer.html) for a further automated
-workflow.
+We also provide two extensive case studies illustrating how the
+`retroharmonize` package can be used for ex-post harmonization of data
+from cross-national surveys on the example of the
+[Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html)
+and the
+[Eurobarometer](http://retroharmonize.satellitereport.com/articles/eurobarometer.html).
 
 ## Code of Conduct
 

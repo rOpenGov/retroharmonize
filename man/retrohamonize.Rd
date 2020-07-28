@@ -5,49 +5,54 @@
 \alias{retrohamonize}
 \title{retroharmonize: Retrospective harmonization of survey data files}
 \description{
-The goal of \code{retroharmonize} is to allow the organization of data 
-joins or panels from various data sources, particularly survey 
-microdata files, by retrospective harmonization the value codes, 
-the value labels, and the missing value ranges of the data in a 
-reproducible manner with the help of comprehensive s3 classes.
+The goal of \code{retroharmonize} is to facilitate retrospective (ex-post) 
+harmonization of data, particularly survey data, in a reproducible manner. 
+The package provides tools for organizing the metadata, standardizing the 
+coding of variables, variable names and value labels, including missing 
+values, and for documenting all transformations, with the help of 
+comprehensive s3 classes.
 }
 \section{import functions}{
 
-The naming functions make the GESIS SPSS files usable in a 
-programmatic context.
-\code{\link{read_spss}}: read an SPSS file and record metadata for reproducibility
-\code{\link{read_rds}}: read an rds file and record metadata for reproducibility
-\code{\link{read_surveys}}: programmatically read a list of surveys
-\code{\link{subset_save_surveys}}:  programmatically read a list of surveys, 
-and subset them (pre-harmonize the same variables.)
-\code{\link{pull_survey}}: pull a single survey from a survey list.
+Read data stored in formats with rich metadata, such as SPSS (.sav) files, 
+and make them usable in a programmatic context.\cr 
+\code{\link{read_spss}}: read an SPSS file and record metadata for reproducibility\cr 
+\code{\link{read_rds}}: read an rds file and record metadata for reproducibility\cr 
+\code{\link{read_surveys}}: programmatically read a list of surveys\cr 
+\code{\link{subset_save_surveys}}: programmatically read a list of surveys, 
+and subset them (pre-harmonize the same variables.)\cr 
+\code{\link{pull_survey}}: pull a single survey from a survey list.\cr
 }
 
 \section{harmonization functions}{
 
-Creating consistent coding and labelling.
+Create consistent coding and labelling.\cr 
 \code{\link{harmonize_values}}:
-\code{\link{merge_waves}}: Create a list of surveys with harmonized names and variable labels.
-\code{\link{harmonize_waves}}: Create a list of surveys with harmonized value labels.
-\code{\link{label_normalize}}:
+\code{\link{merge_waves}}: Create a list of surveys with harmonized names and variable labels.\cr 
+\code{\link{harmonize_waves}}: Create a list of surveys with harmonized value labels.\cr 
+\code{\link{label_normalize}} removes special characters, whitespace, 
+and other typical typing errors and helps the uniformization of labels
+and variable names.\cr
 \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
-as imported from SPSS, consistent with the \code{na_values} attributes.
+as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 }
 
 \section{documentation functions}{
 
-Make the workflow reproducible by recording all states of the
-harmonization process.
+Make the workflow reproducible by recording the harmonization process.
 }
 
 \section{type conversion functions}{
 
 Consistently treat labels and SPSS-style user-defined missing 
 values in the R language.
-\code{\link{as_numeric}}: convert to numeric values
-\code{\link{as_factor}}: convert to labels to factor levels
-\code{\link{as_character}}: convert to labels to characters
+\code{\link{survey}} helps constructing a valid survey data frame, and
+\code{\link{labelled_spss_survey}} helps creating a vector for a 
+questionnaire item.
+\code{\link{as_numeric}}: convert to numeric values.\cr
+\code{\link{as_factor}}: convert to labels to factor levels.\cr
+\code{\link{as_character}}: convert to labels to characters.\cr
 \code{\link{as_labelled_spss_survey}}: convert labelled and labelled_spss
-vectors to labelled_spss_survey vectors.
+vectors to labelled_spss_survey vectors.\cr
 }
 

@@ -15,7 +15,7 @@ read_surveys(import_file_names, .f = "read_rds", save_to_rds = TRUE)
 \item{.f}{A function to import the surveys with.
 Defaults to \code{'read_rds'}. For SPSS files,
 \code{read_spss} is recommended, which is a
-well-parametrised version of \code{\link[haven]{read_spss}} that
+well-parameterized version of \code{\link[haven]{read_spss}} that
 saves some metadata, too.}
 
 \item{save_to_rds}{Should it save the imported survey to .rds?

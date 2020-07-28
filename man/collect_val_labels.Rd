@@ -36,6 +36,7 @@ Other harmonization functions:
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_waves}()},
+\code{\link{label_normalize}()},
 \code{\link{merge_waves}()},
 \code{\link{na_range_to_values}()}
 }
