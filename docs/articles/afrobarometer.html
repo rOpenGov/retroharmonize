@@ -5,13 +5,13 @@
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Case Study: Working With Afrobarometer • retroharmonize</title>
+<title>Case Study: Working With Afrobarometer surveys • retroharmonize</title>
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
 <script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
 <!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Case Study: Working With Afrobarometer">
+<script src="../pkgdown.js"></script><meta property="og:title" content="Case Study: Working With Afrobarometer surveys">
 <meta property="og:description" content="retroharmonize">
 <!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
 <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
@@ -54,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer</a>
+      <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
-      <a href="../articles/eurobarometer.html">Case Study: Working With Eurobarometer</a>
+      <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
       <a href="../articles/harmonize_labels.html">Harmonize Value Labels</a>
@@ -91,7 +91,7 @@
       </header><script src="afrobarometer_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Case Study: Working With Afrobarometer</h1>
+      <h1 data-toc-skip>Case Study: Working With Afrobarometer surveys</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/antaldaniel/retroharmonize/blob/master/vignettes/afrobarometer.Rmd"><code>vignettes/afrobarometer.Rmd</code></a></small>
@@ -101,14 +101,21 @@
 
     
     
-<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">retroharmonize</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
-<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)</pre></body></html></div>
-<p>In this case study we harmonize data from Afrobarometer with Eurobarometer. Some elements of this vignette are not “live”, because we do not have permission to re-publish the microdata files from Afrobarometer, but you can access them <a href="http://afrobarometer.org/data/merged-data">directly</a>. For reproducibility, we are storing only a small subsample from the files and the metadata.</p>
+<p>The goal of this case study is to explore the variation in trust in various state institutions among African societies, as well as changes in trust over time.</p>
+<p>To do this, we use data from <a href="https://www.afrobarometer.org/">Afrobarometer</a>, a cross-national survey project measuring attitudes and opinions about democracy, the economy and society in African countries based on general population samples. Currently, seven rounds of the Afrobarometer are available, covering the period between 1999 and 2019.</p>
+<p>In this vignette, we harmonize data from rounds <a href="http://afrobarometer.org/data/merged-round-5-data-34-countries-2011-2013-last-update-july-2015">5</a>, <a href="http://afrobarometer.org/data/merged-round-6-data-36-countries-2016">6</a> and <a href="https://www.afrobarometer.org/data/merged-round-7-data-34-countries-2019">7</a>. Some elements of the vignette are not “live”, because we want to avoid re-publishing the original microdata files from Afrobarometer, but you can access the data directly from the <a href="https://www.afrobarometer.org/data">Afrobarometer website</a>.</p>
+<p>File names (to identify file versions):<br>
+Round 5: <code>merged-round-5-data-34-countries-2011-2013-last-update-july-2015.sav</code><br>
+Round 6: <code>merged_r6_data_2016_36countries2.sav</code><br>
+Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
+<p>For reproducibility, we are storing only a small subsample from the files and the metadata.</p>
 <div id="importing-afrobarometer-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#importing-afrobarometer-files" class="anchor"></a>Importing Afrobarometer Files</h2>
-<p>First, let’s read in the two rounds of Afrobarometer.</p>
+<p>We start by reading in the three rounds of the Afrobarometer.</p>
+<div class="sourceCode" id="cb1"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">retroharmonize</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
+<span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb2"><html><body><pre class="r"><span class="co">### use here your own directory</span>
 <span class="no">ab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span> ( <span class="no">afrobarometer_dir</span> )
 <span class="no">afrobarometer_rounds</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span>(<span class="no">afrobarometer_dir</span>, <span class="no">ab</span>)
@@ -127,13 +134,16 @@
 <span class="co">#&gt; 1 Afrobaromet~ merged-round-5-data-34-countries-2011-20~   349 51587   159027592</span>
 <span class="co">#&gt; 2 Afrobaromet~ merged_r6_data_2016_36countries2.sav        365 53935   172064576</span>
 <span class="co">#&gt; 3 Afrobaromet~ r7_merged_data_34ctry.release.sav           367 45823   148759488</span></pre></body></html></div>
-<p>Create a metadata file, or a data map with <code><a href="../reference/metadata_create.html">metadata_create()</a></code>.</p>
+<p>Create a metadata table, or a data map, that contains information about the variable names and labels, and where each row correspnds to one variable in the survey data file. We do this with the function <code><a href="../reference/metadata_create.html">metadata_create()</a></code>, which extracts the metadata from the survery data files, normalizes variable labels, identifies ranges of substantive responses and missing value codes.</p>
 <div class="sourceCode" id="cb6"><html><body><pre class="r"><span class="no">ab_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> ( <span class="kw">X</span> <span class="kw">=</span> <span class="no">ab_waves</span>, <span class="kw">FUN</span> <span class="kw">=</span> <span class="no">metadata_create</span> )
 <span class="no">ab_metadata</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/do.call.html">do.call</a></span>(<span class="no">rbind</span>, <span class="no">ab_metadata</span>)</pre></body></html></div>
 </div>
-<div id="working-with-the-metadata" class="section level2">
+<div id="working-with-metadata" class="section level2">
 <h2 class="hasAnchor">
-<a href="#working-with-the-metadata" class="anchor"></a>Working with the metadata</h2>
+<a href="#working-with-metadata" class="anchor"></a>Working with metadata</h2>
+<p>From the metadata file we select only those rows that correspond to the variables that we’re interested in: the <code>rowid</code> being the unique case identifier, <code>DATEINTR</code> with the interview date, <code>COUNTRY</code> containing informaiton about the country where the interview was conducted, <code>REGION</code> with the region (sub-national unit) where the interview was conducted, and <code>withinwt</code> being the weighting factor.</p>
+<p>Further, we select all variables that have the word “trust” in the normalized variable label.</p>
+<p>For these variables, we create normalized variable names (<code>var_name</code>) and labels (<code>var_label</code>).</p>
 <div class="sourceCode" id="cb7"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">dplyr</span>)
 <span class="no">to_harmonize</span> <span class="kw">&lt;-</span> <span class="no">ab_metadata</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">var_name_orig</span> <span class="kw">%in%</span>
@@ -144,11 +154,12 @@
     <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>(<span class="st">"^unique identifier"</span>, <span class="no">var_label</span>) ~ <span class="st">"unique_id"</span>,
     <span class="fl">TRUE</span> ~ <span class="no">var_label</span>)) <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">var_name</span> <span class="kw">=</span> <span class="fu"><a href="../reference/label_normalize.html">val_label_normalize</a></span>(<span class="no">var_label</span>))</pre></body></html></div>
-<p>Let’s keep the example managable by chosing only a few variables.</p>
+<p>To further reduce the size of the analysis, we only choose a few variables based on the normalized variable names (<code>var_name</code>).</p>
 <div class="sourceCode" id="cb8"><html><body><pre class="r"><span class="no">to_harmonize</span> <span class="kw">&lt;-</span> <span class="no">to_harmonize</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> (
     <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span> ( <span class="st">"president|parliament|religious|traditional|unique_id|weight|country|date_of_int"</span>, <span class="no">var_name</span>)
     )</pre></body></html></div>
+<p>The resulting table with information about the variables selected for harmonization looks as follows:</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/utils/head.html">head</a></span>(<span class="no">to_harmonize</span> <span class="kw">%&gt;%</span>
        <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"id"</span>, <span class="st">"var_name"</span>, <span class="st">"var_label"</span>))), <span class="fl">10</span>)
 <span class="co">#&gt;                  id                                             var_name</span>
@@ -173,14 +184,15 @@
 <span class="co">#&gt; 8                                               country</span>
 <span class="co">#&gt; 9                                     date of interview</span>
 <span class="co">#&gt; 10                                      trust president</span></pre></body></html></div>
-<p>The <code><a href="../reference/merge_waves.html">merge_waves()</a></code> function harmonizes the variable names, the variable labels and survey identifiers and produces a list of surveys (of class <code><a href="../reference/survey.html">survey()</a></code>.) The parameter <code>var_harmonization</code> must be a list or a data frame that contains at least the original variable names, the new variable names and their labels.</p>
+<p>The <code><a href="../reference/merge_waves.html">merge_waves()</a></code> function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of class <code><a href="../reference/survey.html">survey()</a></code>.) The parameter <code>var_harmonization</code> must be a list or a data frame that contains at least the original file name (<code>filename</code>), original variable names (<code>var_name_orig</code>), the new variable names (<code>var_name</code>) and their labels (<code>var_label</code>), so that the program knows which variables to take from what files and how to call and label them after transformation.</p>
 <div class="sourceCode" id="cb10"><html><body><pre class="r"><span class="no">merged_ab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/merge_waves.html">merge_waves</a></span> ( <span class="kw">waves</span> <span class="kw">=</span> <span class="no">ab_waves</span>,
                            <span class="kw">var_harmonization</span> <span class="kw">=</span> <span class="no">to_harmonize</span>  )
 
+<span class="co"># country will be a character variable, and doesn't need a label</span>
 <span class="no">merged_ab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> ( <span class="no">merged_ab</span>,
          <span class="kw">FUN</span> <span class="kw">=</span> <span class="kw">function</span>(<span class="no">x</span>) <span class="no">x</span>  <span class="kw">%&gt;%</span>
            <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span>( <span class="kw">country</span> <span class="kw">=</span> <span class="fu"><a href="../reference/labelled_spss_survey.html">as_character</a></span>(<span class="no">country</span>)))</pre></body></html></div>
-<p>Review the most important metadata with <code>document_survey()</code>:</p>
+<p>Review the most important metadata with <code><a href="../reference/document_waves.html">document_waves()</a></code>:</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">documenteded_merged_ab</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/document_waves.html">document_waves</a></span>(<span class="no">merged_ab</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">documenteded_merged_ab</span>)
 <span class="co">#&gt; # A tibble: 3 x 5</span>
@@ -190,13 +202,53 @@
 <span class="co">#&gt; 2 Afrobaromet~ merged_r6_data_2016_36countries2.sav          8 53935     8652392</span>
 <span class="co">#&gt; 3 Afrobaromet~ r7_merged_data_34ctry.release.sav             8 45823     7353968</span></pre></body></html></div>
 </div>
-<div id="harmonize-the-values" class="section level2">
+<div id="harmonization" class="section level2">
 <h2 class="hasAnchor">
-<a href="#harmonize-the-values" class="anchor"></a>Harmonize the values</h2>
-<p>The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do. The <code><a href="../reference/document_survey_item.html">document_survey_item()</a></code> function shows the metadata of a single variable. To review the harmonization on a single survey use <code><a href="../reference/pull_survey.html">pull_survey()</a></code></p>
+<a href="#harmonization" class="anchor"></a>Harmonization</h2>
+<p>In the Afrobarometer trust is measured with four-point ordinal rating scales. Such data are best analyzed with ordinal models, which do not assume that the poinst are equidistant. However, to get a quick idea of how the data look like, we will assign numbers 0-3, with 0 corresponding to the least trust, and 3 corresponding to the most trust, and for the time-being analyze the data as if they were metric.</p>
+<p>To review the harmonization on a single survey use <code><a href="../reference/pull_survey.html">pull_survey()</a></code>. Here we select Afrobarometer Round 6.</p>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="no">R6</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/pull_survey.html">pull_survey</a></span> ( <span class="no">merged_ab</span>, <span class="kw">id</span> <span class="kw">=</span> <span class="st">"Afrobarometer_R6"</span>)</pre></body></html></div>
-<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span>(<span class="no">R6</span>$<span class="no">trust_president</span>[<span class="fl">1</span>:<span class="fl">20</span>])</pre></body></html></div>
-<p>… and its code table:</p>
+<div class="sourceCode" id="cb14"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span>(<span class="no">R6</span>$<span class="no">trust_president</span>[<span class="fl">1</span>:<span class="fl">20</span>])
+<span class="co">#&gt; $labels</span>
+<span class="co">#&gt;                          Missing                       Not at all </span>
+<span class="co">#&gt;                               -1                                0 </span>
+<span class="co">#&gt;                    Just a little                         Somewhat </span>
+<span class="co">#&gt;                                1                                2 </span>
+<span class="co">#&gt;                            A lot Don’t know/ Haven't heard enough </span>
+<span class="co">#&gt;                                3                                9 </span>
+<span class="co">#&gt;                          Refused </span>
+<span class="co">#&gt;                               98 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $label</span>
+<span class="co">#&gt; [1] "trust president"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Afrobarometer_R6_name</span>
+<span class="co">#&gt; [1] "."</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Afrobarometer_R6_values</span>
+<span class="co">#&gt; -1  0  1  2  3  9 98 </span>
+<span class="co">#&gt; -1  0  1  2  3  9 98 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Afrobarometer_R6_label</span>
+<span class="co">#&gt; [1] "Q52a. Trust president"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $Afrobarometer_R6_labels</span>
+<span class="co">#&gt;                          Missing                       Not at all </span>
+<span class="co">#&gt;                               -1                                0 </span>
+<span class="co">#&gt;                    Just a little                         Somewhat </span>
+<span class="co">#&gt;                                1                                2 </span>
+<span class="co">#&gt;                            A lot Don’t know/ Haven't heard enough </span>
+<span class="co">#&gt;                                3                                9 </span>
+<span class="co">#&gt;                          Refused </span>
+<span class="co">#&gt;                               98 </span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $id</span>
+<span class="co">#&gt; [1] "Afrobarometer_R6"</span>
+<span class="co">#&gt; </span>
+<span class="co">#&gt; $class</span>
+<span class="co">#&gt; [1] "retroharmonize_labelled_spss_survey" "haven_labelled_spss"                </span>
+<span class="co">#&gt; [3] "haven_labelled"</span></pre></body></html></div>
+<p>The <code><a href="../reference/document_survey_item.html">document_survey_item()</a></code> function shows the metadata of a single variable.</p>
 <div class="sourceCode" id="cb15"><html><body><pre class="r"><span class="fu"><a href="../reference/document_survey_item.html">document_survey_item</a></span>(<span class="no">R6</span>$<span class="no">trust_president</span>)
 <span class="co">#&gt; $code_table</span>
 <span class="co">#&gt; # A tibble: 7 x 5</span>
@@ -223,10 +275,10 @@
 <span class="co">#&gt; </span>
 <span class="co">#&gt; $history_id</span>
 <span class="co">#&gt; [1] "Afrobarometer_R6"</span></pre></body></html></div>
-<p>We create a harmonization function from the <code><a href="../reference/harmonize_values.html">harmonize_values()</a></code> prototype function. In fact, this is just a re-setting the default values of the original function. It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with <code><a href="https://tidyr.tidyverse.org/reference/reexports.html">starts_with("trust")</a></code>.</p>
+<p>Afrobarometer’s SPSS files do not mark the missing values, so we have to be careful. The set of labels that are identified as missing:</p>
 <div class="sourceCode" id="cb16"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_na_labels</a></span>( <span class="no">to_harmonize</span> )
 <span class="co">#&gt; [1] "Not asked"</span></pre></body></html></div>
-<p>Afrobarometer’s SPSS files do not mark the missing values, so we have to be careful. The valid category labels and the missing values are the following:</p>
+<p>The set of valid category labels and missing value labels are as follows:</p>
 <div class="sourceCode" id="cb17"><html><body><pre class="r"><span class="fu"><a href="../reference/collect_val_labels.html">collect_val_labels</a></span> (<span class="no">to_harmonize</span> <span class="kw">%&gt;%</span>
                       <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="fu"><a href="https://rdrr.io/r/base/grep.html">grepl</a></span>( <span class="st">"trust"</span>, <span class="no">var_name</span>) ))
 <span class="co">#&gt;  [1] "Missing"                          "Not at all"                      </span>
@@ -236,6 +288,7 @@
 <span class="co">#&gt;  [9] "Don't know/ Haven't heard enough" "Not Asked in this Country"       </span>
 <span class="co">#&gt; [11] "Not Asked in Country"             "Don’t know/Haven’t heard enough" </span>
 <span class="co">#&gt; [13] "Not asked in the country"</span></pre></body></html></div>
+<p>We create a harmonization function from the <code><a href="../reference/harmonize_values.html">harmonize_values()</a></code> prototype function. In fact, this is just a re-setting the default values of the original function. It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with <code><a href="https://tidyr.tidyverse.org/reference/reexports.html">starts_with("trust")</a></code>.</p>
 <div class="sourceCode" id="cb18"><html><body><pre class="r"><span class="no">harmonize_ab_trust</span> <span class="kw">&lt;-</span> <span class="kw">function</span>(<span class="no">x</span>) {
   <span class="no">label_list</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span>(
     <span class="kw">from</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"^not"</span>, <span class="st">"^just"</span>, <span class="st">"^somewhat"</span>,
@@ -254,11 +307,11 @@
                   <span class="st">"inap"</span><span class="kw">=</span><span class="fl">99999</span>)
   )
 }</pre></body></html></div>
-<p>Let’s apply these settings to the trust variables. The <code><a href="../reference/harmonize_waves.html">harmonize_waves()</a></code> function binds all variables that are present in all surveys.</p>
+<p>We apply this funciton to the trust variables. The <code><a href="../reference/harmonize_waves.html">harmonize_waves()</a></code> function binds all variables that are present in all surveys.</p>
 <div class="sourceCode" id="cb19"><html><body><pre class="r"><span class="no">harmonized_ab_waves</span> <span class="kw">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span> (
   <span class="kw">waves</span> <span class="kw">=</span> <span class="no">merged_ab</span>,
   <span class="kw">.f</span> <span class="kw">=</span> <span class="no">harmonize_ab_trust</span> )</pre></body></html></div>
-<p>Let’s see what we get:</p>
+<p>Let’s look at the attributes of <code>harmonized_ab_waves</code>.</p>
 <div class="sourceCode" id="cb20"><html><body><pre class="r"><span class="no">h_ab_structure</span> <span class="kw">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/attributes.html">attributes</a></span>(<span class="no">harmonized_ab_waves</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb21"><html><body><pre class="r"><span class="no">h_ab_structure</span>$<span class="no">row.names</span> <span class="kw">&lt;-</span> <span class="kw">NULL</span> <span class="co"># We have over 100K row names</span>
 <span class="no">h_ab_structure</span>
@@ -285,16 +338,16 @@
 <div class="sourceCode" id="cb22"><html><body><pre class="r"><span class="no">harmonized_ab_waves</span> <span class="kw">&lt;-</span> <span class="no">harmonized_ab_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span> ( <span class="kw">year</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/integer.html">as.integer</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/substr.html">substr</a></span>(<span class="fu"><a href="https://rdrr.io/r/base/character.html">as.character</a></span>(
     <span class="no">date_of_interview</span>),<span class="fl">1</span>,<span class="fl">4</span>)))</pre></body></html></div>
-<p>To keep or example manageable, we subset the datasets.</p>
+<p>To keep our example manageable, we subset the datasets to include only five countries.</p>
 <div class="sourceCode" id="cb23"><html><body><pre class="r"><span class="no">harmonized_ab_waves</span> <span class="kw">&lt;-</span> <span class="no">harmonized_ab_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html">filter</a></span> ( <span class="no">country</span> <span class="kw">%in%</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Niger"</span>, <span class="st">"Nigeria"</span>, <span class="st">"Algeria"</span>,
                           <span class="st">"South Africa"</span>, <span class="st">"Madagascar"</span>))</pre></body></html></div>
 </div>
-<div id="analyze-the-results" class="section level2">
+<div id="analyzing-the-harmonized-data" class="section level2">
 <h2 class="hasAnchor">
-<a href="#analyze-the-results" class="anchor"></a>Analyze the results</h2>
-<p>If you did not save your work to use for another statistical software, from now on you can analyze the harmonized data in R. The labelled survey data is stored in <code><a href="../reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with <code><a href="../reference/labelled_spss_survey.html">as_numeric()</a></code> or as categorical with <code><a href="../reference/as_factor.html">as_factor()</a></code>. (See more why you should not fall back on the more generic <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code> or <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> methods in <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">The labelled_spss_survey class vignette.</a>)</p>
-<p>The numeric form of these trust variables is not directly comparable with the numeric averages of the Eurobarometer trust variables, because it is interred around 1.5 and not 0.5.</p>
+<a href="#analyzing-the-harmonized-data" class="anchor"></a>Analyzing the harmonized data</h2>
+<p>The harmonized data can be exported and analyzed in another statistical program. The labelled survey data is stored in <code><a href="../reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> vectors, which is a complex class that retains metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with <code><a href="../reference/labelled_spss_survey.html">as_numeric()</a></code> or as categorical with <code><a href="../reference/as_factor.html">as_factor()</a></code>. (See more why you should not fall back on the more generic <code><a href="https://rdrr.io/r/base/factor.html">as.factor()</a></code> or <code><a href="https://rdrr.io/r/base/numeric.html">as.numeric()</a></code> methods in <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">The labelled_spss_survey class vignette.</a>)</p>
+<p>Please note that the numeric form of these trust variables is not directly comparable with the numeric averages of the Eurobarometer trust variables, because the middle of the range is at 1.5 and not 0.5.</p>
 <div class="sourceCode" id="cb24"><html><body><pre class="r"><span class="no">harmonized_ab_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate_all.html">mutate_at</a></span> ( <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span>(<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">starts_with</a></span>(<span class="st">"trust"</span>)),
               ~<span class="fu"><a href="../reference/labelled_spss_survey.html">as_numeric</a></span>(<span class="no">.</span>)*<span class="no">within_country_weighting_factor</span>) <span class="kw">%&gt;%</span>
@@ -324,7 +377,7 @@
 <span class="co">#&gt; 17 South ~  2018           NaN                1.70            1.86</span>
 <span class="co">#&gt; # ... with 2 more variables: trust_traditional_leaders &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   trust_religious_leaders &lt;dbl&gt;</span></pre></body></html></div>
-<p>And the factor presentation, without weighting:</p>
+<p>And the factor representation, without weighting:</p>
 <div class="sourceCode" id="cb25"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/library.html">library</a></span>(<span class="no">tidyr</span>)  <span class="co">## tidyr::pivot_longer()</span>
 <span class="no">harmonized_ab_waves</span> <span class="kw">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> ( -<span class="fu"><a href="https://dplyr.tidyverse.org/reference/reexports.html">all_of</a></span>(<span class="st">"within_country_weighting_factor"</span>) ) <span class="kw">%&gt;%</span>

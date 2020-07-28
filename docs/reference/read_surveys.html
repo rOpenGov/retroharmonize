@@ -103,10 +103,10 @@ element of the list." />
   </a>
   <ul class="dropdown-menu" role="menu">
     <li>
-      <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer</a>
+      <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
-      <a href="../articles/eurobarometer.html">Case Study: Working With Eurobarometer</a>
+      <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
       <a href="../articles/harmonize_labels.html">Harmonize Value Labels</a>
@@ -181,8 +181,17 @@ Defaults to <code>TRUE</code>.</p></td>
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
     <p>A list of the surveys.  Each element of the list is a data
-frame. The respective file names are added to each data frame as a
-constant column <code>filename</code>.</p>
+frame-like <code><a href='survey.html'>survey</a></code> type object where some metadata, 
+such as the original file name, doi identifier if present, and other
+information is recorded for a reproducible workflow.</p>
+    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
+
+    <div class='dont-index'><p>survey</p>
+<p>Other import functions: 
+<code><a href='pull_survey.html'>pull_survey</a>()</code>,
+<code><a href='read_rds.html'>read_rds</a>()</code>,
+<code><a href='read_spss.html'>read_spss</a>()</code>,
+<code><a href='subset_save_surveys.html'>subset_save_surveys</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='no'>file1</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(

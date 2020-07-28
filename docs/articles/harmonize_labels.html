@@ -54,10 +54,10 @@
   </a>
   <ul class="dropdown-menu" role="menu">
 <li>
-      <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer</a>
+      <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
-      <a href="../articles/eurobarometer.html">Case Study: Working With Eurobarometer</a>
+      <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
       <a href="../articles/harmonize_labels.html">Harmonize Value Labels</a>
@@ -105,12 +105,12 @@
 <div id="harmonize-value-codes-and-labels" class="section level2">
 <h2 class="hasAnchor">
 <a href="#harmonize-value-codes-and-labels" class="anchor"></a>Harmonize value codes and labels</h2>
-<p>The function <code><a href="../reference/harmonize_values.html">harmonize_values()</a></code> solves the following problems:</p>
+<p>The function <code><a href="../reference/harmonize_values.html">harmonize_values()</a></code> solves problems in the following situations:</p>
 <ol style="list-style-type: decimal">
-<li><p>When the variable is read in from SPSS, <code>survey1$trust</code> has no user defined missing values, but <code>survey2$trust</code> has. The two variables cannot be combined. We add harmonized missing values to the missing value range, even if they are not present among the observations.</p></li>
+<li><p>When the data are read from an SPSS file, in one dataset the variable <code>survey1$trust</code> has no user-defined missing values, but in another dataset the variable <code>survey2$trust</code> does have missing values defined. The two variables cannot be combined. We add harmonized missing values to the missing value range, even if they are not present among the observations.</p></li>
 <li><p>The labels are not matching in <code>survey1$trust</code> and <code>survey2$trust</code>. We harmonize the labels, and record their initial values for reproducibility.</p></li>
-<li><p>The missing value range is not matching in <code>survey1$trust</code> and <code>survey2$trust</code>. We harmonize the missing values, and record their initial values for reproducibility.</p></li>
-<li><p>There are unexpected labels present in the value or missing range. They are taken out from the value range with a special code and marked with a special label.</p></li>
+<li><p>The missing value ranges in <code>survey1$trust</code> and <code>survey2$trust</code> do not match. We harmonize the missing values, and record their initial values for reproducibility.</p></li>
+<li><p>There are unexpected labels present in the range of substantive or missing values. They are taken out from the value range with a special code and marked with a special label.</p></li>
 </ol>
 <div id="scenario-1" class="section level3">
 <h3 class="hasAnchor">
@@ -146,9 +146,9 @@
 <span class="co">#&gt;  - attr(*, "survey1_na_values")= num 9</span>
 <span class="co">#&gt;  - attr(*, "id")= chr "survey1"</span></pre></body></html></div>
 <ul>
-<li><p><code>survey1_original_values</code> may be used to restore the original coding.</p></li>
-<li><p><code>survey1_labels_orig</code> may be used to restore the original labelling.</p></li>
-<li><p><code>na_values</code> can re-define if a category should be treated as missing.</p></li>
+<li><p>the attribute <code>survey1_values</code> may be used to restore the original coding.</p></li>
+<li><p>the attribute <code>survey1_labels</code> may be used to restore the original labelling.</p></li>
+<li><p>the attribute <code>na_values</code> can re-define if a category should be treated as missing.</p></li>
 </ul>
 <p>The <code>to_numeric()</code> method converts the missing value range to <code>NA_real_</code>.</p>
 </div>
@@ -212,7 +212,7 @@
 <div id="scenario-3" class="section level3">
 <h3 class="hasAnchor">
 <a href="#scenario-3" class="anchor"></a>Scenario 3</h3>
-<p>The original vector is of class <code>haven_labelled</code>, therefore it has no defined missing value range. We want to remove <code>DK</code> from the value range to the missing range as <code>do_not_know</code>. The original vector has an uncoded element. Because we believe that in this vector all values should have a value label, we treat it as an invalid observation.</p>
+<p>The original vector is of class <code>haven_labelled</code>, therefore it has no defined missing value range. We want to remove <code>DK</code> from the value range to the missing range as <code>do_not_know</code>. The original vector also has an unlabelled value (9). Because we believe that in this vector all values should have a value label, we treat it as an invalid observation.</p>
 <div class="sourceCode" id="cb5"><html><body><pre class="r"><span class="no">var3</span> <span class="kw">&lt;-</span> <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/reexports.html">labelled</a></span>(
   <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">6</span>,<span class="fl">2</span>,<span class="fl">9</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">2</span>),
   <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"Tend to trust"</span> <span class="kw">=</span> <span class="fl">1</span>,
@@ -283,7 +283,7 @@
 <h2 class="hasAnchor">
 <a href="#combination-of-harmonized-values" class="anchor"></a>Combination of harmonized values</h2>
 <p>You can combine <code>labelled_spss_survey</code> vectors if the metadata describing their current state is an exact match. This means that the labels, missing values and missing range are defined the same way, and the base type of the vector is matching numeric or character — though labelling character vectors makes little sense.</p>
-<p>The historic metadata, i.e. the earlier naming and coding of the variable does not have to match, it is added to all “inherited vectors”.</p>
+<p>The historic metadata, i.e. the earlier naming and coding of the variable do not have to match, they are added to all “inherited vectors”.</p>
 <div class="sourceCode" id="cb9"><html><body><pre class="r"><span class="no">var1</span> <span class="kw">&lt;-</span> <span class="kw pkg">labelled</span><span class="kw ns">::</span><span class="fu"><a href="https://rdrr.io/pkg/labelled/man/reexports.html">labelled_spss</a></span>(
   <span class="kw">x</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">1</span>,<span class="fl">1</span>,<span class="fl">0</span>,<span class="fl">8</span>,<span class="fl">9</span>),
   <span class="kw">labels</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span>(<span class="st">"TRUST"</span> <span class="kw">=</span> <span class="fl">1</span>,
@@ -380,7 +380,7 @@
 <div id="binding-surveys-together" class="section level2">
 <h2 class="hasAnchor">
 <a href="#binding-surveys-together" class="anchor"></a>Binding surveys together</h2>
-<p>As soon as you have only compatible variables with matching names in two data frames, you can bind them together in a way that their history is preserved. You can do this with <code><a href="https://vctrs.r-lib.org/reference/vec_bind.html">vctrs::vec_rbind</a></code> or <code><a href="https://dplyr.tidyverse.org/reference/bind.html">dplyr::bind_rows()</a></code>. The generic <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> will lose</p>
+<p>As soon as you have only compatible variables with matching names in two data frames, you can bind them together in a way that their history is preserved. You can do this with <code><a href="https://vctrs.r-lib.org/reference/vec_bind.html">vctrs::vec_rbind</a></code> or <code><a href="https://dplyr.tidyverse.org/reference/bind.html">dplyr::bind_rows()</a></code>. The generic <code><a href="https://rdrr.io/r/base/cbind.html">rbind()</a></code> will lose the labelling information.</p>
 <div class="sourceCode" id="cb11"><html><body><pre class="r"><span class="no">a</span> <span class="kw">&lt;-</span> <span class="kw pkg">tibble</span><span class="kw ns">::</span><span class="fu"><a href="https://tibble.tidyverse.org/reference/tibble.html">tibble</a></span> ( <span class="kw">rowid</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html">paste0</a></span>(<span class="st">"survey1"</span>, <span class="fl">1</span>:<span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">h1</span>)),
                       <span class="kw">hvar</span> <span class="kw">=</span> <span class="no">h1</span>,
                       <span class="kw">w</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/stats/Uniform.html">runif</a></span>(<span class="kw">n</span> <span class="kw">=</span> <span class="fu"><a href="https://rdrr.io/r/base/length.html">length</a></span>(<span class="no">h1</span>), <span class="fl">0</span>,<span class="fl">1</span>))
@@ -390,31 +390,31 @@
 
 <span class="no">c</span> <span class="kw">&lt;-</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">a</span>, <span class="no">b</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">c</span>)
-<span class="co">#&gt;     rowid                hvar             w         </span>
-<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.1085  </span>
-<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.5534  </span>
-<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.6792  </span>
-<span class="co">#&gt;                     Mean   :30769   Mean   :0.6333  </span>
-<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.8030  </span>
-<span class="co">#&gt;                     Max.   :99999   Max.   :0.9314</span></pre></body></html></div>
+<span class="co">#&gt;     rowid                hvar             w          </span>
+<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.03267  </span>
+<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.27980  </span>
+<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.33021  </span>
+<span class="co">#&gt;                     Mean   :30769   Mean   :0.42957  </span>
+<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.53227  </span>
+<span class="co">#&gt;                     Max.   :99999   Max.   :0.96976</span></pre></body></html></div>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">c</span>)
 <span class="co">#&gt; # A tibble: 13 x 3</span>
-<span class="co">#&gt;    rowid                        hvar     w</span>
-<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 survey11     1 [trust]            0.931</span>
-<span class="co">#&gt;  2 survey12     0 [not_trust]        0.553</span>
-<span class="co">#&gt;  3 survey13     1 [trust]            0.679</span>
-<span class="co">#&gt;  4 survey14     1 [trust]            0.877</span>
-<span class="co">#&gt;  5 survey15     0 [not_trust]        0.657</span>
-<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.743</span>
-<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.108</span>
-<span class="co">#&gt;  8 survey21     0 [not_trust]        0.219</span>
-<span class="co">#&gt;  9 survey22     0 [not_trust]        0.622</span>
-<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.545</span>
-<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.690</span>
-<span class="co">#&gt; 12 survey25     1 [trust]            0.803</span>
-<span class="co">#&gt; 13 survey26     1 [trust]            0.805</span></pre></body></html></div>
-<p>While dplyr’s join functions may result in correct values, the metadata gets lost. A new join method will be developed.</p>
+<span class="co">#&gt;    rowid                        hvar      w</span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 survey11     1 [trust]            0.526 </span>
+<span class="co">#&gt;  2 survey12     0 [not_trust]        0.321 </span>
+<span class="co">#&gt;  3 survey13     1 [trust]            0.747 </span>
+<span class="co">#&gt;  4 survey14     1 [trust]            0.478 </span>
+<span class="co">#&gt;  5 survey15     0 [not_trust]        0.970 </span>
+<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.622 </span>
+<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.532 </span>
+<span class="co">#&gt;  8 survey21     0 [not_trust]        0.0327</span>
+<span class="co">#&gt;  9 survey22     0 [not_trust]        0.288 </span>
+<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.238 </span>
+<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.220 </span>
+<span class="co">#&gt; 12 survey25     1 [trust]            0.280 </span>
+<span class="co">#&gt; 13 survey26     1 [trust]            0.330</span></pre></body></html></div>
+<p>While dplyr’s join functions may result in correct values, the metadata get lost. A new join method will be developed.</p>
 </div>
   </div>
 
