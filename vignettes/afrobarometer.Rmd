@@ -1,5 +1,5 @@
 ---
-title: "Case Study: Working With Afrobarometer"
+title: "Case Study: Working With Afrobarometer surveys"
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{Case Study: Working With Afrobarometer}
@@ -20,17 +20,28 @@ load(file = system.file(
 #source( here ("not_included", "daniel_env.R"))
 ```
 
+The goal of this case study is to explore the variation in trust in various state institutions among African societies, as well as changes in trust over time.
+
+To do this, we use data from [Afrobarometer](https://www.afrobarometer.org/), a cross-national survey project measuring attitudes and opinions about democracy, the economy and society in African countries based on general population samples. Currently, seven rounds of the Afrobarometer are available, covering the period between 1999 and 2019. 
+
+In this vignette, we harmonize data from rounds [5](http://afrobarometer.org/data/merged-round-5-data-34-countries-2011-2013-last-update-july-2015), [6](http://afrobarometer.org/data/merged-round-6-data-36-countries-2016) and [7](https://www.afrobarometer.org/data/merged-round-7-data-34-countries-2019).  Some elements of the vignette are not “live”, because we want to avoid re-publishing the original microdata files from Afrobarometer, but you can access the data directly from the [Afrobarometer website](https://www.afrobarometer.org/data).
+
+File names (to identify file versions):  
+Round 5: `merged-round-5-data-34-countries-2011-2013-last-update-july-2015.sav`  
+Round 6: `merged_r6_data_2016_36countries2.sav`  
+Round 7: `r7_merged_data_34ctry.release.sav`  
+
+  For reproducibility, we are storing only a small subsample from the files and the metadata. 
+
+## Importing Afrobarometer Files
+
+We start by reading in the three rounds of the Afrobarometer.
+
 ```{r setup, eval=FALSE}
 library(retroharmonize)
 library(dplyr)
 library(tidyr)
 ```
-
-In this case study we harmonize data from Afrobarometer with Eurobarometer. Some elements of this vignette are not “live”, because we do not have permission to re-publish the microdata files from Afrobarometer, but you can access them [directly](http://afrobarometer.org/data/merged-data).  For reproducibility, we are storing only a small subsample from the files and the metadata. 
-
-## Importing Afrobarometer Files
-
-First, let’s read in the two rounds of Afrobarometer.
 
 ```{r import, eval=FALSE}
 ### use here your own directory
@@ -57,14 +68,20 @@ documented_ab_waves <- document_waves(ab_waves)
 print(documented_ab_waves)
 ```
 
-Create a metadata file, or a data map with `metadata_create()`.
+Create a metadata table, or a data map, that contains information about the variable names and labels, and where each row correspnds to one variable in the survey data file. We do this with the function `metadata_create()`, which extracts the metadata from the survery data files, normalizes variable labels, identifies ranges of substantive responses and missing value codes.
 
 ```{r create-metadata, eval=FALSE}
 ab_metadata <- lapply ( X = ab_waves, FUN = metadata_create )
 ab_metadata <- do.call(rbind, ab_metadata)
 ```
 
-## Working with the metadata
+## Working with metadata
+
+From the metadata file we select only those rows that correspond to the variables that we're interested in: the `rowid` being the unique case identifier, `DATEINTR` with the interview date, `COUNTRY` containing informaiton about the country where the interview was conducted, `REGION` with the region (sub-national unit) where the interview was conducted, and `withinwt` being the weighting factor. 
+
+Further, we select all variables that have the word "trust" in the normalized variable label.
+
+For these variables, we create normalized variable names (`var_name`) and labels (`var_label`).
 
 ```{r, selection, eval=FALSE}
 library(dplyr)
@@ -79,7 +96,7 @@ to_harmonize <- ab_metadata %>%
   mutate ( var_name = val_label_normalize(var_label))
 ```
 
-Let's keep the example managable by chosing only a few variables.
+To further reduce the size of the analysis, we only choose a few variables based on the normalized variable names (`var_name`).
 
 ```{r}
 to_harmonize <- to_harmonize %>%
@@ -88,24 +105,27 @@ to_harmonize <- to_harmonize %>%
     )
 ```
 
+The resulting table with information about the variables selected for harmonization looks as follows:
 
 ```{r}
 head(to_harmonize %>%
        select ( all_of(c("id", "var_name", "var_label"))), 10)
 ```
 
-The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and produces a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original variable names, the new variable names and their labels.
+The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the program knows which variables to take from what files and how to call and label them after transformation.
+
 
 ```{r merge, eval=FALSE}
 merged_ab <- merge_waves ( waves = ab_waves, 
                            var_harmonization = to_harmonize  )
 
+# country will be a character variable, and doesn't need a label
 merged_ab <- lapply ( merged_ab, 
          FUN = function(x) x  %>%
            mutate( country = as_character(country)))
 ```
 
-Review the most important metadata with `document_survey()`:
+Review the most important metadata with `document_waves()`:
 
 ```{r, eval=FALSE}
 documenteded_merged_ab <- document_waves(merged_ab)
@@ -115,9 +135,11 @@ print(documenteded_merged_ab)
 ```
 
 
-## Harmonize the values
+## Harmonization
 
-The Afrobarometer version of the trust variables is a bit different from Eurobarometer, it has 4 categories, not 2. We could just to map them into two, or give them an equi-distant numerical representation. This is what we do. The `document_survey_item()` function shows the metadata of a single variable. To review the harmonization on a single survey use `pull_survey()`
+In the Afrobarometer trust is measured with four-point ordinal rating scales. Such data are best analyzed with ordinal models, which do not assume that the poinst are equidistant. However, to get a quick idea of how the data look like, we will assign numbers 0-3, with 0 corresponding to the least trust, and 3 corresponding to the most trust, and for the time-being analyze the data as if they were metric.
+
+To review the harmonization on a single survey use `pull_survey()`. Here we select Afrobarometer Round 6.
 
 ```{r check, eval=FALSE}
 R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6")
@@ -125,27 +147,27 @@ R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6")
 ```{r pulled-attributes, eval=FALSE}
 attributes(R6$trust_president[1:20])
 ```
-... and its code table:
+
+The `document_survey_item()` function shows the metadata of a single variable. 
 
 ```{r document-item}
 document_survey_item(R6$trust_president)
 ```
 
-
-We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
-
+Afrobarometer's SPSS files do not mark the missing values, so we have to be careful. The set of labels that are identified as missing:
 
 ```{r}
 collect_na_labels( to_harmonize )
 ```
 
-Afrobarometer's SPSS files do not mark the missing values, so we have to be careful.  The valid category labels and the missing values are the following:
+The set of valid category labels and missing value labels are as follows:
   
 ```{r}
 collect_val_labels (to_harmonize %>%
                       filter ( grepl( "trust", var_name) ))
 ```
 
+We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
 
 ```{r specify}
 harmonize_ab_trust <- function(x) {
@@ -168,7 +190,7 @@ harmonize_ab_trust <- function(x) {
 }
 ```
 
-Let's apply these settings to the trust variables. The `harmonize_waves()`  function binds all variables that are present in all surveys.
+We apply this funciton to the trust variables. The `harmonize_waves()` function binds all variables that are present in all surveys.
 
 ```{r harmonize, eval=FALSE}
 harmonized_ab_waves <- harmonize_waves ( 
@@ -176,7 +198,7 @@ harmonized_ab_waves <- harmonize_waves (
   .f = harmonize_ab_trust ) 
 ```
 
-Let's see what we get:
+Let's look at the attributes of `harmonized_ab_waves`. 
 
 ```{r, eval=FALSE}
 h_ab_structure <- attributes(harmonized_ab_waves)
@@ -194,7 +216,7 @@ harmonized_ab_waves <- harmonized_ab_waves %>%
     date_of_interview),1,4)))
 ```
 
-To keep or example manageable, we subset the datasets.
+To keep our example manageable, we subset the datasets to include only five countries.
 
 ```{r, eval=FALSE}
 harmonized_ab_waves <- harmonized_ab_waves %>%
@@ -203,11 +225,11 @@ harmonized_ab_waves <- harmonized_ab_waves %>%
 ```
 
 
-## Analyze the results
+## Analyzing the harmonized data
 
-If you did not save your work to use for another statistical software, from now on you can analyze the harmonized data in R.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html))
+The harmonized data can be exported and analyzed in another statistical program.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html))
 
-The numeric form of these trust variables is not directly comparable with the numeric averages of the Eurobarometer trust variables, because it is interred around `r mean (0:3)` and not `r mean(0:1)`.
+Please note that the numeric form of these trust variables is not directly comparable with the numeric averages of the Eurobarometer trust variables, because the middle of the range is at `r mean(0:3)` and not `r mean(0:1)`.
 
 ```{r numeric}
 harmonized_ab_waves %>%
@@ -218,7 +240,7 @@ harmonized_ab_waves %>%
   summarize_if ( is.numeric, mean, na.rm=TRUE ) 
 ```
 
-And the factor presentation, without weighting:
+And the factor representation, without weighting:
 
 ```{r factor}
 library(tidyr)  ## tidyr::pivot_longer()
@@ -232,6 +254,8 @@ harmonized_ab_waves %>%
   group_by ( country, year, institution, category ) %>%
   summarize ( n = n() ) 
 ```
+
+
 
 ```{r plot, echo=FALSE, out.width='95%'}
 knitr::include_graphics(here ("vignettes", "ab_plot1.png"))
