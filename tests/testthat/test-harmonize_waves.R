@@ -2,10 +2,8 @@ require(dplyr)
 library(vctrs)
 library(rlang)
 examples_dir <- system.file( "examples", package = "retroharmonize")
-
 my_rds_files <- dir( examples_dir)[grepl(".rds", 
                                          dir(examples_dir))]
-
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
 
 metadata <- lapply ( X = example_surveys, FUN = metadata_create )
@@ -41,4 +39,16 @@ merged_surveys <- merge_waves ( example_surveys, var_harmonization = to_harmoniz
 harmonized <- harmonize_waves(waves = merged_surveys, 
                 .f = harmonize_eb_trust,
                 status_message = FALSE)
+
+test_that("correct type is returned", {
+  expect_true(is.labelled_spss_survey(harmonized$trust_in_institutions_army))
+})
+
+test_that("correct range is returned", {
+  expect_equal(range(as_numeric(harmonized$trust_in_institutions_european_union), na.rm=TRUE), 
+               c(0,1) )
+})
+
+
+
 

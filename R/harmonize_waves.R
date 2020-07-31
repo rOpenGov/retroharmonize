@@ -63,9 +63,10 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   
   validate_survey_list(waves)
   
-  all_names <-  unique(unlist(sapply ( waves, names )))
+  all_names <-  unique(unlist(lapply ( waves, names )))
   
-  classes <- unlist(sapply ( waves, function(x) sapply( x, function(y) class(y)[1]) ))
+  classes <- unlist(lapply ( waves, function(x) lapply( x, function(y) class(y)[1]) ))
+  #classes <- unlist(sapply ( waves, function(x) lapply( x, function(y) class(y)[1]) ))
   
   retroharmonized <- unique(names(classes[which(classes == "retroharmonize_labelled_spss_survey")]))
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
@@ -195,22 +196,29 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     lapply ( extended, function(x)  x %>% select ( all_of ( dates )) ))
   
   to_harmonize_labelled <-  lapply ( 
-    extended, function(x) x %>% select (all_of (retroharmonized )))
+    ## select into a list vars that need to be harmonized by labels
+    extended, function(x) x %>% select (all_of (retroharmonized)))
   
   fn_harmonize <- function(dat, .f) {
     
     orig_name_order <- names(dat)
     if (status_message) message ( "Harmonize ", attr(dat, "id"))
+    harmonized_list <- lapply ( dat[, retroharmonized], FUN = .f )
 
-    retroh <- as_tibble(lapply ( dat[, retroharmonized], FUN = .f ))
+    retroh <- as_tibble(harmonized_list)
     
     dat %>% select ( -all_of(names(retroh))) %>%
       bind_cols(retroh) %>%
       select (all_of(orig_name_order)) 
   }
   
+  #dat <- to_harmonize_labelled[[1]]
+
   rth <- lapply ( to_harmonize_labelled,
                   function(x) fn_harmonize(x, .f) )
+  
+  #sapply ( rth, function(x) class(x$age))
+  
 
   for ( j in 2:length(rth) ) {
     ## Validate all possible retroharmonized pairs before merging.

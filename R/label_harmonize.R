@@ -29,6 +29,7 @@
 #'         )
 #' @family harmonization functions
 #' @export
+
 label_normalize <- function(x) {
   ## unit tests for this function are in
   ## tests/testthat/test-label_normalize.R
