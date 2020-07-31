@@ -63,10 +63,10 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   
   validate_survey_list(waves)
   
-  all_names <-  unique(unlist(lapply ( waves, names )))
+  all_names <-  unique(unlist(lapply ( waves, names ))) #change from sapply
   
   classes <- unlist(lapply ( waves, function(x) lapply( x, function(y) class(y)[1]) ))
-  #classes <- unlist(sapply ( waves, function(x) lapply( x, function(y) class(y)[1]) ))
+  #classes <- unlist(sapply ( waves, function(x) sapply( x, function(y) class(y)[1]) ))
   
   retroharmonized <- unique(names(classes[which(classes == "retroharmonize_labelled_spss_survey")]))
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
