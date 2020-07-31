@@ -104,6 +104,9 @@ from cross-national surveys on the example of the
 [Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html)
 and the
 [Eurobarometer](http://retroharmonize.satellitereport.com/articles/eurobarometer.html).
+The creators of `retroharmonize` are not affiliated with either
+Afrobarometer, Eurobarometer, or the organizations that designs,
+produces or archives their surveys.
 
 ## Code of Conduct
 

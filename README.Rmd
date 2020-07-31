@@ -60,8 +60,7 @@ The vignette [Working With The labelled_spss_survey Class](http://retroharmonize
 
 In [Harmonize Value Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html) we discuss the characteristics of the `labelled_spss_survey()` class and demonstrates the problems that using this class solves.
 
-We also provide two extensive case studies illustrating how the `retroharmonize` package can be used for ex-post harmonization of data from cross-national surveys on the example of the [Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) and the [Eurobarometer](http://retroharmonize.satellitereport.com/articles/eurobarometer.html).  
-
+We also provide two extensive case studies illustrating how the `retroharmonize` package can be used for ex-post harmonization of data from cross-national surveys on the example of the [Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) and the [Eurobarometer](http://retroharmonize.satellitereport.com/articles/eurobarometer.html). The creators of `retroharmonize` are not affiliated with either Afrobarometer, Eurobarometer, or the organizations that designs, produces or archives their surveys.
 
 ## Code of Conduct
 

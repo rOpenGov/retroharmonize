@@ -11,3 +11,6 @@
 
 # retroharmonize 0.1.7
 * Reduce the examples to smaller sizes, re-work the vignettes to work with smaller examples.
+
+# retroharmonize 0.1.8
+* Citation information for the [Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) vignette and disclaimer in [README](http://retroharmonize.satellitereport.com/index.html).
