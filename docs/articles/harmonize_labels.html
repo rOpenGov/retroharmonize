@@ -391,29 +391,29 @@
 <span class="no">c</span> <span class="kw">&lt;-</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">a</span>, <span class="no">b</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">c</span>)
 <span class="co">#&gt;     rowid                hvar             w          </span>
-<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.08244  </span>
-<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.46753  </span>
-<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.54302  </span>
-<span class="co">#&gt;                     Mean   :30769   Mean   :0.62744  </span>
-<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.82720  </span>
-<span class="co">#&gt;                     Max.   :99999   Max.   :0.99994</span></pre></body></html></div>
+<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.01792  </span>
+<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.20814  </span>
+<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.40979  </span>
+<span class="co">#&gt;                     Mean   :30769   Mean   :0.37044  </span>
+<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.50830  </span>
+<span class="co">#&gt;                     Max.   :99999   Max.   :0.67554</span></pre></body></html></div>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">c</span>)
 <span class="co">#&gt; # A tibble: 13 x 3</span>
 <span class="co">#&gt;    rowid                        hvar      w</span>
 <span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;  &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 survey11     1 [trust]            0.491 </span>
-<span class="co">#&gt;  2 survey12     0 [not_trust]        0.776 </span>
-<span class="co">#&gt;  3 survey13     1 [trust]            0.825 </span>
-<span class="co">#&gt;  4 survey14     1 [trust]            0.827 </span>
-<span class="co">#&gt;  5 survey15     0 [not_trust]        0.410 </span>
-<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.0824</span>
-<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.468 </span>
-<span class="co">#&gt;  8 survey21     0 [not_trust]        0.456 </span>
-<span class="co">#&gt;  9 survey22     0 [not_trust]        0.472 </span>
-<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.543 </span>
-<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.914 </span>
-<span class="co">#&gt; 12 survey25     1 [trust]            0.893 </span>
-<span class="co">#&gt; 13 survey26     1 [trust]            1.00</span></pre></body></html></div>
+<span class="co">#&gt;  1 survey11     1 [trust]            0.676 </span>
+<span class="co">#&gt;  2 survey12     0 [not_trust]        0.280 </span>
+<span class="co">#&gt;  3 survey13     1 [trust]            0.466 </span>
+<span class="co">#&gt;  4 survey14     1 [trust]            0.181 </span>
+<span class="co">#&gt;  5 survey15     0 [not_trust]        0.399 </span>
+<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.437 </span>
+<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.0766</span>
+<span class="co">#&gt;  8 survey21     0 [not_trust]        0.508 </span>
+<span class="co">#&gt;  9 survey22     0 [not_trust]        0.519 </span>
+<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.208 </span>
+<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.410 </span>
+<span class="co">#&gt; 12 survey25     1 [trust]            0.0179</span>
+<span class="co">#&gt; 13 survey26     1 [trust]            0.637</span></pre></body></html></div>
 <p>While dplyr’s join functions may result in correct values, the metadata get lost. A new join method will be developed.</p>
 </div>
   </div>

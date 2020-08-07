@@ -29,7 +29,7 @@ The goal of `retroharmonize` is to facilitate retrospective (ex-post) harmonizat
 
 Currently being generalized from problems solved in the  [github.com/antaldaniel/eurobarometer]((https://github.com/antaldaniel/eurobarometer)) package ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
-You can download the manual in [PDF](retroharmonize_0.1.7.pdf).
+You can download the manual in [PDF](retroharmonize_0.1.8.pdf).
 
 ## Installation
 
