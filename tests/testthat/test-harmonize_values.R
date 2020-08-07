@@ -1,4 +1,4 @@
-var1 <- labelled::labelled_spss(
+var_1 <- labelled::labelled_spss(
   x = c(1,0,1,1,0,8,9), 
   labels = c("TRUST" = 1, 
              "NOT TRUST" = 0, 
@@ -6,10 +6,10 @@ var1 <- labelled::labelled_spss(
              "INAP. HERE" = 9), 
   na_values = c(8,9))
 
-str(var1)
+str(var_1)
 
 h1 <- harmonize_values (
-  x = var1, 
+  x = var_1, 
   harmonize_labels = list ( 
     from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
     to = c("trust", "not_trust", "do_not_know", "inap"),
@@ -70,32 +70,45 @@ test_that("recasting works", {
     levels = c("not_trust","trust",  "do_not_know", "declined", "inap")))
   expect_equal(
     # case when na_range and na_values must be adjusted first
-    as_numeric(harmonize_values (
-      x = lvar2, 
-      harmonize_labels = list ( 
-        from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
-        to = c("trust", "not_trust", "do_not_know", "inap"),
-        numeric_value = c(1,0,99997, 99999)), 
-      na_values = c("do_not_know" = 99997,
-                    "inap" = 99999), 
+    as_numeric(
+      harmonize_values (
+        x = lvar2, 
+        harmonize_labels = list ( 
+          from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+          to = c("trust", "not_trust", "do_not_know", "inap"),
+          numeric_values = c(1,0,99997, 99999)), 
+        na_values = c("do_not_know" = 99997,
+                      "inap" = 99999), 
         id = "survey_id"
-      )), 
-    c(1,0,NA,NA)
-               )
+      )
+    ), c(1,0,NA,NA)
+  )
 })
 
 test_that("exception handling works", {
   ## tests validate_harmonize_values
-  expect_error (harmonize_values (var1, 
+  expect_error (harmonize_values (var_1, 
                                   # list not well defined
                                   harmonize_labels = list(
                                     wrong_from = c("a", "b"), 
                                     wrong_to = c("ab", "bc"))
                                   )
   )
-  expect_error (harmonize_values (var1, 
+  expect_error (harmonize_values (var_1, 
                                   # type mismatch
                                   harmonize_labels = c("a", "b"))
   )
+  expect_error (harmonize_values (
+    x = lvar2, 
+    harmonize_labels = list ( 
+      #inconsistent inap values
+      from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap", "missing"), 
+      to = c("trust", "not_trust", "do_not_know", "inap", "inap"),
+      numeric_value = c(1,0,99997, 99999, 9999)), 
+    na_values = c("do_not_know" = 99997,
+                  "inap" = 99999), 
+    id = "survey_id"
+  ))
 })
+
 

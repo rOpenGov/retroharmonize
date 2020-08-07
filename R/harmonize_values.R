@@ -61,7 +61,28 @@ harmonize_values <- function(
   
   new_values <- NULL
   input_na_values <- na_values
-
+  
+  
+  validate_label_list <- function ( label_list ) {
+    ll <- as_tibble ( label_list )
+    
+    for ( l in unique( label_list$to) ) {
+      
+      matched_numeric_value <-  ll %>%
+        filter ( to == l ) %>%
+        distinct ( to, numeric_values ) %>%
+        pull ( numeric_values )
+      
+      assert_that(length(matched_numeric_value)==1, 
+                  msg = paste0("in harmonized_list ", 
+                               l, " is matched with multiple numeric values: <", paste(matched_numeric_value, collapse = ",") , ">")
+      )
+      
+    }
+  }
+  
+  if (!is.null(harmonize_labels)) validate_label_list(harmonize_labels)
+  
   if (is.null(id)) { 
     # if not otherwise stated, inherit the ID of x, if present
     if (!is.null(attr(x, "id"))) {
@@ -95,11 +116,13 @@ harmonize_values <- function(
   }
 
   if (! is.null(harmonize_labels) ) {
-    original_values$orig_labels <- ifelse ( 
-      test = grepl(paste ( harmonize_labels$from, collapse = "|"), 
+    
+    original_values$orig_labels <- if_else ( 
+      #label == "" if not in the harmonization list
+      condition = grepl(paste ( harmonize_labels$from, collapse = "|"), 
                    tolower(original_values$orig_labels)), 
-      yes = tolower(original_values$orig_labels), 
-      no  = "") 
+      true = tolower(original_values$orig_labels), 
+      false  = "") 
     
     code_table <- dplyr::distinct_all(original_values)
     str <- code_table$orig_labels
@@ -108,6 +131,7 @@ harmonize_values <- function(
       ## harmonize the strings to new labelling by regex
       str [which(grepl ( harmonize_labels$from[r], str))] <- harmonize_labels$to[r]
     }
+    
     code_table$new_labels <- str
     
     add_new_values <- harmonize_labels %>%
@@ -263,3 +287,5 @@ get_labelled_attributes <- function(x) {
   dplyr::distinct_at(code_table, dplyr::vars(
     all_of(c("x", "new_values", "orig_labels", "new_labels"))))
 }
+
+                                    

@@ -262,8 +262,9 @@ as_character <- function(x) {
 as_factor <- function(x, levels = "default", ordered = FALSE) {
   
   attribute_names <- names(attributes(x))
- 
-  tmp <- haven::as_factor(x, levels = levels, ordered = ordered) 
+  tmp <- haven::as_factor(x) 
+  #this should be checked, why are parameters not correctly passed?
+  #tmp <- haven::as_factor(x, levels = levels, ordered = ordered) 
   
   for (a in attribute_names[!attribute_names %in% c("class", "levels")]) {
     attr(tmp, a) <- NULL

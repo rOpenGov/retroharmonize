@@ -13,4 +13,6 @@
 * Reduce the examples to smaller sizes, re-work the vignettes to work with smaller examples.
 
 # retroharmonize 0.1.8
-* Citation information for the [Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) vignette and disclaimer in [README](http://retroharmonize.satellitereport.com/index.html).
+* Citation information for the [Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) vignette and disclaimer in [README](http://retroharmonize.satellitereport.com/index.html)
+* Harmonize waves correctly handles some exceptions.
+* harmonize_values throws a meaningful error when the harmonization list is inconsistent.
