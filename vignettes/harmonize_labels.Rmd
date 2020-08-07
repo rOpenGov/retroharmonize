@@ -48,7 +48,7 @@ h1 <- harmonize_values(
   harmonize_labels = list(
     from = c("^yes", "^no", "^inap"), 
     to = c("trust", "not_trust", "inap"), 
-    numeric_value = c(1,0,99999)), 
+    numeric_values = c(1,0,99999)), 
   id = "survey1")
 
 str(h1)
@@ -78,7 +78,7 @@ h2 <- harmonize_values(
   harmonize_labels = list(
     from = c("^yes", "^no", "^inap"), 
     to = c("trust", "not_trust", "inap"), 
-    numeric_value = c(1,0,99999)), 
+    numeric_values = c(1,0,99999)), 
   id = 'survey2' )
 str(h2)
 ```
@@ -93,7 +93,7 @@ h2b <- harmonize_values(
   harmonize_labels = list(
     from = c("^yes", "^no", "^decline"), 
     to = c("trust", "not_trust", "inap"), 
-    numeric_value = c(1,0,99999)), 
+    numeric_values = c(1,0,99999)), 
   id = 'survey2' )
 
 str(h2b)
@@ -119,7 +119,7 @@ h3 <- harmonize_values(
     to = c("trust", 
            "not_trust", "do_not_know", 
            "inap"),
-    numeric_value = c(1,0,99997, 99999)
+    numeric_values = c(1,0,99997, 99999)
   ), 
   id = "S3_")
 
@@ -171,7 +171,8 @@ var2 <- labelled::labelled_spss(
              "Tend not to trust" = 2, 
              "DK" = 8, 
              "Inap" = 9), 
-  na_values = c(8,9))
+  na_values = c(8,9)
+  )
 
 
 h1 <- harmonize_values (
@@ -183,9 +184,8 @@ h1 <- harmonize_values (
     numeric_values = c(1,0,99997, 99999)), 
   na_values = c("do_not_know" = 99997,
                 "inap" = 99999), 
-  id = "survey1",
-
-)
+  id = "survey1"
+  )
 
 h2 <- harmonize_values (
   x = var2, 
