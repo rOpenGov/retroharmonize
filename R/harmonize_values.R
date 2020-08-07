@@ -59,7 +59,7 @@ harmonize_values <- function(
   id = "survey_id",
   name_orig = NULL ) {
   
-  new_values <- NULL
+  new_values <- to <- from <- numeric_values <- NULL
   input_na_values <- na_values
   
   
