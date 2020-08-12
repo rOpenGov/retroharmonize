@@ -45,7 +45,7 @@ open ended.}
 it uses the latest name of the object \code{x}.}
 }
 \description{
-This class is amending \code{haven::\link[haven:labelled_spss]{labelled_spss}} with a unique object
+This class is amending \code{haven::\link[haven]{labelled_spss}} with a unique object
 identifier \code{id} to make later binding or joining 
 reproducible and well-documented.
 }

@@ -24,11 +24,11 @@ harmonization of data, particularly survey data, in a reproducible
 manner. The package provides tools for organizing the metadata,
 standardizing the coding of variables, variable names and value labels,
 including missing values, and for documenting all transformations, with
-the help of comprehensive s3 classes.
+the help of comprehensive S3 classes.
 
-Currently being generalized from problems solved in the
-[github.com/antaldaniel/eurobarometer](\(https://github.com/antaldaniel/eurobarometer\))
-package ([doi](https://doi.org/10.5281/zenodo.3825700).)
+Currently being generalized from problems solved in the not yet released
+[eurobarometer](https://github.com/antaldaniel/eurobarometer) package
+([doi](https://doi.org/10.5281/zenodo.3825700).)
 
 You can download the manual in [PDF](retroharmonize_0.1.8.pdf).
 
