@@ -137,13 +137,13 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
       
       fn_inap <- function(x) haven::labelled_spss(
         x,
-        labels = c(inap = 999999), 
+        labels = c(inap = 99999), 
         na_values = c("do_not_know"=99997,
                       "declined"=99998,
                       "inap"=99999))
       
       add_rh_df <- as.data.frame( 
-        matrix (rep( 999999,
+        matrix (rep( 99999,
                      length(to_add_rh)*nrow(dat)), 
                      ncol = length(to_add_rh),
                      nrow = nrow(dat)
@@ -225,8 +225,12 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     survey1 <- rth[[j-1]]
     survey2 <- rth[[j]]
     for  ( i in retroharmonized ) {
-      x = survey1 %>% select (all_of(i)) %>% pull()
-      y = survey2 %>% select (all_of(i)) %>% pull()
+      x <- survey1 %>% select (all_of(i)) %>% pull()
+      y <- survey2 %>% select (all_of(i)) %>% pull()
+      
+      # remove superflous na_range if there are no values that match them
+      x <- remove_na_range(x)
+      y <- remove_na_range(y)
       
       vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey (
         x,y, 

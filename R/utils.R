@@ -87,3 +87,18 @@ validate_survey_list <- function(survey_list) {
                 " are not unique."
               ))
 }
+
+remove_na_range <- function (x) {
+  assert_that(is.labelled_spss_survey(x))
+  if (! is.null(attr(x, "na_range")) ) {
+    
+    min_na_range <- min (attr(x, "na_range"))
+    max_na_range <- max (attr(x, "na_range"))
+    
+    if ( all(! max_na_range %in% range ( x ), 
+        ! min_na_range %in% range ( x )  )) {
+      attr(x, "na_range") <- NULL
+    }
+  }
+  x
+}

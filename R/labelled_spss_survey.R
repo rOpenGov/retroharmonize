@@ -461,7 +461,7 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
       x_arg = paste (names(x_labels), collapse = ", "),
       y_arg = paste (names(y_labels), collapse = ", "), 
       details = paste0(
-        "The labels must be the same in ", same_in)
+        "The labels must be the same in ", same_in )
     )
   }
   
@@ -470,7 +470,10 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
       x, y, 
       x_arg = paste(names(attr(x, "na_values")), collapse = ", "), 
       y_arg = paste(names(attr(y, "na_values")), collapse = ", "), 
-      message = "The na_values attributes are not the same in ", same_in)
+      message = paste0(
+        "The na_values attributes are not the same in ",
+      same_in)
+      )
   }
   
   if (! setequal(attr(x, "na_range"), attr(y, "na_range")) ) {
@@ -478,7 +481,10 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
       x, y, 
       x_arg = paste(names(attr(x, "na_range")), collapse = ", "), 
       y_arg = paste(names(attr(y, "na_range")), collapse = ", "), 
-      message = "The na_range attributes are not the same in ", same_in)  }
+      message = paste0(
+        "The na_range attributes are not the same in ", same_in)
+    ) 
+    }
   
   x_labels <- vec_cast_named(attr(x, "labels"), data_type, x_arg = x_arg)
   y_labels <- vec_cast_named(attr(y, "labels"), data_type, x_arg = y_arg)
@@ -549,8 +555,8 @@ vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_surv
 #' @export
 vec_cast.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey <- function(
   x, to, ..., x_arg = "", to_arg = "") {
-  out_data <- vec_cast(vec_data(x), vec_data(to), ..., x_arg = x_arg, to_arg = to_arg)
-  #out_data <- vec_cast(vec_data(x), vec_data(to),  x_arg = x_arg, to_arg = to_arg)
+  #out_data <- vec_cast(vec_data(x), vec_data(to), ..., x_arg = x_arg, to_arg = to_arg)
+  out_data <- vec_cast(vec_data(x), vec_data(to),  x_arg = x_arg, to_arg = to_arg)
   x_labels <- labelled::val_labels(x)
   to_labels <- labelled::val_labels(to)
   

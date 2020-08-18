@@ -114,4 +114,6 @@ metadata_create <- function( survey ) {
              n_valid_labels = as.numeric(n_valid_labels), 
              n_labels = as.numeric(n_labels)) %>%
     as.data.frame()
+  
+  return_df
 }

@@ -54,8 +54,12 @@ merge_waves <- function(waves, var_harmonization) {
     select_vars <- var_harmonization  %>% 
       dplyr::filter ( filename == attr(dat, "filename") )
     
+    if ( ! "rowid" %in% select_vars$var_name_orig ) {
+      warning("rowid is not selected from ", attr(dat, "filename") )
+    }
+    
     tmp <- dat %>%
-      dplyr::select ( all_of (c("rowid", select_vars$var_name_orig)) ) %>%
+      dplyr::select ( all_of (c( select_vars$var_name_orig)) ) %>%
       stats::setNames(., nm = select_vars$var_name ) 
     
     tmp <- tmp %>%
