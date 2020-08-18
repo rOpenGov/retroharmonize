@@ -9,12 +9,16 @@ Windows Server 2008 R2 SP1, R-devel, 32/64 bit on rhub)
 
 0 errors | 0 warnings | 0 note
 
-* This is a re-submission of 0.1.7 which did not give in our test environments a NOTE, but eventually contained two misformatted URLs.
+* This is a re-submission of 0.1.8
 
-* This is a first release candidate. In many ways, this pacakge is an
-extension of haven and and labelled (from tidyverse) for survey data, and augments the haven class system, which is in itself not complete. During development we found bugs in haven file I/O (reported). To make sure we avoid those pitfalls, in three subdirectories of inst/ there are several files, below the 1000k limit each, but maybe substantial compared to other packages.
+* There was an errorneous badge link in the REAMDE.Rmd which is removed:
+ From: README.md
+       Status: 404
+       Message: Not Found
+       
+* The canonical URL of the CRAN page for a package is
+       https://CRAN.R-project.org/package=pkgname
+       
+https://CRAN.R-project.org/package=labelled was inserted to the labelled_spss_survey.Rmd and .html file.
 
-* For the same reason, the unit tests (83 of them) take a bit longer than normal to take, because they test a lot of file I/O functionality.
-* We hope that in the near future the parallel issues with haven / labelled / retroharmonize can be resolved and a very soon update of the package will not only be more functional but lighter in the burden of inst/ files and unit tests.
-
-
+* "You do not need the LICENSE; text, "+ file LICENSE" is only needed for additional restrictions such as attribution requirements." -> This was removed, too.

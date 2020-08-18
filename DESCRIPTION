@@ -1,7 +1,7 @@
 Package: retroharmonize
 Type: Package
 Title: Ex Post Survey Data Harmonization
-Version: 0.1.8
+Version: 0.1.9
 Authors@R: 
     c(person(given = "Daniel",
            family = "Antal",
@@ -20,7 +20,7 @@ Description: Assist in reproducible retrospective (ex-post) harmonization of dat
     standardizing the coding of variables, and variable names and value labels, 
     including missing values, and documenting the data transformations,
     with the help of comprehensive s3 classes.
-License: GPL-3 + file LICENSE
+License: GPL-3
 Encoding: UTF-8
 Language: en-US
 URL: http://retroharmonize.satellitereport.com/
