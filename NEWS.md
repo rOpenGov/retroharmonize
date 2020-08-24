@@ -16,3 +16,6 @@
 * Citation information for the [Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html) vignette and disclaimer in [README](http://retroharmonize.satellitereport.com/index.html)
 * Harmonize waves correctly handles some exceptions.
 * harmonize_values throws a meaningful error when the harmonization list is inconsistent.
+
+# retroharmonize 0.1.9
+* This is a re-submission to CRAN after removing two wrong links from the documentation and an unnecessary LICENSE file.
