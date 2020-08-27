@@ -22,3 +22,10 @@
 
 # retrharmonize 0.1.10
 * We changed all external links in the package documentation where the http:// protocol was used to https://  This affected the Afrobarometer, Eurobarometer vignettes, the README, NEWS and the DESCRIPTION files.
+* This is probably a CRAN updating issue, as the package is there, but we removed the link to on the safe side.
+  URL: https://CRAN.R-project.org/package=labelled
+    From: inst/doc/labelled_spss_survey.html
+    Status: 404
+    Message: Not Found
+    
+# retroharmonize 0.1.11

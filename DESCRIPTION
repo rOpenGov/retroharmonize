@@ -1,7 +1,7 @@
 Package: retroharmonize
 Type: Package
 Title: Ex Post Survey Data Harmonization
-Version: 0.1.10
+Version: 0.1.11
 Authors@R: 
     c(person(given = "Daniel",
            family = "Antal",
@@ -23,7 +23,7 @@ Description: Assist in reproducible retrospective (ex-post) harmonization of dat
 License: GPL-3
 Encoding: UTF-8
 Language: en-US
-URL: https://retroharmonize.satellitereport.com/
+URL: https://retroharmonize.dataobservatory.eu/
 BugReports: https://github.com/antaldaniel/retroharmonize/issues
 LazyData: true
 Imports: 

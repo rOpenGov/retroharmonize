@@ -8,12 +8,15 @@
 
 0 errors | 0 warnings | 0 note
 
+Apologies to the reviewers. This is our 3rd resubmission ONLY because of URIs, and we certainly did not mean to waste CRAN volunteer time. We did very extensive checks, and these errors did not came up, especially with URIs that used the http protocol instead of https, they were themselves often self-referenced on where we found them. We manually checked all URIs earlier but each time some different issue came up.
+
+* This is a re-submission of 0.1.10 with hopefully correct URLs to Afrobarometer's website, which, by default, does not use https, but of course, can be browsed via the https protocol.
+
 * This is a re-submission of 0.1.9
 
 We changed all external links in the package documentation where the http:// protocol was used to https://  This affected the Afrobarometer, Eurobarometer vignettes, the README, NEWS and the DESCRIPTION files.
 
-
-* In 0.1.8 there was an errorneous badge link in the REAMDE.Rmd which is removed:
+* In 0.1.8 there was an erroneous badge link in the REAMDE.Rmd which is removed:
  From: README.md
        Status: 404
        Message: Not Found

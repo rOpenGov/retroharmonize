@@ -37,7 +37,7 @@ You can check the type:
 ```{r}
 is.labelled_spss_survey (sl1)
 ```
-The `labelled_spss_survey()` class inherits some properties from `haven::labelled()`, which can be manipulated by the [labelled](https://CRAN.R-project.org/package=labelled) package (See particularly the vignette *Introduction to labelled* by Joseph Larmarange.)
+The `labelled_spss_survey()` class inherits some properties from `haven::labelled()`, which can be manipulated by the `labelled` package (See particularly the vignette *Introduction to labelled* by Joseph Larmarange.)
 
 ```{r}
 haven::is.labelled(sl1)

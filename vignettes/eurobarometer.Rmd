@@ -26,7 +26,7 @@ In this case study we use nine waves of the Eurobarometer between 1996 and 2019:
 [44.2bis (January-March 1996)](https://search.gesis.org/research_data/ZA2828), [51.0 (March-April 1999)](https://search.gesis.org/research_data/ZA3171), [57.1 (March-May 2002)](https://search.gesis.org/research_data/ZA3639), [64.2 (October-November 2005)](https://search.gesis.org/research_data/ZA4414), [69.2 (Mar-May 2008)](https://search.gesis.org/research_data/ZA4744)
 [75.3 (May 2011)](https://search.gesis.org/research_data/ZA5481), [81.2 (March 2014)](https://search.gesis.org/research_data/ZA5913), [87.3 (May 2017)](https://search.gesis.org/research_data/ZA6863), and [91.2 (March 2019)](https://search.gesis.org/research_data/ZA7562).  
 
-In the [Afrobaromter Case Study](https://retroharmonize.satellitereport.com/articles/afrobarometer.html) we have shown how to merge two waves of a survey with a limited number of variables.  This workflow is not feasible with Eurobarometer on a PC or laptop, because there are too many large files to handle. 
+In the [Afrobaromter Case Study](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html) we have shown how to merge two waves of a survey with a limited number of variables.  This workflow is not feasible with Eurobarometer on a PC or laptop, because there are too many large files to handle. 
 
 
 ```{r setup, message=FALSE}
@@ -180,7 +180,7 @@ wave_attributes$names
 ```
 ## Analyze the data
 
-The harmonized data can be analyzed in R.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. To them, the data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](https://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html))
+The harmonized data can be analyzed in R.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. To them, the data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html))
 
 
 First, let's treat the trust variables as factors. A summary of the resulting data allows us to screen for values that are outside of the expected range. In the trust variables, any values other than "trust" and "not trust" that are not defined as missing, are unacceptable. In our example, this is not the case. In our example, this is not the case. 
