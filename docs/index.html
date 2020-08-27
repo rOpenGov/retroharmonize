@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
       </span>
     </div>
 
@@ -101,7 +101,7 @@
 
 <p>The goal of <code>retroharmonize</code> is to facilitate retrospective (ex-post) harmonization of data, particularly survey data, in a reproducible manner. The package provides tools for organizing the metadata, standardizing the coding of variables, variable names and value labels, including missing values, and for documenting all transformations, with the help of comprehensive S3 classes.</p>
 <p>Currently being generalized from problems solved in the not yet released <a href="https://github.com/antaldaniel/eurobarometer">eurobarometer</a> package (<a href="https://doi.org/10.5281/zenodo.3825700">doi</a>.)</p>
-<p>You can download the manual in <a href="retroharmonize_0.1.9.pdf">PDF</a>.</p>
+<p>You can download the manual in <a href="https://https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.11.pdf">PDF</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
@@ -116,11 +116,11 @@
 <a href="#retrospective-data-harmonization" class="anchor"></a>Retrospective data harmonization</h2>
 <p>The aim of <code>retroharmonize</code> is to provide tools for reproducible retrospective (ex-post) harmonization of datasets that contain variables measuring the same concepts but coded in different ways. Ex-post data harmonization enables better use of existing data and creates new research opportunities. For example, harmonizing data from different countries enables cross-national comparisons, while merging data from different time points makes it possible to track changes over time.</p>
 <p>Retrospective data harmonization is associated with challenges including conceptual issues with establishing equivalence and comparability, practical complications of having to standardize the naming and coding of variables, technical difficulties with merging data stored in different formats, and the need to document a large number of data transformations. The <code>retroharmonize</code> package assists with the latter three components, freeing up the capacity of researchers to focus on the first.</p>
-<p>Specifically, the <code>retroharmonize</code> package proposes a reproducible workflow, including a new class for storing data together with the harmonized and original metadata, as well as functions for importing data from different formats, harmonizing data and metadata, documenting the harmonization process, and converting between data types. See <a href="http://retroharmonize.satellitereport.com/reference/retrohamonize.html">here</a> for an overview of the functionalities.</p>
+<p>Specifically, the <code>retroharmonize</code> package proposes a reproducible workflow, including a new class for storing data together with the harmonized and original metadata, as well as functions for importing data from different formats, harmonizing data and metadata, documenting the harmonization process, and converting between data types. See <a href="https://retroharmonize.dataobservatory.eu/reference/retrohamonize.html">here</a> for an overview of the functionalities.</p>
 <p>The new <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class is an extension of <a href="https://haven.tidyverse.org/reference/labelled_spss.html">haven’s labelled_spss class</a>. It not only preserves variable and value labels and the user-defined missing range, but also gives an identifier, for example, the filename or the wave number, to the vector. Additionally, it enables the preservation – as metadata attributes – of the original variable names, labels, and value codes and labels, from the source data, in addition to the harmonized variable names, labels, and value codes and labels. This way, the harmonized data also contain the pre-harmonization record. The stored original metadata can be used for validation and documentation purposes.</p>
-<p>The vignette <a href="http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a> provides more information about the <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class.</p>
-<p>In <a href="http://retroharmonize.satellitereport.com/articles/harmonize_labels.html">Harmonize Value Labels</a> we discuss the characteristics of the <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class and demonstrates the problems that using this class solves.</p>
-<p>We also provide two extensive case studies illustrating how the <code>retroharmonize</code> package can be used for ex-post harmonization of data from cross-national surveys on the example of the <a href="http://retroharmonize.satellitereport.com/articles/afrobarometer.html">Afrobarometer</a> and the <a href="http://retroharmonize.satellitereport.com/articles/eurobarometer.html">Eurobarometer</a>. The creators of <code>retroharmonize</code> are not affiliated with either Afrobarometer, Eurobarometer, or the organizations that designs, produces or archives their surveys.</p>
+<p>The vignette <a href="https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a> provides more information about the <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class.</p>
+<p>In <a href="https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html">Harmonize Value Labels</a> we discuss the characteristics of the <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class and demonstrates the problems that using this class solves.</p>
+<p>We also provide two extensive case studies illustrating how the <code>retroharmonize</code> package can be used for ex-post harmonization of data from cross-national surveys on the example of the <a href="https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html">Afrobarometer</a> and the <a href="https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html">Eurobarometer</a>. The creators of <code>retroharmonize</code> are not affiliated with either Afrobarometer, Eurobarometer, or the organizations that designs, produces or archives their surveys.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">

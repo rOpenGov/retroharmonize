@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.10</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
       </span>
     </div>
 
@@ -390,30 +390,30 @@
 
 <span class="no">c</span> <span class="kw">&lt;-</span> <span class="kw pkg">dplyr</span><span class="kw ns">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind.html">bind_rows</a></span>(<span class="no">a</span>, <span class="no">b</span>)</pre></body></html></div>
 <div class="sourceCode" id="cb12"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span>(<span class="no">c</span>)
-<span class="co">#&gt;     rowid                hvar             w         </span>
-<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.1280  </span>
-<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.3823  </span>
-<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.6325  </span>
-<span class="co">#&gt;                     Mean   :30769   Mean   :0.5979  </span>
-<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.7244  </span>
-<span class="co">#&gt;                     Max.   :99999   Max.   :0.9922</span></pre></body></html></div>
+<span class="co">#&gt;     rowid                hvar             w          </span>
+<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.07831  </span>
+<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.43215  </span>
+<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.69103  </span>
+<span class="co">#&gt;                     Mean   :30769   Mean   :0.62344  </span>
+<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.85684  </span>
+<span class="co">#&gt;                     Max.   :99999   Max.   :0.99871</span></pre></body></html></div>
 <div class="sourceCode" id="cb13"><html><body><pre class="r"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span>(<span class="no">c</span>)
 <span class="co">#&gt; # A tibble: 13 x 3</span>
-<span class="co">#&gt;    rowid                        hvar     w</span>
-<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 survey11     1 [trust]            0.855</span>
-<span class="co">#&gt;  2 survey12     0 [not_trust]        0.716</span>
-<span class="co">#&gt;  3 survey13     1 [trust]            0.241</span>
-<span class="co">#&gt;  4 survey14     1 [trust]            0.382</span>
-<span class="co">#&gt;  5 survey15     0 [not_trust]        0.724</span>
-<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.596</span>
-<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.704</span>
-<span class="co">#&gt;  8 survey21     0 [not_trust]        0.992</span>
-<span class="co">#&gt;  9 survey22     0 [not_trust]        0.867</span>
-<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.633</span>
-<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.128</span>
-<span class="co">#&gt; 12 survey25     1 [trust]            0.355</span>
-<span class="co">#&gt; 13 survey26     1 [trust]            0.580</span></pre></body></html></div>
+<span class="co">#&gt;    rowid                        hvar      w</span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 survey11     1 [trust]            0.770 </span>
+<span class="co">#&gt;  2 survey12     0 [not_trust]        0.999 </span>
+<span class="co">#&gt;  3 survey13     1 [trust]            0.588 </span>
+<span class="co">#&gt;  4 survey14     1 [trust]            0.646 </span>
+<span class="co">#&gt;  5 survey15     0 [not_trust]        0.0783</span>
+<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.974 </span>
+<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.432 </span>
+<span class="co">#&gt;  8 survey21     0 [not_trust]        0.691 </span>
+<span class="co">#&gt;  9 survey22     0 [not_trust]        0.857 </span>
+<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.790 </span>
+<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.209 </span>
+<span class="co">#&gt; 12 survey25     1 [trust]            0.161 </span>
+<span class="co">#&gt; 13 survey26     1 [trust]            0.910</span></pre></body></html></div>
 <p>While dplyr’s join functions may result in correct values, the metadata get lost. A new join method will be developed.</p>
 </div>
   </div>
