@@ -29,7 +29,8 @@ Currently being generalized from problems solved in the not yet released
 [eurobarometer](https://github.com/antaldaniel/eurobarometer) package
 ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
-You can download the manual in [PDF](retroharmonize_0.1.9.pdf).
+You can download the manual in
+[PDF](https://retroharmonize.satellitereport.com/retroharmonize_0.1.9.pdf).
 
 ## Installation
 
@@ -72,7 +73,7 @@ workflow, including a new class for storing data together with the
 harmonized and original metadata, as well as functions for importing
 data from different formats, harmonizing data and metadata, documenting
 the harmonization process, and converting between data types. See
-[here](http://retroharmonize.satellitereport.com/reference/retrohamonize.html)
+[here](https://retroharmonize.satellitereport.com/reference/retrohamonize.html)
 for an overview of the functionalities.
 
 The new `labelled_spss_survey()` class is an extension of [haven’s
@@ -89,20 +90,20 @@ stored original metadata can be used for validation and documentation
 purposes.
 
 The vignette [Working With The labelled\_spss\_survey
-Class](http://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html)
+Class](https://retroharmonize.satellitereport.com/articles/labelled_spss_survey.html)
 provides more information about the `labelled_spss_survey()` class.
 
 In [Harmonize Value
-Labels](http://retroharmonize.satellitereport.com/articles/harmonize_labels.html)
+Labels](https://retroharmonize.satellitereport.com/articles/harmonize_labels.html)
 we discuss the characteristics of the `labelled_spss_survey()` class and
 demonstrates the problems that using this class solves.
 
 We also provide two extensive case studies illustrating how the
 `retroharmonize` package can be used for ex-post harmonization of data
 from cross-national surveys on the example of the
-[Afrobarometer](http://retroharmonize.satellitereport.com/articles/afrobarometer.html)
+[Afrobarometer](https://retroharmonize.satellitereport.com/articles/afrobarometer.html)
 and the
-[Eurobarometer](http://retroharmonize.satellitereport.com/articles/eurobarometer.html).
+[Eurobarometer](https://retroharmonize.satellitereport.com/articles/eurobarometer.html).
 The creators of `retroharmonize` are not affiliated with either
 Afrobarometer, Eurobarometer, or the organizations that designs,
 produces or archives their surveys.

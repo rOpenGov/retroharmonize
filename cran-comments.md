@@ -8,9 +8,12 @@
 
 0 errors | 0 warnings | 0 note
 
-* This is a re-submission of 0.1.8
+* This is a re-submission of 0.1.9
 
-* There was an errorneous badge link in the REAMDE.Rmd which is removed:
+We changed all external links in the package documentation where the http:// protocol was used to https://  This affected the Afrobarometer, Eurobarometer vignettes, the README, NEWS and the DESCRIPTION files.
+
+
+* In 0.1.8 there was an errorneous badge link in the REAMDE.Rmd which is removed:
  From: README.md
        Status: 404
        Message: Not Found
@@ -20,4 +23,4 @@
        
 https://CRAN.R-project.org/package=labelled was inserted to the labelled_spss_survey.Rmd and .html file.
 
-* "You do not need the LICENSE; text, "+ file LICENSE" is only needed for additional restrictions such as attribution requirements." -> This was removed, too.
+* In 0.1.8 "You do not need the LICENSE; text, "+ file LICENSE" is only needed for additional restrictions such as attribution requirements." -> This was removed, too.
