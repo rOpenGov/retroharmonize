@@ -1,13 +1,15 @@
 ---
 title: "Case Study: Working With Afrobarometer surveys"
 output: rmarkdown::html_vignette
+resource_files:
+  - vignettes/ab_plot1.png
 vignette: >
   %\VignetteIndexEntry{Case Study: Working With Afrobarometer}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, echo = FALSE}
+```{r, echo = FALSE, include=FALSE}
 ## https://github.com/tidyverse/rvest/blob/master/vignettes/selectorgadget.Rmd
 requireNamespace("png", quietly = TRUE)
 embed_png <- function(path, dpi = NULL) {
@@ -273,7 +275,8 @@ harmonized_ab_waves %>%
 
 We subsetted the datasets to meet the vignette size limitations. If you are following our code without reducing the number of countries, you get the following results:
 
-```{r plot, echo=FALSE, out.width='95%'}
-embed_png("ab_plot1.png")
+```{r, out.width='95%', echo=FALSE}
+knitr::include_graphics('ab_plot1.png')
 ```
+
 
