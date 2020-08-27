@@ -9,6 +9,7 @@ r_build_args: --no-manual --no-resave-data
 r_check_args: --no-manual
 r_packages:
   - backports
+  - pandoc
   - vctrs
   - rlang
   - devtools
@@ -31,6 +32,7 @@ r_packages:
   - assertthat
   - here
   - png
+  - libxml2-dev
   
 r_github_packages:
   - jimhester/covr
