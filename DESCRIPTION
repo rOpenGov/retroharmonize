@@ -16,7 +16,7 @@ Authors@R:
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
 Description: Assist in reproducible retrospective (ex-post) harmonization of data,
-    particularly survey microdata, by providing tools for organizing metadata,
+    particularly individual level survey data, by providing tools for organizing metadata,
     standardizing the coding of variables, and variable names and value labels, 
     including missing values, and documenting the data transformations,
     with the help of comprehensive s3 classes.
