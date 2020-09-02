@@ -28,14 +28,16 @@
 #' @name read_spss
 #' @family import functions
 #' @examples
+#' \donttest{
 #' path <- system.file("examples", "iris.sav", package = "haven")
 #' haven::read_sav(path)
 #'
 #' tmp <- tempfile(fileext = ".sav")
 #' haven::write_sav(mtcars, tmp)
 #' haven::read_sav(tmp)
+#' }
 #' @export
-#' 
+ 
 read_spss <- function(file, 
                       user_na = TRUE,
                       id = NULL, 

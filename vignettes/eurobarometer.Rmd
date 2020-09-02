@@ -15,7 +15,6 @@ knitr::opts_chunk$set(
 library(retroharmonize)
 load(file = system.file(
   "eurob", "eurob_vignette.rda", package = "retroharmonize"))
-#source(here("not_included", "daniel_env.R"))
 ```
 
 The goal in this case study is to analyze trust in the national and European parliaments, and in the European Commission, in Europe, with data from the Eurobarometer. 
@@ -83,17 +82,34 @@ collect_na_labels(eb_trust_metadata)
 
 We have created a helper function `subset_save_survey()` that programmatically reads in SPSS files, makes the necessary type conversion to `labelled_spss_survey()` without harmonization, and saves a small, subsetted `rds` file. Because this is a native R file, it is far more efficient to handle in the actual workflow.
 
+```{r}
+## You will likely use your own local working directory, or
+## tempdir() that will create a temporary directory for your 
+## session only. 
+working_directory <- tempdir()
+```
+
+
 ```{r subsetting, eval=FALSE}
+# This code is for illustration only, it is not evaluated.
 # To replicate the worklist, you need to have the SPSS file names 
 # as a list, and you have to set up your own import and export path.
+
 selected_eb_metadata <- readRDS(system.file("eurob", "selected_eb_waves.rds", package = "retroharmonize")) %>%
-  mutate ( id = substr(filename,1,6))
+  mutate ( id = substr(filename,1,6)) %>%
+  rename ( var_label = var_label_std) %>%
+  mutate ( var_name = var_label )
+
+
+## This code is not evaluated, it is only an example. You are likely 
+## to have a directory where you have already downloaded the data
+## from GESIS after accepting their term use.
 
 subset_save_surveys ( 
   var_harmonization = selected_eb_metadata, 
   selection_name = "trust",
   import_path = gesis_dir, 
-  export_path = "working" )
+  export_path = working_directory )
 
 ```
 

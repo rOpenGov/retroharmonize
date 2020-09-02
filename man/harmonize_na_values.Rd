@@ -16,10 +16,13 @@ A tibble where the na_values are consistent
 Harmonize na_values in haven_labelled_spss
 }
 \examples{
-\dontrun{
-data ( "ZA6863_sample", package="eurobarometer")
+\donttest{
+test_read <- read_rds ( 
+     file.path(examples_dir, "ZA7576.rds"),
+     id = "ZA7576", 
+     doi = "test_doi")
 
-harmonize_na_values(ZA6863_sample)
+harmonize_na_values(test_read)
 }
 }
 \seealso{

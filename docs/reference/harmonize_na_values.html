@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -166,11 +166,13 @@
 <code><a href='na_range_to_values.html'>na_range_to_values</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='fu'><a href='https://rdrr.io/r/utils/data.html'>data</a></span> ( <span class='st'>"ZA6863_sample"</span>, <span class='kw'>package</span><span class='kw'>=</span><span class='st'>"eurobarometer"</span>)
-
-<span class='fu'>harmonize_na_values</span>(<span class='no'>ZA6863_sample</span>)
-}</div></pre>
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>test_read</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_rds.html'>read_rds</a></span> (
+     <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>examples_dir</span>, <span class='st'>"ZA7576.rds"</span>),
+     <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"ZA7576"</span>,
+     <span class='kw'>doi</span> <span class='kw'>=</span> <span class='st'>"test_doi"</span>)</div><div class='output co'>#&gt; <span class='error'>Error in file.path(examples_dir, "ZA7576.rds"): object 'examples_dir' not found</span></div><div class='input'>
+<span class='fu'>harmonize_na_values</span>(<span class='no'>test_read</span>)</div><div class='output co'>#&gt; <span class='error'>Error in vapply(df, is.labelled_spss, logical(1)): object 'test_read' not found</span></div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

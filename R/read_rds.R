@@ -19,15 +19,17 @@
 #' @export
 
 read_rds <- function(file,
-                      id = NULL, 
-                      filename = NULL, 
-                      doi = NULL) {
+                     id = NULL, 
+                     filename = NULL, 
+                     doi = NULL) {
   
   if (! file.exists(file) ) stop ("The file does not exist.")
   filename <- fs::path_file(file)
   
-  tmp <- readRDS (file = file) %>%
-    tibble::rowid_to_column()
+  tmp <- readRDS (file = file) 
+  
+  if ( ! "rowid" %in% names(tmp) )
+    tmp <- tibble::rowid_to_column(tmp)
   
   if ( is.null(id) ) {
     id <- fs::path_ext_remove ( filename )

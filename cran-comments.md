@@ -8,7 +8,28 @@
 
 0 errors | 0 warnings | 0 note
 
-Apologies to the reviewers. This is our 3rd resubmission ONLY because of URIs, and we certainly did not mean to waste CRAN volunteer time. We did very extensive checks, and these errors did not came up, especially with URIs that used the http protocol instead of https, they were themselves often self-referenced on where we found them. We manually checked all URIs earlier but each time some different issue came up.
+* sad
+
+* Thanks, please replace \dontrun{} by \donttest{} or unwap the examples if they can be executed in less than 5 sec per Rd-file -> DONE
+
+* Please ensure that your functions do not modify (save or delete) the
+user's home filespace in your examples/vignettes/tests. That is not
+allow by CRAN policies. Please only write/save files if the user has
+specified a directory. In your examples/vignettes/tests you can write to tempdir().
+
+Reply: Our vignettes do not write or save files to any directory. To avoid confusion, we created a new example for subset_save_survey() function that uses tempdir()
+
+The code with this example is not evaluated for a different reason. 
+We have no permission to download programatically the original Eurobarometer data files, the user must go to GESIS and seek explicit permission. 
+
+Our not evaluated examples clearly states in comments that after having visited the GESIS website, gaining approval for the use of the files, we imagine that the user saved them to an imaginary "gesis_dir". Becuase the files are very large, we created a loop utility that reads in all the files from this imaginary directory, and subsets them, and saves them to the users imaginary working_directory, which we modified for more clarity in the non-evaluated example as working_directory <- tempdir()
+
+We wanted to create a realistic example, but it is not fully possible to demonstrate the mass use of GESIS Eurobarometer files, because we have no permission for that. GESIS explicitly asked us to use minimal examples, and in our example code only 'mimic' the procedure.
+
+We added several comments to highligth which code is not evaluated and serves only an illustration that must be run in the user's own environment.
+
+subset_save_survey() is the only function in our package that saves something.  In the unit tests, we created an example when it saves to tempdir(), but because of time constraints, we skip this test on CRAN.
+
 
 * This is a re-submission of 0.1.10 with hopefully correct URLs to Afrobarometer's website, which, by default, does not use https, but of course, can be browsed via the https protocol.
 

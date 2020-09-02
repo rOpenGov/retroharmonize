@@ -75,7 +75,7 @@ file extension." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.11</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
       </span>
     </div>
 
@@ -206,7 +206,8 @@ file name.</p></td>
 <code><a href='subset_save_surveys.html'>subset_save_surveys</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"iris.sav"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"haven"</span>)
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='no'>path</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"iris.sav"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"haven"</span>)
 <span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/read_spss.html'>read_sav</a></span>(<span class='no'>path</span>)</div><div class='output co'>#&gt; # A tibble: 150 x 5
 #&gt;    Sepal.Length Sepal.Width Petal.Length Petal.Width    Species
 #&gt;           &lt;dbl&gt;       &lt;dbl&gt;        &lt;dbl&gt;       &lt;dbl&gt;  &lt;dbl+lbl&gt;
@@ -236,7 +237,8 @@ file name.</p></td>
 #&gt;  8  24.4     4  147.    62  3.69  3.19  20       1     0     4     2
 #&gt;  9  22.8     4  141.    95  3.92  3.15  22.9     1     0     4     2
 #&gt; 10  19.2     6  168.   123  3.92  3.44  18.3     1     0     4     4
-#&gt; # ... with 22 more rows</div></pre>
+#&gt; # ... with 22 more rows</div><div class='input'># }
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

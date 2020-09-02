@@ -30,3 +30,7 @@
     
 # retroharmonize 0.1.11
 Further issues with URLs, hopefully all resolved.
+
+# retroharmonize 0.1.11
+* In the examples, dontrun{} replaced by donttest{}.  
+* Further clarity given in comment to the Eurobarometer vignette that some part of the code is not evaluated, as it shows how to work with a large number of files from GESIS that we have no permission to re-publish.  We show with examples how the user, after gaining permission from GESIS to download the files, and placing it into her working environment can efficiently subset these files.

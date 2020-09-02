@@ -6,10 +6,13 @@
 #' @importFrom tibble deframe
 #' @importFrom dplyr case_when
 #' @examples
-#' \dontrun{
-#' data ( "ZA6863_sample", package="eurobarometer")
+#' \donttest{
+#' test_read <- read_rds ( 
+#'      file.path(examples_dir, "ZA7576.rds"),
+#'      id = "ZA7576", 
+#'      doi = "test_doi")
 #' 
-#' harmonize_na_values(ZA6863_sample)
+#' harmonize_na_values(test_read)
 #' }
 #' @export
 #' @family harmonization functions

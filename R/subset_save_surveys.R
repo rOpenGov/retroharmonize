@@ -3,7 +3,8 @@
 #' Read a predefined survey list and variables. 
 #' 
 #' @param var_harmonization Metadata of surveys, including at least
-#' \code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.
+#' \code{filename}, \code{var_name_orig}, \code{var_name},
+#'  \code{var_label}.
 #' @param selection_name An identifier for the survey subset.
 #' @param import_path The path to the survey files.
 #' @param export_path The path where the subsets should be saved.
@@ -18,8 +19,27 @@
 #' @export
 #' @family import functions
 #' @examples
-#' \dontrun{
-#' ## See Eurobaromter case study
+#' \donttest{
+#' test_survey <- read_rds (
+#'  file = system.file("examples", "ZA7576.rds",
+#'                     package = "retroharmonize")
+#' )
+#'
+#' test_metadata <- metadata_create ( test_survey )
+#' test_metadata <- test_metadata[c(18:37),]
+#' test_metadata$var_name  <- var_label_normalize (test_metadata$var_name_orig)
+#' test_metadata$var_label <- test_metadata$label_orig
+#'
+#' saveRDS(test_survey, file.path(tempdir(), 
+#'                               "ZA7576.rds"), 
+#'        version = 2)
+#'
+#' subset_save_surveys  ( var_harmonization = test_metadata, 
+#'                       selection_name = "tested",
+#'                       import_path = tempdir(), 
+#'                       export_path = tempdir())
+#'
+#' file.exists ( file.path(tempdir(), "ZA7576_tested.rds"))
 #' }
 
 subset_save_surveys  <- function ( var_harmonization, 
@@ -32,14 +52,13 @@ subset_save_surveys  <- function ( var_harmonization,
   assertthat::assert_that(fs::dir_exists(import_path) == TRUE)
 
   selection <- var_harmonization %>%
-    distinct (filename, id, var_name_orig, var_label_std ) %>%
-    mutate ( filename = file.path(import_path, filename)) 
+    distinct (filename, id, var_name_orig, var_name, var_label ) 
   
   survey_files <- selection %>%
     distinct ( filename, id )
   
-  for (i in 1:length(survey_files$filename)) {
-    this_file <- survey_files$filename[i]
+  for (i in 1:length(survey_files$filename) ) {
+    this_file <- file.path(import_path, survey_files$filename[i])
 
     if ( ! fs::file_exists(this_file) ) {
       warning( this_file, " does not exist.")
@@ -51,15 +70,15 @@ subset_save_surveys  <- function ( var_harmonization,
     if ( this_ext %in% c("sav", "por")) {
       this_survey <- read_spss(this_file, id = survey_files$id[i])
     } else if (this_ext == "rds") {
-      this_survey <- read_rds(this_file, id = survey_files$id[i])
+      this_survey <- read_rds(file = this_file, id = survey_files$id[i])
     } else {
       ## add stata here
       next
     }
     
-    survey_vars <-selection %>% 
+    survey_vars <- selection %>% 
       filter ( filename == this_file ) %>%
-      select ( all_of(c("filename", "var_name_orig", "var_label_std")))
+      select ( all_of(c("filename", "var_name_orig", "var_label")))
     
     new_names <- as.character(survey_vars$var_label_std)
     new_names <- gsub("-", "_", new_names)

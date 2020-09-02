@@ -47,12 +47,14 @@ file extension.
 This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}}
 }
 \examples{
+\donttest{
 path <- system.file("examples", "iris.sav", package = "haven")
 haven::read_sav(path)
 
 tmp <- tempfile(fileext = ".sav")
 haven::write_sav(mtcars, tmp)
 haven::read_sav(tmp)
+}
 }
 \seealso{
 Other import functions: 
