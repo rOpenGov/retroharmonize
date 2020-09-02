@@ -7,7 +7,9 @@
 #' @importFrom dplyr case_when
 #' @examples
 #' \donttest{
-#' examples_dir <- system.file( "examples", package = "retroharmonize")
+#' examples_dir <- system.file(
+#'     "examples", package = "retroharmonize"
+#'     )
 #' 
 #' test_read <- read_rds ( 
 #'      file.path(examples_dir, "ZA7576.rds"),
@@ -32,7 +34,7 @@ harmonize_na_values <- function(df) {
   
   vars_with_spss_missings <- names(df)[which(vars_with_spss_missings)]
   
-  tibble::deframe ( df[,i])
+  # tibble::deframe ( df[,i])
   for ( i in vars_with_spss_missings ) {
     
     this_var <- tibble::deframe (df[, i])
@@ -60,6 +62,7 @@ harmonize_na_values <- function(df) {
       change_label <- which( names(these_labels) == names(missing_values[m]) )
       names(these_labels)[change_label] <- h_missing_value_labels[m] 
     }
+    
     harmonized <- labelled::labelled(unclass(this_var), these_labels)
     new_labels <- labelled::to_character(harmonized)
     
