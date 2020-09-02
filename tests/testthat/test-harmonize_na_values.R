@@ -16,5 +16,5 @@ test_locally <- function() {
 
 test_that("example works for harmonize_na_values", {
   skip_on_cran()
-  expect_true(test_locally )
+  expect_true(test_locally() )
 })
