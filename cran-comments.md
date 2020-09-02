@@ -8,8 +8,6 @@
 
 0 errors | 0 warnings | 0 note
 
-* sad
-
 * Thanks, please replace \dontrun{} by \donttest{} or unwap the examples if they can be executed in less than 5 sec per Rd-file -> DONE
 
 * Please ensure that your functions do not modify (save or delete) the
