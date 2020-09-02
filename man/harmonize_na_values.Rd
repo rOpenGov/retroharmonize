@@ -17,6 +17,8 @@ Harmonize na_values in haven_labelled_spss
 }
 \examples{
 \donttest{
+examples_dir <- system.file( "examples", package = "retroharmonize")
+
 test_read <- read_rds ( 
      file.path(examples_dir, "ZA7576.rds"),
      id = "ZA7576", 

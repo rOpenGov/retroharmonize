@@ -47,7 +47,7 @@ subset_save_surveys  <- function ( var_harmonization,
                                    import_path = "", 
                                    export_path = "working") {
   
-  filename <- id <- var_name_orig <- var_label_std <- NULL
+  filename <- id <- var_name_orig <- var_label <- var_name <- NULL
 
   assertthat::assert_that(fs::dir_exists(import_path) == TRUE)
 
