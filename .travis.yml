@@ -7,6 +7,11 @@ cache: packages
 
 r_build_args: --no-manual --no-resave-data
 r_check_args: --no-manual
+
+r_github_packages:
+  - jimhester/covr
+  - jgm/pandoc
+  
 r_packages:
   - backports
   - vctrs
@@ -32,10 +37,6 @@ r_packages:
   - here
   - png
   - xml2
-  
-r_github_packages:
-  - jimhester/covr
-  - jgm/pandoc
   
 warnings_are_errors: false
 latex: false
