@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -141,9 +141,9 @@
     <p>Collect labels from metadata file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>collect_val_labels</span>(<span class='no'>metadata</span>)
+    <pre class="usage"><span class='fu'>collect_val_labels</span>(<span class='kw'>metadata</span>)
 
-<span class='fu'>collect_na_labels</span>(<span class='no'>metadata</span>)</pre>
+<span class='fu'>collect_na_labels</span>(<span class='kw'>metadata</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -170,14 +170,15 @@ labels found in all the files analyzed in <code>metadata</code>.</p>
 <code><a href='na_range_to_values.html'>na_range_to_values</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>test_survey</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>retroharmonize</span><span class='kw ns'>::</span><span class='fu'><a href='read_rds.html'>read_rds</a></span> (
-   <span class='kw'>file</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>,
-                  <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>),
-   <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"test"</span>
+    <pre class="examples"><div class='input'><span class='kw'>test_survey</span> <span class='op'>&lt;-</span> <span class='kw'>retroharmonize</span>::<span class='fu'><a href='read_rds.html'>read_rds</a></span> (
+   file = <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>,
+                  package = <span class='st'>"retroharmonize"</span>), 
+   id = <span class='st'>"test"</span>
 )
-<span class='no'>example_metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='metadata_create.html'>metadata_create</a></span> (<span class='no'>test_survey</span>)
+<span class='kw'>example_metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metadata_create.html'>metadata_create</a></span> (<span class='kw'>test_survey</span>)
 
-<span class='fu'>collect_val_labels</span> (<span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>example_metadata</span> )</div><div class='output co'>#&gt;   [1] "Friday, 7th June 2019"                       
+<span class='fu'>collect_val_labels</span> (metadata = <span class='kw'>example_metadata</span> )
+</div><div class='output co'>#&gt;   [1] "Friday, 7th June 2019"                       
 #&gt;   [2] "Saturday, 8th June 2019"                     
 #&gt;   [3] "Sunday, 9th June 2019"                       
 #&gt;   [4] "Monday, 10th June 2019"                      
@@ -596,7 +597,8 @@ labels found in all the files analyzed in <code>metadata</code>.</p>
 #&gt; [417] "You decided a few weeks ago"                 
 #&gt; [418] "You decided a few days before the elections" 
 #&gt; [419] "You decided on the day of the election"      
-#&gt; [420] "You never vote"                              </div><div class='input'><span class='fu'>collect_na_labels</span> ( <span class='kw'>metadata</span> <span class='kw'>=</span> <span class='no'>example_metadata</span> )</div><div class='output co'>#&gt; [1] "DK (NOT DOCUMENTED)"                             
+#&gt; [420] "You never vote"                              </div><div class='input'><span class='fu'>collect_na_labels</span> ( metadata = <span class='kw'>example_metadata</span> )
+</div><div class='output co'>#&gt; [1] "DK (NOT DOCUMENTED)"                             
 #&gt; [2] "DK"                                              
 #&gt; [3] "Inap. (not 1 in eu28)"                           
 #&gt; [4] "Inap. (not CY-TCC in isocntry and not 1 in eu28)"
@@ -619,7 +621,7 @@ labels found in all the files analyzed in <code>metadata</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

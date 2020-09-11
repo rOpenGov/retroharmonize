@@ -73,7 +73,7 @@ and other typical typing errors." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -143,11 +143,11 @@ and other typical typing errors." />
 and other typical typing errors.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>label_normalize</span>(<span class='no'>x</span>)
+    <pre class="usage"><span class='fu'>label_normalize</span>(<span class='kw'>x</span>)
 
-<span class='fu'>var_label_normalize</span>(<span class='no'>x</span>)
+<span class='fu'>var_label_normalize</span>(<span class='kw'>x</span>)
 
-<span class='fu'>val_label_normalize</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>val_label_normalize</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -192,20 +192,23 @@ be differently implemented for various survey series.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='fu'>label_normalize</span> (
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Don't know"</span>, <span class='st'>" TRUST"</span>, <span class='st'>"DO NOT  TRUST"</span>,
-  <span class='st'>"inap in Q.3"</span>, <span class='st'>"Not 100%"</span>, <span class='st'>"TRUST &lt; 50%"</span>,
-  <span class='st'>"TRUST &gt;=90%"</span>, <span class='st'>"Verify &amp; Check"</span>, <span class='st'>"TRUST 99%+"</span>))</div><div class='output co'>#&gt; [1] "do not know"       "trust"             "do not trust"     
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Don't know"</span>, <span class='st'>" TRUST"</span>, <span class='st'>"DO NOT  TRUST"</span>, 
+  <span class='st'>"inap in Q.3"</span>, <span class='st'>"Not 100%"</span>, <span class='st'>"TRUST &lt; 50%"</span>, 
+  <span class='st'>"TRUST &gt;=90%"</span>, <span class='st'>"Verify &amp; Check"</span>, <span class='st'>"TRUST 99%+"</span>))
+</div><div class='output co'>#&gt; [1] "do not know"       "trust"             "do not trust"     
 #&gt; [4] "inap in q 3"       "not 100 pct"       "trust lt 50 pct"  
-#&gt; [7] "trust ge 90 pct"   "verify and check"  "trust 99 pct plus"</div><div class='input'>
- <span class='fu'>var_label_normalize</span> (
-      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Q1_Do you trust the national government?"</span>,
+#&gt; [7] "trust ge 90 pct"   "verify and check"  "trust 99 pct plus"</div><div class='input'> 
+ <span class='fu'>var_label_normalize</span> ( 
+      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Q1_Do you trust the national government?"</span>, 
         <span class='st'>" Do you trust the European Commission"</span>)
-        )</div><div class='output co'>#&gt; [1] "do you trust the national government"
+        )
+</div><div class='output co'>#&gt; [1] "do you trust the national government"
 #&gt; [2] "do you trust the european commission"</div><div class='input'>
-  <span class='fu'>val_label_normalize</span> (
-      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Q1_Do you trust the national government?"</span>,
+  <span class='fu'>val_label_normalize</span> ( 
+      <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"Q1_Do you trust the national government?"</span>, 
         <span class='st'>" Do you trust the European Commission"</span>)
-        )</div><div class='output co'>#&gt; [1] "do_you_trust_the_national_government"
+        )
+</div><div class='output co'>#&gt; [1] "do_you_trust_the_national_government"
 #&gt; [2] "do_you_trust_the_european_commission"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -222,7 +225,7 @@ be differently implemented for various survey series.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

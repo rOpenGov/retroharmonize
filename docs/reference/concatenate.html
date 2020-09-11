@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
     <p>Concatenate haven_labelled_spss vectors</p>
     </div>
 
-    <pre class="usage"><span class='fu'>concatenate</span>(<span class='no'>x</span>, <span class='no'>y</span>)</pre>
+    <pre class="usage"><span class='fu'>concatenate</span>(<span class='kw'>x</span>, <span class='kw'>y</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,30 +163,31 @@ if the attributes do not match. Gives a warning when only the variable
 label do not match.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>v1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled</a></span>(
+    <pre class="examples"><div class='input'><span class='kw'>v1</span> <span class='op'>&lt;-</span> <span class='kw'>labelled</span>::<span class='fu'><a href='https://haven.tidyverse.org/reference/labelled.html'>labelled</a></span>(
 <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>3</span>,<span class='fl'>4</span>,<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>8</span>, <span class='fl'>9</span>),
-<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>YES</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>NO</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>`WRONG LABEL`</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>REFUSED</span> <span class='kw'>=</span> <span class='fl'>9</span>)
+<span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(YES = <span class='fl'>3</span>, NO = <span class='fl'>4</span>, `WRONG LABEL` = <span class='fl'>8</span>, REFUSED = <span class='fl'>9</span>)
 )
-<span class='no'>v2</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled</a></span>(
+<span class='kw'>v2</span> <span class='op'>&lt;-</span> <span class='kw'>labelled</span>::<span class='fu'><a href='https://haven.tidyverse.org/reference/labelled.html'>labelled</a></span>(
   <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>4</span>,<span class='fl'>3</span>,<span class='fl'>3</span>,<span class='fl'>9</span>),
-  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='kw'>YES</span> <span class='kw'>=</span> <span class='fl'>3</span>, <span class='kw'>NO</span> <span class='kw'>=</span> <span class='fl'>4</span>, <span class='kw'>`WRONG LABEL`</span> <span class='kw'>=</span> <span class='fl'>8</span>, <span class='kw'>REFUSED</span> <span class='kw'>=</span> <span class='fl'>9</span>)
+  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(YES = <span class='fl'>3</span>, NO = <span class='fl'>4</span>, `WRONG LABEL` = <span class='fl'>8</span>, REFUSED = <span class='fl'>9</span>)
 )
-<span class='no'>s1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></span>(
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>unclass</a></span>(<span class='no'>v1</span>),         <span class='co'># remove labels from earlier defined</span>
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/val_labels.html'>val_labels</a></span>(<span class='no'>v1</span>), <span class='co'># use the labels from earlier defined</span>
-  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fl'>8</span>:<span class='fl'>9</span>,
-  <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Variable Example"</span>
+<span class='kw'>s1</span> <span class='op'>&lt;-</span> <span class='kw'>haven</span>::<span class='fu'><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></span>(
+  x = <span class='fu'><a href='https://rdrr.io/r/base/class.html'>unclass</a></span>(<span class='kw'>v1</span>),         <span class='co'># remove labels from earlier defined</span>
+  labels = <span class='kw'>labelled</span>::<span class='fu'><a href='https://rdrr.io/pkg/labelled/man/val_labels.html'>val_labels</a></span>(<span class='kw'>v1</span>), <span class='co'># use the labels from earlier defined</span>
+  na_values = <span class='kw'>NULL</span>,
+  na_range = <span class='fl'>8</span><span class='op'>:</span><span class='fl'>9</span>,
+  label = <span class='st'>"Variable Example"</span>
 )
 
-<span class='no'>s2</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>haven</span><span class='kw ns'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></span>(
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/class.html'>unclass</a></span>(<span class='no'>v2</span>),         <span class='co'># remove labels from earlier defined</span>
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/val_labels.html'>val_labels</a></span>(<span class='no'>v2</span>), <span class='co'># use the labels from earlier defined</span>
-  <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='kw'>NULL</span>,
-  <span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fl'>8</span>:<span class='fl'>9</span>,
-  <span class='kw'>label</span> <span class='kw'>=</span> <span class='st'>"Variable Example"</span>
+<span class='kw'>s2</span> <span class='op'>&lt;-</span> <span class='kw'>haven</span>::<span class='fu'><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></span>(
+  x = <span class='fu'><a href='https://rdrr.io/r/base/class.html'>unclass</a></span>(<span class='kw'>v2</span>),         <span class='co'># remove labels from earlier defined</span>
+  labels = <span class='kw'>labelled</span>::<span class='fu'><a href='https://rdrr.io/pkg/labelled/man/val_labels.html'>val_labels</a></span>(<span class='kw'>v2</span>), <span class='co'># use the labels from earlier defined</span>
+  na_values = <span class='kw'>NULL</span>,
+  na_range = <span class='fl'>8</span><span class='op'>:</span><span class='fl'>9</span>,
+  label = <span class='st'>"Variable Example"</span>
 )
-<span class='fu'>concatenate</span> (<span class='no'>s1</span>,<span class='no'>s2</span>)</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[10]&gt;: Variable Example
+<span class='fu'>concatenate</span> (<span class='kw'>s1</span>,<span class='kw'>s2</span>)
+</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[10]&gt;: Variable Example
 #&gt;  [1] 3 4 4 3 8 9 4 3 3 9
 #&gt; Missing range:  [8, 9]
 #&gt; 
@@ -211,7 +212,7 @@ label do not match.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

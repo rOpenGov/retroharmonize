@@ -10,7 +10,7 @@
 
 Submission 0.1.13
 
-* We left a \dontrun{} in harmonize_waves() and merge_waves() Changed to \donttest{} -> apologies.
+* We left a \dontrun{} in harmonize_waves() and merge_waves() Changed to \donttest{} -> apologies. These examples use files, which take some time to execute, and on local tests they run flawlessly.
 
 However, we still have not exectuted elements in the vignettes.  Our package was designed to work with international survey programs, and currently we show (with the explicit consent of the survey program managers / archivists) how to work with their files.  But we have no right to re-publish those files and because access to the files have different conditions, we cannot offer a programatic, reproducible access to the actual Eurobarometer and Afrobarometer files. (In our next release, we will also include Arab Barometer with similar conditions.) 
 

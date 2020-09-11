@@ -73,7 +73,7 @@ na_range, if the latter is present." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -143,9 +143,9 @@ na_range, if the latter is present." />
 <code>na_range</code>, if the latter is present.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>na_range_to_values</span>(<span class='no'>x</span>)
+    <pre class="usage"><span class='fu'>na_range_to_values</span>(<span class='kw'>x</span>)
 
-<span class='fu'>is.na_range_to_values</span>(<span class='no'>x</span>)</pre>
+<span class='fu'>is.na_range_to_values</span>(<span class='kw'>x</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -180,15 +180,16 @@ when joining survey answers.</p>
 <code><a href='merge_waves.html'>merge_waves</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>var1</span> <span class='kw'>&lt;-</span> <span class='kw pkg'>labelled</span><span class='kw ns'>::</span><span class='fu'><a href='https://rdrr.io/pkg/labelled/man/reexports.html'>labelled_spss</a></span>(
-  <span class='kw'>x</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span>),
-  <span class='kw'>labels</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRUST"</span> <span class='kw'>=</span> <span class='fl'>1</span>,
-             <span class='st'>"NOT TRUST"</span> <span class='kw'>=</span> <span class='fl'>0</span>,
-             <span class='st'>"DON'T KNOW"</span> <span class='kw'>=</span> <span class='fl'>8</span>,
-             <span class='st'>"INAP. HERE"</span> <span class='kw'>=</span> <span class='fl'>9</span>),
-<span class='kw'>na_range</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>12</span>))
-
-<span class='fu'>na_range_to_values</span>(<span class='no'>var1</span>)</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
+    <pre class="examples"><div class='input'><span class='kw'>var1</span> <span class='op'>&lt;-</span> <span class='kw'>labelled</span>::<span class='fu'><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></span>(
+  x = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span>), 
+  labels = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"TRUST"</span> = <span class='fl'>1</span>, 
+             <span class='st'>"NOT TRUST"</span> = <span class='fl'>0</span>, 
+             <span class='st'>"DON'T KNOW"</span> = <span class='fl'>8</span>, 
+             <span class='st'>"INAP. HERE"</span> = <span class='fl'>9</span>), 
+na_range = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>8</span>,<span class='fl'>12</span>))
+  
+<span class='fu'>na_range_to_values</span>(<span class='kw'>var1</span>)
+</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
 #&gt; [1] 1 0 1 1 0 8 9
 #&gt; Missing values: 8, 9
 #&gt; Missing range:  [8, 12]
@@ -198,7 +199,9 @@ when joining survey answers.</p>
 #&gt;      1      TRUST
 #&gt;      0  NOT TRUST
 #&gt;      8 DON'T KNOW
-#&gt;      9 INAP. HERE</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_numeric</a></span>(<span class='fu'>na_range_to_values</span>(<span class='no'>var1</span>))</div><div class='output co'>#&gt; [1]  1  0  1  1  0 NA NA</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_character</a></span>(<span class='fu'>na_range_to_values</span>(<span class='no'>var1</span>))</div><div class='output co'>#&gt; [1] "TRUST"      "NOT TRUST"  "TRUST"      "TRUST"      "NOT TRUST" 
+#&gt;      9 INAP. HERE</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_numeric</a></span>(<span class='fu'>na_range_to_values</span>(<span class='kw'>var1</span>))
+</div><div class='output co'>#&gt; [1]  1  0  1  1  0 NA NA</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_character</a></span>(<span class='fu'>na_range_to_values</span>(<span class='kw'>var1</span>))
+</div><div class='output co'>#&gt; [1] "TRUST"      "NOT TRUST"  "TRUST"      "TRUST"      "NOT TRUST" 
 #&gt; [6] "DON'T KNOW" "INAP. HERE"</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
@@ -215,7 +218,7 @@ when joining survey answers.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

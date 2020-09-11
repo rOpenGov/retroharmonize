@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
     <p>Pull a survey by survey code or id.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>pull_survey</span>(<span class='no'>survey_list</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='kw'>NULL</span>, <span class='kw'>filename</span> <span class='kw'>=</span> <span class='kw'>NULL</span>)</pre>
+    <pre class="usage"><span class='fu'>pull_survey</span>(<span class='kw'>survey_list</span>, id = <span class='kw'>NULL</span>, filename = <span class='kw'>NULL</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -173,35 +173,36 @@
 <code><a href='subset_save_surveys.html'>subset_save_surveys</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>examples_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>( <span class='st'>"examples"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>examples_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>( <span class='st'>"examples"</span>, package = <span class='st'>"retroharmonize"</span>)
 
-<span class='no'>my_rds_files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>( <span class='no'>examples_dir</span>)[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
-                                   <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='no'>examples_dir</span>))]
+<span class='kw'>my_rds_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>( <span class='kw'>examples_dir</span>)[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>, 
+                                   <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='kw'>examples_dir</span>))]
 
-<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
-    <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>examples_dir</span>, <span class='no'>my_rds_files</span>) )
+<span class='kw'>example_surveys</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
+    <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>examples_dir</span>, <span class='kw'>my_rds_files</span>) )
 
-<span class='fu'>pull_survey</span>(<span class='no'>example_surveys</span>, <span class='kw'>id</span> <span class='kw'>=</span> <span class='st'>"ZA5913"</span>)</div><div class='output co'>#&gt; # A tibble: 35 x 38
+<span class='fu'>pull_survey</span>(<span class='kw'>example_surveys</span>, id = <span class='st'>"ZA5913"</span>)
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 35 x 38</span><span>
 #&gt;    rowid doi   version uniqid isocntry       p1    p3      p4      p5 nuts      
-#&gt;  * &lt;chr&gt; &lt;chr&gt; &lt;chr&gt;    &lt;dbl&gt; &lt;chr&gt;    &lt;dbl+lb&gt; &lt;dbl&gt; &lt;dbl+l&gt; &lt;dbl+l&gt; &lt;chr+lbl&gt; 
-#&gt;  1 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        8 [Tue~    27 1 [Two~ 1 [Exc~ NL21 [Ove~
-#&gt;  2 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        8 [Tue~    31 1 [Two~ 1 [Exc~ NL33 [Zui~
-#&gt;  3 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    26 1 [Two~ 1 [Exc~ NL32 [Noo~
-#&gt;  4 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       14 [Mon~    23 1 [Two~ 1 [Exc~ NL22 [Gel~
-#&gt;  5 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    31 2 [Thr~ 1 [Exc~ NL33 [Zui~
-#&gt;  6 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        8 [Tue~    33 1 [Two~ 1 [Exc~ NL41 [Noo~
-#&gt;  7 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    21 1 [Two~ 1 [Exc~ NL13 [Dre~
-#&gt;  8 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       10 [Thu~    44 1 [Two~ 1 [Exc~ NL13 [Dre~
-#&gt;  9 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL        5 [Sat~    19 1 [Two~ 2 [Fai~ NL34 [Zee~
-#&gt; 10 ZA59~ doi:~ 2.0.0 ~ 1.13e7 NL       14 [Mon~    22 1 [Two~ 1 [Exc~ NL22 [Gel~
-#&gt; # ... with 25 more rows, and 28 more variables: d7 &lt;dbl+lbl&gt;, d8 &lt;dbl+lbl&gt;,
-#&gt; #   d25 &lt;dbl+lbl&gt;, d60 &lt;dbl+lbl&gt;, qa10_3 &lt;dbl+lbl&gt;, qa10_2 &lt;dbl+lbl&gt;,
-#&gt; #   qa10_1 &lt;dbl+lbl&gt;, qa7_4 &lt;dbl+lbl&gt;, qa7_2 &lt;dbl+lbl&gt;, qa7_3 &lt;dbl+lbl&gt;,
-#&gt; #   qa7_1 &lt;dbl+lbl&gt;, qa7_5 &lt;dbl+lbl&gt;, qd3_1 &lt;dbl+lbl&gt;, qd3_2 &lt;dbl+lbl&gt;,
-#&gt; #   qd3_3 &lt;dbl+lbl&gt;, qd3_4 &lt;dbl+lbl&gt;, qd3_5 &lt;dbl+lbl&gt;, qd3_6 &lt;dbl+lbl&gt;,
-#&gt; #   qd3_7 &lt;dbl+lbl&gt;, qd3_8 &lt;dbl+lbl&gt;, qd3_9 &lt;dbl+lbl&gt;, qd3_10 &lt;dbl+lbl&gt;,
-#&gt; #   qd3_11 &lt;dbl+lbl&gt;, qd3_12 &lt;dbl+lbl&gt;, qd3_13 &lt;dbl+lbl&gt;, qd3_14 &lt;dbl+lbl&gt;,
-#&gt; #   w1 &lt;dbl&gt;, w3 &lt;dbl&gt;</div></pre>
+#&gt;  </span><span style='color: #555555;'>*</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>    </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lb&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl+l&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;dbl+l&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;chr+lbl&gt;</span><span> 
+#&gt; </span><span style='color: #555555;'> 1</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL        8</span><span style='color: #555555;'> [Tue~</span><span>    27 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL21</span><span style='color: #555555;'> [Ove~</span><span>
+#&gt; </span><span style='color: #555555;'> 2</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL        8</span><span style='color: #555555;'> [Tue~</span><span>    31 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL33</span><span style='color: #555555;'> [Zui~</span><span>
+#&gt; </span><span style='color: #555555;'> 3</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL       10</span><span style='color: #555555;'> [Thu~</span><span>    26 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL32</span><span style='color: #555555;'> [Noo~</span><span>
+#&gt; </span><span style='color: #555555;'> 4</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL       14</span><span style='color: #555555;'> [Mon~</span><span>    23 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL22</span><span style='color: #555555;'> [Gel~</span><span>
+#&gt; </span><span style='color: #555555;'> 5</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL       10</span><span style='color: #555555;'> [Thu~</span><span>    31 2</span><span style='color: #555555;'> [Thr~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL33</span><span style='color: #555555;'> [Zui~</span><span>
+#&gt; </span><span style='color: #555555;'> 6</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL        8</span><span style='color: #555555;'> [Tue~</span><span>    33 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL41</span><span style='color: #555555;'> [Noo~</span><span>
+#&gt; </span><span style='color: #555555;'> 7</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL       10</span><span style='color: #555555;'> [Thu~</span><span>    21 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL13</span><span style='color: #555555;'> [Dre~</span><span>
+#&gt; </span><span style='color: #555555;'> 8</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL       10</span><span style='color: #555555;'> [Thu~</span><span>    44 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL13</span><span style='color: #555555;'> [Dre~</span><span>
+#&gt; </span><span style='color: #555555;'> 9</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL        5</span><span style='color: #555555;'> [Sat~</span><span>    19 1</span><span style='color: #555555;'> [Two~</span><span> 2</span><span style='color: #555555;'> [Fai~</span><span> NL34</span><span style='color: #555555;'> [Zee~</span><span>
+#&gt; </span><span style='color: #555555;'>10</span><span> ZA59~ doi:~ 2.0.0 ~ 1.13</span><span style='color: #555555;'>e</span><span>7 NL       14</span><span style='color: #555555;'> [Mon~</span><span>    22 1</span><span style='color: #555555;'> [Two~</span><span> 1</span><span style='color: #555555;'> [Exc~</span><span> NL22</span><span style='color: #555555;'> [Gel~</span><span>
+#&gt; </span><span style='color: #555555;'># ... with 25 more rows, and 28 more variables: d7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, d8 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   d25 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, d60 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qa10_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qa10_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   qa10_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qa7_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qa7_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qa7_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   qa7_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qa7_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_2 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   qd3_3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_4 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_5 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_6 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   qd3_7 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_8 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_9 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_10 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   qd3_11 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_12 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_13 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>, qd3_14 </span><span style='color: #555555;font-style: italic;'>&lt;dbl+lbl&gt;</span><span style='color: #555555;'>,</span><span>
+#&gt; </span><span style='color: #555555;'>#   w1 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span style='color: #555555;'>, w3 </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span></div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -217,7 +218,7 @@
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

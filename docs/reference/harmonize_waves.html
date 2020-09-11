@@ -74,7 +74,7 @@ harmonization function on them." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -145,7 +145,7 @@ that are all present in the surveys, and applies a
 harmonization function on them.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>harmonize_waves</span>(<span class='no'>waves</span>, <span class='no'>.f</span>, <span class='kw'>status_message</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)</pre>
+    <pre class="usage"><span class='fu'>harmonize_waves</span>(<span class='kw'>waves</span>, <span class='kw'>.f</span>, status_message = <span class='fl'>FALSE</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -179,47 +179,50 @@ it shows the id of the survey that is being joined.</p></td>
 <code><a href='na_range_to_values.html'>na_range_to_values</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>if</span> (<span class='fl'>FALSE</span>) {
-<span class='no'>examples_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
+    <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
+<span class='kw'>examples_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, package = <span class='st'>"retroharmonize"</span>)
+<span class='kw'>survey_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='kw'>examples_dir</span>)[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"\\.rds"</span>, <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='kw'>examples_dir</span>))]
 
-<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
-  <span class='fu'><a href='here.html'>here</a></span>( <span class='no'>examples_dir</span>, <span class='no'>survey_list</span>))
+<span class='kw'>example_surveys</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(
+  <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>( <span class='kw'>examples_dir</span>, <span class='kw'>survey_list</span>), 
+  save_to_rds = <span class='fl'>FALSE</span>)
 
-<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span> ( <span class='kw'>X</span> <span class='kw'>=</span> <span class='no'>example_surveys</span>, <span class='kw'>FUN</span> <span class='kw'>=</span> <span class='no'>metadata_create</span> )
-<span class='no'>metadata</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='no'>rbind</span>, <span class='no'>metadata</span>)
+<span class='kw'>metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span> ( X = <span class='kw'>example_surveys</span>, FUN = <span class='kw'>metadata_create</span> )
+<span class='kw'>metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span>(<span class='kw'>rbind</span>, <span class='kw'>metadata</span>)
 
-<span class='no'>to_harmonize</span> <span class='kw'>&lt;-</span> <span class='no'>metadata</span> <span class='kw'>%&gt;%</span>
-  <span class='fu'><a href='https://rdrr.io/r/stats/filter.html'>filter</a></span> ( <span class='no'>var_name_orig</span> <span class='kw'>%in%</span>
-             <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"rowid"</span>, <span class='st'>"w1"</span>) <span class='kw'>|</span>
-             <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"trust "</span>, <span class='no'>label_orig</span> ) ) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span> ( <span class='kw'>var_label</span> <span class='kw'>=</span> <span class='fu'><a href='label_normalize.html'>var_label_normalize</a></span>(<span class='no'>label_orig</span>)) <span class='kw'>%&gt;%</span>
-  <span class='fu'>mutate</span> ( <span class='kw'>var_name</span> <span class='kw'>=</span> <span class='fu'><a href='label_normalize.html'>val_label_normalize</a></span>(<span class='no'>var_label</span>))
+<span class='kw'>to_harmonize</span> <span class='op'>&lt;-</span> <span class='kw'>metadata</span> <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span> ( <span class='kw'>var_name_orig</span> <span class='op'>%in%</span> 
+                  <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"rowid"</span>, <span class='st'>"w1"</span>) <span class='op'>|</span>
+                  <span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>"trust "</span>, <span class='kw'>label_orig</span> ) ) <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span> ( var_label = <span class='fu'><a href='label_normalize.html'>var_label_normalize</a></span>(<span class='kw'>label_orig</span>)) <span class='op'>%&gt;%</span>
+  <span class='kw'>dplyr</span>::<span class='fu'><a href='https://dplyr.tidyverse.org/reference/mutate.html'>mutate</a></span> ( var_name = <span class='fu'><a href='label_normalize.html'>val_label_normalize</a></span>(<span class='kw'>var_label</span>))
 
-<span class='no'>harmonize_eb_trust</span> <span class='kw'>&lt;-</span> <span class='kw'>function</span>(<span class='no'>x</span>) {
-  <span class='no'>label_list</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
-    <span class='kw'>from</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\snot"</span>, <span class='st'>"^cannot"</span>, <span class='st'>"^tend\\sto"</span>, <span class='st'>"^can\\srely"</span>,
-             <span class='st'>"^dk"</span>, <span class='st'>"^inap"</span>, <span class='st'>"na"</span>),
-   <span class='kw'>to</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"not_trust"</span>, <span class='st'>"not_trust"</span>, <span class='st'>"trust"</span>, <span class='st'>"trust"</span>,
-           <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>, <span class='st'>"inap"</span>),
-    <span class='kw'>numeric_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>, <span class='fl'>99997</span>,<span class='fl'>99999</span>,<span class='fl'>99999</span>)
+<span class='kw'>harmonize_eb_trust</span> <span class='op'>&lt;-</span> <span class='fu'>function</span>(<span class='kw'>x</span>) {
+  <span class='kw'>label_list</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.html'>list</a></span>(
+    from = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"^tend\\snot"</span>, <span class='st'>"^cannot"</span>, <span class='st'>"^tend\\sto"</span>, <span class='st'>"^can\\srely"</span>,
+             <span class='st'>"^dk"</span>, <span class='st'>"^inap"</span>, <span class='st'>"na"</span>), 
+   to = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"not_trust"</span>, <span class='st'>"not_trust"</span>, <span class='st'>"trust"</span>, <span class='st'>"trust"</span>,
+           <span class='st'>"do_not_know"</span>, <span class='st'>"inap"</span>, <span class='st'>"inap"</span>), 
+    numeric_values = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='fl'>0</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>, <span class='fl'>99997</span>,<span class='fl'>99999</span>,<span class='fl'>99999</span>)
   )
-
-  <span class='fu'><a href='harmonize_values.html'>harmonize_values</a></span>(<span class='no'>x</span>,
-                   <span class='kw'>harmonize_labels</span> <span class='kw'>=</span> <span class='no'>label_list</span>,
-                   <span class='kw'>na_values</span> <span class='kw'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span><span class='kw'>=</span><span class='fl'>99997</span>,
-                                 <span class='st'>"declined"</span><span class='kw'>=</span><span class='fl'>99998</span>,
-                                 <span class='st'>"inap"</span><span class='kw'>=</span><span class='fl'>99999</span>)
+  
+  <span class='fu'><a href='harmonize_values.html'>harmonize_values</a></span>(<span class='kw'>x</span>, 
+                   harmonize_labels = <span class='kw'>label_list</span>, 
+                   na_values = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(<span class='st'>"do_not_know"</span>=<span class='fl'>99997</span>,
+                                 <span class='st'>"declined"</span>=<span class='fl'>99998</span>,
+                                 <span class='st'>"inap"</span>=<span class='fl'>99999</span>)
                    )
 }
 
-<span class='no'>merged_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='merge_waves.html'>merge_waves</a></span> ( <span class='no'>example_surveys</span>, <span class='kw'>var_harmonization</span> <span class='kw'>=</span> <span class='no'>to_harmonize</span>  )
+<span class='kw'>merged_surveys</span> <span class='op'>&lt;-</span> <span class='fu'><a href='merge_waves.html'>merge_waves</a></span> ( <span class='kw'>example_surveys</span>, var_harmonization = <span class='kw'>to_harmonize</span>  )
 
-<span class='no'>harmonized</span> <span class='kw'>&lt;-</span> <span class='fu'>harmonize_waves</span>(<span class='kw'>waves</span> <span class='kw'>=</span> <span class='no'>merged_surveys</span>,
-                              <span class='kw'>.f</span> <span class='kw'>=</span> <span class='no'>harmonize_eb_trust</span>,
-                              <span class='kw'>status_message</span> <span class='kw'>=</span> <span class='fl'>FALSE</span>)
-
+<span class='kw'>harmonized</span> <span class='op'>&lt;-</span> <span class='fu'>harmonize_waves</span>(waves = <span class='kw'>merged_surveys</span>, 
+                              .f = <span class='kw'>harmonize_eb_trust</span>,
+                              status_message = <span class='fl'>FALSE</span>)
+                              
 <span class='co'># For details see Afrobarometer and Eurobarometer Case Study vignettes.</span>
-}</div></pre>
+<span class='co'># }</span>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -235,7 +238,7 @@ it shows the id of the survey that is being joined.</p></td>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>

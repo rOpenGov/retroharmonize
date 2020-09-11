@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.12</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
       </span>
     </div>
 
@@ -141,7 +141,7 @@
     <p>Document survey lists</p>
     </div>
 
-    <pre class="usage"><span class='fu'>document_waves</span>(<span class='no'>survey_list</span>)</pre>
+    <pre class="usage"><span class='fu'>document_waves</span>(<span class='kw'>survey_list</span>)</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -163,21 +163,23 @@ columns, and the size of the object as stored in memory.</p>
 <code><a href='document_survey_item.html'>document_survey_item</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='no'>examples_dir</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>( <span class='st'>"examples"</span>, <span class='kw'>package</span> <span class='kw'>=</span> <span class='st'>"retroharmonize"</span>)
+    <pre class="examples"><div class='input'><span class='kw'>examples_dir</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>( <span class='st'>"examples"</span>, package = <span class='st'>"retroharmonize"</span>)
+                        
+<span class='kw'>my_rds_files</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>( <span class='kw'>examples_dir</span>)[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>, 
+                                   <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='kw'>examples_dir</span>))]
 
-<span class='no'>my_rds_files</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>( <span class='no'>examples_dir</span>)[<span class='fu'><a href='https://rdrr.io/r/base/grep.html'>grepl</a></span>(<span class='st'>".rds"</span>,
-                                   <span class='fu'><a href='https://rdrr.io/r/base/list.files.html'>dir</a></span>(<span class='no'>examples_dir</span>))]
+<span class='kw'>example_surveys</span> <span class='op'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='kw'>examples_dir</span>, <span class='kw'>my_rds_files</span>))
+ 
+<span class='kw'>waves_document</span> <span class='op'>&lt;-</span> <span class='fu'>document_waves</span>(<span class='kw'>example_surveys</span>)
 
-<span class='no'>example_surveys</span> <span class='kw'>&lt;-</span> <span class='fu'><a href='read_surveys.html'>read_surveys</a></span>(<span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span>(<span class='no'>examples_dir</span>, <span class='no'>my_rds_files</span>))
-
-<span class='no'>waves_document</span> <span class='kw'>&lt;-</span> <span class='fu'>document_waves</span>(<span class='no'>example_surveys</span>)
-
-<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='no'>waves_document</span>, <span class='st'>"original_list"</span> )</div><div class='output co'>#&gt; [1] "example_surveys"</div><div class='input'><span class='no'>waves_document</span></div><div class='output co'>#&gt; # A tibble: 3 x 5
+<span class='fu'><a href='https://rdrr.io/r/base/attr.html'>attr</a></span>(<span class='kw'>waves_document</span>, <span class='st'>"original_list"</span> )
+</div><div class='output co'>#&gt; [1] "example_surveys"</div><div class='input'><span class='kw'>waves_document</span>
+</div><div class='output co'>#&gt; <span style='color: #555555;'># A tibble: 3 x 5</span><span>
 #&gt;   id     filename    ncol  nrow object_size
-#&gt;   &lt;chr&gt;  &lt;chr&gt;      &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;
-#&gt; 1 ZA5913 ZA5913.rds    38    35      110192
-#&gt; 2 ZA6863 ZA6863.rds    49    50      144848
-#&gt; 3 ZA7576 ZA7576.rds    56    45      165824</div></pre>
+#&gt;   </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #555555;font-style: italic;'>&lt;chr&gt;</span><span>      </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span> </span><span style='color: #555555;font-style: italic;'>&lt;int&gt;</span><span>       </span><span style='color: #555555;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; </span><span style='color: #555555;'>1</span><span> ZA5913 ZA5913.rds    38    35      </span><span style='text-decoration: underline;'>110</span><span>192
+#&gt; </span><span style='color: #555555;'>2</span><span> ZA6863 ZA6863.rds    49    50      </span><span style='text-decoration: underline;'>144</span><span>848
+#&gt; </span><span style='color: #555555;'>3</span><span> ZA7576 ZA7576.rds    56    45      </span><span style='text-decoration: underline;'>165</span><span>824</div></span></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
@@ -193,7 +195,7 @@ columns, and the size of the object as stored in memory.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.5.1.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
 </div>
 
       </footer>
