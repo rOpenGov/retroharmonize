@@ -1,8 +1,9 @@
 ## Test environments
 * local R installation on Windows 10, R 4.0.2
 * ubuntu 16.04 (on travis-ci), R 4.0.0
-* win-builder (Windows Server 2008 R2 SP1, R-release, 32/64 bit on rhub and windows-x86_64-devel on rhub)
+* win-builder (Windows Server 2008 R2 SP1, R-release, 32/64 bit on rhub)
 * Fedora, Debian, Windows NT on r_hub.
+* 
 
 ## R CMD check results
 
