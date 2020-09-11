@@ -3,7 +3,7 @@
 * ubuntu 16.04 (on travis-ci), R 4.0.0
 * win-builder (Windows Server 2008 R2 SP1, R-release, 32/64 bit on rhub)
 * Fedora, Debian, Windows NT on r_hub.
-* 
+* On Windows Server 2008 R2 SP1, R-devel, 32/64 bit, there seems to be a problem with a dependency of knitr, utf8 not being present, which effects almost all packages with vignettes.  We believe this is unrelated to our code, because in all other environments knitr correctly makes or vignettes.
 
 ## R CMD check results
 
@@ -26,17 +26,12 @@ Submission 0.1.12
 
 * Thanks, please replace \dontrun{} by \donttest{} or unwap the examples if they can be executed in less than 5 sec per Rd-file -> DONE
 
-
-
 * Please ensure that your functions do not modify (save or delete) the
 user's home filespace in your examples/vignettes/tests. That is not
 allow by CRAN policies. Please only write/save files if the user has
 specified a directory. In your examples/vignettes/tests you can write to tempdir().
 
 Reply: Our vignettes do not write or save files to any directory. To avoid confusion, we created a new example for subset_save_survey() function that uses tempdir()
-
-The code with this example is not evaluated for a different reason. 
-We have no permission to download programatically the original Eurobarometer data files, the user must go to GESIS and seek explicit permission. 
 
 Our not evaluated examples clearly states in comments that after having visited the GESIS website, gaining approval for the use of the files, we imagine that the user saved them to an imaginary "gesis_dir". Becuase the files are very large, we created a loop utility that reads in all the files from this imaginary directory, and subsets them, and saves them to the users imaginary working_directory, which we modified for more clarity in the non-evaluated example as working_directory <- tempdir()
 
