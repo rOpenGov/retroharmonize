@@ -8,7 +8,24 @@
 
 0 errors | 0 warnings | 0 note
 
+Submission 0.1.13
+
+* We left a \dontrun{} in harmonize_waves() and merge_waves() Changed to \donttest{} -> apologies.
+
+However, we still have not exectuted elements in the vignettes.  Our package was designed to work with international survey programs, and currently we show (with the explicit consent of the survey program managers / archivists) how to work with their files.  But we have no right to re-publish those files and because access to the files have different conditions, we cannot offer a programatic, reproducible access to the actual Eurobarometer and Afrobarometer files. (In our next release, we will also include Arab Barometer with similar conditions.) 
+
+We did, however, get permission to re-publish small parts of realistc data to create examples and unit-tests our functions. These examples are not very small by nature themselves. They were originally in the \dontrun{} section and now these are in the \donttest{} category, because they require file I/O operations. In the unit tests, again, with not testing on CRAN, these examples are checked, so they work reliably.
+
+Our vignettes chunks that show a realistic scenario - the user went through the approval to access the data and downloaded it to her whatever working environment, presumably to a folder. 
+
+## Comments are from earlier submissions below
+
+
+Submission 0.1.12
+
 * Thanks, please replace \dontrun{} by \donttest{} or unwap the examples if they can be executed in less than 5 sec per Rd-file -> DONE
+
+
 
 * Please ensure that your functions do not modify (save or delete) the
 user's home filespace in your examples/vignettes/tests. That is not

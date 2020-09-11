@@ -14,6 +14,7 @@
 #' it uses the latest name of the object \code{x}.
 #' @rdname labelled_spss_survey
 #' @importFrom haven labelled labelled_spss as_factor
+#' @importFrom vctrs vec_ptype_full
 #' @inheritParams haven::labelled_spss
 #' @import vctrs
 #' @importFrom pillar pillar_shaft
@@ -181,7 +182,7 @@ print_attributes <- function(x, full = TRUE) {
 
 #' @export
 vec_ptype_full.retroharmonize_labelled_spss_survey <- function(x, ...) {
-  paste0("labelled_spss_survey<", vec_ptype_full(vctrs::vec_data(x)), ">")
+  paste0("labelled_spss_survey<", vctrs::vec_ptype_full(vctrs::vec_data(x)), ">")
   cat_line("Survey ID: ", attr(x, "id"))
 }
 

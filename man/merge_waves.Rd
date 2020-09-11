@@ -20,8 +20,7 @@ Merge a list of surveys into a list with harmonized variable names,
 variable labels and survey identifiers.
 }
 \examples{
-\dontrun{
-require(dplyr)
+\donttest{
 survey_list <- dir (
     here( "inst", "examples"))[grepl(".rds", 
                         dir (here( "inst", "examples")))]

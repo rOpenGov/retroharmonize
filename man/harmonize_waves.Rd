@@ -23,11 +23,13 @@ that are all present in the surveys, and applies a
 harmonization function on them.
 }
 \examples{
-\dontrun{
+\donttest{
 examples_dir <- system.file("examples", package = "retroharmonize")
+survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
 
 example_surveys <- read_surveys(
-  here( examples_dir, survey_list))
+  file.path( examples_dir, survey_list), 
+  save_to_rds = FALSE)
 
 metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 metadata <- do.call(rbind, metadata)

@@ -15,8 +15,7 @@
 #' @family harmonization functions
 #' @seealso survey
 #' @examples 
-#' \dontrun{
-#' require(dplyr)
+#' \donttest{
 #' survey_list <- dir (
 #'     here( "inst", "examples"))[grepl(".rds", 
 #'                         dir (here( "inst", "examples")))]

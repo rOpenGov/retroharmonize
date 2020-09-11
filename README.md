@@ -30,7 +30,7 @@ Currently being generalized from problems solved in the not yet released
 ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
 You can download the manual in
-[PDF](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.12.pdf).
+[PDF](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf).
 
 ## Installation
 
