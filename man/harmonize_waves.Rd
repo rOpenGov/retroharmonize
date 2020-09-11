@@ -35,11 +35,11 @@ metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 metadata <- do.call(rbind, metadata)
 
 to_harmonize <- metadata \%>\%
-  filter ( var_name_orig \%in\% 
-             c("rowid", "w1") |
-             grepl("trust ", label_orig ) ) \%>\%
-  mutate ( var_label = var_label_normalize(label_orig)) \%>\%
-  mutate ( var_name = val_label_normalize(var_label))
+  dplyr::filter ( var_name_orig \%in\% 
+                  c("rowid", "w1") |
+                  grepl("trust ", label_orig ) ) \%>\%
+  dplyr::mutate ( var_label = var_label_normalize(label_orig)) \%>\%
+  dplyr::mutate ( var_name = val_label_normalize(var_label))
 
 harmonize_eb_trust <- function(x) {
   label_list <- list(
