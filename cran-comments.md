@@ -14,7 +14,7 @@ Submission 0.1.13
 
 However, we still have not exectuted elements in the vignettes.  Our package was designed to work with international survey programs, and currently we show (with the explicit consent of the survey program managers / archivists) how to work with their files.  But we have no right to re-publish those files and because access to the files have different conditions, we cannot offer a programatic, reproducible access to the actual Eurobarometer and Afrobarometer files. (In our next release, we will also include Arab Barometer with similar conditions.) 
 
-We did, however, get permission to re-publish small parts of realistc data to create examples and unit-tests our functions. These examples are not very small by nature themselves. They were originally in the \dontrun{} section and now these are in the \donttest{} category, because they require file I/O operations. In the unit tests, again, with not testing on CRAN, these examples are checked, so they work reliably.
+We did, however, get permission to re-publish small parts of realistic data to create examples and unit-tests our functions. These examples are not very small by nature themselves. They were originally in the \dontrun{} section and now these are in the \donttest{} category, because they require file I/O operations. In the unit tests, again, with not testing on CRAN, these examples are checked, so they work reliably.
 
 Our vignettes chunks that show a realistic scenario - the user went through the approval to access the data and downloaded it to her whatever working environment, presumably to a folder. 
 
