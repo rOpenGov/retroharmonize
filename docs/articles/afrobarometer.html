@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.14</span>
       </span>
     </div>
 
@@ -109,7 +109,7 @@
 Round 5: <code>merged-round-5-data-34-countries-2011-2013-last-update-july-2015.sav</code><br>
 Round 6: <code>merged_r6_data_2016_36countries2.sav</code><br>
 Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
-<p>For reproducibility, we are storing only a small subsample from the files and the metadata.</p>
+<p>For reproducibility, we are storing only a small subsample from the files and the metadata. We assume that you extracted and copied all <code>.sav</code> files into a single folder that we will call in this vignette the <code>afrobarometer_dir</code>. Define your <code>afrobarometer_dir</code> with <code><a href="https://rdrr.io/r/base/file.path.html">file.path()</a></code> in your own system.</p>
 <div id="importing-afrobarometer-files" class="section level2">
 <h2 class="hasAnchor">
 <a href="#importing-afrobarometer-files" class="anchor"></a>Importing Afrobarometer Files</h2>
@@ -230,7 +230,7 @@ Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
 <div id="harmonization" class="section level2">
 <h2 class="hasAnchor">
 <a href="#harmonization" class="anchor"></a>Harmonization</h2>
-<p>In the Afrobarometer trust is measured with four-point ordinal rating scales. Such data are best analyzed with ordinal models, which do not assume that the poinst are equidistant. However, to get a quick idea of how the data look like, we will assign numbers 0-3, with 0 corresponding to the least trust, and 3 corresponding to the most trust, and for the time-being analyze the data as if they were metric.</p>
+<p>In the Afrobarometer trust is measured with four-point ordinal rating scales. Such data are best analyzed with ordinal models, which do not assume that the points are equidistant. However, to get a quick idea of how the data look like, we will assign numbers 0-3, with 0 corresponding to the least trust, and 3 corresponding to the most trust, and for the time-being analyze the data as if they were metric.</p>
 <p>To review the harmonization on a single survey use <code><a href="../reference/pull_survey.html">pull_survey()</a></code>. Here we select Afrobarometer Round 6.</p>
 <div class="sourceCode" id="cb13"><pre class="downlit">
 <span class="kw">R6</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/pull_survey.html">pull_survey</a></span> ( <span class="kw">merged_ab</span>, id = <span class="st">"Afrobarometer_R6"</span>)

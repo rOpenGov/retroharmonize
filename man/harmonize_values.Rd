@@ -11,7 +11,8 @@ harmonize_values(
   na_values = c(do_not_know = 99997, declined = 99998, inap = 99999),
   na_range = NULL,
   id = "survey_id",
-  name_orig = NULL
+  name_orig = NULL,
+  perl = FALSE
 )
 }
 \arguments{
@@ -35,6 +36,8 @@ continuous missing value range. In most surveys this should be left
 
 \item{name_orig}{The original name of the variable. If left \code{NULL}
 it uses the latest name of the object \code{x}.}
+
+\item{perl}{Use perl-like regex? Defaults to {FALSE}.}
 }
 \value{
 A labelled vector that contains in its metadata attributes

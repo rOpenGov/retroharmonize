@@ -14,6 +14,7 @@
 #' @param  name_orig The original name of the variable. If left \code{NULL}
 #' it uses the latest name of the object \code{x}.
 #' @param id A survey ID, defaults to \code{survey_id}
+#' @param perl Use perl-like regex? Defaults to {FALSE}.
 #' @importFrom labelled to_character labelled na_values val_labels
 #' @importFrom labelled var_label
 #' @importFrom tibble tibble 
@@ -57,7 +58,8 @@ harmonize_values <- function(
                 "inap" = 99999), 
   na_range = NULL,
   id = "survey_id",
-  name_orig = NULL ) {
+  name_orig = NULL, 
+  perl = FALSE ) {
   
   new_values <- to <- from <- numeric_values <- NULL
   input_na_values <- na_values
@@ -120,7 +122,7 @@ harmonize_values <- function(
     original_values$orig_labels <- if_else ( 
       #label == "" if not in the harmonization list
       condition = grepl(paste ( harmonize_labels$from, collapse = "|"), 
-                   tolower(original_values$orig_labels)), 
+                   tolower(original_values$orig_labels), perl = perl), 
       true = tolower(original_values$orig_labels), 
       false  = "") 
     
@@ -129,7 +131,7 @@ harmonize_values <- function(
     
     for ( r in 1:length(harmonize_labels$to) ) {
       ## harmonize the strings to new labelling by regex
-      str [which(grepl ( harmonize_labels$from[r], str))] <- harmonize_labels$to[r]
+      str [which(grepl ( harmonize_labels$from[r], str, perl = perl))] <- harmonize_labels$to[r]
     }
     
     code_table$new_labels <- str
@@ -155,7 +157,7 @@ harmonize_values <- function(
       if ( length(na_labels)>0 ) {
         # if there is no valid label harmonization, still check for potential missings
         potential_na_values <- sapply (na_labels, function(x) paste0("^", x,"|",x))
-        na_regex <- sapply ( potential_na_values, function(s) grepl(s, val_label_normalize(code_table$new_labels)))
+        na_regex <- sapply ( potential_na_values, function(s) grepl(s, val_label_normalize(code_table$new_labels), perl = perl))
         for (c in 1:length(na_labels)){
           code_table$new_labels[which( na_regex[,c])] <- na_labels[c]
         }

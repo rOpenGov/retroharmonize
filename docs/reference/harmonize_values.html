@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.13</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.14</span>
       </span>
     </div>
 
@@ -148,7 +148,8 @@
   na_values = <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span>(do_not_know = <span class='fl'>99997</span>, declined = <span class='fl'>99998</span>, inap = <span class='fl'>99999</span>),
   na_range = <span class='kw'>NULL</span>,
   id = <span class='st'>"survey_id"</span>,
-  name_orig = <span class='kw'>NULL</span>
+  name_orig = <span class='kw'>NULL</span>,
+  perl = <span class='fl'>FALSE</span>
 )</pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
@@ -188,6 +189,10 @@ continuous missing value range. In most surveys this should be left
       <th>name_orig</th>
       <td><p>The original name of the variable. If left <code>NULL</code>
 it uses the latest name of the object <code>x</code>.</p></td>
+    </tr>
+    <tr>
+      <th>perl</th>
+      <td><p>Use perl-like regex? Defaults to FALSE.</p></td>
     </tr>
     </table>
 

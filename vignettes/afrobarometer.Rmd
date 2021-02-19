@@ -50,7 +50,7 @@ Round 5: `merged-round-5-data-34-countries-2011-2013-last-update-july-2015.sav`
 Round 6: `merged_r6_data_2016_36countries2.sav`  
 Round 7: `r7_merged_data_34ctry.release.sav`  
 
-  For reproducibility, we are storing only a small subsample from the files and the metadata. 
+For reproducibility, we are storing only a small subsample from the files and the metadata. We assume that you extracted and copied all `.sav` files into a single folder that we will call in this vignette the `afrobarometer_dir`. Define your `afrobarometer_dir` with `file.path()` in your own system.
 
 ## Importing Afrobarometer Files
 
@@ -155,7 +155,7 @@ print(documenteded_merged_ab)
 
 ## Harmonization
 
-In the Afrobarometer trust is measured with four-point ordinal rating scales. Such data are best analyzed with ordinal models, which do not assume that the poinst are equidistant. However, to get a quick idea of how the data look like, we will assign numbers 0-3, with 0 corresponding to the least trust, and 3 corresponding to the most trust, and for the time-being analyze the data as if they were metric.
+In the Afrobarometer trust is measured with four-point ordinal rating scales. Such data are best analyzed with ordinal models, which do not assume that the points are equidistant. However, to get a quick idea of how the data look like, we will assign numbers 0-3, with 0 corresponding to the least trust, and 3 corresponding to the most trust, and for the time-being analyze the data as if they were metric.
 
 To review the harmonization on a single survey use `pull_survey()`. Here we select Afrobarometer Round 6.
 

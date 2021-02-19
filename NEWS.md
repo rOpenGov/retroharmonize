@@ -35,6 +35,11 @@ Further issues with URLs, hopefully all resolved.
 * In the examples, dontrun{} replaced by donttest{}.  
 * Further clarity given in comment to the Eurobarometer vignette that some part of the code is not evaluated, as it shows how to work with a large number of files from GESIS that we have no permission to re-publish.  We show with examples how the user, after gaining permission from GESIS to download the files, and placing it into her working environment can efficiently subset these files.
 
-
 # retroharmonize 0.1.13
-* In the examples that use file operations, dontrun{} replaced by donttest{}.
+* In the examples that use file operations, dontrun{} replaced by donttest{}. This is the first released version on CRAN.
+
+# retroharmoinze 0.1.14
+* harmonize_values now accepts perl-like regex.
+
+# retroharmoinze 0.1.15
+* Documentation improvements.
