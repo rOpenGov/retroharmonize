@@ -33,9 +33,11 @@ harmonize_na_values(test_read)
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
 \code{\link{harmonize_values}()},
+\code{\link{harmonize_var_names}()},
 \code{\link{harmonize_waves}()},
 \code{\link{label_normalize}()},
 \code{\link{merge_waves}()},
-\code{\link{na_range_to_values}()}
+\code{\link{na_range_to_values}()},
+\code{\link{subset_waves}()}
 }
 \concept{harmonization functions}

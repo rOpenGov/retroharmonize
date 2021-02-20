@@ -43,3 +43,5 @@ Further issues with URLs, hopefully all resolved.
 
 # retroharmoinze 0.1.15
 * Documentation improvements.
+* A new function, harmonize_var_names(), helps to systematically rename variables in a list of surveys.
+* A new function, subset_waves(), helps to subset a wave of surveys.

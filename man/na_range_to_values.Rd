@@ -47,8 +47,10 @@ Other harmonization functions:
 \code{\link{collect_val_labels}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_values}()},
+\code{\link{harmonize_var_names}()},
 \code{\link{harmonize_waves}()},
 \code{\link{label_normalize}()},
-\code{\link{merge_waves}()}
+\code{\link{merge_waves}()},
+\code{\link{subset_waves}()}
 }
 \concept{harmonization functions}

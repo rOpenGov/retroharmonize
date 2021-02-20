@@ -160,7 +160,7 @@ In the Afrobarometer trust is measured with four-point ordinal rating scales. Su
 To review the harmonization on a single survey use `pull_survey()`. Here we select Afrobarometer Round 6.
 
 ```{r check, eval=FALSE}
-R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6")
+R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6" )
 ```
 ```{r pulled-attributes}
 attributes(R6$trust_president[1:20])
