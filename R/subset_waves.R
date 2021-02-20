@@ -3,7 +3,7 @@
 #' The function harmonizes the variable names of surveys (of class \code{survey}) that 
 #' are imported from an external file as a wave with with \code{\link{read_surveys}}.
 #' 
-#' It is likely that you want to harmonize the variable names with \code{\link{harmonize_var_labels}} first.
+#' It is likely that you want to harmonize the variable names with \code{\link{harmonize_var_names}} first.
 #' 
 #' @param waves A list of surveys imported with \code{\link{read_surveys}}.
 #' @param subset_names The names of the variables that should be kept from all surveys in the list that contains the
@@ -12,7 +12,6 @@
 #' @importFrom tidyselect any_of
 #' @importFrom purrr set_names
 #' @importFrom assertthat assert_that
-#' @family harmonization functions
 #' @return The list of surveys with harmonized variable names.
 #' @examples
 #' examples_dir <- system.file("examples", package = "retroharmonize")
@@ -27,7 +26,7 @@
 #' 
 #' metadata$var_name <- label_normalize(metadata$var_name)
 #' 
-#' metadata$var_name [metadata$label_orig == "age education"] <- "age_education"
+#' metadata$var_name[metadata$label_orig == "age education"] <- "age_education"
 #' 
 #' hnw <- harmonize_var_names(waves = example_surveys, 
 #'                            metadata = metadata )

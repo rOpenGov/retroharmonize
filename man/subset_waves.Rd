@@ -20,7 +20,7 @@ The function harmonizes the variable names of surveys (of class \code{survey}) t
 are imported from an external file as a wave with with \code{\link{read_surveys}}.
 }
 \details{
-It is likely that you want to harmonize the variable names with \code{\link{harmonize_var_labels}} first.
+It is likely that you want to harmonize the variable names with \code{\link{harmonize_var_names}} first.
 }
 \examples{
 examples_dir <- system.file("examples", package = "retroharmonize")
@@ -34,22 +34,10 @@ metadata <- do.call(rbind, metadata)
 
 metadata$var_name <- label_normalize(metadata$var_name)
 
-metadata$var_name [metadata$label_orig == "age education"] <- "age_education"
+metadata$var_name[metadata$label_orig == "age education"] <- "age_education"
 
 hnw <- harmonize_var_names(waves = example_surveys, 
                            metadata = metadata )
                            
 subset_waves (hnw, subset_names = c("uniqid", "w1", "age_education"))
 }
-\seealso{
-Other harmonization functions: 
-\code{\link{collect_val_labels}()},
-\code{\link{harmonize_na_values}()},
-\code{\link{harmonize_values}()},
-\code{\link{harmonize_var_names}()},
-\code{\link{harmonize_waves}()},
-\code{\link{label_normalize}()},
-\code{\link{merge_waves}()},
-\code{\link{na_range_to_values}()}
-}
-\concept{harmonization functions}
