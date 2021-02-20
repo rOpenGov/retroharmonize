@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.14</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
       </span>
     </div>
 
@@ -80,7 +80,7 @@
       <ul class="nav navbar-nav">
         <li>
   <a href="../index.html">
-    <span class="fas fa fas fa-home fa-lg"></span>
+    <span class="fas fa-home fa-lg"></span>
      
   </a>
 </li>
@@ -115,7 +115,7 @@
       <ul class="nav navbar-nav navbar-right">
         <li>
   <a href="https://github.com/antaldaniel/retroharmonize/">
-    <span class="fab fa fab fa-github fa-lg"></span>
+    <span class="fab fa-github fa-lg"></span>
      
   </a>
 </li>
@@ -141,9 +141,9 @@
     <p>Collect labels from metadata file</p>
     </div>
 
-    <pre class="usage"><span class='fu'>collect_val_labels</span>(<span class='kw'>metadata</span>)
+    <pre class="usage"><span class='fu'>collect_val_labels</span><span class='op'>(</span><span class='va'>metadata</span><span class='op'>)</span>
 
-<span class='fu'>collect_na_labels</span>(<span class='kw'>metadata</span>)</pre>
+<span class='fu'>collect_na_labels</span><span class='op'>(</span><span class='va'>metadata</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -164,20 +164,21 @@ labels found in all the files analyzed in <code>metadata</code>.</p>
     <div class='dont-index'><p>Other harmonization functions: 
 <code><a href='harmonize_na_values.html'>harmonize_na_values</a>()</code>,
 <code><a href='harmonize_values.html'>harmonize_values</a>()</code>,
+<code><a href='harmonize_var_names.html'>harmonize_var_names</a>()</code>,
 <code><a href='harmonize_waves.html'>harmonize_waves</a>()</code>,
 <code><a href='label_normalize.html'>label_normalize</a>()</code>,
 <code><a href='merge_waves.html'>merge_waves</a>()</code>,
 <code><a href='na_range_to_values.html'>na_range_to_values</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='kw'>test_survey</span> <span class='op'>&lt;-</span> <span class='kw'>retroharmonize</span>::<span class='fu'><a href='read_rds.html'>read_rds</a></span> (
-   file = <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span>(<span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>,
-                  package = <span class='st'>"retroharmonize"</span>), 
-   id = <span class='st'>"test"</span>
-)
-<span class='kw'>example_metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metadata_create.html'>metadata_create</a></span> (<span class='kw'>test_survey</span>)
+    <pre class="examples"><div class='input'><span class='va'>test_survey</span> <span class='op'>&lt;-</span> <span class='fu'>retroharmonize</span><span class='fu'>::</span><span class='fu'><a href='read_rds.html'>read_rds</a></span> <span class='op'>(</span>
+   file <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>,
+                  package <span class='op'>=</span> <span class='st'>"retroharmonize"</span><span class='op'>)</span>, 
+   id <span class='op'>=</span> <span class='st'>"test"</span>
+<span class='op'>)</span>
+<span class='va'>example_metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metadata_create.html'>metadata_create</a></span> <span class='op'>(</span><span class='va'>test_survey</span><span class='op'>)</span>
 
-<span class='fu'>collect_val_labels</span> (metadata = <span class='kw'>example_metadata</span> )
+<span class='fu'>collect_val_labels</span> <span class='op'>(</span>metadata <span class='op'>=</span> <span class='va'>example_metadata</span> <span class='op'>)</span>
 </div><div class='output co'>#&gt;   [1] "Friday, 7th June 2019"                       
 #&gt;   [2] "Saturday, 8th June 2019"                     
 #&gt;   [3] "Sunday, 9th June 2019"                       
@@ -597,7 +598,7 @@ labels found in all the files analyzed in <code>metadata</code>.</p>
 #&gt; [417] "You decided a few weeks ago"                 
 #&gt; [418] "You decided a few days before the elections" 
 #&gt; [419] "You decided on the day of the election"      
-#&gt; [420] "You never vote"                              </div><div class='input'><span class='fu'>collect_na_labels</span> ( metadata = <span class='kw'>example_metadata</span> )
+#&gt; [420] "You never vote"                              </div><div class='input'><span class='fu'>collect_na_labels</span> <span class='op'>(</span> metadata <span class='op'>=</span> <span class='va'>example_metadata</span> <span class='op'>)</span>
 </div><div class='output co'>#&gt; [1] "DK (NOT DOCUMENTED)"                             
 #&gt; [2] "DK"                                              
 #&gt; [3] "Inap. (not 1 in eu28)"                           
@@ -621,7 +622,7 @@ labels found in all the files analyzed in <code>metadata</code>.</p>
 </div>
 
 <div class="pkgdown">
-  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.0.</p>
+  <p>Site built with <a href="https://pkgdown.r-lib.org/">pkgdown</a> 1.6.1.</p>
 </div>
 
       </footer>

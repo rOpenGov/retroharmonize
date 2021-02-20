@@ -41,8 +41,9 @@ The package will be available for install via after review on
 install.packages("retroharmonize")
 ```
 
-The development version from [GitHub](https://github.com/) can be
-installed with:
+The development version has some small improvements in functionality and
+minor documentation updates. It can be installed from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
