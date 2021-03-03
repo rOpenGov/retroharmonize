@@ -29,13 +29,9 @@ Currently being generalized from problems solved in the not yet released
 [eurobarometer](https://github.com/antaldaniel/eurobarometer) package
 ([doi](https://doi.org/10.5281/zenodo.3825700).)
 
-You can download the manual in
-[PDF](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf).
-
 ## Installation
 
-The package will be available for install via after review on
-[CRAN](https://CRAN.R-project.org):
+The package is available on [CRAN](https://CRAN.R-project.org):
 
 ``` r
 install.packages("retroharmonize")
@@ -49,6 +45,11 @@ minor documentation updates. It can be installed from
 # install.packages("devtools")
 devtools::install_github("antaldaniel/retroharmonize")
 ```
+
+You can download the manual in PDF for the [0.1.13 CRAN
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf)
+and for the [0.1.15 development
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.15.pdf).
 
 ## Retrospective data harmonization
 

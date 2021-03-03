@@ -43,7 +43,7 @@ The development version has some small improvements in functionality and minor d
 devtools::install_github("antaldaniel/retroharmonize")
 ```
 
-You can download the manual in PDF for the  [0.1.13 CRAN release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf) and the [0.1.15 development release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.15.pdf).
+You can download the manual in PDF for the  [0.1.13 CRAN release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf) and for the [0.1.15 development release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.15.pdf).
 
 ## Retrospective data harmonization
 
