@@ -76,7 +76,8 @@ Other harmonization functions:
 \code{\link{harmonize_waves}()},
 \code{\link{label_normalize}()},
 \code{\link{merge_waves}()},
-\code{\link{na_range_to_values}()}
+\code{\link{na_range_to_values}()},
+\code{\link{suggest_var_names}()}
 
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
@@ -85,6 +86,7 @@ Other harmonization functions:
 \code{\link{harmonize_waves}()},
 \code{\link{label_normalize}()},
 \code{\link{merge_waves}()},
-\code{\link{na_range_to_values}()}
+\code{\link{na_range_to_values}()},
+\code{\link{suggest_var_names}()}
 }
 \concept{harmonization functions}

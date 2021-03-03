@@ -5,7 +5,9 @@
 #' 
 #' @param metadata A metadata table created by \code{metadata_create} and binded together for 
 #' all surveys in \code{waves}.
-#' @param rowids Rename var labels of original vars \code{rowid} to simply \code{uniqid}?
+#' @param permanent_names A character vector of names to keep. 
+#' @param survey_program If \code{permanent_names = NULL} then \code{\link{suggest_permanent_names}} is 
+#' called with this parameter, unless it is also \code{NULL}
 #' @importFrom dplyr mutate left_join select
 #' @importFrom tidyselect all_of
 #' @importFrom purrr set_names
