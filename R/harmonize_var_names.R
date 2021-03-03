@@ -3,14 +3,20 @@
 #' The function harmonizes the variable names of surveys (of class \code{survey}) that 
 #' are imported from an external file as a wave.
 #' 
+#' If the \code{metadata} that contains subsetting information is subsetted, then it will subset the surveys in 
+#' \code{waves}.
+#' 
 #' @param waves A list of surveys imported with \code{\link{read_surveys}}.
 #' @param metadata A metadata table created by \code{metadata_create} and binded together for 
 #' all surveys in \code{waves}.
+#' @param old The column name in \code{metadata} that contains the old, not harmonized variable names.
+#' @param new The column name in \code{metadata} that contains the new, harmonized variable names.
 #' @param rowids Rename var labels of original vars \code{rowid} to simply \code{uniqid}?
 #' @importFrom dplyr mutate left_join select
 #' @importFrom tidyselect all_of
 #' @importFrom purrr set_names
 #' @importFrom assertthat assert_that
+#' @importFrom glue glue
 #' @family harmonization functions
 #' @return The list of surveys with harmonized variable names.
 #' @examples
@@ -33,28 +39,49 @@
 #' @export
 
 
-harmonize_var_names <- function ( waves, metadata, rowids = TRUE ) {
+harmonize_var_names <- function ( waves, 
+                                  metadata,
+                                  old = "var_name_orig",
+                                  new = "var_name_suggested",
+                                  rowids = TRUE ) {
+
+  assertthat::assert_that( all(c(new, old, "filename") %in% names(metadata)), 
+                           msg = glue::glue("'{old}', '{new}' and 'filename' must be column names in metadata.")
+                           )
   
+  metadata <- metadata %>%
+    select ( all_of(c(old, new, "filename"))) %>%
+    set_names ( c("var_name_orig", "var_name_suggested", "filename") )
+ 
+      
   if ( rowids == TRUE) {
     metadata <- metadata %>% 
-      mutate ( var_name = ifelse ( .data$var_name_orig == "rowid", "uniqid", .data$var_name_orig ) )
+      mutate ( var_name_orig = ifelse ( test = .data$var_name_orig == "rowid", 
+                                   yes  = "uniqid", 
+                                   no   = .data$var_name_orig ) )
   }
   
   rename_wave <- function (this_survey) {
     
     this_metadata <- metadata[attr(this_survey, "filename") == metadata$filename, ]
-    assertthat::assert_that(nrow(this_metadata)>2, 
-                            msg = glue::glue("The metadata of {attr(this_survey, 'filename')} cannot be found")
-    )
+    
+    if ( ! attr(this_survey, "filename") %in% metadata$filename ) {
+      warning (glue::glue("The metadata of {attr(this_survey, 'filename')} cannot be found") )
+    }
     
     renaming <- data.frame ( var_name_orig = names(this_survey) ) %>%
-      left_join ( this_metadata %>% 
-                    select ( all_of (c("var_name_orig", "var_name"))), 
+      inner_join ( this_metadata %>% 
+                    select ( all_of (c("var_name_orig", "var_name_suggested"))), 
                   by = "var_name_orig")
     
-    purrr::set_names(this_survey, nm = renaming$var_name)
+    subset_this_survey <- this_survey %>%
+      select ( all_of (renaming$var_name_orig) ) 
     
+    purrr::set_names(subset_this_survey, nm = renaming$var_name_suggested)
+     
   }
   
+  rename_wave(this_survey = waves[[1]] )
+
   lapply ( waves, rename_wave )
 }

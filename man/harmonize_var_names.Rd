@@ -4,13 +4,23 @@
 \alias{harmonize_var_names}
 \title{Harmonize the variable names of surveys}
 \usage{
-harmonize_var_names(waves, metadata, rowids = TRUE)
+harmonize_var_names(
+  waves,
+  metadata,
+  old = "var_name_orig",
+  new = "var_name_suggested",
+  rowids = TRUE
+)
 }
 \arguments{
 \item{waves}{A list of surveys imported with \code{\link{read_surveys}}.}
 
 \item{metadata}{A metadata table created by \code{metadata_create} and binded together for 
 all surveys in \code{waves}.}
+
+\item{old}{The column name in \code{metadata} that contains the old, not harmonized variable names.}
+
+\item{new}{The column name in \code{metadata} that contains the new, harmonized variable names.}
 
 \item{rowids}{Rename var labels of original vars \code{rowid} to simply \code{uniqid}?}
 }
@@ -20,6 +30,10 @@ The list of surveys with harmonized variable names.
 \description{
 The function harmonizes the variable names of surveys (of class \code{survey}) that 
 are imported from an external file as a wave.
+}
+\details{
+If the \code{metadata} that contains subsetting information is subsetted, then it will subset the surveys in 
+\code{waves}.
 }
 \examples{
 examples_dir <- system.file("examples", package = "retroharmonize")

@@ -8,7 +8,7 @@
 #' @param .f A function to apply for the harmonization.
 #' @param status_message Defaults to \code{FALSE}. If set to \code{TRUE}
 #' it shows the id of the survey that is being joined.
-#' @return A natural full join of all surveys into a data frame.
+#' @return A natural full join of all surveys in a single data frame.
 #' @export
 #' @importFrom dplyr select bind_cols mutate_all pull
 #' @importFrom tidyselect all_of
@@ -70,11 +70,12 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   classes <- unlist(lapply ( waves, function(x) lapply( x, function(y) class(y)[1]) ))
   #classes <- unlist(sapply ( waves, function(x) sapply( x, function(y) class(y)[1]) ))
   
+  # The harmonization must take place by variable classes. 
+  # The retroharmonized, numeric, character, Date types are separately treated ---------------------
   retroharmonized <- unique(names(classes[which(classes == "retroharmonize_labelled_spss_survey")]))
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
   characters <- unique(names(classes[which(classes %in% c("character"))]))
   dates <- unique(names(classes[which(classes %in% c("Date"))]))
-  
   other_types <- all_names[which(! all_names %in% c(retroharmonized, numerics, characters, dates))]
   
   assert_that(length(other_types)==0, 
@@ -199,7 +200,9 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   
   to_harmonize_labelled <-  lapply ( 
     ## select into a list vars that need to be harmonized by labels
-    extended, function(x) x %>% select (all_of (retroharmonized)))
+    extended, 
+    function(x) x %>% select (all_of (retroharmonized))
+    )
   
   fn_harmonize <- function(dat, .f) {
     
@@ -214,7 +217,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
       select (all_of(orig_name_order)) 
   }
   
-  #dat <- to_harmonize_labelled[[1]]
+  dat <- to_harmonize_labelled[[1]]
 
   rth <- lapply ( to_harmonize_labelled,
                   function(x) fn_harmonize(x, .f) )

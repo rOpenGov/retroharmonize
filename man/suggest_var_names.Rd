@@ -4,7 +4,12 @@
 \alias{suggest_var_names}
 \title{Suggest Variable Names}
 \usage{
-suggest_var_names(metadata, permanent_names = NULL, survey_program = NULL)
+suggest_var_names(
+  metadata,
+  permanent_names = NULL,
+  survey_program = NULL,
+  case = "snake"
+)
 }
 \arguments{
 \item{metadata}{A metadata table created by \code{metadata_create} and binded together for 
@@ -14,6 +19,9 @@ all surveys in \code{waves}.}
 
 \item{survey_program}{If \code{permanent_names = NULL} then \code{\link{suggest_permanent_names}} is 
 called with this parameter, unless it is also \code{NULL}}
+
+\item{case}{Unless it is set to \code{NULL} it will standardize the suggested variable name with 
+\code{\link[snakecase]{to_any_case}}. The default is \code{"snake"}.}
 }
 \value{
 A \code{metadata} tibble augmented with $var_name_suggested

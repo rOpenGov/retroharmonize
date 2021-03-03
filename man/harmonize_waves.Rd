@@ -15,7 +15,7 @@ harmonize_waves(waves, .f, status_message = FALSE)
 it shows the id of the survey that is being joined.}
 }
 \value{
-A natural full join of all surveys into a data frame.
+A natural full join of all surveys in a single data frame.
 }
 \description{
 Harmonize the values of surveys. It binds together variables

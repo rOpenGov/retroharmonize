@@ -8,10 +8,13 @@
 #' @param permanent_names A character vector of names to keep. 
 #' @param survey_program If \code{permanent_names = NULL} then \code{\link{suggest_permanent_names}} is 
 #' called with this parameter, unless it is also \code{NULL}
+#' @param case Unless it is set to \code{NULL} it will standardize the suggested variable name with 
+#' \code{\link[snakecase]{to_any_case}}. The default is \code{"snake"}.
 #' @importFrom dplyr mutate left_join select
 #' @importFrom tidyselect all_of
 #' @importFrom purrr set_names
 #' @importFrom assertthat assert_that
+#' @import snakecase
 #' @family harmonization functions
 #' @return A \code{metadata} tibble augmented with $var_name_suggested
 #' @examples
@@ -30,7 +33,8 @@
 
 suggest_var_names <- function( metadata, 
                                permanent_names = NULL, 
-                               survey_program = NULL ) {
+                               survey_program = NULL, 
+                               case = "snake" ) {
   
   names_to_keep <- NULL
   recognized_survey_programs <- c("eurobarometer", "afrobarometer")
@@ -46,11 +50,19 @@ suggest_var_names <- function( metadata,
     }
   }
   
-  metadata %>%
+  return_metadata <- metadata %>%
     mutate ( var_name_suggested = ifelse ( 
       test = .data$var_name_orig %in% c("rowid", "wex", "w1", "isocntry"), 
       yes  = .data$var_name_orig, 
       no   = var_label_normalize(.data$label_orig)))
+  
+  if ( is.null(case) ) {
+    return_metadata
+  } else {
+    return_metadata %>%
+      mutate ( var_name_suggested = snakecase::to_any_case(string = .data$var_name_suggested , 
+                                                           case = case ))
+  }
 } 
 
 #' Suggest Permanent Names
