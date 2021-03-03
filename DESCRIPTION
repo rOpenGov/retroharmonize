@@ -53,5 +53,6 @@ Suggests:
     rmarkdown,
     covr,
     testthat,
-    png
+    png,
+    spelling
 VignetteBuilder: knitr

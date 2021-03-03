@@ -38,7 +38,7 @@ continuous missing value range. In most surveys this should be left
 \item{name_orig}{The original name of the variable. If left \code{NULL}
 it uses the latest name of the object \code{x}.}
 
-\item{remove}{Defaults to \colde{NULL}.  A character or regex that will be removed from all
+\item{remove}{Defaults to \code{NULL}.  A character or regex that will be removed from all
 old value labels, like \code{"\\("|\\)} for ( and ).}
 
 \item{perl}{Use perl-like regex? Defaults to {FALSE}.}

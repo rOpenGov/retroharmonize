@@ -14,7 +14,7 @@
 #' @param  name_orig The original name of the variable. If left \code{NULL}
 #' it uses the latest name of the object \code{x}.
 #' @param id A survey ID, defaults to \code{survey_id}
-#' @param remove Defaults to \colde{NULL}.  A character or regex that will be removed from all
+#' @param remove Defaults to \code{NULL}.  A character or regex that will be removed from all
 #' old value labels, like \code{"\\("|\\)} for ( and ).
 #' @param perl Use perl-like regex? Defaults to {FALSE}.
 #' @importFrom labelled to_character labelled na_values val_labels

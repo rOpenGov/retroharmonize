@@ -1,9 +1,9 @@
 ## Test environments
-* local R installation on Windows 10, R 4.0.2
-* ubuntu 16.04 (on travis-ci), R 4.0.0
-* win-builder (Windows Server 2008 R2 SP1, R-release, 32/64 bit on rhub)
-* Fedora, Debian, Windows NT on r_hub.
-* On Windows Server 2008 R2 SP1, R-devel, 32/64 bit, there seems to be a problem with a dependency of knitr, utf8 not being present, which effects almost all packages with vignettes.  We believe this is unrelated to our code, because in all other environments knitr correctly makes or vignettes.
+
+* GitHub Actions (ubuntu-16.04): devel, release, oldrel, 3.5, 3.4, 3.3
+* GitHub Actions (windows): release, oldrel
+* GitHub Actions (macOS): release
+* win-builder: devel
 
 ## R CMD check results
 
