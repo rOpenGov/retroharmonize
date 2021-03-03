@@ -59,9 +59,9 @@ harmonize_values <- function(
   na_range = NULL,
   id = "survey_id",
   name_orig = NULL, 
+  remove = NULL,
   perl = FALSE ) {
   
-  new_values <- from <- numeric_values <- NULL
   input_na_values <- na_values
   
   
@@ -107,12 +107,18 @@ harmonize_values <- function(
   
   original_values <- tibble::tibble (
     x = vctrs::vec_data(x) )
-
+  
   original_values$orig_labels = if_else (
     condition = original_values$x %in% labelled::val_labels(x), 
     true = as_character(x), 
     false = NA_character_
   )
+  
+  if (!is.null(remove)) {
+    harmonize_labels$from <- gsub(remove, "", harmonize_labels$from)
+    original_values$orig_labels <- gsub(remove, "", original_values$orig_labels)
+  }
+
   
   if (is.na_range_to_values(x)) {
     x <- na_range_to_values(x)
@@ -129,24 +135,36 @@ harmonize_values <- function(
     
     code_table <- dplyr::distinct_all(original_values)
     str <- code_table$orig_labels  #string of original values
-
-    for ( r in seq_along (harmonize_labels$to) ) {
-      ## harmonize the strings to new labelling by regex
-      str [which(grepl ( tolower(harmonize_labels$from[r]), str, perl = perl))] <- harmonize_labels$to[r]
+    code_table$new_labels <- NA_character_
+    code_table$new_values <- NA_real_
+    
+    for ( o in seq_along (harmonize_labels$from )) { 
+      code_table$new_labels [which ( grepl ( tolower(harmonize_labels$from[o]), str))] <- harmonize_labels$to[o]
+      code_table$new_values [which ( grepl ( tolower(harmonize_labels$from[o]), str))] <- harmonize_labels$numeric_values[o]
+      }
+    
+    old_code <- function () {
+      
+      ## Can be removed after extensive testing -------
+      for ( r in seq_along (harmonize_labels$to) ) {
+        ## harmonize the strings to new labelling by regex
+        str [which(grepl ( tolower(harmonize_labels$from[r]), str, perl = perl))] <- harmonize_labels$to[r]
+      }
+    
+      add_new_values <- harmonize_labels %>%
+        as_tibble() %>%
+        dplyr::select ( tidyselect::all_of(
+          c("to", "numeric_values")) ) %>%
+        stats::setNames( c("new_labels", "new_values"))
+      
+      code_table <- dplyr::left_join ( 
+        code_table, 
+        add_new_values, 
+        by = "new_labels") %>%
+        filter ( !is.na(.data$new_values) )
     }
+
     
-    code_table$new_labels <- str
-    
-    add_new_values <- harmonize_labels %>%
-      dplyr::select ( tidyselect::all_of(
-        c("to", "numeric_values")) ) %>%
-      stats::setNames( c("new_labels", "new_values"))
-    
-    code_table <- dplyr::left_join ( 
-      code_table, 
-      add_new_values, 
-      by = "new_labels") %>%
-      filter ( !is.na(.data$new_values) )
     
     code_table$original_values <- NULL
     } else {
@@ -165,7 +183,7 @@ harmonize_values <- function(
       }
     }
   
-  code_table <- dplyr::arrange(.data = code_table, .data$new_values )
+  code_table <- code_table %>% distinct_all %>% dplyr::arrange(.data$new_values )
   
   new_value_table <- original_values %>%
     dplyr::left_join (
