@@ -45,3 +45,4 @@ Further issues with URLs, hopefully all resolved.
 * Documentation improvements.
 * A new function, harmonize_var_names(), helps to systematically rename variables in a list of surveys.
 * A new function, subset_waves(), helps to subset a wave of surveys.
+* With the help of [goodpractice](https://github.com/mangothecat/goodpractice), some coding good practices are introduced.

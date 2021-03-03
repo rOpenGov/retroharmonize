@@ -32,7 +32,11 @@ validate_survey <- function (df, id, filename, doi ) {
   }
   
   if ( (class (id) != "character") && (length(id) != 1) ) stop ("The id must be a character of length 1L")
-  if (! inherits(df, "data.frame")) stop ( "df must be a data.frame like object.")
+  
+  assert_that(
+    inherits(df, "data.frame"),
+    msg =  "df in validate_survey(df) must be a data.frame like object."
+  )
 }
 
 ## Helper function to construct a survey data frame ------------------

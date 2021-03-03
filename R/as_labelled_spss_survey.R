@@ -8,18 +8,20 @@
  
 as_labelled_spss_survey  <- function (x, id) {
   
-  if ( ! haven::is.labelled(x)) {
-    
-    stop( deparse(substitute(x)), "must be haven_labelled or a class that inherits its labels.")
-  }
-  
-   labelled_spss_survey(
-    x = vctrs::vec_data(x), 
-    labels = labelled::val_labels(x), 
-    label = labelled::var_label(x),
-    na_values = labelled::na_values(x), 
-    na_range = labelled::na_range(x), 
-    name_orig = deparse(substitute(x)), 
-    id = id
+  assertthat::assert_that(
+    haven::is.labelled(x), 
+    msg = paste0(deparse(substitute(x)),
+                 " should be a haven_labelled or a class that inherits its labels.")
   )
+
+   labelled_spss_survey(
+    x         = vctrs::vec_data(x), 
+    labels    = labelled::val_labels(x), 
+    label     = labelled::var_label(x),
+    na_values = labelled::na_values(x), 
+    na_range  = labelled::na_range(x), 
+    name_orig = deparse(substitute(x)), 
+    id        = id
+  )
+   
 }

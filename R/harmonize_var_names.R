@@ -37,7 +37,7 @@ harmonize_var_names <- function ( waves, metadata, rowids = TRUE ) {
   
   if ( rowids == TRUE) {
     metadata <- metadata %>% 
-      mutate ( var_name = ifelse ( .data$var_name_orig == "rowid", "uniqid", .data$var_name ) )
+      mutate ( var_name = ifelse ( .data$var_name_orig == "rowid", "uniqid", .data$var_name_orig ) )
   }
   
   rename_wave <- function (this_survey) {

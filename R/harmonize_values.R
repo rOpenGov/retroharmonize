@@ -77,7 +77,8 @@ harmonize_values <- function(
       
       assert_that(length(matched_numeric_value)==1, 
                   msg = paste0("in harmonized_list ", 
-                               l, " is matched with multiple numeric values: <", paste(matched_numeric_value, collapse = ",") , ">")
+                               l, " is matched with multiple numeric values: <", 
+                               paste(matched_numeric_value, collapse = ",") , ">")
       )
       
     }
@@ -128,8 +129,8 @@ harmonize_values <- function(
     
     code_table <- dplyr::distinct_all(original_values)
     str <- code_table$orig_labels
-    
-    for ( r in 1:length(harmonize_labels$to) ) {
+
+    for ( r in seq_along (harmonize_labels$to) ) {
       ## harmonize the strings to new labelling by regex
       str [which(grepl ( harmonize_labels$from[r], str, perl = perl))] <- harmonize_labels$to[r]
     }
@@ -158,20 +159,20 @@ harmonize_values <- function(
         # if there is no valid label harmonization, still check for potential missings
         potential_na_values <- sapply (na_labels, function(x) paste0("^", x,"|",x))
         na_regex <- sapply ( potential_na_values, function(s) grepl(s, val_label_normalize(code_table$new_labels), perl = perl))
-        for (c in 1:length(na_labels)){
+        for (c in seq_along(na_labels) ){
           code_table$new_labels[which( na_regex[,c])] <- na_labels[c]
         }
       }
     }
   
-  code_table <- dplyr::arrange(.data =code_table, new_values )
+  code_table <- dplyr::arrange(.data = code_table, new_values )
   
   new_value_table <- original_values %>%
     dplyr::left_join (
       code_table, 
       by = c("x", "orig_labels")) %>%
     dplyr::mutate ( new_values = if_else (
-      condition = is.na(new_labels),
+      condition = is.na(.data$new_labels),
       true = x, 
       false = new_values
     )) %>%  #invalid labels should be treated elsewhere 
