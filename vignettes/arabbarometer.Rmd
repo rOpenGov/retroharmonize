@@ -1,0 +1,41 @@
+---
+title: "Working With Arabbarometer"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working With Arabbarometer}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+`retroharmonize` is not affiliated with Arabbarometer.  For this example, you need to download and store in a directory the following files from their website [here](addurl) after carefully reading their terms of use: `ABI_English.sav`      `ABII_English.sav`, `ABIII_English.sav`, `ABIV_English.sav`, `ABV_Release_Data.sav`.  We will refer to the library that contains these files as `arabbarometer_dir`.
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+```{r setup}
+library(retroharmonize)
+library(tidyverse)
+```
+
+```{r readfiles, eval=FALSE}
+arabbarometer_dir <- file.path("not_included", "arabb", "input")
+ab <- dir (arabbarometer_dir, pattern = "sav$")
+arabbarometer_rounds <- file.path(arabbarometer_dir, ab)
+arab_waves <- read_surveys(arabbarometer_rounds,.f='read_spss')
+attr(arab_waves[[1]],"id") <- "Arab_Barometer_1"
+attr(arab_waves[[2]],"id") <- "Arab_Barometer_2"
+attr(arab_waves[[3]],"id") <- "Arab_Barometer_3"
+attr(arab_waves[[4]],"id") <- "Arab_Barometer_4"
+attr(arab_waves[[5]],"id") <- "Arab_Barometer_5"
+
+documented_arab_waves <- document_waves(arab_waves)
+save(documented_arab_waves, file = file.path("data-raw", "arabb", "Arab.Rda"))
+
+```
+
