@@ -54,13 +54,6 @@ harmonize_var_names <- function ( waves,
     set_names ( c("var_name_orig", "var_name_suggested", "filename") )
  
       
-  if ( rowids == TRUE) {
-    metadata <- metadata %>% 
-      mutate ( var_name_orig = ifelse ( test = .data$var_name_orig == "rowid", 
-                                   yes  = "uniqid", 
-                                   no   = .data$var_name_orig ) )
-  }
-  
   rename_wave <- function (this_survey) {
     
     this_metadata <- metadata[attr(this_survey, "filename") == metadata$filename, ]
@@ -80,8 +73,7 @@ harmonize_var_names <- function ( waves,
     purrr::set_names(subset_this_survey, nm = renaming$var_name_suggested)
      
   }
-  
-  rename_wave(this_survey = waves[[1]] )
 
-  lapply ( waves, rename_wave )
+ lapply ( waves, rename_wave )
+
 }

@@ -37,13 +37,12 @@ suggest_var_names <- function( metadata,
                                case = "snake" ) {
   
   names_to_keep <- NULL
+  survey_program <- tolower(as.character(survey_program))
   recognized_survey_programs <- c("eurobarometer", "afrobarometer")
-  
-  paste(recognized_survey_programs, collapse = '", "')
-  
+
   if (!is.null(survey_program)) {
     if ( survey_program %in% c("eurobarometer")) {
-      
+      names_to_keep  <- suggest_permanent_names("eurobarometer")
     } else {
       rsp <- paste(recognized_survey_programs, collapse = "' OR '")
       warning ( glue::glue("Currently only survey_program = '{rsp}' is recognized.") )
@@ -52,7 +51,7 @@ suggest_var_names <- function( metadata,
   
   return_metadata <- metadata %>%
     mutate ( var_name_suggested = ifelse ( 
-      test = .data$var_name_orig %in% c("rowid", "wex", "w1", "isocntry"), 
+      test = .data$var_name_orig %in% names_to_keep, 
       yes  = .data$var_name_orig, 
       no   = var_label_normalize(.data$label_orig)))
   
@@ -61,7 +60,12 @@ suggest_var_names <- function( metadata,
   } else {
     return_metadata %>%
       mutate ( var_name_suggested = snakecase::to_any_case(string = .data$var_name_suggested , 
-                                                           case = case ))
+                                                           case = case )) %>%
+      mutate ( var_name_suggested = case_when (
+        var_name_suggested == "w_1"    ~ "w1", 
+        var_name_suggested == "wextra" ~ "wex",
+        TRUE ~ var_name_suggested
+      ))
   }
 } 
 
@@ -79,7 +83,7 @@ suggest_permanent_names <- function( survey_program = "eurobarometer") {
   ## Use generic ifelse, because different length should be returned
   
   if ( survey_program == "eurobarometer" ) {
-    return(c("rowid", "wex", "w1", "isocntry")) 
+    return(c("rowid", "wex", "wextra", "w1", "isocntry")) 
   } else if ( survey_program == "afrobarometer") {
       return(NA_character_)
   }  else {
