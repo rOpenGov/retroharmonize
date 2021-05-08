@@ -18,3 +18,4 @@
 ^\.RDataTmp$
 ^\.rhub_check\.R$
 ^CRAN-RELEASE$
+^\.github$
