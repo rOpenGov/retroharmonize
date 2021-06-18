@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 resource_files:
   - vignettes/ab_plot1.png
 vignette: >
-  %\VignetteIndexEntry{Case Study: Working With Afrobarometer}
+  %\VignetteIndexEntry{Case Study: Working With Afrobarometer surveys}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

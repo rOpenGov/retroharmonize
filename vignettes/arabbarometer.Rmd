@@ -4,7 +4,7 @@ output: rmarkdown::html_vignette
 resource_files:
   - vignettes/ab_plot1.png
 vignette: >
-  %\VignetteIndexEntry{Case Study: Working With Arab Barometer}
+  %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -98,7 +98,7 @@ load ( here::here("data-raw", "arab_waves.rda") )
  
 ### Importing Arabbarometer datasets & Installing retroharmonize libaray package
 
-After downloading the data files, save them on your directory. We insallted the *Retroharmonize* library packages from [retroharmonize](https://cran.r-project.org/web/packages/retroharmonize/index.html)
+After downloading the data files, save them on your directory. We installed the *Retroharmonize* library packages from [retroharmonize](https://cran.r-project.org/web/packages/retroharmonize/index.html)
 
 After that, we used `document_waves()`to see the primary descriptive information of our surveys data files as shown in the table below. Visually check that the file names correspond with the meaningful IDs that you gave to each survey wave, i.e., `Arab_Barometer_1` corresponds with `ABI_English.sav`.
 
@@ -159,7 +159,7 @@ sample_n(to_harmonize%>%
 It is crucial to know that the `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of `class survey()`.) The parameter _var_harmonization_ must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (var_label), so that the program knows which variables to take from what files and how to call and label them after transformation.
 
 
-### transformation
+### Transformation
 
 
 ```{r merge-arabb-waves, eval=TRUE}
