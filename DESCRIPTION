@@ -24,7 +24,7 @@ License: GPL-3
 Encoding: UTF-8
 Language: en-US
 URL: https://retroharmonize.dataobservatory.eu/
-BugReports: https://github.com/antaldaniel/retroharmonize/issues
+BugReports: https://github.com/rOpenGov/retroharmonize/issues
 LazyData: true
 Imports: 
     vctrs,

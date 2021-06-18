@@ -39,14 +39,15 @@ Further issues with URLs, hopefully all resolved.
 * In the examples that use file operations, dontrun{} replaced by donttest{}. This is the first released version on CRAN.
 
 # retroharmoinze 0.1.14
-* harmonize_values now accepts perl-like regex.
+* `harmonize_values()` now accepts perl-like regex.
 
 # retroharmoinze 0.1.15
 * Documentation improvements.
-* A new function, harmonize_var_names(), helps to systematically rename variables in a list of surveys. Conventional names to keep are returned by suggest_permanent_names(), and the helper function suggest_var_names() provides a simple wrapper around var_label_normalize() and suggest_permanent_names().
-* A new function, subset_waves(), helps to subset a wave of surveys.
+* A new function, `harmonize_var_names()`, helps to systematically rename variables in a list of surveys. Conventional names to keep are returned by `suggest_permanent_names()`, and the helper function `suggest_var_names()` provides a simple wrapper around `var_label_normalize()` and `suggest_permanent_names()`.
+* A new function, `subset_waves()`, helps to subset a wave of surveys.
 * With the help of [goodpractice](https://github.com/mangothecat/goodpractice), some coding good practices are introduced.
 
 # retroharmoinze 0.1.16
+* Package moved to [rOpenGov](https://github.com/rOpenGov/retroharmonize/).
 * Arab Barometer tutorial vignette.
-* Transition to tidyverse 1.0+ with using the rlang .data pronoun, etc.
+* Transition to tidyverse 1.0+ with using the rlang `.data` pronoun, etc.
