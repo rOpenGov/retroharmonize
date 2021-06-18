@@ -110,14 +110,13 @@ Based on the aforementioned table, we obtained 5 nested lists in `arab_waves` li
 In this step, we built a comprehensive metadata table that maps information about variable names and labels of the case's surveys data. Each row in the table above refers to a different variable in the survey data file. This was accomplished using the `metadata create()` function, which collects metadata from survey data files, normalizes variable labels, and defines substantive response ranges and missing value codes.
 
 
-```{r, eval=TRUE}
-
+```{r create-arabb-metadata, eval=TRUE}
 arabb_metadata <- lapply ( X = arab_waves, FUN = metadata_create)
 arabb_metadata <- do.call(rbind, arabb_metadata)
-
 ```
 
 We selected,from the metadata file, only those rows that correspond to the variables that we’re interested in such as `rowid` being the unique case identifier, `date` with the interview date,`COUNTRY` containing information about the country where the interview was conducted, and with `wt` being the weighting factor.
+
 In the same context, you should also carefully insert key words and expressions that assist in matching the variables that represent the question of your interest; in our case, we chose “Election, parliamentary, and Election” to fork an exact question about parliamentary election, which is "how would you evaluate the last parliamentary election?."After that, we created normalized variable names (var_name) and labels (var_label).
 
 ### Working with metadata
@@ -216,20 +215,23 @@ Arabbarometer's SPSS files do not mark the missing values, so we have to be care
 
 ```{r review-value-labels, eval=TRUE}
 
-collect_val_labels(to_harmonize %>% 
-                     filter(grepl("evaluation in the last parliamentary elections", var_name)))
+collect_val_labels(
+  to_harmonize %>% 
+     filter(grepl("evaluation in the last parliamentary elections", .data$var_name))
+  )
 
 ```
 
 It is crucial to draw attention to special cases when some `NA` values are not labeled profoundly in data tables, thus, we decided to replace `NA` in advance with the value of the "missing/or not applicable" before standardizing response's values. Notice that we assigned original `NA` or missing labels with numerical values as in the table below:
 
-```{r , eval=TRUE}
+```{r na-coding, eval=TRUE}
 
 Missing_values <- c("do_not_know","declined","declined","missing")
 Values_NA <- c("99997","99998","99998","99999")
-NA_Harmonized <- data.frame(original_label = Missing_values,
-                            Harmonized_values = Values_NA,
-                            stringsAsFactors = FALSE)
+NA_Harmonized <- data.frame(
+  original_label = Missing_values,
+  Harmonized_values = Values_NA,
+  stringsAsFactors = FALSE)
 NA_Harmonized
 
 ```
