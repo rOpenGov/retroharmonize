@@ -10,10 +10,10 @@
 #' called with this parameter, unless it is also \code{NULL}
 #' @param case Unless it is set to \code{NULL} it will standardize the suggested variable name with 
 #' \code{\link[snakecase]{to_any_case}}. The default is \code{"snake"}.
-#' @importFrom dplyr mutate left_join select
-#' @importFrom tidyselect all_of
+#' @importFrom dplyr mutate left_join select all_of
 #' @importFrom purrr set_names
 #' @importFrom assertthat assert_that
+#' @importFrom glue glue
 #' @import snakecase
 #' @family harmonization functions
 #' @return A \code{metadata} tibble augmented with $var_name_suggested
@@ -59,12 +59,13 @@ suggest_var_names <- function( metadata,
     return_metadata
   } else {
     return_metadata %>%
-      mutate ( var_name_suggested = snakecase::to_any_case(string = .data$var_name_suggested , 
-                                                           case = case )) %>%
+      mutate ( var_name_suggested = snakecase::to_any_case(
+        string = .data$var_name_suggested,
+        case = case )) %>%
       mutate ( var_name_suggested = case_when (
-        var_name_suggested == "w_1"    ~ "w1", 
-        var_name_suggested == "wextra" ~ "wex",
-        TRUE ~ var_name_suggested
+        .data$var_name_suggested == "w_1"    ~ "w1", 
+        .data$var_name_suggested == "wextra" ~ "wex",
+        TRUE ~ .data$var_name_suggested
       ))
   }
 } 
@@ -76,9 +77,10 @@ suggest_var_names <- function( metadata,
 #' @param survey_program Suggest permanent names for the survey progarm \code{"eurobarometer"}
 #' @importFrom dplyr case_when
 #' @return A character vector with suggested permanent names.
+#' @family harmonization functions
 #' @examples suggest_permanent_names ( "eurobarometer" )
  
-suggest_permanent_names <- function( survey_program = "eurobarometer") {
+suggest_permanent_names <- function(survey_program = "eurobarometer") {
   
   ## Use generic ifelse, because different length should be returned
   

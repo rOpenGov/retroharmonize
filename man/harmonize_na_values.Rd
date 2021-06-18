@@ -38,6 +38,7 @@ Other harmonization functions:
 \code{\link{label_normalize}()},
 \code{\link{merge_waves}()},
 \code{\link{na_range_to_values}()},
+\code{\link{suggest_permanent_names}()},
 \code{\link{suggest_var_names}()}
 }
 \concept{harmonization functions}

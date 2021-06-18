@@ -17,10 +17,10 @@ dont_run <- function() {
   climate_change_files <- c("ZA5877_v2-0-0.sav", "ZA6595_v3-0-0.sav",  "ZA6861_v1-2-0.sav", 
                             "ZA7488_v1-0-0.sav", "ZA7572_v1-0-0.sav")
   
-  eb_waves <- read_surveys(file.path(gesis_dir, climate_change_files), .f='read_spss')
+  eb_climate_waves <- read_surveys(file.path(gesis_dir, climate_change_files), .f='read_spss')
   
   if (dir.exists("data-raw")) {
-    save ( eb_waves,  
+    save ( eb_climate_waves,  
            file = file.path("data-raw", "eb_climate_change_waves.rda") )
   }
 }
@@ -28,6 +28,22 @@ dont_run <- function() {
 if ( file.exists( here::here("data-raw", "eb_climate_change_waves.rda") )) {
   load (here::here( "data-raw", "eb_climate_change_waves.rda" ) )
 } 
+
+eb_climate_metadata <- lapply ( X = eb_climate_waves, FUN = metadata_create )
+eb_climate_metadata <- do.call(rbind, eb_climate_metadata)
+
+eb_demography_metadata  <- eb_climate_metadata %>%
+  filter ( grepl( "rowid|isocntry|^d8$|^d7$|^wex|^w1$|d25|^d15a", .data$var_name_orig) ) %>%
+  mutate ( var_name_suggested = var_label_normalize(.data$label_orig) ) %>%
+  mutate ( var_name_suggested = ifelse ( .data$var_name_orig == "rowid", 
+                                         "rowid", .data$var_name_suggested))
+
+
+eb_regional_metadata <- eb_climate_metadata %>%
+  mutate ( var_name_suggested = var_label_normalize(.data$label_orig) ) %>%
+  filter ( grepl( "rowid|isocntry|p7", .data$var_name_orig)) %>%
+  mutate ( var_name_suggested = ifelse ( .data$var_name_orig == "rowid", 
+                                         "rowid", .data$var_name_suggested))
 
 
 characters <- geography_chars %>% 

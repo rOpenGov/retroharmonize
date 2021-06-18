@@ -48,7 +48,9 @@ metadata_create <- function( survey ) {
   id <- attr(survey, "id")
   if (is.null(id)) id <- "missing"
   
-  label_orig <- as.character(sapply ( survey, labelled::var_label))
+  label_orig <- as.character(
+    sapply(survey, labelled::var_label)
+    )
   
   metadata <- tibble::tibble (
     filename = filename, 

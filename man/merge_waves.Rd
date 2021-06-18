@@ -52,6 +52,7 @@ Other harmonization functions:
 \code{\link{harmonize_waves}()},
 \code{\link{label_normalize}()},
 \code{\link{na_range_to_values}()},
+\code{\link{suggest_permanent_names}()},
 \code{\link{suggest_var_names}()}
 }
 \concept{harmonization functions}
