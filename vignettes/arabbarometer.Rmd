@@ -78,6 +78,16 @@ We start by reading in the three rounds of the Arab Barometer.
 ab <- dir(arabbarometer_dir, pattern = "sav$")
 arabbarometer_rounds <- file.path(arabbarometer_dir, ab)
 arab_waves <- read_surveys(arabbarometer_rounds, .f='read_spss')
+```
+
+we appended meaningful identifiers to the file names as follows:
+
+```{r wave-id, eval=FALSE}
+attr(arab_waves[[1]],"id") <- "Arab_Barometer_5"
+attr(arab_waves[[2]],"id") <- "Arab_Barometer_1"
+attr(arab_waves[[3]],"id") <- "Arab_Barometer_2"
+attr(arab_waves[[4]],"id") <- "Arab_Barometer_3"
+attr(arab_waves[[5]],"id") <- "Arab_Barometer_4"
 save( arab_waves, file = here::here("data-raw", "arab_waves.rda"))
 ```
 
@@ -89,16 +99,6 @@ load ( here::here("data-raw", "arab_waves.rda") )
 ### Importing Arabbarometer datasets & Installing retroharmonize libaray package
 
 After downloading the data files, save them on your directory. We insallted the *Retroharmonize* library packages from [retroharmonize](https://cran.r-project.org/web/packages/retroharmonize/index.html)
-
-we appended meaningful identifiers to the file names as follows:
-
-```{r wave-id, eval=TRUE}
-attr(arab_waves[[1]],"id") <- "Arab_Barometer_5"
-attr(arab_waves[[2]],"id") <- "Arab_Barometer_1"
-attr(arab_waves[[3]],"id") <- "Arab_Barometer_2"
-attr(arab_waves[[4]],"id") <- "Arab_Barometer_3"
-attr(arab_waves[[5]],"id") <- "Arab_Barometer_4"
-```
 
 After that, we used `document_waves()`to see the primary descriptive information of our surveys data files as shown in the table below. Visually check that the file names correspond with the meaningful IDs that you gave to each survey wave, i.e., `Arab_Barometer_1` corresponds with `ABI_English.sav`.
 
@@ -136,7 +136,7 @@ After that, we created normalized variable names (var_name) and labels (var_labe
 
 ### Working with metadata
 
-```{r arabb-metadata, eval=TRUE}
+```{r arabb-metadata}
 
 to_harmonize <- arabb_metadata %>%
   filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
@@ -396,10 +396,12 @@ The low democracy level/low satisfaction about the fairness of the election proc
 
 ```{r, eval=TRUE}
 problama_Elec_process <- bind_rows(regional_not_free,regional_maj_prob)
+
 problama_Elec_process <- problama_Elec_process %>% 
-  group_by(id) %>% 
-  mutate(total_unfair = sum(n)) %>% 
-  arrange(id,valuation,total_unfair)
+  group_by(.data$id) %>% 
+  mutate(total_unfair = sum(.data$n)) %>% 
+  arrange( .data$id, .data$valuation, .data$total_unfair)
+
 print(problama_Elec_process)
 ```
 
