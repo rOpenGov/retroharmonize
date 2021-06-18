@@ -5,7 +5,7 @@
 #' The package provides tools for organizing the metadata, standardizing the 
 #' coding of variables, variable names and value labels, including missing 
 #' values, and for documenting all transformations, with the help of 
-#' comprehensive s3 classes.
+#' comprehensive S3 classes.
 #'
 #' @section import functions:
 #' Read data stored in formats with rich metadata, such as SPSS (.sav) files, 
@@ -42,5 +42,5 @@
 #' @docType package
 #' @import vctrs
 #' @import rlang
-#' @name retrohamonize
+#' @name retroharmonize
 NULL

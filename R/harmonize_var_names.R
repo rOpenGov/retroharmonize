@@ -12,7 +12,7 @@
 #' @param old The column name in \code{metadata} that contains the old, not harmonized variable names.
 #' @param new The column name in \code{metadata} that contains the new, harmonized variable names.
 #' @param rowids Rename var labels of original vars \code{rowid} to simply \code{uniqid}?
-#' @importFrom dplyr mutate left_join select
+#' @importFrom dplyr mutate left_join select inner_join
 #' @importFrom tidyselect all_of
 #' @importFrom purrr set_names
 #' @importFrom assertthat assert_that
