@@ -26,6 +26,7 @@
 #' @importFrom labelled na_values na_range val_labels var_label
 #' @importFrom purrr map
 #' @importFrom assertthat assert_that
+#' @importFrom rlang .data
 #' @return A nested data frame with metadata and the range of 
 #' labels, na_values and the na_range itself.
 #' @examples
