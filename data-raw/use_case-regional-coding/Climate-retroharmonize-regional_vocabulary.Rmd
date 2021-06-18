@@ -1,0 +1,86 @@
+---
+title: Collecting All Eurobarometer Regional Coding Information From Climate-Relevant
+  GESIS Files
+author: "Daniel Antal, CFA"
+date: "7/4/2021"
+---
+
+Retrospective survey harmonization comes with many challenges, as we have shown in the [introduction](http://greendeal.dataobservatory.eu/post/2021-03-04_retroharmonize_intro/) to this tutorial case study. In this example, we will work with Eurobarometer’s data. 
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+Please use the development version of [retroharmonize](https://retroharmonize.dataobservatory.eu/):
+
+```{r install-retroharmonize, eval=FALSE}
+devtools::install_github("antaldaniel/retroharmonize")
+```
+
+```{r load-pkg, echo=FALSE}
+library(retroharmonize)
+library(dplyr, quietly = T)       # this is necessary for the example 
+library(lubridate)   # easier date conversion
+library(stringr)     # You can also use base R string processing functions 
+library(purrr)       # functional programing
+library(here)        # for finding the project root when working with Rmd files
+here::here()
+```
+
+## Get the Data
+
+`retroharmonize` is not associated with Eurobarometer, its creators (Kantar), or its archivists (GESIS). We assume that you have acquired the necessary files from GESIS after carefully reading their terms and that you have placed them on a path that you call gesis_dir. The precise documentation of the data we use can be found in this supporting [blogpost](http://greendeal.dataobservatory.eu/post/2021-03-04-eurobarometer_data/). To reproduce this blogpost, you will need `ZA5877_v2-0-0.sav`, `ZA6595_v3-0-0.sav`,  `ZA6861_v1-2-0.sav`, `ZA7488_v1-0-0.sav`, `ZA7572_v1-0-0.sav` in a directory that you have named `gesis_dir`.
+
+```{r read-files, eval=FALSE}
+# Not run in the blogpost. In the repo we have a saved version.
+climate_change_files <- c("ZA5877_v2-0-0.sav", "ZA6595_v3-0-0.sav",  "ZA6861_v1-2-0.sav", 
+                          "ZA7488_v1-0-0.sav", "ZA7572_v1-0-0.sav")
+
+eb_climate_waves <- read_surveys(
+  file.path(gesis_dir, climate_change_files), 
+  .f='read_spss')
+
+if (dir.exists("data-raw")) {
+  save ( eb_climate_waves,  
+         file = here::here("data-raw", "eb_climate_change_waves.rda") )
+}
+```
+
+```{r load-existing-data}
+if ( file.exists( here::here("data-raw", "eb_climate_change_waves.rda")) ) {
+  load (here::here( "data-raw", "eb_climate_change_waves.rda" ) )
+}
+```
+
+The `eb_waves` nested list contains five surveys imported from SPSS to the survey class of [retroharmonize](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html). The survey class is a data.frame that retains important metadata for further harmonization.
+
+```{r wave-contents}
+document_waves (eb_climate_waves)
+```
+
+Beware of the object sizes. If you work with many surveys, memory-efficient programming becomes imperative. We will be subsetting whenever possible.
+
+## Metadata analysis
+
+As noted before, be prepared to work with nested lists. Each imported survey is nested as a data frame in the `eb_waves` list. 
+
+```{r metadata, echo=FALSE, messag=FALSE, warning=FALSE}
+eb_climate_metadata <- lapply ( X = eb_waves, 
+                                FUN = retroharmonize::metadata_create )
+eb_climate_metadata <- do.call(rbind, eb_climate_metadata)
+```
+
+## Metadata: Protocol Variables
+
+Eurobarometer refers to certain metadata elements, like interviewee cooperation level or the date of a survey interview as protocol variables. Let's start here. This will be our template to harmonize more and more aspects of the five surveys (which are, in fact, already harmonizations of about 30 surveys conducted in a single 'wave' in multiple countries.)
+
+```{r metadata-protocol}
+# select variables of interest from the metadata
+eb_protocol_metadata <- eb_climate_metadata %>%
+  filter ( .data$label_orig %in% c("date of interview") |
+             .data$var_name_orig == "rowid")  %>%
+  suggest_var_names( survey_program = "eurobarometer" )
+
+# subset and harmonize these variables in all nested list items of 'waves' of surveys
+interview_dates <- harmonize_var_names(eb_waves, 
+      
