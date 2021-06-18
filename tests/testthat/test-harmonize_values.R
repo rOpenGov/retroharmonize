@@ -87,12 +87,12 @@ test_that("recasting works", {
 
 test_that("exception handling works", {
   ## tests validate_harmonize_values
-  expect_error (harmonize_values (var_1, 
+  expect_error(expect_warning ((harmonize_values (var_1, 
                                   # list not well defined
                                   harmonize_labels = list(
                                     wrong_from = c("a", "b"), 
                                     wrong_to = c("ab", "bc"))
-                                  )
+                                  )))
   )
   expect_error (harmonize_values (var_1, 
                                   # type mismatch
