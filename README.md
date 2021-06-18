@@ -16,6 +16,7 @@ author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](htt
 coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
 [![Travis build
 status](https://travis-ci.com/antaldaniel/retroharmonize.svg?branch=master)](https://travis-ci.com/antaldaniel/retroharmonize)
+[![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/antaldaniel/retroharmonize/actions)
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to facilitate retrospective (ex-post)
