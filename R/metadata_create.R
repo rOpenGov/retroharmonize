@@ -25,6 +25,7 @@
 #' @importFrom tidyr nest unnest
 #' @importFrom labelled na_values na_range val_labels var_label
 #' @importFrom purrr map
+#' @importFrom assertthat assert_that
 #' @return A nested data frame with metadata and the range of 
 #' labels, na_values and the na_range itself.
 #' @examples
@@ -37,9 +38,9 @@
 #' @export
 
 metadata_create <- function( survey ) {
-  var_name_orig <- n_na_labels <- n_valid_labels <- n_labels <- NULL
-  
-  assert_that(is.survey(survey))
+
+  assert_that(is.survey(survey), 
+              msg = "Parameter 'survey' must be of s3 class survey. See ?is.survey.")
   
   filename <- attr(survey, "filename")
   if (is.null(filename)) filename <- "unknown"
@@ -105,14 +106,14 @@ metadata_create <- function( survey ) {
 
   return_df <- metadata %>%
     dplyr::left_join ( range_df %>% 
-                         dplyr::group_by ( var_name_orig ) %>%
+                         dplyr::group_by ( .data$var_name_orig ) %>%
                          tidyr::nest() , 
                        by = "var_name_orig") %>%
     tidyr::unnest ( cols = "data" )  %>%
     dplyr::ungroup() %>%
-    dplyr::mutate ( n_na_labels = as.numeric(n_na_labels), 
-             n_valid_labels = as.numeric(n_valid_labels), 
-             n_labels = as.numeric(n_labels)) %>%
+    dplyr::mutate ( n_na_labels = as.numeric(.data$n_na_labels), 
+             n_valid_labels = as.numeric(.data$n_valid_labels), 
+             n_labels = as.numeric(.data$n_labels)) %>%
     as.data.frame()
   
   return_df
