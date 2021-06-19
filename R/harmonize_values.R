@@ -110,7 +110,7 @@ harmonize_values <- function(
   original_values <- tibble::tibble (
     x = vctrs::vec_data(x) )
   
-  original_values$orig_labels = if_else (
+  original_values$orig_labels <- if_else (
     condition = original_values$x %in% labelled::val_labels(x), 
     true = as_character(x), 
     false = NA_character_

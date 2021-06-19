@@ -126,7 +126,7 @@ new_labelled_spss_survey <- function(x, labels,
 #' @export
 `[.retroharmonize_labelled_spss_survey` <- function(x, i, ...) {
   preserve_structure <- attributes(x)
-  x = vec_data(x)[i]
+  x <- vec_data(x)[i]
   attributes(x) <- preserve_structure
   x
 }
@@ -139,7 +139,7 @@ vec_cast_named <- function(x, to, ...) {
 
 ## Displaying methods -----------------------------------------
 get_labeltext <- function(x, prefix=": ") {
-  label = attr(x, "label", exact = TRUE)
+  label <- attr(x, "label", exact = TRUE)
   if(!is.null(label)) {
     paste0(prefix, label)
   }
