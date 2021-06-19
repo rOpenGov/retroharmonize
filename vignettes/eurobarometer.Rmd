@@ -2,7 +2,7 @@
 title: "Case Study: Working with Eurobarometer surveys"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Case Study: Working With Eurobarometer}
+  %\VignetteIndexEntry{Case Study: Working with Eurobarometer surveys}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---

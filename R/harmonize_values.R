@@ -73,7 +73,7 @@ harmonize_values <- function(
     for ( l in unique( label_list$to) ) {
       
       matched_numeric_value <-  ll %>%
-        filter ( to == l ) %>%
+        filter ( .data$to == l ) %>%
         distinct ( .data$to, .data$numeric_values ) %>%
         pull ( .data$numeric_values )
       
@@ -192,7 +192,7 @@ harmonize_values <- function(
     dplyr::mutate ( new_values = if_else (
       condition = is.na(.data$new_labels),
       true = x, 
-      false = new_values
+      false = .data$new_values
     )) %>%  #invalid labels should be treated elsewhere 
     dplyr::arrange( .data$new_values )
   
