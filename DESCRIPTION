@@ -55,5 +55,6 @@ Suggests:
     covr,
     testthat,
     png,
-    spelling
+    spelling,
+    markdown
 VignetteBuilder: knitr
