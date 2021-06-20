@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -57,6 +57,9 @@
       <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="../articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -73,7 +76,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -88,13 +91,13 @@
 
       
 
-      </header><script src="eurobarometer_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="eurobarometer_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Case Study: Working with Eurobarometer surveys</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/retroharmonize/blob/master/vignettes/eurobarometer.Rmd"><code>vignettes/eurobarometer.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rOpenGov/retroharmonize/blob/master/vignettes/eurobarometer.Rmd"><code>vignettes/eurobarometer.Rmd</code></a></small>
       <div class="hidden name"><code>eurobarometer.Rmd</code></div>
 
     </div>
@@ -369,7 +372,7 @@
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise_all.html">summarize_at</a></span> <span class="op">(</span> <span class="fu"><a href="https://dplyr.tidyverse.org/reference/vars.html">vars</a></span><span class="op">(</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/starts_with.html">contains</a></span><span class="op">(</span><span class="st">"trust"</span><span class="op">)</span><span class="op">)</span>, <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="op">~</span><span class="fu"><a href="https://rdrr.io/r/base/mean.html">mean</a></span><span class="op">(</span><span class="va">.</span><span class="op">*</span><span class="va">weight_poststrat</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span><span class="op">)</span><span class="op">)</span><span class="op">)</span> 
 <span class="co">#&gt; # A tibble: 7 x 4</span>
 <span class="co">#&gt;   country_id trust_national_parlia~ trust_european_commis~ trust_european_parli~</span>
-<span class="co">#&gt; * &lt;chr&gt;                       &lt;dbl&gt;                  &lt;dbl&gt;                 &lt;dbl&gt;</span>
+<span class="co">#&gt;   &lt;chr&gt;                       &lt;dbl&gt;                  &lt;dbl&gt;                 &lt;dbl&gt;</span>
 <span class="co">#&gt; 1 BE                          0.453                  0.610                 0.623</span>
 <span class="co">#&gt; 2 HU                          0.328                  0.639                 0.642</span>
 <span class="co">#&gt; 3 IT                          0.317                  0.603                 0.630</span>

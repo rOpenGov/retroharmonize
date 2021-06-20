@@ -73,7 +73,7 @@ na_range, if the latter is present." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@ na_range, if the latter is present." />
       <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="../articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -115,7 +118,7 @@ na_range, if the latter is present." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -134,7 +137,7 @@ na_range, if the latter is present." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Harmonize user-defined missing value ranges</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/na_range_to_values.R'><code>R/na_range_to_values.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rOpenGov/retroharmonize/blob/master/R/na_range_to_values.R'><code>R/na_range_to_values.R</code></a></small>
     <div class="hidden name"><code>na_range_to_values.Rd</code></div>
     </div>
 
@@ -178,7 +181,9 @@ when joining survey answers.</p>
 <code><a href='harmonize_var_names.html'>harmonize_var_names</a>()</code>,
 <code><a href='harmonize_waves.html'>harmonize_waves</a>()</code>,
 <code><a href='label_normalize.html'>label_normalize</a>()</code>,
-<code><a href='merge_waves.html'>merge_waves</a>()</code></p></div>
+<code><a href='merge_waves.html'>merge_waves</a>()</code>,
+<code><a href='suggest_permanent_names.html'>suggest_permanent_names</a>()</code>,
+<code><a href='suggest_var_names.html'>suggest_var_names</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='va'>var1</span> <span class='op'>&lt;-</span> <span class='fu'>labelled</span><span class='fu'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></span><span class='op'>(</span>

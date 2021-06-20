@@ -73,7 +73,7 @@ variable labels and survey identifiers." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@ variable labels and survey identifiers." />
       <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="../articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -115,7 +118,7 @@ variable labels and survey identifiers." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -134,7 +137,7 @@ variable labels and survey identifiers." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Merge waves</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/merge_waves.R'><code>R/merge_waves.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rOpenGov/retroharmonize/blob/master/R/merge_waves.R'><code>R/merge_waves.R</code></a></small>
     <div class="hidden name"><code>merge_waves.Rd</code></div>
     </div>
 
@@ -172,7 +175,9 @@ variable labels and survey identifiers.</p>
 <code><a href='harmonize_var_names.html'>harmonize_var_names</a>()</code>,
 <code><a href='harmonize_waves.html'>harmonize_waves</a>()</code>,
 <code><a href='label_normalize.html'>label_normalize</a>()</code>,
-<code><a href='na_range_to_values.html'>na_range_to_values</a>()</code></p></div>
+<code><a href='na_range_to_values.html'>na_range_to_values</a>()</code>,
+<code><a href='suggest_permanent_names.html'>suggest_permanent_names</a>()</code>,
+<code><a href='suggest_var_names.html'>suggest_var_names</a>()</code></p></div>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
     <pre class="examples"><div class='input'><span class='co'># \donttest{</span>
@@ -195,81 +200,81 @@ variable labels and survey identifiers.</p>
 
 <span class='fu'>merge_waves</span> <span class='op'>(</span> <span class='va'>example_surveys</span>, <span class='va'>to_harmonize</span> <span class='op'>)</span>
 </div><div class='output co'>#&gt; [[1]]
-#&gt; <span style='color: #949494;'># A tibble: 35 x 7</span><span>
-#&gt;    unique_identifi~ trust_in_instit~ trust_in_instit~ trust_in_instit~
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ZA5913_1         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ZA5913_2         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> ZA5913_3         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> ZA5913_4         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ZA5913_5         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> ZA5913_6         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> ZA5913_7         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 3</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [DK]</span><span>      2</span><span style='color: #949494;'> [Tend not to ~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> ZA5913_8         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> ZA5913_9         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> ZA5913_10        2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 25 more rows, and 3 more variables:</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_political_parties </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_reg_loc_authorities </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   weight_result_from_target </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 35 x 7</span>
+#&gt;    unique_identifier~ trust_in_institut~ trust_in_instituti~ trust_in_instituti~
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> ZA5913_1           2<span style='color: #949494;'> [Tend not to tr~</span> 2<span style='color: #949494;'> [Tend not to tru~</span> 2<span style='color: #949494;'> [Tend not to tru~</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span> ZA5913_2           2<span style='color: #949494;'> [Tend not to tr~</span> 2<span style='color: #949494;'> [Tend not to tru~</span> 2<span style='color: #949494;'> [Tend not to tru~</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> ZA5913_3           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   1<span style='color: #949494;'> [Tend to trust]</span>  
+#&gt; <span style='color: #BCBCBC;'> 4</span> ZA5913_4           2<span style='color: #949494;'> [Tend not to tr~</span> 1<span style='color: #949494;'> [Tend to trust]</span>   1<span style='color: #949494;'> [Tend to trust]</span>  
+#&gt; <span style='color: #BCBCBC;'> 5</span> ZA5913_5           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   2<span style='color: #949494;'> [Tend not to tru~</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span> ZA5913_6           1<span style='color: #949494;'> [Tend to trust]</span>  2<span style='color: #949494;'> [Tend not to tru~</span> 2<span style='color: #949494;'> [Tend not to tru~</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span> ZA5913_7           2<span style='color: #949494;'> [Tend not to tr~</span> 3<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [DK]</span>         2<span style='color: #949494;'> [Tend not to tru~</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span> ZA5913_8           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   1<span style='color: #949494;'> [Tend to trust]</span>  
+#&gt; <span style='color: #BCBCBC;'> 9</span> ZA5913_9           2<span style='color: #949494;'> [Tend not to tr~</span> 2<span style='color: #949494;'> [Tend not to tru~</span> 2<span style='color: #949494;'> [Tend not to tru~</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> ZA5913_10          2<span style='color: #949494;'> [Tend not to tr~</span> 2<span style='color: #949494;'> [Tend not to tru~</span> 2<span style='color: #949494;'> [Tend not to tru~</span>
+#&gt; <span style='color: #949494;'># ... with 25 more rows, and 3 more variables:</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_political_parties &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_reg_loc_authorities &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   weight_result_from_target &lt;dbl&gt;</span>
 #&gt; 
 #&gt; [[2]]
-#&gt; </span><span style='color: #949494;'># A tibble: 50 x 15</span><span>
-#&gt;    unique_identifi~ trust_in_instit~ trust_in_instit~ trust_in_instit~
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ZA6863_1         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ZA6863_2         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> ZA6863_3         3</span><span style='color: #949494;'> [DK]</span><span>           3</span><span style='color: #949494;'> [DK]</span><span>           9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> ZA6863_4         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ZA6863_5         3</span><span style='color: #949494;'> [DK]</span><span>           1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> ZA6863_6         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> ZA6863_7         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 3</span><span style='color: #949494;'> [DK]</span><span>           9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> ZA6863_8         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> ZA6863_9         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> ZA6863_10        1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 40 more rows, and 11 more variables:</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_justice_legal_system </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_national_government </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_national_parliament </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_police </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_political_parties </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_political_parties_tcc </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_public_administration </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_reg_local_public_authorities </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_united_nations </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_united_nations_tcc </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   weight_result_from_target_redressment </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 50 x 15</span>
+#&gt;    unique_identifier~ trust_in_institut~ trust_in_instituti~ trust_in_instituti~
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> ZA6863_1           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span> ZA6863_2           2<span style='color: #949494;'> [Tend not to tr~</span> 1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> ZA6863_3           3<span style='color: #949494;'> [DK]</span>             3<span style='color: #949494;'> [DK]</span>              9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span> ZA6863_4           2<span style='color: #949494;'> [Tend not to tr~</span> 1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span> ZA6863_5           3<span style='color: #949494;'> [DK]</span>             1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span> ZA6863_6           2<span style='color: #949494;'> [Tend not to tr~</span> 2<span style='color: #949494;'> [Tend not to tru~</span> 9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span> ZA6863_7           1<span style='color: #949494;'> [Tend to trust]</span>  3<span style='color: #949494;'> [DK]</span>              9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span> ZA6863_8           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span> ZA6863_9           1<span style='color: #949494;'> [Tend to trust]</span>  2<span style='color: #949494;'> [Tend not to tru~</span> 9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> ZA6863_10          1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #949494;'># ... with 40 more rows, and 11 more variables:</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_justice_legal_system &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_national_government &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_national_parliament &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_police &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_political_parties &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_political_parties_tcc &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_public_administration &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_reg_local_public_authorities &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_united_nations &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_united_nations_tcc &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   weight_result_from_target_redressment &lt;dbl&gt;</span>
 #&gt; 
 #&gt; [[3]]
-#&gt; </span><span style='color: #949494;'># A tibble: 45 x 17</span><span>
-#&gt;    unique_identifi~ trust_in_instit~ trust_in_instit~ trust_in_instit~
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>                </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ZA7576_1         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ZA7576_2         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 3</span><span style='color: #949494;'> [DK]</span><span>           9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> ZA7576_3         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> ZA7576_4         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ZA7576_5         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 3</span><span style='color: #949494;'> [DK]</span><span>           9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> ZA7576_6         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> ZA7576_7         1</span><span style='color: #949494;'> [Tend to trus~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> ZA7576_8         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 1</span><span style='color: #949494;'> [Tend to trus~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> ZA7576_9         2</span><span style='color: #949494;'> [Tend not to ~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> ZA7576_10        1</span><span style='color: #949494;'> [Tend to trus~</span><span> 2</span><span style='color: #949494;'> [Tend not to ~</span><span> 9</span><span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (~</span><span>
-#&gt; </span><span style='color: #949494;'># ... with 35 more rows, and 13 more variables:</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_justice_legal_system </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_media </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_media_tcc </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_national_government </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_national_parliament </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_police </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_political_parties </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_political_parties_tcc </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_public_administration </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_reg_local_public_authorities </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_united_nations </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   trust_in_institutions_united_nations_tcc </span><span style='color: #949494;font-style: italic;'>&lt;retroh_dbl&gt;</span><span style='color: #949494;'>,</span><span>
-#&gt; </span><span style='color: #949494;'>#   weight_result_from_target_redressment </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 45 x 17</span>
+#&gt;    unique_identifier~ trust_in_institut~ trust_in_instituti~ trust_in_instituti~
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>                    <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>        <span style='color: #949494; font-style: italic;'>&lt;retroh_dbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> ZA7576_1           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 2</span> ZA7576_2           1<span style='color: #949494;'> [Tend to trust]</span>  3<span style='color: #949494;'> [DK]</span>              9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> ZA7576_3           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 4</span> ZA7576_4           1<span style='color: #949494;'> [Tend to trust]</span>  2<span style='color: #949494;'> [Tend not to tru~</span> 9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 5</span> ZA7576_5           1<span style='color: #949494;'> [Tend to trust]</span>  3<span style='color: #949494;'> [DK]</span>              9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 6</span> ZA7576_6           1<span style='color: #949494;'> [Tend to trust]</span>  1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 7</span> ZA7576_7           1<span style='color: #949494;'> [Tend to trust]</span>  2<span style='color: #949494;'> [Tend not to tru~</span> 9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span> ZA7576_8           2<span style='color: #949494;'> [Tend not to tr~</span> 1<span style='color: #949494;'> [Tend to trust]</span>   9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'> 9</span> ZA7576_9           2<span style='color: #949494;'> [Tend not to tr~</span> 2<span style='color: #949494;'> [Tend not to tru~</span> 9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> ZA7576_10          1<span style='color: #949494;'> [Tend to trust]</span>  2<span style='color: #949494;'> [Tend not to tru~</span> 9<span style='color: #BB0000;'> (NA)</span><span style='color: #949494;'> [Inap. (not~</span>
+#&gt; <span style='color: #949494;'># ... with 35 more rows, and 13 more variables:</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_justice_legal_system &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_media &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_media_tcc &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_national_government &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_national_parliament &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_police &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_political_parties &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_political_parties_tcc &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_public_administration &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_reg_local_public_authorities &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_united_nations &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   trust_in_institutions_united_nations_tcc &lt;retroh_dbl&gt;,</span>
+#&gt; <span style='color: #949494;'>#   weight_result_from_target_redressment &lt;dbl&gt;</span>
 #&gt; </div><div class='input'><span class='co'># }</span>
-</div></span></pre>
+</div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

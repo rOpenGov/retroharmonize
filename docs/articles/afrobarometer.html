@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -57,6 +57,9 @@
       <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="../articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -73,7 +76,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -88,13 +91,13 @@
 
       
 
-      </header><script src="afrobarometer_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="afrobarometer_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Case Study: Working With Afrobarometer surveys</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/retroharmonize/blob/master/vignettes/afrobarometer.Rmd"><code>vignettes/afrobarometer.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rOpenGov/retroharmonize/blob/master/vignettes/afrobarometer.Rmd"><code>vignettes/afrobarometer.Rmd</code></a></small>
       <div class="hidden name"><code>afrobarometer.Rmd</code></div>
 
     </div>
@@ -381,25 +384,25 @@ Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/summarise_all.html">summarize_if</a></span> <span class="op">(</span> <span class="va">is.numeric</span>, <span class="va">mean</span>, na.rm<span class="op">=</span><span class="cn">TRUE</span> <span class="op">)</span> 
 <span class="co">#&gt; # A tibble: 17 x 7</span>
 <span class="co">#&gt; # Groups:   country [5]</span>
-<span class="co">#&gt;    country  year trust_key_leade~ trust_parliamen~ trust_president</span>
-<span class="co">#&gt;    &lt;chr&gt;   &lt;int&gt;            &lt;dbl&gt;            &lt;dbl&gt;           &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 Algeria  2013             2.59             1.70          NaN   </span>
-<span class="co">#&gt;  2 Algeria  2015           NaN                1.82            2.00</span>
-<span class="co">#&gt;  3 Madaga~  2013             1.96           NaN             NaN   </span>
-<span class="co">#&gt;  4 Madaga~  2014           NaN                1.75            1.95</span>
-<span class="co">#&gt;  5 Madaga~  2015           NaN                1.94            2.15</span>
-<span class="co">#&gt;  6 Madaga~  2018           NaN                1.71            1.83</span>
-<span class="co">#&gt;  7 Niger    2013             2.59             2.52          NaN   </span>
-<span class="co">#&gt;  8 Niger    2015           NaN                2.43            2.64</span>
-<span class="co">#&gt;  9 Niger    2018           NaN                2.31            2.42</span>
-<span class="co">#&gt; 10 Nigeria  2012             1.59             1.43          NaN   </span>
-<span class="co">#&gt; 11 Nigeria  2013             1.59             1.84          NaN   </span>
-<span class="co">#&gt; 12 Nigeria  2014           NaN                1.45            1.64</span>
-<span class="co">#&gt; 13 Nigeria  2015           NaN                1.15            1.30</span>
-<span class="co">#&gt; 14 Nigeria  2017           NaN                1.57            2.06</span>
-<span class="co">#&gt; 15 South ~  2011             2.04             1.84          NaN   </span>
-<span class="co">#&gt; 16 South ~  2015           NaN                1.82            1.87</span>
-<span class="co">#&gt; 17 South ~  2018           NaN                1.70            1.86</span>
+<span class="co">#&gt;    country    year trust_key_leadership_fi~ trust_parliament_na~ trust_president</span>
+<span class="co">#&gt;    &lt;chr&gt;     &lt;int&gt;                    &lt;dbl&gt;                &lt;dbl&gt;           &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 Algeria    2013                     2.59                 1.70          NaN   </span>
+<span class="co">#&gt;  2 Algeria    2015                   NaN                    1.82            2.00</span>
+<span class="co">#&gt;  3 Madagasc~  2013                     1.96               NaN             NaN   </span>
+<span class="co">#&gt;  4 Madagasc~  2014                   NaN                    1.75            1.95</span>
+<span class="co">#&gt;  5 Madagasc~  2015                   NaN                    1.94            2.15</span>
+<span class="co">#&gt;  6 Madagasc~  2018                   NaN                    1.71            1.83</span>
+<span class="co">#&gt;  7 Niger      2013                     2.59                 2.52          NaN   </span>
+<span class="co">#&gt;  8 Niger      2015                   NaN                    2.43            2.64</span>
+<span class="co">#&gt;  9 Niger      2018                   NaN                    2.31            2.42</span>
+<span class="co">#&gt; 10 Nigeria    2012                     1.59                 1.43          NaN   </span>
+<span class="co">#&gt; 11 Nigeria    2013                     1.59                 1.84          NaN   </span>
+<span class="co">#&gt; 12 Nigeria    2014                   NaN                    1.45            1.64</span>
+<span class="co">#&gt; 13 Nigeria    2015                   NaN                    1.15            1.30</span>
+<span class="co">#&gt; 14 Nigeria    2017                   NaN                    1.57            2.06</span>
+<span class="co">#&gt; 15 South Af~  2011                     2.04                 1.84          NaN   </span>
+<span class="co">#&gt; 16 South Af~  2015                   NaN                    1.82            1.87</span>
+<span class="co">#&gt; 17 South Af~  2018                   NaN                    1.70            1.86</span>
 <span class="co">#&gt; # ... with 2 more variables: trust_traditional_leaders &lt;dbl&gt;,</span>
 <span class="co">#&gt; #   trust_religious_leaders &lt;dbl&gt;</span></code></pre></div>
 <p>And the factor representation, without weighting:</p>
@@ -431,7 +434,7 @@ Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
 <span class="co">#&gt; 10 Algeria  2013 parliament_national_assembly                   inap         242</span>
 <span class="co">#&gt; # ... with 301 more rows</span></code></pre></div>
 <p>We subsetted the datasets to meet the vignette size limitations. If you are following our code without reducing the number of countries, you get the following results:</p>
-<p><img src="../../../../../Daniel%20Antal/OneDrive%20-%20Visegrad%20Investments/_package/retroharmonize/vignettes/ab_plot1.png" width="95%"></p>
+<p><img src="ab_plot1.png" width="95%"></p>
 </div>
   </div>
 

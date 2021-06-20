@@ -35,7 +35,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -61,6 +61,9 @@
       <a href="articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -77,7 +80,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -101,17 +104,17 @@
 
 <p>The goal of <code>retroharmonize</code> is to facilitate retrospective (ex-post) harmonization of data, particularly survey data, in a reproducible manner. The package provides tools for organizing the metadata, standardizing the coding of variables, variable names and value labels, including missing values, and for documenting all transformations, with the help of comprehensive S3 classes.</p>
 <p>Currently being generalized from problems solved in the not yet released <a href="https://github.com/antaldaniel/eurobarometer">eurobarometer</a> package (<a href="https://doi.org/10.5281/zenodo.3825700">doi</a>.)</p>
-<p>You can download the manual in <a href="https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf">PDF</a>.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>The package will be available for install via after review on <a href="https://CRAN.R-project.org">CRAN</a>:</p>
+<p>The package is available on <a href="https://CRAN.R-project.org">CRAN</a>:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"retroharmonize"</span><span class="op">)</span></code></pre></div>
 <p>The development version has some small improvements in functionality and minor documentation updates. It can be installed from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("devtools")</span>
 <span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org//reference/remote-reexports.html">install_github</a></span><span class="op">(</span><span class="st">"antaldaniel/retroharmonize"</span><span class="op">)</span></code></pre></div>
+<p>You can download the manual in PDF for the <a href="https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf">0.1.13 CRAN release</a> and for the <a href="https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.16.pdf">0.1.16 development release</a>.</p>
 </div>
 <div id="retrospective-data-harmonization" class="section level2">
 <h2 class="hasAnchor">
@@ -123,6 +126,7 @@
 <p>The vignette <a href="https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html">Working With The labelled_spss_survey Class</a> provides more information about the <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class.</p>
 <p>In <a href="https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html">Harmonize Value Labels</a> we discuss the characteristics of the <code><a href="reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> class and demonstrates the problems that using this class solves.</p>
 <p>We also provide two extensive case studies illustrating how the <code>retroharmonize</code> package can be used for ex-post harmonization of data from cross-national surveys on the example of the <a href="https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html">Afrobarometer</a> and the <a href="https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html">Eurobarometer</a>. The creators of <code>retroharmonize</code> are not affiliated with either Afrobarometer, Eurobarometer, or the organizations that designs, produces or archives their surveys.</p>
+<p>We started building an experimental APIs data is running regions regularly and improving known statistical data sources. See: <a href="https://music.dataobservatory.eu/">Digital Music Observatory</a>, <a href="https://greendeal.dataobservatory.eu/">Green Deal Data Observatory</a>, <a href="https://economy.dataobservatory.eu/">Economy Data Observatory</a>.</p>
 </div>
 <div id="code-of-conduct" class="section level2">
 <h2 class="hasAnchor">
@@ -138,9 +142,9 @@
 <ul class="list-unstyled">
 <li>Download from CRAN at <br><a href="https://cloud.r-project.org/package=retroharmonize">https://​cloud.r-project.org/​package=retroharmonize</a>
 </li>
-<li>Browse source code at <br><a href="https://github.com/antaldaniel/retroharmonize/">https://​github.com/​antaldaniel/​retroharmonize/​</a>
+<li>Browse source code at <br><a href="https://github.com/rOpenGov/retroharmonize/">https://​github.com/​rOpenGov/​retroharmonize/​</a>
 </li>
-<li>Report a bug at <br><a href="https://github.com/antaldaniel/retroharmonize/issues">https://​github.com/​antaldaniel/​retroharmonize/​issues</a>
+<li>Report a bug at <br><a href="https://github.com/rOpenGov/retroharmonize/issues">https://​github.com/​rOpenGov/​retroharmonize/​issues</a>
 </li>
 </ul>
 </div>
@@ -173,6 +177,7 @@
 <li><a href="https://twitter.com/intent/follow?screen_name=antaldaniel"><img src="https://img.shields.io/twitter/follow/antaldaniel.svg?style=social" alt="Follow author"></a></li>
 <li><a href="https://codecov.io/gh/antaldaniel/retroharmonize?branch=master"><img src="https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 <li><a href="https://travis-ci.com/antaldaniel/retroharmonize"><img src="https://travis-ci.com/antaldaniel/retroharmonize.svg?branch=master" alt="Travis build status"></a></li>
+<li><a href="https://github.com/antaldaniel/retroharmonize/actions"><img src="https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a></li>
 </ul>
 </div>
 </div>

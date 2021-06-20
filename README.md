@@ -49,8 +49,8 @@ devtools::install_github("antaldaniel/retroharmonize")
 
 You can download the manual in PDF for the [0.1.13 CRAN
 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf)
-and for the [0.1.15 development
-release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.15.pdf).
+and for the [0.1.16 development
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.16.pdf).
 
 ## Retrospective data harmonization
 
@@ -110,6 +110,12 @@ and the
 The creators of `retroharmonize` are not affiliated with either
 Afrobarometer, Eurobarometer, or the organizations that designs,
 produces or archives their surveys.
+
+We started building an experimental APIs data is running regions
+regularly and improving known statistical data sources. See: [Digital
+Music Observatory](https://music.dataobservatory.eu/), [Green Deal Data
+Observatory](https://greendeal.dataobservatory.eu/), [Economy Data
+Observatory](https://economy.dataobservatory.eu/).
 
 ## Code of Conduct
 
