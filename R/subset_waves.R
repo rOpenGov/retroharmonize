@@ -24,9 +24,9 @@
 #' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 #' metadata <- do.call(rbind, metadata)
 #' 
-#' metadata$var_name <- label_normalize(metadata$var_name)
+#' metadata$var_name_suggested <- label_normalize(metadata$var_name)
 #' 
-#' metadata$var_name[metadata$label_orig == "age education"] <- "age_education"
+#' metadata$var_name_suggested[metadata$label_orig == "age education"] <- "age_education"
 #' 
 #' hnw <- harmonize_var_names(waves = example_surveys, 
 #'                            metadata = metadata )
