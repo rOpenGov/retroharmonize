@@ -8,10 +8,10 @@ output:
   html_document:
     df_print: paged
   rmarkdown::html_vignette: default
-  word_document: default
-resource_files: vignettes/ab_plot1.png
-vignette: |
-  %\VignetteEncoding{UTF-8} %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys} %\VignetteEngine{knitr::rmarkdown}
+vignette: >
+  %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r, echo = FALSE, include=FALSE}

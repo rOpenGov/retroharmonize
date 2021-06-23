@@ -49,7 +49,8 @@ Imports:
     tidyr,
     here,
     glue,
-    stringr
+    stringr,
+    utils
 RoxygenNote: 7.1.1
 Depends: 
     R (>= 3.5.0)

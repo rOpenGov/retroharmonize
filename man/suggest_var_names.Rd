@@ -35,12 +35,14 @@ examples_dir <- system.file("examples", package = "retroharmonize")
 survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
 
 example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
+  file.path(examples_dir, survey_list), 
   save_to_rds = FALSE)
 metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 metadata <- do.call(rbind, metadata)
 
-suggest_var_names(metadata, survey_program = "eurobarometer" )
+utils::head(
+  suggest_var_names(metadata, survey_program = "eurobarometer" )
+  )
 }
 \seealso{
 Other harmonization functions: 

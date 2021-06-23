@@ -14,6 +14,7 @@
 #' @importFrom purrr set_names
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
+#' @importFrom utils head
 #' @import snakecase
 #' @family harmonization functions
 #' @return A \code{metadata} tibble augmented with $var_name_suggested
@@ -22,13 +23,15 @@
 #' survey_list <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 #' 
 #' example_surveys <- read_surveys(
-#'   file.path( examples_dir, survey_list), 
+#'   file.path(examples_dir, survey_list), 
 #'   save_to_rds = FALSE)
 
 #' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 #' metadata <- do.call(rbind, metadata)
 #' 
-#' suggest_var_names(metadata, survey_program = "eurobarometer" )
+#' utils::head(
+#'   suggest_var_names(metadata, survey_program = "eurobarometer" )
+#'   )
 #' @export
 
 suggest_var_names <- function( metadata, 
@@ -74,11 +77,12 @@ suggest_var_names <- function( metadata,
 #' 
 #' Established survey programs usually have their own variable name conventions. 
 #' The suggested constant names keep these variable names constant. 
+#' 
 #' @param survey_program Suggest permanent names for the survey progarm \code{"eurobarometer"}
-#' @importFrom dplyr case_when
 #' @return A character vector with suggested permanent names.
 #' @family harmonization functions
 #' @examples suggest_permanent_names ( "eurobarometer" )
+#' @export
  
 suggest_permanent_names <- function(survey_program = "eurobarometer") {
   

@@ -1,5 +1,5 @@
 
-test_that("multiplication works", {
+test_that("suggest_permanent_names-returns-proper-class", {
   expect_equal(class(suggest_permanent_names("eurobarometer")), "character" )
   expect_equal(suggest_permanent_names("pseudobarometer"), NA_character_)
 })
@@ -20,3 +20,4 @@ suggested <- suggest_var_names(metadata, survey_program = "eurobarometer" )
 test_that("multiplication works", {
   expect_true( all(c("rowid", "isocntry") %in% suggested$var_name_suggested ) )
 })
+
