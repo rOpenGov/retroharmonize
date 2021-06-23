@@ -343,7 +343,7 @@ Due to the categorical format of the question of MENA parliamentary election eva
 
 ```{r simply-wave-names, eval=TRUE}
 harmonized_arabb_waves <- harmonized_arabb_waves %>%
-  mutate(wave = str_extract(unique_id_ab_english, "(\\b[A-Z0-9]+)"))
+  mutate(wave = stringr::str_extract(unique_id_ab_english, "(\\b[A-Z0-9]+)"))
 ```
 
 ```{r valuation-summary, eval=TRUE}
@@ -355,7 +355,7 @@ categorical_summary <- harmonized_arabb_waves %>%
   pivot_longer ( starts_with("evaluation"), 
                  names_to  = "indicator", 
                  values_to = "valuation") %>%
-  group_by ( .data$country, .data$wave, .data$valuation ) %>%
+  group_by ( all_of(c("country", "wave", "valuation")) ) %>%
   summarize (n = n(),
              .groups = 'keep') 
 ```
