@@ -133,7 +133,7 @@ We select from the metadata file `rowid` being the unique case identifier, and v
 
 In the same context, you should also carefully insert key words and expressions that match with your survey questionnaire item of interest; in our case, we chose *Election, parliamentary*, and *Election* to fork an exact question about parliamentary election, which is `How would you evaluate the last parliamentary election?`
 
-The variable names (var_name) and labels (var_label) then must be normalized and harmonized.
+The variable names (`var_name`) and labels (`var_label`) then must be normalized and harmonized.
 
 ### Harmonizing the variable names
 
@@ -172,7 +172,7 @@ merged_ab <- lapply (merged_ab,
 ```{r clean-country-names}
 # cleaning country names using the second round
 merged_ab[[2]]$country <- gsub("\\d{1,}\\.\\s?","",merged_ab[[2]]$country)
-merged_ab[[2]]$country <- str_squish(merged_ab[[2]]$country)
+merged_ab[[2]]$country <- trimws(merged_ab[[2]]$country, which="both")
 ```
 
 ```{r document-merged-ab}

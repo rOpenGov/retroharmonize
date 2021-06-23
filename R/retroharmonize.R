@@ -40,6 +40,7 @@
 #' \code{\link{as_labelled_spss_survey}}: convert labelled and labelled_spss
 #' vectors to labelled_spss_survey vectors.\cr
 #' @docType package
+#' @importFrom stringr str_extract
 #' @import vctrs
 #' @import rlang
 #' @name retroharmonize
