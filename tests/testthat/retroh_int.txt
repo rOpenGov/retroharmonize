@@ -1,4 +1,5 @@
 > pillar::pillar(x1)
+<pillar>
 <retroh_int>
     1 [Good]
     2       

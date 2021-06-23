@@ -107,7 +107,7 @@ test_that("type conversion is correct", {
 test_that("NA values are correct", {
   expect_equal(sum(is.na(x1)),2)
   expect_equal(levels(as_factor(x1)),c("Good", 2:7, "Bad", 9:10))
-  expect_equal(as_character(x1), c("Good", 2:7, "Bad", 9:10))
+  expect_equal(retroharmonize::as_character(x= x1), c("Good", 2:7, "Bad", 9:10))
 })
 
 test_that("errors work", {
@@ -144,3 +144,4 @@ verify_output("retroh_int.txt", {
   pillar::pillar(x1)
 })
 
+x1

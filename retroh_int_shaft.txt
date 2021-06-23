@@ -1,4 +1,5 @@
 > pillar::pillar_shaft(tibble(v1 = x1))
+<pillar_ornament>
 # A tibble: 10 x 1
              v1   
    <retroh_int>   
