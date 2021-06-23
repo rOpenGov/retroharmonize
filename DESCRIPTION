@@ -59,5 +59,6 @@ Suggests:
     testthat,
     png,
     spelling,
-    markdown
+    markdown,
+    ggplot2
 VignetteBuilder: knitr
