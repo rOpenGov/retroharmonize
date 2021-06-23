@@ -16,7 +16,7 @@ Authors@R:
            comment = c(ORCID = "0000-0003-4981-0437")), 
       person(given = "Pyry",
              family = "Kantanen", 
-             role = "ctb"))
+             role = "ctb")
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
 Description: Assist in reproducible retrospective (ex-post) harmonization of data,
