@@ -48,7 +48,6 @@ library(tidyr)
 library(stringr)
 library(ggplot2)
 library(knitr)
-library(kableExtra)
 library(here)
 here::here()
 ```
