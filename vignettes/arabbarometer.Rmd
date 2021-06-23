@@ -45,7 +45,6 @@ load(file = system.file(
 library(retroharmonize)
 library(dplyr, quietly=TRUE)
 library(tidyr)
-library(stringr)
 library(ggplot2)
 library(knitr)
 library(here)
