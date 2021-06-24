@@ -5,8 +5,6 @@ author:
 - Daniel Antal
 date: "`r Sys.Date()`"
 output:
-  html_document:
-    df_print: paged
   rmarkdown::html_vignette: default
 vignette: >
   %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys}
@@ -34,15 +32,10 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-load(file = system.file(
-  "afrob", "afrob_vignette.rda", 
-  package = "retroharmonize")
-  )
-# source( here ("not_included", "daniel_env.R"))
 ```
 
 
-```{r pkg-load, echo=FALSE, message=FALSE}
+```{r vignette-setup, echo=FALSE, message=FALSE}
 library(retroharmonize)
 library(dplyr, quietly=TRUE)
 library(tidyr)
@@ -50,6 +43,12 @@ library(ggplot2)
 library(knitr)
 library(here)
 here::here()
+
+load(file = system.file(
+  # the first steps are saved becasue of 
+  # large file/object sizes.
+  "arabb", "arabb_vignette.rda", 
+  package = "retroharmonize"))
 ```
 
 The goal of this case study is to explore the variation in trust in various state institutions among African societies, as well as changes in trust over time.
@@ -74,7 +73,7 @@ AB-WaveV-EN.sav      | Arab Barometer Wave V
 
 ## Importing Arab Barometer Files
 
-We start by reading in the three rounds of the Arab Barometer. We start by reading in the three rounds of the Arab Barometer. The following chunk is not evaluated, if you want to re-run this tutorial, you need to define your `arabbarometer_dir` and download the Arab Barometer files there, after acknowledging Arab Barometer’s terms and conditions. 
+We start by reading in the three rounds of the Arab Barometer. The following chunk is not evaluated, if you want to re-run this tutorial, you need to define your `arabbarometer_dir` and download the Arab Barometer files there, after acknowledging Arab Barometer’s terms and conditions. Alternatively, you can load the pre-saved results of the first steps in the first, `vignette-setup` chunk.
 
 ```{r import, eval=FALSE}
 ### use here your own <arabbarometer_dir> directory
@@ -86,35 +85,35 @@ arab_waves <- read_surveys(arabbarometer_rounds, .f='read_spss')
 we appended meaningful identifiers to the file names as follows (you must follow the ordering of your files in your own `arabbarometer_dir` dir:
 
 ```{r wave-id, eval=FALSE}
+# In the vignette this is pre-loaded.
 attr(arab_waves[[1]],"id") <- "Arab_Barometer_5"
 attr(arab_waves[[2]],"id") <- "Arab_Barometer_1"
 attr(arab_waves[[3]],"id") <- "Arab_Barometer_2"
 attr(arab_waves[[4]],"id") <- "Arab_Barometer_3"
 attr(arab_waves[[5]],"id") <- "Arab_Barometer_4"
-save( arab_waves, file = here::here("data-raw", "arab_waves.rda"))
 ```
 
-```{r load-presaved-arabb}
-load ( here::here("data-raw", "arab_waves.rda") )
-```
-
- 
 ### Importing Arabbarometer Datasets
 
 We used `document_waves()`to see the primary descriptive information of our survey wave (one harmonized survey set) files. Visually check that the file names correspond with the meaningful IDs that you gave to each survey wave, i.e., `Arab_Barometer_1` corresponds with `ABI_English.sav`.
 
-```{r, eval=TRUE}
+```{r document-arab-waves, eval=FALSE}
+# In the vignette this is pre-loaded.
 documented_arab_waves <- document_waves(arab_waves)
+```
+
+```{r print_documented_arab_waves}
 print(documented_arab_waves)
 ```
-We obtained 5 nested lists in the `arab_waves` list, each of them containing data of one survey wave Arab Barometer. To create longitudinal tables, i.e., join several survey waves into a single table, it is important to review the methodology of each round of Arabbarometric’s surveys, its structure, modifications, and changes in topics of interest.
+We obtained 5 nested lists in the `arab_waves` list, each of them containing data of one survey wave Arab Barometer. To create longitudinal tables, i.e., join several survey waves into a single table, it is important to review the methodology of each round of Arabbarometer’s surveys, its structure, modifications, and changes in topics of interest.
 
 ### Merged Metadata Creation 
 
 In this step, we built a comprehensive metadata table that maps information about variable names and labels of the case’s surveys data. Each row in the table above refers to a different variable in the survey data file. This is accomplished using the `metadata_create()` function, which collects metadata from survey data files, normalizes variable labels, and defines substantive response ranges and missing value codes.
 
 
-```{r create-arabb-metadata}
+```{r create-arabb-metadata, eval=FALSE}
+# In the vignette this is pre-loaded.
 arabb_metadata <- lapply ( X = arab_waves, FUN = metadata_create)
 arabb_metadata <- do.call(rbind, arabb_metadata)
 ```
@@ -138,7 +137,6 @@ The variable names (`var_name`) and labels (`var_label`) then must be normalized
 ### Harmonizing the variable names
 
 ```{r arabb-metadata}
-
 to_harmonize <- arabb_metadata %>%
   filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
            grepl("how would you evaluate the last parliamentary", .data$label_orig)) %>%
@@ -154,20 +152,25 @@ to_harmonize <- arabb_metadata %>%
 set.seed(2021) # Let's see the same random example:
 sample_n(to_harmonize%>% 
        select ( all_of(c("id", "var_name", "var_label"))), 10)
-
 ```
 
 The function `merge_waves()` harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of `class survey()`.) The parameter _var_harmonization_ must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (var_label), so that the function correctly makes the harmonization steps.
 
-```{r merge-arabb-waves, eval=TRUE}
-
+```{r merge-arabb-waves, eval=FALSE}
+# In the vignette this is pre-loaded.
 merged_ab <- merge_waves(waves = arab_waves, 
                          var_harmonization = to_harmonize)
-
 merged_ab <- lapply (merged_ab, 
                      FUN = function(x) x  %>%
                        mutate( country = as_character(country)))
 ```
+
+
+```{r save-first-steps, include=FALSE}
+# This saves the first steps because the object sizes are too large to be included with the package on CRAN.
+save (merged_ab, arabb_metadata, documented_arab_waves, file = here("inst", "arabb", "arabb_vignette.rda"))
+```
+
 
 ```{r clean-country-names}
 # cleaning country names using the second round

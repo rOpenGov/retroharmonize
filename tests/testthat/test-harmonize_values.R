@@ -98,6 +98,16 @@ test_that("exception handling works", {
                                   # type mismatch
                                   harmonize_labels = c("a", "b"))
   )
+  expect_error (harmonize_values (var_1, 
+                                  # inconsistent list length
+                                  harmonize_labels = list ( 
+                                    from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+                                    to = c("trust", "not_trust", "do_not_know", "inap"),
+                                    numeric_values = c(1,0,3,99997, 99999)), 
+                                  na_values = c("do_not_know" = 99997,
+                                                "declined" = 99998,
+                                                "inap" = 99999))
+  )
   expect_error (harmonize_values (
     x = lvar2, 
     harmonize_labels = list ( 
