@@ -68,6 +68,15 @@ harmonize_values <- function(
   
   
   validate_label_list <- function ( label_list ) {
+    
+    ll_lengths <- vapply ( label_list, length, numeric(1))
+    
+    assertthat::assert_that(
+      length(unique (ll_lengths))==1, 
+      msg = paste0 ("The label_list elements must be of equal length, currently it is: ", 
+                    as.character( paste(ll_lengths, collapse = ", ")))
+    )
+    
     ll <- as_tibble ( label_list )
     
     for ( l in unique( label_list$to) ) {
