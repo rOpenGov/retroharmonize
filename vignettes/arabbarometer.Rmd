@@ -32,6 +32,7 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+here::here()
 ```
 
 
@@ -42,8 +43,6 @@ library(tidyr)
 library(ggplot2)
 library(knitr)
 library(here)
-here::here()
-
 load(file = system.file(
   # the first steps are saved becasue of 
   # large file/object sizes.
@@ -166,7 +165,7 @@ merged_ab <- lapply (merged_ab,
 ```
 
 
-```{r save-first-steps, include=FALSE}
+```{r save-first-steps, include=FALSE, eval=FALSE}
 # This saves the first steps because the object sizes are too large to be included with the package on CRAN.
 save (merged_ab, arabb_metadata, documented_arab_waves, file = here("inst", "arabb", "arabb_vignette.rda"))
 ```
