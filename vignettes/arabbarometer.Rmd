@@ -86,11 +86,11 @@ arab_waves <- read_surveys(arabbarometer_rounds, .f='read_spss')
 we appended meaningful identifiers to the file names as follows (you must follow the ordering of your files in your own `arabbarometer_dir` dir:
 
 ```{r wave-id, eval=FALSE}
-attr(arab_waves[[1]],"id") <- "Arab_Barometer_5"
-attr(arab_waves[[2]],"id") <- "Arab_Barometer_1"
-attr(arab_waves[[3]],"id") <- "Arab_Barometer_2"
-attr(arab_waves[[4]],"id") <- "Arab_Barometer_3"
-attr(arab_waves[[5]],"id") <- "Arab_Barometer_4"
+attr(arab_waves[[1]],"id") <- "Arab_Barometer_1"
+attr(arab_waves[[2]],"id") <- "Arab_Barometer_2"
+attr(arab_waves[[3]],"id") <- "Arab_Barometer_3"
+attr(arab_waves[[4]],"id") <- "Arab_Barometer_4"
+attr(arab_waves[[5]],"id") <- "Arab_Barometer_5"
 save( arab_waves, file = here::here("data-raw", "arab_waves.rda"))
 ```
 
@@ -166,7 +166,7 @@ merged_ab <- merge_waves(waves = arab_waves,
 
 merged_ab <- lapply (merged_ab, 
                      FUN = function(x) x  %>%
-                       mutate( country = as_character(country)))
+                       mutate( country = tolower(as_character(country))))
 ```
 
 ```{r clean-country-names}
@@ -210,8 +210,8 @@ In our case, we decided to:
 
 
 ```{r remove-waves}
-merged_ab[[1]] <- NULL # Remove AB-WaveV-EN_1
-merged_ab[[2]] <- NULL # Remove ABI_English
+merged_ab[[5]] <- NULL # Remove AB-WaveV-EN_1
+merged_ab[[1]] <- NULL # Remove ABI_English
 ```
 
 ```{r remove-date, eval=TRUE}
@@ -315,7 +315,7 @@ harmonized_arabb_waves <- harmonize_waves(
   .f = harmonize_arabb_trust )
 ```
 
-We tested the transformed variables after applying the harmonization function, and we obtained the following counting summary of each unique answer of our question. 
+We tested the transformed variables after applying the harmonization function, and we obtained the following counting summary of each unique answer of our question. Note that there are 2004 NA values, which corresponds to Saudi Arabia, in which the question at hand was not asked. Therefore, we do not include it in the analysis.
 
 ```{r, eval=TRUE}
 harmonized_arabb_waves %>%
@@ -343,7 +343,7 @@ Due to the categorical format of the question of MENA parliamentary election eva
 
 ```{r simply-wave-names, eval=TRUE}
 harmonized_arabb_waves <- harmonized_arabb_waves %>%
-  mutate(wave = stringr::str_extract(unique_id_ab_english, "(\\b[A-Z0-9]+)"))
+  mutate(wave = gsub(".*(\\b[A-Z0-9]+).*", "\\1", unique_id_ab_english))
 ```
 
 ```{r valuation-summary, eval=TRUE}
@@ -401,7 +401,7 @@ regional_dont_know <- regional_parl_elections %>%
 
 Starting with mentioning that round ABII of the survey has sample size of 12782 voters compared to 14809 of round ABIII and 9000 of round ABIV. We summarized the level of democracy of the parliamentary election process or voters' satisfaction in MENA region to three tables (see below).
 
-The low democracy level/low satisfaction about the fairness of the election process is presented in the table `problama_Elec_process `. The total votes that described the process as *not-free* or *with major problems* decreased significantly from 44% in 2007-round ABII to less than 30% in 2010-Round ABIV using the total_unfair variable. 
+The low democracy level/low satisfaction about the fairness of the election process is presented in the table `problama_Elec_process `. The total votes that described the process as *not-free* or *with major problems* decreased significantly from 44% in 2010-round ABII to less than 30% in 2017-Round ABIV using the total_unfair variable. 
 
 
 ```{r regional_parl_elections, eval=TRUE}
@@ -420,7 +420,7 @@ print(problem_elec_process)
 ```
 
 
-On the other side, the table`Good_Elec_process` indicates to a temporarily improvement in absolute number of votes in the round ABIII  compared to the round ABII before returning to same level in round ABII, but in percentage scale, the people who expressed that the election was either *free and fair* or *with minor problems* increased from 32% in 2010 - round ABII to 47% in 2017- round ABIV using total_fair variable. 
+On the other side, the table`Good_elec_process` indicates to a temporarily improvement in absolute number of votes in the round ABIII  compared to the round ABII before returning to same level in round ABII, but in percentage scale, the people who expressed that the election was either *free and fair* or *with minor problems* increased from 32% in 2010 - round ABII to 47% in 2017- round ABIV using total_fair variable. 
 
 
 ```{r, eval=TRUE}
