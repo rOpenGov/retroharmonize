@@ -33,8 +33,8 @@ library(retroharmonize)
 library(dplyr)
 library(tidyr)
 load(file = system.file(
-  "afrob", "afrob_vignette.rda", package = "retroharmonize"))
-#source( here ("not_included", "daniel_env.R"))
+  "afrob", "afrob_vignette.rda", 
+  package = "retroharmonize"))
 ```
 
 The goal of this case study is to explore the variation in trust in various state institutions among African societies, as well as changes in trust over time.

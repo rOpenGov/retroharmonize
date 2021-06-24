@@ -452,7 +452,7 @@ Eventually, users can go deeper in analyzing the harmonized data of our question
 The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the program knows which variables to take from what files and how to call and label them after transformation.
 
 
-```{r merge}
+```{r merge, eval=FALSE}
 merged_ab <- merge_waves ( waves = arab_waves, 
                            var_harmonization = to_harmonize  )
 
