@@ -98,7 +98,7 @@
                         <h4 class="author">Ahmed Shaibani</h4>
                         <h4 class="author">Daniel Antal</h4>
             
-            <h4 class="date">2021-06-20</h4>
+            <h4 class="date">2021-06-24</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rOpenGov/retroharmonize/blob/master/vignettes/arabbarometer.Rmd"><code>vignettes/arabbarometer.Rmd</code></a></small>
       <div class="hidden name"><code>arabbarometer.Rmd</code></div>
@@ -236,7 +236,7 @@
 <span class="co">#&gt; 10              6           0</span></code></pre></div>
 <p>We select from the metadata file <code>rowid</code> being the unique case identifier, and variables of interest: <code>date</code> with the interview date,<code>COUNTRY</code> containing information about the country where the interview was conducted, and with <code>wt</code> being the weighting factor, and some “real” survey questions.</p>
 <p>In the same context, you should also carefully insert key words and expressions that match with your survey questionnaire item of interest; in our case, we chose <em>Election, parliamentary</em>, and <em>Election</em> to fork an exact question about parliamentary election, which is <code>How would you evaluate the last parliamentary election?</code></p>
-<p>The variable names (var_name) and labels (var_label) then must be normalized and harmonized.</p>
+<p>The variable names (<code>var_name</code>) and labels (<code>var_label</code>) then must be normalized and harmonized.</p>
 </div>
 <div id="harmonizing-the-variable-names" class="section level3">
 <h3 class="hasAnchor">
@@ -292,7 +292,7 @@
 <div class="sourceCode" id="cb10"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># cleaning country names using the second round</span>
 <span class="va">merged_ab</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">country</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html">gsub</a></span><span class="op">(</span><span class="st">"\\d{1,}\\.\\s?"</span>,<span class="st">""</span>,<span class="va">merged_ab</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">country</span><span class="op">)</span>
-<span class="va">merged_ab</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">country</span> <span class="op">&lt;-</span> <span class="fu">str_squish</span><span class="op">(</span><span class="va">merged_ab</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">country</span><span class="op">)</span></code></pre></div>
+<span class="va">merged_ab</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">country</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/trimws.html">trimws</a></span><span class="op">(</span><span class="va">merged_ab</span><span class="op">[[</span><span class="fl">2</span><span class="op">]</span><span class="op">]</span><span class="op">$</span><span class="va">country</span>, which<span class="op">=</span><span class="st">"both"</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">documented_merged_ab</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/document_waves.html">document_waves</a></span><span class="op">(</span><span class="va">merged_ab</span><span class="op">)</span>
 <span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">documented_merged_ab</span><span class="op">)</span>
@@ -528,7 +528,7 @@
 <p>Due to the categorical format of the question of MENA parliamentary election evaluation in the Arab Barometer survey rounds, we decided to present the election variable in its <em>categorical format</em>, and disregarded the post-stratification weights.</p>
 <div class="sourceCode" id="cb25"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">harmonized_arabb_waves</span> <span class="op">&lt;-</span> <span class="va">harmonized_arabb_waves</span> <span class="op">%&gt;%</span>
-  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>wave <span class="op">=</span> <span class="fu">str_extract</span><span class="op">(</span><span class="va">unique_id_ab_english</span>, <span class="st">"(\\b[A-Z0-9]+)"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
+  <span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html">mutate</a></span><span class="op">(</span>wave <span class="op">=</span> <span class="fu">stringr</span><span class="fu">::</span><span class="fu"><a href="https://stringr.tidyverse.org/reference/str_extract.html">str_extract</a></span><span class="op">(</span><span class="va">unique_id_ab_english</span>, <span class="st">"(\\b[A-Z0-9]+)"</span><span class="op">)</span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">categorical_summary</span> <span class="op">&lt;-</span> <span class="va">harmonized_arabb_waves</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> <span class="op">(</span> <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"weight"</span>, <span class="st">"unique_id_ab_english"</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span> <span class="op">%&gt;%</span>

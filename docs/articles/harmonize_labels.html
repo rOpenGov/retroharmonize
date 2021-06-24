@@ -31,7 +31,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -57,6 +57,9 @@
       <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="../articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -73,7 +76,7 @@
       </ul>
 <ul class="nav navbar-nav navbar-right">
 <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -88,13 +91,13 @@
 
       
 
-      </header><script src="harmonize_labels_files/accessible-code-block-0.0.1/empty-anchor.js"></script><div class="row">
+      </header><script src="harmonize_labels_files/header-attrs-2.9/header-attrs.js"></script><div class="row">
   <div class="col-md-9 contents">
     <div class="page-header toc-ignore">
       <h1 data-toc-skip>Harmonize Value Labels</h1>
             
       
-      <small class="dont-index">Source: <a href="https://github.com/antaldaniel/retroharmonize/blob/master/vignettes/harmonize_labels.Rmd"><code>vignettes/harmonize_labels.Rmd</code></a></small>
+      <small class="dont-index">Source: <a href="https://github.com/rOpenGov/retroharmonize/blob/master/vignettes/harmonize_labels.Rmd"><code>vignettes/harmonize_labels.Rmd</code></a></small>
       <div class="hidden name"><code>harmonize_labels.Rmd</code></div>
 
     </div>
@@ -403,30 +406,30 @@
 <div class="sourceCode" id="cb12"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/summary.html">summary</a></span><span class="op">(</span><span class="va">c</span><span class="op">)</span>
 <span class="co">#&gt;     rowid                hvar             w         </span>
-<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.1661  </span>
-<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.3629  </span>
-<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.4440  </span>
-<span class="co">#&gt;                     Mean   :30769   Mean   :0.4838  </span>
-<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.5992  </span>
-<span class="co">#&gt;                     Max.   :99999   Max.   :0.8856</span></code></pre></div>
+<span class="co">#&gt;  Length:13          Min.   :    0   Min.   :0.0148  </span>
+<span class="co">#&gt;  Class :character   1st Qu.:    0   1st Qu.:0.2385  </span>
+<span class="co">#&gt;  Mode  :character   Median :    1   Median :0.4118  </span>
+<span class="co">#&gt;                     Mean   :30769   Mean   :0.4556  </span>
+<span class="co">#&gt;                     3rd Qu.:99997   3rd Qu.:0.6953  </span>
+<span class="co">#&gt;                     Max.   :99999   Max.   :0.9776</span></code></pre></div>
 <div class="sourceCode" id="cb13"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/print.html">print</a></span><span class="op">(</span><span class="va">c</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 13 x 3</span>
-<span class="co">#&gt;    rowid                        hvar     w</span>
-<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt; &lt;dbl&gt;</span>
-<span class="co">#&gt;  1 survey11     1 [trust]            0.266</span>
-<span class="co">#&gt;  2 survey12     0 [not_trust]        0.433</span>
-<span class="co">#&gt;  3 survey13     1 [trust]            0.282</span>
-<span class="co">#&gt;  4 survey14     1 [trust]            0.777</span>
-<span class="co">#&gt;  5 survey15     0 [not_trust]        0.363</span>
-<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.501</span>
-<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.599</span>
-<span class="co">#&gt;  8 survey21     0 [not_trust]        0.615</span>
-<span class="co">#&gt;  9 survey22     0 [not_trust]        0.444</span>
-<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.581</span>
-<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.375</span>
-<span class="co">#&gt; 12 survey25     1 [trust]            0.886</span>
-<span class="co">#&gt; 13 survey26     1 [trust]            0.166</span></code></pre></div>
+<span class="co">#&gt;    rowid                        hvar      w</span>
+<span class="co">#&gt;    &lt;chr&gt;                &lt;retroh_dbl&gt;  &lt;dbl&gt;</span>
+<span class="co">#&gt;  1 survey11     1 [trust]            0.238 </span>
+<span class="co">#&gt;  2 survey12     0 [not_trust]        0.695 </span>
+<span class="co">#&gt;  3 survey13     1 [trust]            0.635 </span>
+<span class="co">#&gt;  4 survey14     1 [trust]            0.235 </span>
+<span class="co">#&gt;  5 survey15     0 [not_trust]        0.412 </span>
+<span class="co">#&gt;  6 survey16 99997 (NA) [do_not_know] 0.295 </span>
+<span class="co">#&gt;  7 survey17 99999 (NA) [inap]        0.424 </span>
+<span class="co">#&gt;  8 survey21     0 [not_trust]        0.0789</span>
+<span class="co">#&gt;  9 survey22     0 [not_trust]        0.978 </span>
+<span class="co">#&gt; 10 survey23 99997 (NA) [do_not_know] 0.0148</span>
+<span class="co">#&gt; 11 survey24 99999 (NA) [inap]        0.837 </span>
+<span class="co">#&gt; 12 survey25     1 [trust]            0.714 </span>
+<span class="co">#&gt; 13 survey26     1 [trust]            0.366</span></code></pre></div>
 <p>While dplyr’s join functions may result in correct values, the metadata get lost. A new join method will be developed.</p>
 </div>
   </div>

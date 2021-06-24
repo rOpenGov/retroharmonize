@@ -72,7 +72,7 @@
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -98,6 +98,9 @@
       <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="../articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -114,7 +117,7 @@
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -133,7 +136,7 @@
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Document survey item harmonization</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/document_survey_item.R'><code>R/document_survey_item.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rOpenGov/retroharmonize/blob/master/R/document_survey_item.R'><code>R/document_survey_item.R</code></a></small>
     <div class="hidden name"><code>document_survey_item.Rd</code></div>
     </div>
 
@@ -207,14 +210,14 @@ na_values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/
 <span class='va'>h3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='concatenate.html'>concatenate</a></span><span class='op'>(</span><span class='va'>h1</span>, <span class='va'>h2</span><span class='op'>)</span> 
 <span class='fu'>document_survey_item</span><span class='op'>(</span><span class='va'>h3</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; $code_table
-#&gt; <span style='color: #949494;'># A tibble: 4 x 7</span><span>
-#&gt;   values survey1_values survey2_values labels survey1_labels survey2_labels
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span> </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>  </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>          </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>         
-#&gt; </span><span style='color: #BCBCBC;'>1</span><span>      0              1              1 not_t~ TRUST          Tend to trust 
-#&gt; </span><span style='color: #BCBCBC;'>2</span><span>      1              0              2 trust  NOT TRUST      Tend not to t~
-#&gt; </span><span style='color: #BCBCBC;'>3</span><span>  </span><span style='text-decoration: underline;'>99</span><span>997              8              8 do_no~ DON'T KNOW     DK            
-#&gt; </span><span style='color: #BCBCBC;'>4</span><span>  </span><span style='text-decoration: underline;'>99</span><span>999              9              9 inap   INAP. HERE     Inap          
-#&gt; </span><span style='color: #949494;'># ... with 1 more variable: missing </span><span style='color: #949494;font-style: italic;'>&lt;lgl&gt;</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 4 x 7</span>
+#&gt;   values survey1_values survey2_values labels     survey1_labels survey2_labels 
+#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          
+#&gt; <span style='color: #BCBCBC;'>1</span>      0              1              1 not_trust  TRUST          Tend to trust  
+#&gt; <span style='color: #BCBCBC;'>2</span>      1              0              2 trust      NOT TRUST      Tend not to tr~
+#&gt; <span style='color: #BCBCBC;'>3</span>  <span style='text-decoration: underline;'>99</span>997              8              8 do_not_kn~ DON'T KNOW     DK             
+#&gt; <span style='color: #BCBCBC;'>4</span>  <span style='text-decoration: underline;'>99</span>999              9              9 inap       INAP. HERE     Inap           
+#&gt; <span style='color: #949494;'># ... with 1 more variable: missing &lt;lgl&gt;</span>
 #&gt; 
 #&gt; $history_var_name
 #&gt;         name survey1_name survey2_name 
@@ -231,7 +234,7 @@ na_values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/
 #&gt; 
 #&gt; $history_id
 #&gt; [1] "survey1" "survey2"
-#&gt; </div></span></pre>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

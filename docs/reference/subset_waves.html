@@ -73,7 +73,7 @@ are imported from an external file as a wave with with read_surveys." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.15</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
       </span>
     </div>
 
@@ -99,6 +99,9 @@ are imported from an external file as a wave with with read_surveys." />
       <a href="../articles/afrobarometer.html">Case Study: Working With Afrobarometer surveys</a>
     </li>
     <li>
+      <a href="../articles/arabbarometer.html">Case Study: Working With Arab Barometer Surveys</a>
+    </li>
+    <li>
       <a href="../articles/eurobarometer.html">Case Study: Working with Eurobarometer surveys</a>
     </li>
     <li>
@@ -115,7 +118,7 @@ are imported from an external file as a wave with with read_surveys." />
       </ul>
       <ul class="nav navbar-nav navbar-right">
         <li>
-  <a href="https://github.com/antaldaniel/retroharmonize/">
+  <a href="https://github.com/rOpenGov/retroharmonize/">
     <span class="fab fa-github fa-lg"></span>
      
   </a>
@@ -134,7 +137,7 @@ are imported from an external file as a wave with with read_surveys." />
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Subset all surveys in a wave</h1>
-    <small class="dont-index">Source: <a href='https://github.com/antaldaniel/retroharmonize/blob/master/R/subset_waves.R'><code>R/subset_waves.R</code></a></small>
+    <small class="dont-index">Source: <a href='https://github.com/rOpenGov/retroharmonize/blob/master/R/subset_waves.R'><code>R/subset_waves.R</code></a></small>
     <div class="hidden name"><code>subset_waves.Rd</code></div>
     </div>
 
@@ -176,62 +179,62 @@ wave of surveys. Defaults to <code>NULL</code> in which case it returns all vari
 <span class='va'>metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span> <span class='op'>(</span> X <span class='op'>=</span> <span class='va'>example_surveys</span>, FUN <span class='op'>=</span> <span class='va'>metadata_create</span> <span class='op'>)</span>
 <span class='va'>metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>rbind</span>, <span class='va'>metadata</span><span class='op'>)</span>
 
-<span class='va'>metadata</span><span class='op'>$</span><span class='va'>var_name</span> <span class='op'>&lt;-</span> <span class='fu'><a href='label_normalize.html'>label_normalize</a></span><span class='op'>(</span><span class='va'>metadata</span><span class='op'>$</span><span class='va'>var_name</span><span class='op'>)</span>
+<span class='va'>metadata</span><span class='op'>$</span><span class='va'>var_name_suggested</span> <span class='op'>&lt;-</span> <span class='fu'><a href='label_normalize.html'>label_normalize</a></span><span class='op'>(</span><span class='va'>metadata</span><span class='op'>$</span><span class='va'>var_name</span><span class='op'>)</span>
 
-<span class='va'>metadata</span><span class='op'>$</span><span class='va'>var_name</span><span class='op'>[</span><span class='va'>metadata</span><span class='op'>$</span><span class='va'>label_orig</span> <span class='op'>==</span> <span class='st'>"age education"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"age_education"</span>
+<span class='va'>metadata</span><span class='op'>$</span><span class='va'>var_name_suggested</span><span class='op'>[</span><span class='va'>metadata</span><span class='op'>$</span><span class='va'>label_orig</span> <span class='op'>==</span> <span class='st'>"age education"</span><span class='op'>]</span> <span class='op'>&lt;-</span> <span class='st'>"age_education"</span>
 
 <span class='va'>hnw</span> <span class='op'>&lt;-</span> <span class='fu'><a href='harmonize_var_names.html'>harmonize_var_names</a></span><span class='op'>(</span>waves <span class='op'>=</span> <span class='va'>example_surveys</span>, 
                            metadata <span class='op'>=</span> <span class='va'>metadata</span> <span class='op'>)</span>
                            
 <span class='fu'>subset_waves</span> <span class='op'>(</span><span class='va'>hnw</span>, subset_names <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"uniqid"</span>, <span class='st'>"w1"</span>, <span class='st'>"age_education"</span><span class='op'>)</span><span class='op'>)</span>
 </div><div class='output co'>#&gt; [[1]]
-#&gt; <span style='color: #949494;'># A tibble: 35 x 3</span><span>
-#&gt;    uniqid       w1       age_education
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ZA5913_1  0.875 15                 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ZA5913_2  0.838 15                 
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> ZA5913_3  1.01  22                 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> ZA5913_4  0.476 26                 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ZA5913_5  2.09  17                 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> ZA5913_6  1.14  21                 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> ZA5913_7  0.787 20                 
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> ZA5913_8  0.745 21                 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> ZA5913_9  0.824 98</span><span style='color: #949494;'> [Still studying]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> ZA5913_10 0.720 18                 
-#&gt; </span><span style='color: #949494;'># ... with 25 more rows</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 35 x 3</span>
+#&gt;      uniqid    w1       age_education
+#&gt;       <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl+lbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 11<span style='text-decoration: underline;'>339</span>367 0.875 15                 
+#&gt; <span style='color: #BCBCBC;'> 2</span> 11<span style='text-decoration: underline;'>339</span>664 0.838 15                 
+#&gt; <span style='color: #BCBCBC;'> 3</span> 11<span style='text-decoration: underline;'>339</span>746 1.01  22                 
+#&gt; <span style='color: #BCBCBC;'> 4</span> 11<span style='text-decoration: underline;'>339</span>759 0.476 26                 
+#&gt; <span style='color: #BCBCBC;'> 5</span> 11<span style='text-decoration: underline;'>339</span>885 2.09  17                 
+#&gt; <span style='color: #BCBCBC;'> 6</span> 11<span style='text-decoration: underline;'>340</span>290 1.14  21                 
+#&gt; <span style='color: #BCBCBC;'> 7</span> 11<span style='text-decoration: underline;'>340</span>422 0.787 20                 
+#&gt; <span style='color: #BCBCBC;'> 8</span> 11<span style='text-decoration: underline;'>340</span>508 0.745 21                 
+#&gt; <span style='color: #BCBCBC;'> 9</span> 11<span style='text-decoration: underline;'>340</span>547 0.824 98<span style='color: #949494;'> [Still studying]</span>
+#&gt; <span style='color: #BCBCBC;'>10</span> 11<span style='text-decoration: underline;'>340</span>820 0.720 18                 
+#&gt; <span style='color: #949494;'># ... with 25 more rows</span>
 #&gt; 
 #&gt; [[2]]
-#&gt; </span><span style='color: #949494;'># A tibble: 50 x 3</span><span>
-#&gt;    uniqid       w1       age_education
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>           </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ZA6863_1  1.49  17                 
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ZA6863_2  1.75  98</span><span style='color: #949494;'> [Still studying]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> ZA6863_3  1.39  21                 
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> ZA6863_4  1.25  17                 
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ZA6863_5  0.609 19                 
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> ZA6863_6  0.870 22                 
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> ZA6863_7  1.40  98</span><span style='color: #949494;'> [Still studying]</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> ZA6863_8  0.932 14                 
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> ZA6863_9  1.42  22                 
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> ZA6863_10 1.12  16                 
-#&gt; </span><span style='color: #949494;'># ... with 40 more rows</span><span>
+#&gt; <span style='color: #949494;'># A tibble: 50 x 3</span>
+#&gt;       uniqid    w1       age_education
+#&gt;        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>           <span style='color: #949494; font-style: italic;'>&lt;dbl+lbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span> 110<span style='text-decoration: underline;'>000</span>064 1.49  17                 
+#&gt; <span style='color: #BCBCBC;'> 2</span> 110<span style='text-decoration: underline;'>000</span>417 1.75  98<span style='color: #949494;'> [Still studying]</span>
+#&gt; <span style='color: #BCBCBC;'> 3</span> 110<span style='text-decoration: underline;'>000</span>473 1.39  21                 
+#&gt; <span style='color: #BCBCBC;'> 4</span> 110<span style='text-decoration: underline;'>000</span>503 1.25  17                 
+#&gt; <span style='color: #BCBCBC;'> 5</span> 110<span style='text-decoration: underline;'>000</span>663 0.609 19                 
+#&gt; <span style='color: #BCBCBC;'> 6</span> 110<span style='text-decoration: underline;'>000</span>889 0.870 22                 
+#&gt; <span style='color: #BCBCBC;'> 7</span> 110<span style='text-decoration: underline;'>001</span>276 1.40  98<span style='color: #949494;'> [Still studying]</span>
+#&gt; <span style='color: #BCBCBC;'> 8</span> 110<span style='text-decoration: underline;'>001</span>319 0.932 14                 
+#&gt; <span style='color: #BCBCBC;'> 9</span> 110<span style='text-decoration: underline;'>001</span>541 1.42  22                 
+#&gt; <span style='color: #BCBCBC;'>10</span> 110<span style='text-decoration: underline;'>001</span>656 1.12  16                 
+#&gt; <span style='color: #949494;'># ... with 40 more rows</span>
 #&gt; 
 #&gt; [[3]]
-#&gt; </span><span style='color: #949494;'># A tibble: 45 x 3</span><span>
-#&gt;    uniqid       w1 age_education
-#&gt;    </span><span style='color: #949494;font-style: italic;'>&lt;chr&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl&gt;</span><span>     </span><span style='color: #949494;font-style: italic;'>&lt;dbl+lbl&gt;</span><span>
-#&gt; </span><span style='color: #BCBCBC;'> 1</span><span> ZA7576_1  0.827            26
-#&gt; </span><span style='color: #BCBCBC;'> 2</span><span> ZA7576_2  0.348            20
-#&gt; </span><span style='color: #BCBCBC;'> 3</span><span> ZA7576_3  0.385            22
-#&gt; </span><span style='color: #BCBCBC;'> 4</span><span> ZA7576_4  0.385            17
-#&gt; </span><span style='color: #BCBCBC;'> 5</span><span> ZA7576_5  0.743            31
-#&gt; </span><span style='color: #BCBCBC;'> 6</span><span> ZA7576_6  0.635            25
-#&gt; </span><span style='color: #BCBCBC;'> 7</span><span> ZA7576_7  0.883            17
-#&gt; </span><span style='color: #BCBCBC;'> 8</span><span> ZA7576_8  0.465            20
-#&gt; </span><span style='color: #BCBCBC;'> 9</span><span> ZA7576_9  1.28             17
-#&gt; </span><span style='color: #BCBCBC;'>10</span><span> ZA7576_10 0.909            20
-#&gt; </span><span style='color: #949494;'># ... with 35 more rows</span><span>
-#&gt; </div></span></pre>
+#&gt; <span style='color: #949494;'># A tibble: 45 x 3</span>
+#&gt;       uniqid    w1 age_education
+#&gt;        <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>     <span style='color: #949494; font-style: italic;'>&lt;dbl+lbl&gt;</span>
+#&gt; <span style='color: #BCBCBC;'> 1</span>  50<span style='text-decoration: underline;'>000</span>481 0.827            26
+#&gt; <span style='color: #BCBCBC;'> 2</span> 110<span style='text-decoration: underline;'>000</span>076 0.348            20
+#&gt; <span style='color: #BCBCBC;'> 3</span> 110<span style='text-decoration: underline;'>000</span>343 0.385            22
+#&gt; <span style='color: #BCBCBC;'> 4</span> 110<span style='text-decoration: underline;'>000</span>473 0.385            17
+#&gt; <span style='color: #BCBCBC;'> 5</span> 110<span style='text-decoration: underline;'>000</span>493 0.743            31
+#&gt; <span style='color: #BCBCBC;'> 6</span> 110<span style='text-decoration: underline;'>000</span>897 0.635            25
+#&gt; <span style='color: #BCBCBC;'> 7</span> 110<span style='text-decoration: underline;'>001</span>041 0.883            17
+#&gt; <span style='color: #BCBCBC;'> 8</span> 110<span style='text-decoration: underline;'>001</span>192 0.465            20
+#&gt; <span style='color: #BCBCBC;'> 9</span> 110<span style='text-decoration: underline;'>001</span>274 1.28             17
+#&gt; <span style='color: #BCBCBC;'>10</span> 110<span style='text-decoration: underline;'>001</span>344 0.909            20
+#&gt; <span style='color: #949494;'># ... with 35 more rows</span>
+#&gt; </div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">
