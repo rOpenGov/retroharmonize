@@ -42,3 +42,5 @@ doc
 Meta
 not_included
 .RDataTmp
+/doc/
+/Meta/
