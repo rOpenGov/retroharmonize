@@ -5,12 +5,14 @@ author:
 - Ahmed Shaibani
 date: "`r Sys.Date()`"
 output:
-  rmarkdown::html_vignette: default
+  word_document: default
   html_document:
     df_print: paged
-  word_document: default
+  rmarkdown::html_vignette: default
 vignette: |
-  %\VignetteEncoding{UTF-8} %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys} %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys} 
+  %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, echo = FALSE, include=FALSE}
@@ -38,7 +40,6 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-retroharmonize::here()
 ```
 
 
@@ -48,6 +49,7 @@ library(dplyr, quietly=TRUE)
 library(tidyr)
 library(ggplot2)
 library(knitr)
+here() #imported from here::here()
 load(file = system.file(
   # the first steps are saved becasue of 
   # large file/object sizes.
