@@ -57,7 +57,7 @@ load(file = system.file(
   package = "retroharmonize"))
 ```
 
-The goal of this case article is to show how you can harmonize survey data from [Arab Barometer](https://https://www.arabbarometer.org/) with the [retroharmonize]((https://retroharmonize.dataobservatory.eu/) R package. The Arab Barometer is a nonpartisan research network that provides insight into the social, political, and economic attitudes and values of ordinary citizens across the Arab world. 
+The goal of this case article is to show how you can harmonize survey data from [Arab Barometer](https://https://www.arabbarometer.org/) with the [retroharmonize](https://retroharmonize.dataobservatory.eu/) R package. The Arab Barometer is a nonpartisan research network that provides insight into the social, political, and economic attitudes and values of ordinary citizens across the Arab world. 
 
 cross-national surveys on the example of the [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html) and the [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html).
 
@@ -587,18 +587,28 @@ harmonized_ab_data <- harmonized_ab_dataset %>%
 ```
 
 ```{r save-replication-data, eval=FALSE}
-haven::write_sav(data = harmonized_ab_data, here("data-raw", "arabb", "harmonized_arabb_waves.sav"))
-write.csv(harmonized_ab_data,  here("data-raw", "arabb", "harmonized_arabb_waves.csv"), row.names=FALSE)
-write.csv(categorical_summary, here("data-raw", "arabb",  "arabb_categorical_summary.csv"), row.names=FALSE)
-write.csv(numeric_summary, here("data-raw", "arabb", "arabb_numeric_summary.csv"), row.names=FALSE)
+haven::write_sav(data = harmonized_ab_data, 
+                 here("data-raw", "arabb", "harmonized_arabb_waves.sav"))
+write.csv(harmonized_ab_data,  
+          here("data-raw", "arabb", "harmonized_arabb_waves.csv"), 
+          row.names=FALSE)
+write.csv(categorical_summary, 
+          here("data-raw", "arabb",  "arabb_categorical_summary.csv"), 
+          row.names=FALSE)
+write.csv(numeric_summary, 
+          here("data-raw", "arabb", "arabb_numeric_summary.csv"), 
+          row.names=FALSE)
 
 # The metadata file contains list objects, which cannot be represented
 # in a flat csv file format.
-saveRDS(arabbarometer_metadata,  here("data-raw", "arabb", "arabbarometer_metadata.rds"))
+saveRDS(arabbarometer_metadata,  
+        here("data-raw", "arabb", "arabbarometer_metadata.rds")
+        )
 
 ## The lists of value labels are dropped from the csv output.
-write.csv(arabbarometer_metadata [, -which (sapply ( arabbarometer_metadata, class) == "list")],  
-          here("data-raw", "arabb","arabb_metadata_simplified.csv"), row.names=FALSE)
+write.csv(arabbarometer_metadata [
+  , -which (sapply ( arabbarometer_metadata, class) == "list")],  
+  here("data-raw", "arabb","arabb_metadata_simplified.csv"), row.names=FALSE)
 ```
 
 Daniel Antal, & Ahmed Shaibani. (2021). Replication Data for the retroharmonize R Package Case Study: Working With Arab Barometer Surveys (Version 0.1.6) [Data set]. Zenodo. http://doi.org/10.5281/zenodo.5034741
@@ -626,7 +636,9 @@ For contact information, see the [package](https://retroharmonize.dataobservator
 
 ### Version info
 
-This tutorial was created in the following environment:
+Daniel Antal, & Ahmed Shaibani. (2021, June 26). Case Study: Working With Arab Barometer Surveys for the retroharmonize R package (Version 0.1.6). Zenodo. http://doi.org/10.5281/zenodo.5034759
+
+This tutorial was created in the following environment, and can be downloaded in PDF format from [10.5281/zenodo.5034759](https://doi.org/10.5281/zenodo.5034759) :
 
 ```{r sessioninfo, message=FALSE, warning=FALSE}
 sessionInfo()

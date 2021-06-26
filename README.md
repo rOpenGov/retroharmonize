@@ -9,14 +9,14 @@
 state and is being actively
 developed..](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3937746.svg)](https://doi.org/10.5281/zenodo.3937746)
-[![Follow
-author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5034752.svg)](https://doi.org/10.5281/zenodo.5034752)
 [![Codecov test
 coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
-[![Travis build
-status](https://travis-ci.com/antaldaniel/retroharmonize.svg?branch=master)](https://travis-ci.com/antaldaniel/retroharmonize)
 [![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/antaldaniel/retroharmonize/actions)
+[![Follow
+author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
+[![Follow
+rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to facilitate retrospective (ex-post)
