@@ -12,7 +12,7 @@ developed..](https://www.repostatus.org/badges/latest/active.svg)](https://www.r
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5034752.svg)](https://doi.org/10.5281/zenodo.5034752)
 [![Codecov test
 coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
-[![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/antaldaniel/retroharmonize/actions)
+[![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow
 author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
 [![Follow
@@ -131,8 +131,8 @@ tutorials or work with the data, you have download the data files from
 these sources, and you have to cite those sources in your work.
 
 **Afrobarometer** data: Cite
-[Afrobarometer](https://www.afrobarometer.org/) **Arab Barometer** data:
-cite [Arab
+[Afrobarometer](https://afrobarometer.org/data/) **Arab Barometer**
+data: cite [Arab
 Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
 **Eurobarometer** data: The
 [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm)

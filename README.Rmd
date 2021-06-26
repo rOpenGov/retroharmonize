@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5034752.svg)](https://doi.org/10.5281/zenodo.5034752)
 [![Codecov test coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
-[![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/antaldaniel/retroharmonize/actions)
+[![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
 [![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
 <!-- badges: end -->
@@ -76,7 +76,7 @@ We started building an experimental APIs data is running regions regularly and i
 
 Our package has been tested on three harmonized survey's micordata. Becasue [retroharmonize](https://retroharmonize.dataobservatory.eu/) is not affiliated with any of these data sources, to replicate our tutorials or work with the data, you have download the data files from these sources, and you have to cite those sources in your work.
 
-**Afrobarometer** data: Cite [Afrobarometer](https://www.afrobarometer.org/)
+**Afrobarometer** data: Cite [Afrobarometer](https://afrobarometer.org/data/)
 **Arab Barometer** data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
 **Eurobarometer** data: The [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) data
 [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) raw data and related documentation (questionnaires, codebooks, etc.) are made available by *GESIS*, *ICPSR* and through the *Social Science Data Archive* networks. You should cite your source, in our examples, we rely on the [GESIS](https://www.gesis.org/en/eurobarometer-data-service/search-data-access/data-access) data files.
