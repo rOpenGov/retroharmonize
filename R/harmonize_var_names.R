@@ -1,9 +1,10 @@
-#' Harmonize the variable names of surveys
+#' @title Harmonize the variable names of surveys
 #' 
-#' The function harmonizes the variable names of surveys (of class \code{survey}) that 
+#' @description The function harmonizes the variable names of surveys (of class \code{survey}) that 
 #' are imported from an external file as a wave.
 #' 
-#' If the \code{metadata} that contains subsetting information is subsetted, then it will subset the surveys in 
+#' @details If the \code{metadata} that contains subsetting information is subsetted, then 
+#' it will subset the surveys in 
 #' \code{waves}.
 #' 
 #' @param waves A list of surveys imported with \code{\link{read_surveys}}.
@@ -45,9 +46,9 @@ harmonize_var_names <- function ( waves,
                                   new = "var_name_suggested",
                                   rowids = TRUE ) {
 
-  assertthat::assert_that( all(c(new, old, "filename") %in% names(metadata)), 
-                           msg = glue::glue("'{old}', '{new}' and 'filename' must be column names in metadata.")
-                           )
+  assert_that( all(c(new, old, "filename") %in% names(metadata)), 
+               msg = glue::glue("'{old}', '{new}' and 'filename' must be column names in metadata.")
+  )
   
   metadata <- metadata %>%
     select ( all_of(c(old, new, "filename"))) %>%
@@ -70,7 +71,8 @@ harmonize_var_names <- function ( waves,
     subset_this_survey <- this_survey %>%
       select ( all_of (renaming$var_name_orig) ) 
     
-    purrr::set_names(subset_this_survey, nm = renaming$var_name_suggested)
+    purrr::set_names(subset_this_survey, 
+                     nm = renaming$var_name_suggested)
      
   }
 

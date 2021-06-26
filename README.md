@@ -5,9 +5,9 @@
 
 <!-- badges: start -->
 
-[![Project Status: Minimal or no implementation has been done yet, or
-the repository is only intended to be a limited example, demo, or
-proof-of-concept.](https://www.repostatus.org/badges/latest/concept.svg)](https://www.repostatus.org/#concept)
+[![Project Status: Active. The project has reached a stable, usable
+state and is being actively
+developed..](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.3937746.svg)](https://doi.org/10.5281/zenodo.3937746)
 [![Follow
@@ -117,7 +117,65 @@ Music Observatory](https://music.dataobservatory.eu/), [Green Deal Data
 Observatory](https://greendeal.dataobservatory.eu/), [Economy Data
 Observatory](https://economy.dataobservatory.eu/).
 
-## Code of Conduct
+## Citations and related work
+
+### Citing the data sources
+
+Our package has been tested on three harmonized survey’s micordata.
+Becasue [retroharmonize](https://retroharmonize.dataobservatory.eu/) is
+not affiliated with any of these data sources, to replicate our
+tutorials or work with the data, you have download the data files from
+these sources, and you have to cite those sources in your work.
+
+**Afrobarometer** data: Cite
+[Afrobarometer](https://www.afrobarometer.org/) **Arab Barometer** data:
+cite [Arab
+Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
+**Eurobarometer** data: The
+[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm)
+data
+[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm)
+raw data and related documentation (questionnaires, codebooks, etc.) are
+made available by *GESIS*, *ICPSR* and through the *Social Science Data
+Archive* networks. You should cite your source, in our examples, we rely
+on the
+[GESIS](https://www.gesis.org/en/eurobarometer-data-service/search-data-access/data-access)
+data files.
+
+### Citing the retroharmonize R package
+
+For main developer and contributors, see the
+[package](https://retroharmonize.dataobservatory.eu/) homepage.
+
+This work can be freely used, modified and distributed under the GPL-3
+license:
+
+``` r
+citation("retroharmonize")
+#> 
+#> To cite package 'retroharmonize' in publications use:
+#> 
+#>   Daniel Antal (2021). retroharmonize: Ex Post Survey Data
+#>   Harmonization. R package version 0.1.16.
+#>   https://retroharmonize.dataobservatory.eu/
+#> 
+#> A BibTeX entry for LaTeX users is
+#> 
+#>   @Manual{,
+#>     title = {retroharmonize: Ex Post Survey Data Harmonization},
+#>     author = {Daniel Antal},
+#>     year = {2021},
+#>     note = {R package version 0.1.16},
+#>     url = {https://retroharmonize.dataobservatory.eu/},
+#>   }
+```
+
+### Contact
+
+For contact information, see the
+[package](https://retroharmonize.dataobservatory.eu/) homepage.
+
+### Code of Conduct
 
 Please note that the `retroharmonize` project is released with a
 [Contributor Code of

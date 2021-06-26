@@ -1,8 +1,10 @@
-#' Harmonize waves
+#' @title Harmonize waves
 #' 
-#' Harmonize the values of surveys. It binds together variables
+#' @description Harmonize the values of surveys. 
+#' 
+#' @details The functions binds together variables
 #' that are all present in the surveys, and applies a 
-#' harmonization function on them. 
+#' harmonization function \code{.f} on them. 
 #' 
 #' @param waves A list of surveys
 #' @param .f A function to apply for the harmonization.
@@ -70,8 +72,9 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   classes <- unlist(lapply ( waves, function(x) lapply( x, function(y) class(y)[1]) ))
   #classes <- unlist(sapply ( waves, function(x) sapply( x, function(y) class(y)[1]) ))
   
-  # The harmonization must take place by variable classes. 
+  # The harmonization must take place by variable classes 
   # The retroharmonized, numeric, character, Date types are separately treated ---------------------
+  
   retroharmonized <- unique(names(classes[which(classes == "retroharmonize_labelled_spss_survey")]))
   numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
   characters <- unique(names(classes[which(classes %in% c("character"))]))
@@ -82,8 +85,12 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
               msg = "Only labelled_spss_survey, numeric, character and Date types are allowed.")
   
   original_attributes <- document_waves(waves)
-  
+
   extend_survey <- function (dat) {
+    
+    ## Adds those variables that are missing in the particular wave 
+    ## To end up with a single, tidy data.frame, the columns must be the same in all waves.
+    ## The columns that are not present must be filled with empty data.
     
     to_add_rh <- retroharmonized[which(!retroharmonized %in% names(dat))]
     to_add_numerics <- numerics[which(!numerics %in% names(dat))]
@@ -97,7 +104,9 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     assert_that ( all(vars_to_add %in% names(dat))== FALSE)
     
     return_data <- dat
+    
     if ( length(to_add_numerics)>0 ) {
+      
       ## There are numeric values in other surveys that need to be 
       ## added with NA_real_ values here.
       
@@ -113,6 +122,8 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     }
     
     if ( length(to_add_characters)>0 ) {
+    
+      ## Now add the missing character variables   
       
       add_character_df <- as.data.frame(
         matrix ( rep( NA_character_,
@@ -125,7 +136,8 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     }
     
     if ( length(to_add_dates)>0 ) {
-      
+    
+      # Now add the missing date variables   
       add_dates_df <- as.data.frame(
         matrix ( rep( as.Date(NA),
                       length(to_add_dates)*nrow(dat)), 
@@ -133,7 +145,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
       ) %>%
         stats::setNames(to_add_dates)
       
-      return_data <- bind_cols ( to_add_dates, return_data )
+      return_data <- bind_cols (return_data, add_dates_df  )
     }
     
     if ( length(to_add_rh)>0 ) {
@@ -196,7 +208,9 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   
   full_join_dates <- do.call(
     vctrs::vec_rbind, 
-    lapply ( extended, function(x)  x %>% select ( all_of ( dates )) ))
+    lapply ( extended, function(x)  x %>%
+                                      select (all_of(dates)) %>%
+                                      mutate_all (as.Date)))
   
   to_harmonize_labelled <-  lapply ( 
     ## select into a list vars that need to be harmonized by labels
@@ -223,31 +237,34 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
                   function(x) fn_harmonize(x, .f) )
   
   #sapply ( rth, function(x) class(x$age))
+  j_max <- length(rth)
   
-
-  for ( j in 2:length(rth) ) {
-    ## Validate all possible retroharmonized pairs before merging.
-    survey1 <- rth[[j-1]]
-    survey2 <- rth[[j]]
-    for  ( i in retroharmonized ) {
-      x <- survey1 %>% select (all_of(i)) %>% pull()
-      y <- survey2 %>% select (all_of(i)) %>% pull()
-      
-      # remove superflous na_range if there are no values that match them
-      x <- remove_na_range(x)
-      y <- remove_na_range(y)
-      
-      vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey (
-        x,y, 
-        orig_names = i
-      )
+  if (j_max >=2) {
+    for ( j in 2:j_max ) {
+      ## Validate all possible retroharmonized pairs before merging.
+      survey1 <- rth[[j-1]]
+      survey2 <- rth[[j]]
+      for  ( i in retroharmonized ) {
+        x <- survey1 %>% select (all_of(i)) %>% pull()
+        y <- survey2 %>% select (all_of(i)) %>% pull()
+        
+        # remove superflous na_range if there are no values that match them
+        x <- remove_na_range(x)
+        y <- remove_na_range(y)
+        
+        vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey (
+          x,y, 
+          orig_names = i
+        )
+      }
     }
+    
   }
-  
+
   return_value <- rth[[1]]
   
-  attributes (return_value)
-  for (i in 2:length(rth)) {
+
+  for (i in 2:j_max) {
    return_value <- vctrs::vec_rbind(return_value, rth[[i]])
   }
   
@@ -262,12 +279,13 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   if ( ncol(full_join_dates) > 0 ) {
     return_value <- bind_cols ( full_join_dates, return_value)
   }
-  
+
+  attributes (return_value)
   attr(return_value, "id") <- paste0("Waves: ", 
                                      paste ( original_attributes$id, collapse = "; " ))
   
   attr(return_value, "filename") <- paste0("Original files: ", 
                                      paste ( original_attributes$filename, collapse = "; " ))
-
+  attributes (return_value)
   return_value
 }

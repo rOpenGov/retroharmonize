@@ -2,6 +2,7 @@
 * Package moved to [rOpenGov](https://github.com/rOpenGov/retroharmonize/).
 * [Arab Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html) tutorial vignette.
 * Transition to tidyverse 1.0+ with using the rlang `.data` pronoun, etc.
+* Bug fix in `harmonize_waves()`: Date types are now correctly harmonized.
 * We started building an experimental APIs data is running regions regularly and improving known statistical data sources.  See: [Digital Music Observatory](https://music.dataobservatory.eu/), [Green Deal Data Observatory](https://greendeal.dataobservatory.eu/), [Economy Data Observatory](https://economy.dataobservatory.eu/).
 
 # retroharmoinze 0.1.15

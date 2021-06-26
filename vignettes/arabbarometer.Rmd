@@ -1,17 +1,16 @@
 ---
 title: 'Case Study: Working With Arab Barometer Surveys'
 author:
-- Ahmed Shaibani
 - Daniel Antal
+- Ahmed Shaibani
 date: "`r Sys.Date()`"
 output:
+  rmarkdown::html_vignette: default
   html_document:
     df_print: paged
-  rmarkdown::html_vignette: default
-vignette: >
-  %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+  word_document: default
+vignette: |
+  %\VignetteEncoding{UTF-8} %\VignetteIndexEntry{Case Study: Working With Arab Barometer Surveys} %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r, echo = FALSE, include=FALSE}
@@ -27,6 +26,11 @@ embed_png <- function(path, dpi = NULL) {
     " />"
   ))
 }
+
+current_year <- substr(as.character(Sys.Date()),1,4)
+copyright_text <- ifelse (current_year == "2021", 
+                          "\ua9 2021", 
+                          paste0("\ua9 2021-", current_year))
 ```
 
 ```{r setup-knitr, include = FALSE}
@@ -34,22 +38,21 @@ knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
-load(file = system.file(
-  "afrob", "afrob_vignette.rda", 
-  package = "retroharmonize")
-  )
-# source( here ("not_included", "daniel_env.R"))
+retroharmonize::here()
 ```
 
 
-```{r pkg-load, echo=FALSE, message=FALSE}
+```{r vignette-setup, echo=FALSE, message=FALSE}
 library(retroharmonize)
 library(dplyr, quietly=TRUE)
 library(tidyr)
 library(ggplot2)
 library(knitr)
-library(here)
-here::here()
+load(file = system.file(
+  # the first steps are saved becasue of 
+  # large file/object sizes.
+  "arabb", "arabb_vignette.rda", 
+  package = "retroharmonize"))
 ```
 
 The goal of this case study is to explore the variation in trust in various state institutions among African societies, as well as changes in trust over time.
@@ -74,7 +77,7 @@ AB-WaveV-EN.sav      | Arab Barometer Wave V
 
 ## Importing Arab Barometer Files
 
-We start by reading in the three rounds of the Arab Barometer. We start by reading in the three rounds of the Arab Barometer. The following chunk is not evaluated, if you want to re-run this tutorial, you need to define your `arabbarometer_dir` and download the Arab Barometer files there, after acknowledging Arab Barometer’s terms and conditions. 
+We start by reading in the three rounds of the Arab Barometer. The following chunk is not evaluated, if you want to re-run this tutorial, you need to define your `arabbarometer_dir` and download the Arab Barometer files there, after acknowledging Arab Barometer’s terms and conditions. Alternatively, you can load the pre-saved results of the first steps in the first, `vignette-setup` chunk.
 
 ```{r import, eval=FALSE}
 ### use here your own <arabbarometer_dir> directory
@@ -86,35 +89,36 @@ arab_waves <- read_surveys(arabbarometer_rounds, .f='read_spss')
 we appended meaningful identifiers to the file names as follows (you must follow the ordering of your files in your own `arabbarometer_dir` dir:
 
 ```{r wave-id, eval=FALSE}
-attr(arab_waves[[1]],"id") <- "Arab_Barometer_1"
-attr(arab_waves[[2]],"id") <- "Arab_Barometer_2"
-attr(arab_waves[[3]],"id") <- "Arab_Barometer_3"
-attr(arab_waves[[4]],"id") <- "Arab_Barometer_4"
-attr(arab_waves[[5]],"id") <- "Arab_Barometer_5"
-save( arab_waves, file = here::here("data-raw", "arab_waves.rda"))
+# In the vignette this is pre-loaded.
+attr(arab_waves[[1]],"id") <- "Arab_Barometer_5"
+attr(arab_waves[[2]],"id") <- "Arab_Barometer_1"
+attr(arab_waves[[3]],"id") <- "Arab_Barometer_2"
+attr(arab_waves[[4]],"id") <- "Arab_Barometer_3"
+attr(arab_waves[[5]],"id") <- "Arab_Barometer_4"
 ```
 
-```{r load-presaved-arabb}
-load ( here::here("data-raw", "arab_waves.rda") )
-```
-
- 
 ### Importing Arabbarometer Datasets
 
 We used `document_waves()`to see the primary descriptive information of our survey wave (one harmonized survey set) files. Visually check that the file names correspond with the meaningful IDs that you gave to each survey wave, i.e., `Arab_Barometer_1` corresponds with `ABI_English.sav`.
 
-```{r, eval=TRUE}
+```{r document-arab-waves, eval=FALSE}
+# In the vignette this is pre-loaded.
 documented_arab_waves <- document_waves(arab_waves)
+```
+
+```{r print_documented_arab_waves}
 print(documented_arab_waves)
 ```
-We obtained 5 nested lists in the `arab_waves` list, each of them containing data of one survey wave Arab Barometer. To create longitudinal tables, i.e., join several survey waves into a single table, it is important to review the methodology of each round of Arabbarometric’s surveys, its structure, modifications, and changes in topics of interest.
+
+We obtained 5 nested lists in the `arab_waves` list, each of them containing data of one survey wave Arab Barometer. To create longitudinal tables, i.e., join several survey waves into a single table, it is important to review the methodology of each round of Arabbarometer’s surveys, its structure, modifications, and changes in topics of interest.
 
 ### Merged Metadata Creation 
 
 In this step, we built a comprehensive metadata table that maps information about variable names and labels of the case’s surveys data. Each row in the table above refers to a different variable in the survey data file. This is accomplished using the `metadata_create()` function, which collects metadata from survey data files, normalizes variable labels, and defines substantive response ranges and missing value codes.
 
 
-```{r create-arabb-metadata}
+```{r create-arabb-metadata, eval=FALSE}
+# In the vignette this is pre-loaded.
 arabb_metadata <- lapply ( X = arab_waves, FUN = metadata_create)
 arabb_metadata <- do.call(rbind, arabb_metadata)
 ```
@@ -138,8 +142,7 @@ The variable names (`var_name`) and labels (`var_label`) then must be normalized
 ### Harmonizing the variable names
 
 ```{r arabb-metadata}
-
-to_harmonize <- arabb_metadata %>%
+to_harmonize_elections <- arabb_metadata %>%
   filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
            grepl("how would you evaluate the last parliamentary", .data$label_orig)) %>%
   mutate(var_label = var_label_normalize(.data$label_orig)) %>%
@@ -149,56 +152,82 @@ to_harmonize <- arabb_metadata %>%
     .data$var_name_orig == "date"    ~ "Date_of_interview",
     .data$var_name_orig == "wt"      ~ "Weight",
     TRUE ~ " Evaluation in the last parliamentary elections")) %>%
-  mutate (var_name = var_label_normalize(.data$var_label) )
+  mutate ( var_name = var_label_normalize(.data$var_label) )
 
 set.seed(2021) # Let's see the same random example:
-sample_n(to_harmonize%>% 
+sample_n(to_harmonize_elections%>% 
        select ( all_of(c("id", "var_name", "var_label"))), 10)
-
 ```
 
 The function `merge_waves()` harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of `class survey()`.) The parameter _var_harmonization_ must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (var_label), so that the function correctly makes the harmonization steps.
 
-```{r merge-arabb-waves, eval=TRUE}
+```{r merge-arabb-waves, eval=FALSE}
+# In the vignette this is pre-loaded.
+normalize_country_names <- function(x) trimws(gsub("\\d{1,}\\.\\s?","", tolower(as_character(x))), which = "both")
 
-merged_ab <- merge_waves(waves = arab_waves, 
-                         var_harmonization = to_harmonize)
-
-merged_ab <- lapply (merged_ab, 
-                     FUN = function(x) x  %>%
-                       mutate( country = tolower(as_character(country))))
+merged_ab_elections <- merge_waves(waves = arab_waves, 
+                                           var_harmonization = to_harmonize_elections)
+merged_ab_elections <- lapply (
+  merged_ab_elections, 
+  FUN = function(x) x  %>%
+    mutate( country = normalize_country_names(country)))
 ```
 
-```{r clean-country-names}
-# cleaning country names using the second round
-merged_ab[[2]]$country <- gsub("\\d{1,}\\.\\s?","",merged_ab[[2]]$country)
-merged_ab[[2]]$country <- trimws(merged_ab[[2]]$country, which="both")
+```{r merge-for-NA-example-not-included, include=FALSE, eval=FALSE}
+to_harmonize_economy <- arabb_metadata %>%
+  filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
+           grepl("current economic situation", .data$label_orig)) %>%
+  mutate(var_label = var_label_normalize(.data$label_orig)) %>%
+  mutate(var_label = case_when(
+    .data$var_name_orig == "country" ~ "Country",
+    .data$var_name_orig == "rowid"   ~ "Unique ID AB English", # in pdf Unique ID AB English
+    .data$var_name_orig == "date"    ~ "Date_of_interview",
+    .data$var_name_orig == "wt"      ~ "Weight",
+    TRUE ~ "evaluation_economic_situation")) %>%
+  mutate (var_name = var_label_normalize(.data$var_label) )
+
+merged_ab_economic  <- merge_waves ( 
+  waves = arab_waves, 
+  var_harmonization = to_harmonize_economy )
+
+merged_ab_economic  <- lapply ( merged_ab_economic, 
+         FUN = function(x) x  %>%
+           mutate( country = normalize_country_names (country)))
+```
+
+
+```{r save-first-steps, include=FALSE, eval=FALSE}
+# This saves the first steps because the object sizes are too large to be included with the package on CRAN.
+save (merged_ab_elections, merged_ab_economic, 
+      arabb_metadata, documented_arab_waves, 
+      file = here("inst", "arabb", "arabb_vignette.rda"))
 ```
 
 ```{r document-merged-ab}
-documented_merged_ab <- document_waves(merged_ab)
-print(documented_merged_ab)
+document_waves(merged_ab_elections)
 ```
  
 Let's take a look at the variables: 
 
 ```{r var-names}
-lapply (merged_ab, names)
+lapply (merged_ab_elections, names)
 ```
+
 We see that they are not set in a standard format (variable names should not have spaces for programmatic use). We apply snakecase variable naming:
 
 ```{r snakecase, message=FALSE}
 require(snakecase)
 # replace space with underscore form variable names
-merged_ab <- lapply(merged_ab,
+merged_ab_elections  <- lapply(merged_ab_elections,
                     FUN = function(df) df %>%
                       rename_all(snakecase::to_snake_case))
+
 ```
 
 Now the variable names are ready to use in the programmatic way:
 
 ```{r var-names-2}
-lapply(merged_ab, names)
+lapply(merged_ab_elections, names)
 ```
 As shown from the table above, we obtained a reduced form of a comprehensive metadata in nested data set format. 
 
@@ -210,12 +239,12 @@ In our case, we decided to:
 
 
 ```{r remove-waves}
-merged_ab[[5]] <- NULL # Remove AB-WaveV-EN_1
-merged_ab[[1]] <- NULL # Remove ABI_English
+merged_ab_elections[[1]] <- NULL # Remove AB-WaveV-EN_1
+merged_ab_elections[[2]] <- NULL # Remove ABI_English
 ```
 
-```{r remove-date, eval=TRUE}
-merged_arabb <- lapply(merged_ab, function(x){
+```{r remove-date}
+merged_arabb <- lapply(merged_ab_elections, function(x){
   if ("date_of_interview" %in% names(x)){
     subset(x, select = -c(date_of_interview))
   } else{
@@ -243,11 +272,11 @@ In order to get a quick idea of how the data look like, we assigned numbers 1-4 
 
 ### Harmonizing the Missing Values
 
-Arabbarometer's SPSS files use various missing value categories, so we have to carefully harmonize them, too. The entire value range is the following:
+Arabbarometer's SPSS files use various missing value categories, wo we have to carefully harmonize them, too. The entire value range is the following:
 
 ```{r review-value-labels, eval=TRUE}
 collect_val_labels(
-  to_harmonize %>% 
+  to_harmonize_elections %>% 
      filter(grepl("evaluation in the last parliamentary elections", 
                   .data$var_name))
   )
@@ -256,7 +285,6 @@ collect_val_labels(
 >It is crucial to draw attention to special cases when some `NA` values are not labeled profoundly in data tables, thus, we decided to replace `NA` in advance with the value of the "missing/or not applicable" before standardizing response's values. Notice that we assigned original `NA` or missing labels with numerical values as in the table below:
 
 ```{r na-coding}
-
 missing_value_labels <- c("do_not_know","declined","declined","missing")
 missing_value_codes <- c("99997","99998","99998","99999")
 
@@ -271,11 +299,11 @@ For safety, we need to handle the `NA` values before harmonization (this is impo
 
 ```{r harmonize-na-values, eval=FALSE}
 ## This is not code
-# merged_arabb <- lapply(merged_arabb, function(df) {
-#   df$evaluation_in_the_last_parliamentary_elections[
-#     is.na(df$evaluation_in_the_last_parliamentary_elections)==T] <- 99999
-#   return(df)
-# } )
+merged_arabb <- lapply(merged_arabb, function(df) {
+  df$evaluation_in_the_last_parliamentary_elections[
+    is.na(df$evaluation_in_the_last_parliamentary_elections)==T] <- 99999
+  return(df)
+} )
 # merged_arabb[[3]]$evaluation_in_the_last_parliamentary_elections[is.na(merged_arabb[[3]]$evaluation_in_the_last_parliamentary_elections)==T]<-99999 
 # merged_arabb[[1]]$evaluation_in_the_last_parliamentary_elections[is.na(merged_arabb[[1]]$evaluation_in_the_last_parliamentary_elections)==T]<-99999 
 # merged_arabb[[2]]$evaluation_in_the_last_parliamentary_elections[is.na(merged_arabb[[2]]$evaluation_in_the_last_parliamentary_elections)==T]<-99999 
@@ -284,8 +312,8 @@ For safety, we need to handle the `NA` values before harmonization (this is impo
 The harmonization function from the `harmonize_values()` is a prototype function. In fact, this is just a re-setting the default values of the original function. It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables the are correlated to  our question about ("Evaluation of the Parliamentary Election").
 
 
-```{r harmonize-arabb-trust}
-harmonize_arabb_trust <- function(x){
+```{r harmonize_arabb_eval}
+harmonize_arabb_eval <- function(x){
   label_list <- list(
     from = c("(\\d\\.\\s)?(\\w+\\s\\w+\\s)?([c|C]ompletely free and fair)",
              "(.+)(but)?\\s?(with)\\s(some)?\\s{0,}(minor\\s\\w+)",
@@ -311,31 +339,23 @@ harmonize_arabb_trust <- function(x){
 
 ```{r harmonize-arabb-waves, eval=TRUE}
 harmonized_arabb_waves <- harmonize_waves( 
-  waves = merged_arabb, 
-  .f = harmonize_arabb_trust )
+  waves = merged_ab_elections, 
+  .f =harmonize_arabb_eval )
 ```
 
-We tested the transformed variables after applying the harmonization function, and we obtained the following counting summary of each unique answer of our question. Note that there are 2004 NA values, which corresponds to Saudi Arabia, in which the question at hand was not asked. Therefore, we do not include it in the analysis.
+We tested the transformed variables after applying the harmonization function, and we obtained the following counting summary of each unique answer of our question. 
 
 ```{r, eval=TRUE}
 harmonized_arabb_waves %>%
-  mutate (weight = ifelse(is.na(.data$weight), 1, .data$weight), 
-           evaluation_in_the_last_parliamentary_elections = as_factor(evaluation_in_the_last_parliamentary_elections), 
-           country = as_factor(country) ) %>%
+  mutate ( 
+    weight = ifelse(is.na(.data$weight), 1, .data$weight), 
+    evaluation_in_the_last_parliamentary_elections = as_factor(evaluation_in_the_last_parliamentary_elections), 
+    country = as_factor(country) ) %>%
   select ( -.data$unique_id_ab_english ) %>%
   summary()
 ```
  
 ### Analyzing the harmonized survey's data of parliamentary election in MENA
-
-From the attributes of the harmonized_ab_waves, we observed unnecessary information that could be omitted such as row names. 
-
-```{r, eval=TRUE}
-h_ab_structure <- attributes(harmonized_arabb_waves)
-h_ab_structure$row.names <- NULL 
-```
-
-The harmonized data can be exported and analyzed in another statistical program. 
 
 The labeled survey data was stored in `labelled_spss_survey()` vectors, which is a complex class that retains metadata for reproducibility, but most statistical packages work with numeric or categorical (factor) data. The data can be converted to any of these, but you should use the methods of `labelled_spss_survey()` for this purpose, i.e., `as_numeric()` or `as_factor()`. (See more why you should not fall back on the more generic as.factor() or as.numeric() methods in The [labelled_spss_survey class vignette](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html).)
 
@@ -346,7 +366,7 @@ harmonized_arabb_waves <- harmonized_arabb_waves %>%
   mutate(wave = gsub(".*(\\b[A-Z0-9]+).*", "\\1", unique_id_ab_english))
 ```
 
-```{r valuation-summary, eval=TRUE}
+```{r categorical-valuation-summary}
 categorical_summary <- harmonized_arabb_waves %>%
   select ( -all_of(c("weight", "unique_id_ab_english")) ) %>%
   mutate ( 
@@ -364,10 +384,28 @@ categorical_summary <- harmonized_arabb_waves %>%
 categorical_summary[1:10,]
 ```
 
-The output as shown in the table above indicates the number of votes that were given to each category of the surveys' parliamentary election question in country and round levels. For instance, the output of the arabbarometric survey round 2 in Algeria shows a high level of dissatisfaction of the last election process with 273 respondents expressed that it was not free, and 155 voters said it had major problems, while 287 indicated to some minor problems in the election process, and only 76 opinions said that the election process was fair. Furthermore, we notice the high number of 'do not know' answers in this round which indicates to some hesitation in respondents' willingness to express their opinions.This was an example of one country. On like this, the progress of the votes per country across surveys rounds could be smoothly observed from the complete table above. 
+The output as shown in the table below indicates the number of votes that were given to each category of the surveys' parliamentary election question in country and round levels. For instance, the output of the arabbarometric survey round 2 in Algeria shows a high level of dissatisfaction of the last election process with 273 respondents expressed that it was not free, and 155 voters said it had significant problems, while 287 mentioned to some minor problems in the election process, and only 76 opinions indicated that the election process was fair. Furthermore, we notice the high number of 'do not know' answers in this round which indicates to some hesitation in respondents' willingness to express their opinions.This was an example of one country.  
+
+```{r numeric-valuation-summary}
+numeric_summary <- harmonized_arabb_waves %>%
+  ungroup() %>%
+  select ( -all_of(c("weight", "unique_id_ab_english")) ) %>%
+  mutate ( 
+    evaluation_in_the_last_parliamentary_elections = 
+      as_numeric(.data$evaluation_in_the_last_parliamentary_elections)) %>%
+  filter ( !is.na(.data$evaluation_in_the_last_parliamentary_elections)) %>%
+  group_by ( .data$country, .data$wave) %>%
+  summarize ( mean = mean(.data$evaluation_in_the_last_parliamentary_elections, na.rm=TRUE),
+              median = median(.data$evaluation_in_the_last_parliamentary_elections, na.rm=TRUE),
+              sd = sd(.data$evaluation_in_the_last_parliamentary_elections, na.rm=TRUE),
+             .groups = 'keep') 
+
+numeric_summary
+```
 
 ### Regional Analysis of MENA Parliamentary Election Freedom Evaluation 
-Starting with the high level of analysis as shown in the summary table below, 45% of the voters believed that the parliamentary election were "free" or "had_minor_problems" during the periods of the survey rounds between 2010-2017 compared to 40% who believed that the election process was neither "not_free" nor "had_major_problems". A significant ratio of voters  answered with "don't know" with around 14% while only 1% of the total surveyed voters declined answering the question. Note that voters from Saudi Arabia were not questioned due the absence of parliament or other factors as mentioned previously. 
+
+
 
 ```{r regional_parl_elections-2, eval=TRUE, message=FALSE}
 regional_parl_elections <- harmonized_arabb_waves %>%
@@ -380,30 +418,38 @@ regional_parl_elections <- harmonized_arabb_waves %>%
   pivot_longer ( starts_with("evaluation"), 
                  names_to  = "indicator", 
                  values_to = "valuation") %>%
+  filter(!is.na(.data$valuation)) %>%
       group_by(.data$valuation) %>%
-  filter(all(!is.na(.data$valuation)))%>%
   summarize(n=n())%>%
-  mutate(freq= paste0(round(100 * n/sum(n), 0), "%"))
+  mutate(freq= paste0(round(100 * n/sum(n), 0), "%")) %>%
+  ungroup()
 ```
 
 ```{r, eval=TRUE, message=FALSE}
+set.seed(2021)
 regional_parl_elections
+```
 
-regional_not_free <- regional_parl_elections%>%
+```{r name-results, include=FALSE}
+regional_not_free <- regional_parl_elections %>%
   filter(.data$valuation == 'not_free')
 regional_maj_prob <- regional_parl_elections %>%
   filter(.data$valuation == 'some_major_problems')
 regional_min_prob <- regional_parl_elections %>%
   filter(.data$valuation == 'some_minor_problems')
 regional_free <- regional_parl_elections %>%
-  filter(.data$valuation == 'Free_and_fair')
+  filter(.data$valuation == 'free_and_fair')
 regional_dont_know <- regional_parl_elections %>%
   filter(.data$valuation == 'do_not_know')
 
+rather_free <- paste0(round((as.numeric(regional_free$n) + as.numeric(regional_min_prob$n)) / sum(regional_parl_elections$n)*100,2), "%")
+rather_not_free <- paste0(round((as.numeric(regional_not_free$n) + as.numeric(regional_maj_prob$n)) / sum(regional_parl_elections$n)*100,2), "%")
 ```
 
+Starting with the high level of analysis as shown in the summary table below, `r rather_free` of the voters believed that the parliamentary election were `free` or `had_minor_problems` in the three survey rounds combined, compared to `r rather_not_free` who believed that the election process was neither `not_free` nor `had_major_problems`. A significant ratio of voters  answered with `don't know` with around 14% while only 1% of the total surveyed voters declined answering the question. (Note that voters from Saudi Arabia were not questioned due the absence of parliament or other factors as mentioned previously.)
+
 ```{r regional_parl_elections-2 summary, eval=TRUE, message=FALSE}
-  regional_parl_elections <- harmonized_arabb_waves %>%
+regional_parl_elections_by_wave <- harmonized_arabb_waves %>%
   select(
     -all_of(c("weight", "unique_id_ab_english"))
     )%>%
@@ -413,84 +459,67 @@ regional_dont_know <- regional_parl_elections %>%
   pivot_longer ( starts_with("evaluation"), 
                  names_to  = "indicator", 
                  values_to = "valuation") %>%
+  filter ( !is.na(.data$valuation)) %>%
       group_by(.data$wave,.data$valuation) %>%
-    filter(all(!is.na(.data$valuation)))%>%
   summarize(n=n())%>%
-  mutate(freq= paste0(round(100 * n/sum(n), 0), "%"))
+  mutate(freq= paste0(round(100 * n/sum(n), 0), "%")) %>%
+  ungroup()
+
+regional_parl_elections_by_wave 
 ```
+
 For a clearer picture of the progress of the democracy level in MENA region, we can track the changes in votes across the period 2010-2017 which is covered by  survey round ABII (sample size = 12782) and survey round ABIV (sample size = 9000). 
 
 The low democracy level/low satisfaction about the fairness of the election process is presented in the table `problama_Elec_process `. The total votes that described the process as *not-free* or *with major problems* decreased significantly from 49% in 2010-round ABII to less than 32% in 2017-Round ABIV using the total_unfair variable. This was accompanied with a significant improvement in the votes which described the election process *free_and_fair* or with *some_minor_problems* from 36% in 2010 to around 50% in 2017, and the voters who answered with don't know increased slightly from 13% to 17% between 2010-2017.
 
+```{r comparison-chart, eval=FALSE}
+library(ggplot2)
 
-```{r regional_parl_elections, eval=TRUE}
-## needs review
-problem_elec_process <- bind_rows(
-  regional_not_free,
-  regional_maj_prob
-  )
+chart_caption <- paste0(copyright_text, " Daniel Antal, Ahmed Shaibani, retroharmonize.dataobservatory.eu/articles/arabbarometer.html")
+summary_to_chart <- regional_parl_elections_by_wave  %>%
+  filter ( .data$wave != "ABI" ) %>%
+  mutate ( wave = ifelse (.data$wave == "ABIII", 
+                          yes = "Arab Barometer Wave 3", 
+                          no = "Arab Barometer Wave 4"), 
+           frequency =as.numeric(gsub("\\%", "", .data$freq)),
+           valuation = as_factor(snakecase::to_sentence_case(as_character(.data$valuation)))) 
 
-problem_elec_process <- problem_elec_process %>% 
-  group_by(.data$valuation) %>% 
-  mutate(total_unfair = sum(.data$n)) %>% 
-  arrange( .data$valuation, .data$total_unfair)
+valuation_palette <- c("#E88500", "#FAE000", "#BAC615", "#3EA135", "grey60", "grey80")
+names(valuation_palette) <- levels ( summary_to_chart$valuation)
 
-print(problem_elec_process)
+ggplot ( summary_to_chart, 
+         aes ( x = valuation, y = frequency, group = wave, fill = valuation, label = freq )) +
+  geom_col() +
+  scale_fill_manual( values = valuation_palette ) +
+  facet_wrap(facets = "wave") +
+  geom_text(vjust = -0.28, size = 2.5) +
+  theme_minimal() +
+  theme ( axis.text.x = element_blank(), 
+          legend.position = 'bottom') +
+  labs ( x = NULL, y = "Relative Frequency (freq)", 
+         title = "Comparison of MENA Election Valuations", 
+         caption = chart_caption )
+```
+```{r save-chart, include=FALSE, eval=FALSE}
+ggsave (here('vignettes', 'arabb-comparison-chart.png'), unit = "cm", width = 16, height=9, dpi =200)
 ```
 
 
-On the other side, the table`Good_elec_process` indicates to a temporarily improvement in absolute number of votes in the round ABIII  compared to the round ABII before returning to same level in round ABII, but in percentage scale, the people who expressed that the election was either *free and fair* or *with minor problems* increased from 32% in 2010 - round ABII to 48% in 2017- round ABIV using total_fair variable. 
-
-
-```{r, eval=TRUE}
-
-Good_elec_process <- bind_rows(
-  regional_free,
-  regional_min_prob
-  )
-
-#Good_elec_process <- Good_elec_process %>% 
-#  group_by(.data.$valuation) %>% 
-#  mutate(total_fair = sum(n)) %>% 
-#  arrange(.data$valuation,.data$total_fair)
-print(Good_elec_process)
+```{r comparison-mena-elections-chart, fig.pos='center', out.width='80%'}
+knitr::include_graphics(
+  here('vignettes', 'arabb-comparison-chart.png')
+)
 ```
 
-The rest of the people who responded to this question with "I do not know" increased from 11.3% in 2007 to 15.6% in 2010. 
-
-
-```{r, eval=TRUE}
-reluctant_respondents <- regional_dont_know
-print(reluctant_respondents)
-```
 
 Eventually, users can go deeper in analyzing the harmonized data of our question about the parliamentary election process in MENA, and they can test the library on other questions to reach and explore other interesting results. The main purpose of this blog was to show the power of **retroharmonize** in handling large and complex survey data in a way that help users to obtain the required output effectively. 
 
-The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the program knows which variables to take from what files and how to call and label them after transformation.
+## Arab Barometer Issues
 
+We create another example to show the idisynchratic issues with Arab Barometer later.
 
-We select from the metadata file `rowid` being the unique case identifier, and variables of interest:  `date` with the interview date,`COUNTRY` containing information about the country where the interview was conducted, and with `wt` being the weighting factor, and some "real" survey questions.
-
-
-### Merged Metadata Creation 
-
-In this step, we built a comprehensive metadata table that maps information about variable names and labels of the case’s surveys data. Each row in the table above refers to a different variable in the survey data file. This is accomplished using the `metadata_create()` function, which collects metadata from survey data files, normalizes variable labels, and defines substantive response ranges and missing value codes.
-
-
-```{r create-arabb-metadata for R3}
-arabb_metadata <- lapply ( X = arab_waves, FUN = metadata_create)
-arabb_metadata <- do.call(rbind, arabb_metadata)
-```
-
-In the same context, you should also carefully insert key words and expressions that match with your survey questionnaire item of interest; in our case, we chose *economic situation*, to fork an exact question about the economic situation, which is `How would you evaluate the current economic situation in your country?`
-
-The variable names (`var_name`) and labels (`var_label`) then must be normalized and harmonized.
-
-### Harmonizing the variable names
-
-```{r arabb-metadata for R3}
-
-to_harmonize <- arabb_metadata %>%
+```{r harmonize-economy, eval=FALSE}
+to_harmonize_economy <- arabb_metadata %>%
   filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
            grepl("current economic situation", .data$label_orig)) %>%
   mutate(var_label = var_label_normalize(.data$label_orig)) %>%
@@ -503,142 +532,48 @@ to_harmonize <- arabb_metadata %>%
   mutate (var_name = var_label_normalize(.data$var_label) )
 
 set.seed(2021) # Let's see the same random example:
-sample_n(to_harmonize%>% 
+sample_n(to_harmonize_economy%>% 
        select ( all_of(c("id", "var_name", "var_label"))), 10)
 
 ```
 
-```{r merge for R3}
-merged_ab <- merge_waves ( waves = arab_waves, 
-                           var_harmonization = to_harmonize  )
+```{r merge-for-NA-example, eval=FALSE}
+merged_ab_economic  <- merge_waves ( waves = arab_waves, 
+                           var_harmonization = to_harmonize_economy )
 
-# country will be a character variable, and doesn't need a label
-merged_ab <- lapply ( merged_ab, 
+merged_ab_economic  <- lapply ( merged_ab_economic, 
          FUN = function(x) x  %>%
-           mutate( country = tolower(as_character(country))))
+           mutate( country = normalize_country_names (country)))
 ```
 
-We clean the country names a bit
-```{r clean-country-names for R3}
-# cleaning country names using the second round
-merged_ab[[2]]$country <- gsub("\\d{1,}\\.\\s?","",merged_ab[[2]]$country)
-merged_ab[[2]]$country <- trimws(merged_ab[[2]]$country, which="both")
-```
-Review the most important metadata with `document_waves()`:
-
-```{r}
-documenteded_merged_ab <- document_waves(merged_ab)
+```{r normalize-ab-economic-names}
+merged_ab_economic   <- lapply(
+  merged_ab_economic,
+  FUN = function(df) df %>%
+    rename_all(snakecase::to_snake_case))
 ```
 ```{r}
-print(documenteded_merged_ab)
-```
-Let's take a look at the variables: 
-
-```{r var-names for R3}
-lapply (merged_ab, names)
-```
-We see that they are not set in a standard format (variable names should not have spaces for programmatic use). We apply snakecase variable naming:
-
-```{r snakecase for R3, message=FALSE}
-require(snakecase)
-# replace space with underscore form variable names
-merged_ab <- lapply(merged_ab,
-                    FUN = function(df) df %>%
-                      rename_all(snakecase::to_snake_case))
-```
-
-Now the variable names are ready to use in the programmatic way:
-
-```{r var-names-2 for R3}
-lapply(merged_ab, names)
-```
-
-The files we want to harmonize must contain the same variables. 
-If we want to weight the answers, we should either drop Arab-Barometer_1, or for simplicity, add weight = 1 to this survey.
-
-```{r, eval=FALSE}
-## not evaluated, this is how to drop the Arab-Barometer_1
-# merged_ab[[2]] <- NULL
-merged_ab[[1]] <- NULL # Arab-Barometer_1
-```
-
-
-```{r add-weight for R3}
-merged_ab[[2]]$weight <- 1
-```
-
-Similarly, we can either drop the date of the interview or fill it up with, for example, the middle day of the surveying period.
-
-```{r drop-date for R3}
-merged_arabb <- lapply ( merged_ab, function(x){
-  if ( "date_of_interview" %in% names(x) ) {
-    subset ( x, select = -c(date_of_interview))
-  } else {
-    ## subset works with survey class, if omitted, will return 
-    ## data frame without metadata
-    subset ( x )
-  }
-})
-```
-
-```{r}
-documenteded_merged_arabb <- document_waves(merged_arabb)
-```
-```{r}
-print(documenteded_merged_arabb)
-```
-
-Now we have the same four variables in each wave: `r paste ( names(merged_arabb[[1]]), collapse = ", ")`.
-
-## Harmonization
-
-To review the harmonization on a single survey use `pull_survey()`. Here we select Arab Barometer Round 3.
-
-```{r check for R3}
-R3 <- pull_survey ( merged_ab, id = "Arab_Barometer_3")
-```
-
-
-```{r pulled-attributes for R3}
-attributes(R3$evaluation_economic_situation[1:20])
-```
-
-The `document_survey_item()` function shows the metadata of a single variable. 
-
-```{r document-item for R3}
-document_survey_item(R3$evaluation_economic_situation)
-```
-
-Arab Barometer's SPSS files do not mark the missing values, so we have to be careful. 
-
-The set of valid category labels and missing value labels are as follows:
-  
-```{r}
-collect_val_labels (to_harmonize %>%
-                      filter ( grepl( "evaluation_economic_situation", var_name) ))
-```
-
-Apparently, there are a number of missing value labels here, and it is not even always clear if they refer to the same type of “missingness” with the same word.
-
-In the examples with [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html) and [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html), we saw different problems with missing variables.
-
-* In Eurobarometer, the type of missingness is relatively clear, and in the SPSS files, the missing labels are usually, but not always identified.
-* In Afrobarometer, the missing classes are clear, but the SPSS missing labels are not used. Instead the SPSS missing range (`na_range`) is used, but sometimes inconsistently with the missing labels (`na_labels`).
-
-In some statistical analysis, these differences do not matter much (for example, when creating averages from numeric values or numeric representations), but when you work with categories or you examine the survey's quality, these differences can be important.
-
-We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
-
-```{r specify for R3}
-harmonize_arabb_trust <- function(x) {
+harmonize_economic_situation <- function(x) {
   label_list <- list(
-    from = c("very\\sgood", "(?<!very\\s)good",
-             "(?<!very\\s)bad", "very\\sbad", 
-             "t\\sknow", "refuse", "decline", "missing"), 
-    to = c("very_good", "good", "bad", 
-           "very_bad", "do_not_know", 
-           "declined", "declined", "missing"), 
-    numeric_values = c(3,2,1,0, 99997, 99998, 99998,99999)
+    from = c("very\\sgood", "1\\.\\svery good",
+             "4\\.\\svery bad", "very\\sbad", 
+             "2\\.\\sgood", "good", 
+             "3\\.\\sbad", "bad", 
+             "Don't know",  "Don't know \\(Do not read\\)", "8. i don't know", 
+             "refuse", "refused", "Decline to answer (Do not read)", "not\\sresponsible",
+             "9\\.\\sdeclined to answer",   "decline", 
+             "missing"), 
+    to = c("very_good", "very_good", 
+           "very_bad", "very_bad",
+           "good", "good",
+           "bad", "bad",
+           rep("do_not_know", 3), 
+           rep("declined", 6),
+           "missing"), 
+    numeric_values = c(3,3,0,0,2,2,1,1, 
+                       rep(99997,3),
+                       rep(99998,6),
+                       99999)
   )
   
   harmonize_values(
@@ -652,92 +587,51 @@ harmonize_arabb_trust <- function(x) {
 }
 ```
 
-Let's see if the output makes sense: 
 
-```{r, eval=FALSE}
-# review this
-# We only print a random sample from the results.
-set.seed(2020)
-harmonize_arabb_trust(
-  sample(R3$evaluation_economic_situation, 12)
-)
-```
-
-We apply this function to the trust variables. The `harmonize_waves()` function binds all variables that are present in all surveys.
-
-```{r harmonize for R3, eval=FALSE}
-harmonized_arabb_waves <- harmonize_waves ( 
-  waves = merged_arabb, 
-  .f = harmonize_arabb_trust ) 
-```
-
-Let's look at the attributes of `harmonized_arabb_waves`. 
-
-```{r, eval=FALSE}
-h_arabb_structure <- attributes(harmonized_arabb_waves)
-```
-```{r, eval=FALSE}
-h_arabb_structure$row.names <- NULL # We have over 70K row names
-h_arabb_structure
-```
-
-To keep our example manageable, we subset the datasets to include only five countries.
-
-```{r, eval=FALSE}
-harmonized_arabb_waves <- harmonized_arabb_waves %>% 
-  mutate ( id = strsplit(unique_id_ab_english, "[_]")[[1]][1])
-```
-
-
-## Analyzing the harmonized data
-
-The harmonized data can be exported and analyzed in another statistical program.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains metadata for reproducibility. Most statistical R packages do not know it. The data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html))
-
-Please note that the numeric form of these trust variables is not directly comparable with the numeric averages of the Eurobarometer trust variables, because the middle of the range is at `r mean(0:3)` and not `r mean(0:1)`.
-
-```{r numeric for R3}
-numeric_summary <- harmonized_arabb_waves %>%
-  mutate_at ( vars(starts_with("evaluation")), 
-              ~as_numeric(.)*weight) %>%
-  select ( -all_of("weight") ) %>%
-  group_by ( .data$country ) %>%
-  summarize_if ( is.numeric, mean, na.rm=TRUE )
-
-numeric_summary
-```
-
-And the factor representation, without weighting:
-
-```{r factor, eval=FALSE}
-library(tidyr)  ## tidyr::pivot_longer()
-categorical_summary <- harmonized_arabb_waves %>%
-  select ( -all_of(c("weight", "unique_id_ab_english")) ) %>%
-  mutate ( 
-    evaluation_economic_situation = 
-      as_factor(evaluation_economic_situation)) %>%
-  pivot_longer ( starts_with("evaluation"), 
-                        names_to  = "indicator", 
-                        values_to = "valuation") %>%
-  group_by ( .data$country, .data$valuation ) %>%
-  summarize ( n = n() ) 
-
-categorical_summary
-```
+## Citations and related work {#citations}
 
 ### Saved Variables
 
 ```{r, eval=FALSE}
-haven::write_sav(data = harmonized_arabb_waves, "harmonized_arabb_waves.sav")
-write.csv(harmonized_arabb_waves, "harmonized_arabb_waves.csv")
-write.csv(categorical_summary, "categorical_summary.csv")
-write.csv(numeric_summary, "numeric_summary.csv")
+haven::write_sav(data = harmonized_arabb_waves, here("data-raw", "arabb", "harmonized_arabb_waves.sav"))
+write.csv(harmonized_arabb_waves,  here("data-raw", "arabb", "harmonized_arabb_waves.csv"), row.names=FALSE)
+write.csv(categorical_summary, here("data-raw", "arabb",  "arabb_categorical_summary.csv"), row.names=FALSE)
+write.csv(numeric_summary, here("data-raw", "arabb", "arabb_numeric_summary.csv"), row.names=FALSE)
 
 # The metadata file contains list objects, which cannot be represented
 # in a flat csv file format.
-saveRDS(arabb_metadata, "arabb_metadata.rds")
+saveRDS(arabb_metadata,  here("data-raw", "arabb", "arabb_metadata.rds"))
 
 ## The lists of value labels are dropped from the csv output.
-write.csv(arabb_metadata [, -which (sapply ( arabb_metadata, class) == "list")], "arabb_metadata_simplified.csv")
+write.csv(arabb_metadata [, -which (sapply ( arabb_metadata, class) == "list")],  
+          here("data-raw", "arabb","arabb_metadata_simplified.csv"), row.names=FALSE)
 ```
 
+### Citing the data sources
 
+Arab Baromeeter data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
+
+
+### Citing the retroharmonize R package
+
+For main developer and contributors, see the [package](https://retroharmonize.dataobservatory.eu/) homepage.
+
+This work can be freely used, modified and distributed under the
+GPL-3 license:
+
+```{r citation-regions, message=FALSE, eval=TRUE, echo=TRUE}
+citation("retroharmonize")
+```
+
+### Contact
+
+For contact information, see the [package](https://retroharmonize.dataobservatory.eu/) homepage.
+
+
+### Version info
+
+This tutorial was created in the following environment:
+
+```{r sessioninfo, message=FALSE, warning=FALSE}
+sessionInfo()
+```

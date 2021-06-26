@@ -18,9 +18,12 @@ it shows the id of the survey that is being joined.}
 A natural full join of all surveys in a single data frame.
 }
 \description{
-Harmonize the values of surveys. It binds together variables
+Harmonize the values of surveys.
+}
+\details{
+The functions binds together variables
 that are all present in the surveys, and applies a 
-harmonization function on them.
+harmonization function \code{.f} on them.
 }
 \examples{
 \donttest{

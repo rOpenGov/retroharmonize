@@ -32,7 +32,8 @@ The function harmonizes the variable names of surveys (of class \code{survey}) t
 are imported from an external file as a wave.
 }
 \details{
-If the \code{metadata} that contains subsetting information is subsetted, then it will subset the surveys in 
+If the \code{metadata} that contains subsetting information is subsetted, then 
+it will subset the surveys in 
 \code{waves}.
 }
 \examples{

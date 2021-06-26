@@ -21,7 +21,8 @@ The goal in this case study is to analyze trust in the national and European par
 
 The [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) is a biannual survey conducted by the European Commission with the goal of monitoring the public opinion of populations of EU member states and -- occasionally -- also in candidate countries. Each EB wave is devoted to a particular topic, but most waves ask some "trend questions", i.e. questions that are repeated frequently in the same form. Trust in institutions is among such trend questions.
 
-In this case study we use nine waves of the Eurobarometer between 1996 and 2019: 
+The [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) data
+[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) raw data and related documentation (questionnaires, codebooks, etc.) are made available by *GESIS*, *ICPSR* and through the *Social Science Data Archive* networks. You should cite your source, in our examples, we rely on the [GESIS](https://www.gesis.org/en/eurobarometer-data-service/search-data-access/data-access) data files. In this case study we use nine waves of the Eurobarometer between 1996 and 2019: 
 [44.2bis (January-March 1996)](https://search.gesis.org/research_data/ZA2828), [51.0 (March-April 1999)](https://search.gesis.org/research_data/ZA3171), [57.1 (March-May 2002)](https://search.gesis.org/research_data/ZA3639), [64.2 (October-November 2005)](https://search.gesis.org/research_data/ZA4414), [69.2 (Mar-May 2008)](https://search.gesis.org/research_data/ZA4744)
 [75.3 (May 2011)](https://search.gesis.org/research_data/ZA5481), [81.2 (March 2014)](https://search.gesis.org/research_data/ZA5913), [87.3 (May 2017)](https://search.gesis.org/research_data/ZA6863), and [91.2 (March 2019)](https://search.gesis.org/research_data/ZA7562).  
 
