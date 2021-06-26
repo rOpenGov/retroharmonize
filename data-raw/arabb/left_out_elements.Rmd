@@ -1,0 +1,79 @@
+---
+title: "Untitled"
+author: "Daniel Antal, CFA"
+date: "6/26/2021"
+output: html_document
+---
+## Arab Barometer Issues
+
+We create another example to show the idisynchratic issues with Arab Barometer later.
+
+```{r harmonize-economy}
+to_harmonize_economy <- arabbarometer_metadata %>%
+  filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
+           grepl("current economic situation", .data$label_orig)) %>%
+  mutate(var_label = var_label_normalize(.data$label_orig)) %>%
+  mutate(var_label = case_when(
+    .data$var_name_orig == "country" ~ "Country",
+    .data$var_name_orig == "rowid"   ~ "Unique ID AB English", # in pdf Unique ID AB English
+    .data$var_name_orig == "date"    ~ "Date_of_interview",
+    .data$var_name_orig == "wt"      ~ "Weight",
+    TRUE ~ "evaluation_economic_situation")) %>%
+  mutate (var_name = var_label_normalize(.data$var_label) )
+
+set.seed(2021) # Let's see the same random example:
+sample_n(to_harmonize_economy%>% 
+       select ( all_of(c("id", "var_name", "var_label"))), 10)
+
+```
+
+```{r merge-for-NA-example, eval=FALSE}
+merged_ab_economic  <- merge_waves ( waves = arab_waves, 
+                           var_harmonization = to_harmonize_economy )
+
+merged_ab_economic  <- lapply ( merged_ab_economic, 
+         FUN = function(x) x  %>%
+           mutate( country = normalize_country_names (country)))
+```
+
+```{r normalize-ab-economic-names}
+merged_ab_economic   <- lapply(
+  merged_ab_economic,
+  FUN = function(df) df %>%
+    rename_all(snakecase::to_snake_case))
+```
+
+```{r}
+harmonize_economic_situation <- function(x) {
+  label_list <- list(
+    from = c("very\\sgood", "1\\.\\svery good",
+             "4\\.\\svery bad", "very\\sbad", 
+             "2\\.\\sgood", "good", 
+             "3\\.\\sbad", "bad", 
+             "Don't know",  "Don't know \\(Do not read\\)", "8. i don't know", 
+             "refuse", "refused", "Decline to answer (Do not read)", "not\\sresponsible",
+             "9\\.\\sdeclined to answer",   "decline", 
+             "missing"), 
+    to = c("very_good", "very_good", 
+           "very_bad", "very_bad",
+           "good", "good",
+           "bad", "bad",
+           rep("do_not_know", 3), 
+           rep("declined", 6),
+           "missing"), 
+    numeric_values = c(3,3,0,0,2,2,1,1, 
+                       rep(99997,3),
+                       rep(99998,6),
+                       99999)
+  )
+  
+  harmonize_values(
+    x, 
+    harmonize_labels = label_list, 
+    na_values = c("do_not_know"=99997,
+                  "declined"=99998,
+                  "missing"=99999), 
+    perl = TRUE
+  )
+}
+```

@@ -101,12 +101,15 @@ Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html
 we discuss the characteristics of the `labelled_spss_survey()` class and
 demonstrates the problems that using this class solves.
 
-We also provide two extensive case studies illustrating how the
+We also provide three extensive case studies illustrating how the
 `retroharmonize` package can be used for ex-post harmonization of data
-from cross-national surveys on the example of the
-[Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html)
-and the
-[Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html).
+from cross-national surveys:
+
+-   [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html)
+-   [Arab
+    Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html)
+-   [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html)
+
 The creators of `retroharmonize` are not affiliated with either
 Afrobarometer, Eurobarometer, or the organizations that designs,
 produces or archives their surveys.
