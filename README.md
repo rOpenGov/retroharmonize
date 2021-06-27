@@ -124,8 +124,8 @@ Observatory](https://economy.dataobservatory.eu/).
 
 ### Citing the data sources
 
-Our package has been tested on three harmonized survey’s micordata.
-Becasue [retroharmonize](https://retroharmonize.dataobservatory.eu/) is
+Our package has been tested on three harmonized survey’s microdata.
+Because [retroharmonize](https://retroharmonize.dataobservatory.eu/) is
 not affiliated with any of these data sources, to replicate our
 tutorials or work with the data, you have download the data files from
 these sources, and you have to cite those sources in your work.
