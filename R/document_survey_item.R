@@ -58,8 +58,6 @@
 #' @export
 
 document_survey_item <- function(x) {
-  values <- NULL
-  
   attribute_names <- names(attributes(x))
   original_x_name <- deparse(substitute(x)) 
   
@@ -75,7 +73,7 @@ document_survey_item <- function(x) {
   
   list (
     code_table = dplyr::bind_cols(coding, labelling) %>%
-      mutate ( missing = ifelse (values %in% attr(x, "na_values"), 
+      mutate ( missing = ifelse (.data$values %in% attr(x, "na_values"), 
                                  TRUE, FALSE)), 
     history_var_name = c(
       c("name" = original_x_name ), 

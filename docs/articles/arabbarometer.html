@@ -98,7 +98,7 @@
                         <h4 class="author">Daniel Antal</h4>
                         <h4 class="author">Ahmed Shaibani</h4>
             
-            <h4 class="date">2021-06-26</h4>
+            <h4 class="date">2021-06-27</h4>
       
       <small class="dont-index">Source: <a href="https://github.com/rOpenGov/retroharmonize/blob/master/vignettes/arabbarometer.Rmd"><code>vignettes/arabbarometer.Rmd</code></a></small>
       <div class="hidden name"><code>arabbarometer.Rmd</code></div>
@@ -107,7 +107,7 @@
 
     
     
-<p>The goal of this case article is to show how you can harmonize survey data from <a href="https://https://www.arabbarometer.org/">Arab Barometer</a> with the <a href="https://retroharmonize.dataobservatory.eu/">retroharmonize</a> R package. The Arab Barometer is a nonpartisan research network that provides insight into the social, political, and economic attitudes and values of ordinary citizens across the Arab world.</p>
+<p>The goal of this case article is to show how you can harmonize survey data from <a href="https://www.arabbarometer.org/">Arab Barometer</a> with the <a href="https://retroharmonize.dataobservatory.eu/">retroharmonize</a> R package. The Arab Barometer is a nonpartisan research network that provides insight into the social, political, and economic attitudes and values of ordinary citizens across the Arab world.</p>
 <p>cross-national surveys on the example of the <a href="https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html">Afrobarometer</a> and the <a href="https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html">Eurobarometer</a>.</p>
 <p>The authors of <code>retroharmonize</code>, and <a href="https://github.com/rOpenGov/retroharmonize/">rOpenGov</a> open source developer community are not affiliated with Arab Barometer. To fully reproduce this example, you must acquire the data files from them, which is free of charge. If you download and use the survey data, the Arab Barometer does not take any responsibility for the results of the analysis of the Arab Barometer data. All results published using the Arab Barometer data and related content are responsibility of the respective author.</p>
 <p>Some code examples of this case study are not evaluated, because we want to avoid re-publishing the original microdata files from Arab Barometer. If you want to fully replicate these code examples, you need to access the data directly from the <a href="https://www.arabbarometer.org/survey-data/data-downloads/">arabbarometer.org website</a> after agreeing to their <a href="https://www.arabbarometer.org/policies/">policies</a> and filling out a short questionnaire.</p>
@@ -220,7 +220,7 @@
 <span class="co">#&gt; 4              5           0</span>
 <span class="co">#&gt; 5              7           0</span>
 <span class="co">#&gt; 6              5           0</span></code></pre></div>
-<p>We select from the metadata file <code>rowid</code> as the unique observation identifier, and some auxilliary variables: <code>date</code> with the interview date,the <code>COUNTRY</code> containing country where the interview was conducted, and <code>wt</code> as the weighting factor, and some “real” survey questions. The countries in the Arab Barometer datasets are countries from the Middle East and North Africa (MENA) region with a significant Arab speaking population. The data does not contain all the MENA countries, for example, Palestine is present in the dataset, but Israel is not.</p>
+<p>We select from the metadata file <code>rowid</code> as the unique observation identifier, and some auxiliary variables: <code>date</code> with the interview date,the <code>COUNTRY</code> containing country where the interview was conducted, and <code>wt</code> as the weighting factor, and some “real” survey questions. The countries in the Arab Barometer datasets are countries from the Middle East and North Africa (MENA) region with a significant Arab speaking population. The data does not contain all the MENA countries, for example, Palestine is present in the dataset, but Israel is not.</p>
 <p>The metadata table also helps you to identify survey items of interest; in our case, we chose <em>Election, parliamentary</em>, and <em>Election</em> to fork an exact question about parliamentary election, which is <code>How would you evaluate the last parliamentary election?</code></p>
 </div>
 </div>
@@ -271,7 +271,7 @@
 <span class="co">#&gt; 9                                          Country</span>
 <span class="co">#&gt; 10                            Unique ID AB English</span></code></pre></div>
 <ul>
-<li>Variable harmonization means that the date of the interview should be called exactly the same way in each survey table, i.e. not <code>date</code> and <code>date_of_interview</code>, only <code>date_of_interview</code>. The auxilliary and demography variables appear to be relatively well harmonized in the Arab Barometer, but the other survey items will require more work.</li>
+<li>Variable harmonization means that the date of the interview should be called exactly the same way in each survey table, i.e. not <code>date</code> and <code>date_of_interview</code>, only <code>date_of_interview</code>. The auxiliary and demography variables appear to be relatively well harmonized in the Arab Barometer, but the other survey items will require more work.</li>
 <li>Label harmonization means that the label for <em>Algeria</em> in the <code>country</code> variable must be a single value, for example, <code>Algeria</code>, instead of <code>Algeria</code>, <code>algeria</code>, <code>1. Algeria</code>.</li>
 </ul>
 <p>In this case, the variable name harmonization is a simple task. The names need a bit of normalization for programmatic use.</p>
@@ -286,11 +286,11 @@
 <span class="co">#&gt; # A tibble: 5 x 5</span>
 <span class="co">#&gt;   id               filename           ncol  nrow object_size</span>
 <span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;             &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Arab_Barometer_5 AB-WaveV-EN.sav       4 26780     2986800</span>
-<span class="co">#&gt; 2 Arab_Barometer_1 ABI_English.sav       2  7337      690576</span>
-<span class="co">#&gt; 3 Arab_Barometer_2 ABII_English.sav      4 12782     1437784</span>
-<span class="co">#&gt; 4 Arab_Barometer_3 ABIII_English.sav     5 14809     1785672</span>
-<span class="co">#&gt; 5 Arab_Barometer_4 ABIV_English.sav      4  9000     1013488</span></code></pre></div>
+<span class="co">#&gt; 1 Arab_Barometer_5 AB-WaveV-EN.sav       4 26780     2991624</span>
+<span class="co">#&gt; 2 Arab_Barometer_1 ABI_English.sav       2  7337      694064</span>
+<span class="co">#&gt; 3 Arab_Barometer_2 ABII_English.sav      4 12782     1443896</span>
+<span class="co">#&gt; 4 Arab_Barometer_3 ABIII_English.sav     5 14809     1790104</span>
+<span class="co">#&gt; 5 Arab_Barometer_4 ABIV_English.sav      4  9000     1017088</span></code></pre></div>
 <p>Let’s take a look at the variables:</p>
 <div class="sourceCode" id="cb11"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> <span class="op">(</span><span class="va">merged_ab_elections</span>, <span class="va">names</span><span class="op">)</span>
@@ -381,16 +381,16 @@
 <span class="co">#&gt; # A tibble: 3 x 5</span>
 <span class="co">#&gt;   id               filename           ncol  nrow object_size</span>
 <span class="co">#&gt;   &lt;chr&gt;            &lt;chr&gt;             &lt;int&gt; &lt;int&gt;       &lt;dbl&gt;</span>
-<span class="co">#&gt; 1 Arab_Barometer_2 ABII_English.sav      4 12782     1437784</span>
-<span class="co">#&gt; 2 Arab_Barometer_3 ABIII_English.sav     4 14809     1666176</span>
-<span class="co">#&gt; 3 Arab_Barometer_4 ABIV_English.sav      4  9000     1013488</span></code></pre></div>
+<span class="co">#&gt; 1 Arab_Barometer_2 ABII_English.sav      4 12782     1443896</span>
+<span class="co">#&gt; 2 Arab_Barometer_3 ABIII_English.sav     4 14809     1670608</span>
+<span class="co">#&gt; 3 Arab_Barometer_4 ABIV_English.sav      4  9000     1017088</span></code></pre></div>
 </div>
 <div id="variable-label-harmonization" class="section level3">
 <h3 class="hasAnchor">
 <a href="#variable-label-harmonization" class="anchor"></a>Variable Label Harmonization</h3>
 <p>The R language uses special NA values for missing values. These are differently encoded in SPSS, and in various survey programs unfortunately are not always consistently used. Compared to our Eurobarometer and Afrobarometer use cases, the Arab Barometer needs particularly lot of harmonization, because - The published Arab Barometer files do not contain either missing range, nor the explicitly stated missing cases, and the values that refer to various missing cases are mixed with valid values; - The missing cases, like the valid cases, are labelled inconsistently.</p>
 <p>Our variable label harmonization therefore takes two steps: carefully labelling and removing the missing cases from the valid range, and then harmonizing the valid value labels.</p>
-<p>Arabbarometer’s SPSS files use various missing value categories, wo we have to carefully harmonize them, too. The entire value range is the following:</p>
+<p>Arabbarometer’s SPSS files use various missing value categories, we must carefully harmonize them, too. The entire value range is the following:</p>
 <div class="sourceCode" id="cb17"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="../reference/collect_val_labels.html">collect_val_labels</a></span><span class="op">(</span>
   <span class="va">to_harmonize_elections</span> <span class="op">%&gt;%</span> 
@@ -451,7 +451,7 @@
                                  <span class="st">"missing"</span><span class="op">=</span><span class="fl">99999</span>
                    <span class="op">)</span><span class="op">)</span>
 <span class="op">}</span></code></pre></div>
-<p>The problem is that the numeric codes are not only used for the evaluation quesiton, but also for country names. Beware not to apply the election evaluation code tabel to the country names!</p>
+<p>The problem is that the numeric codes are not only used for the evaluation question, but also for country names. Beware not to apply the election evaluation code tabel to the country names!</p>
 <div class="sourceCode" id="cb19"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">harmonized_evaluations</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/harmonize_waves.html">harmonize_waves</a></span><span class="op">(</span> 
   waves <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/lapply.html">lapply</a></span> <span class="op">(</span> <span class="va">ab_elections</span>, <span class="kw">function</span><span class="op">(</span><span class="va">x</span><span class="op">)</span> <span class="va">x</span> <span class="op">%&gt;%</span> 
@@ -542,7 +542,7 @@
 <h3 class="hasAnchor">
 <a href="#categorical-and-numeric-coding" class="anchor"></a>Categorical And Numeric Coding</h3>
 <p>The labeled survey data was stored in <code><a href="../reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> vectors, which is a complex class that retains metadata for reproducibility, but most statistical packages work with numeric or categorical (factor) data. The data can be converted to any of these, but you should use the methods of <code><a href="../reference/labelled_spss_survey.html">labelled_spss_survey()</a></code> for this purpose, i.e., <code><a href="../reference/labelled_spss_survey.html">as_numeric()</a></code> or <code><a href="../reference/as_factor.html">as_factor()</a></code>. (See more why you should not fall back on the more generic as.factor() or as.numeric() methods in The <a href="https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html">labelled_spss_survey class vignette</a>.)</p>
-<p>Due to the categorical format of the question of MENA parliamentary election evaluation in the Arab Barometer survey rounds, we decided to present the election variable in its <em>categorical</em> format. We show the unweighted tallies for each evaluation category, and a weighted sum, which the rounded number of the category counts multiplied by the respondant’s post-stratification weight.</p>
+<p>Due to the categorical format of the question of MENA parliamentary election evaluation in the Arab Barometer survey rounds, we decided to present the election variable in its <em>categorical</em> format. We show the unweighted tallies for each evaluation category, and a weighted sum, which the rounded number of the category counts multiplied by the respondent’s post-stratification weight.</p>
 <div class="sourceCode" id="cb26"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="va">categorical_summary</span> <span class="op">&lt;-</span> <span class="va">harmonized_ab_dataset</span> <span class="op">%&gt;%</span>
   <span class="fu"><a href="https://dplyr.tidyverse.org/reference/select.html">select</a></span> <span class="op">(</span> <span class="op">-</span><span class="fu"><a href="https://tidyselect.r-lib.org/reference/all_of.html">all_of</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"unique_id_ab_english"</span><span class="op">)</span><span class="op">)</span> <span class="op">)</span>  <span class="op">%&gt;%</span>
@@ -649,7 +649,7 @@
 <span class="fu"><a href="https://rdrr.io/r/utils/write.table.html">write.csv</a></span><span class="op">(</span><span class="va">arabbarometer_metadata</span> <span class="op">[</span>
   , <span class="op">-</span><span class="fu"><a href="https://rdrr.io/r/base/which.html">which</a></span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html">sapply</a></span> <span class="op">(</span> <span class="va">arabbarometer_metadata</span>, <span class="va">class</span><span class="op">)</span> <span class="op">==</span> <span class="st">"list"</span><span class="op">)</span><span class="op">]</span>,  
   <span class="fu"><a href="../reference/here.html">here</a></span><span class="op">(</span><span class="st">"data-raw"</span>, <span class="st">"arabb"</span>,<span class="st">"arabb_metadata_simplified.csv"</span><span class="op">)</span>, row.names<span class="op">=</span><span class="cn">FALSE</span><span class="op">)</span></code></pre></div>
-<p>Daniel Antal, &amp; Ahmed Shaibani. (2021). Replication Data for the retroharmonize R Package Case Study: Working With Arab Barometer Surveys (Version 0.1.6) [Data set]. Zenodo. <a href="http://doi.org/10.5281/zenodo.5034741" class="uri">http://doi.org/10.5281/zenodo.5034741</a></p>
+<p>Daniel Antal, &amp; Ahmed Shaibani. (2021). Replication Data for the retroharmonize R Package Case Study: Working With Arab Barometer Surveys (Version 0.1.6) [Data set]. Zenodo. <a href="https://doi.org/10.5281/zenodo.5034741">https://doi.org/10.5281/zenodo.5034741</a></p>
 </div>
 <div id="citing-the-data-sources" class="section level3">
 <h3 class="hasAnchor">
@@ -688,7 +688,7 @@
 <div id="version-info" class="section level3">
 <h3 class="hasAnchor">
 <a href="#version-info" class="anchor"></a>Version info</h3>
-<p>Daniel Antal, &amp; Ahmed Shaibani. (2021, June 26). Case Study: Working With Arab Barometer Surveys for the retroharmonize R package (Version 0.1.6). Zenodo. <a href="http://doi.org/10.5281/zenodo.5034759" class="uri">http://doi.org/10.5281/zenodo.5034759</a></p>
+<p>Daniel Antal, &amp; Ahmed Shaibani. (2021, June 26). Case Study: Working With Arab Barometer Surveys for the retroharmonize R package (Version 0.1.6). Zenodo. <a href="https://doi.org/10.5281/zenodo.5034759">https://doi.org/10.5281/zenodo.5034759</a></p>
 <p>This tutorial was created in the following environment, and can be downloaded in PDF format from <a href="https://doi.org/10.5281/zenodo.5034759">10.5281/zenodo.5034759</a> :</p>
 <div class="sourceCode" id="cb35"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/sessionInfo.html">sessionInfo</a></span><span class="op">(</span><span class="op">)</span>

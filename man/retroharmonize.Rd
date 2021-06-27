@@ -41,7 +41,7 @@ as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 \section{documentation functions}{
 
 Make the workflow reproducible by recording the harmonization process.
-\code{\link{document_survey_item }}: Returns a list of the current and historic coding, 
+\code{\link{document_survey_item}}: Returns a list of the current and historic coding, 
 labelling of the valid range and missing values or range, the history of the variable names 
 and the history of the survey IDs.
 \code{\link{document_waves}}: Document the key attributes surveys in a survey list.

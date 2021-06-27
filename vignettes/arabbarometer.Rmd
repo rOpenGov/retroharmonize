@@ -58,7 +58,7 @@ load(file = system.file(
   package = "retroharmonize"))
 ```
 
-The goal of this case article is to show how you can harmonize survey data from [Arab Barometer](https://https://www.arabbarometer.org/) with the [retroharmonize](https://retroharmonize.dataobservatory.eu/) R package. The Arab Barometer is a nonpartisan research network that provides insight into the social, political, and economic attitudes and values of ordinary citizens across the Arab world. 
+The goal of this case article is to show how you can harmonize survey data from [Arab Barometer](https://www.arabbarometer.org/) with the [retroharmonize](https://retroharmonize.dataobservatory.eu/) R package. The Arab Barometer is a nonpartisan research network that provides insight into the social, political, and economic attitudes and values of ordinary citizens across the Arab world. 
 
 cross-national surveys on the example of the [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html) and the [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html).
 
@@ -612,7 +612,7 @@ write.csv(arabbarometer_metadata [
   here("data-raw", "arabb","arabb_metadata_simplified.csv"), row.names=FALSE)
 ```
 
-Daniel Antal, & Ahmed Shaibani. (2021). Replication Data for the retroharmonize R Package Case Study: Working With Arab Barometer Surveys (Version 0.1.6) [Data set]. Zenodo. http://doi.org/10.5281/zenodo.5034741
+Daniel Antal, & Ahmed Shaibani. (2021). Replication Data for the retroharmonize R Package Case Study: Working With Arab Barometer Surveys (Version 0.1.6) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5034741](https://doi.org/10.5281/zenodo.5034741)
 
 ### Citing the data sources
 
@@ -637,7 +637,7 @@ For contact information, see the [package](https://retroharmonize.dataobservator
 
 ### Version info
 
-Daniel Antal, & Ahmed Shaibani. (2021, June 26). Case Study: Working With Arab Barometer Surveys for the retroharmonize R package (Version 0.1.6). Zenodo. http://doi.org/10.5281/zenodo.5034759
+Daniel Antal, & Ahmed Shaibani. (2021, June 26). Case Study: Working With Arab Barometer Surveys for the retroharmonize R package (Version 0.1.6). Zenodo. [https://doi.org/10.5281/zenodo.5034759](https://doi.org/10.5281/zenodo.5034759)
 
 This tutorial was created in the following environment, and can be downloaded in PDF format from [10.5281/zenodo.5034759](https://doi.org/10.5281/zenodo.5034759) :
 
