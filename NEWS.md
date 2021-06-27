@@ -1,3 +1,6 @@
+# retroharmoinze 0.1.17
+* Release candidate to CRAN
+
 # retroharmoinze 0.1.16
 * Package moved to [rOpenGov](https://github.com/rOpenGov/retroharmonize/).
 * [Arab Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html) tutorial vignette.
