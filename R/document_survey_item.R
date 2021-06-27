@@ -1,5 +1,8 @@
 #' @title Document survey item harmonization
 #'
+#' @description Document the current and historic coding and labelling of the 
+#' variable. 
+#' 
 #' @param x A labelled_spss_survey vector from a single survey
 #' or concatenated from several surveys.
 #' @return Returns a list of the current and historic coding, labelling

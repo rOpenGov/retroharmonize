@@ -16,7 +16,8 @@ of the valid range and missing values or range, the history of the
 variable names and the history of the survey IDs.
 }
 \description{
-Document survey item harmonization
+Document the current and historic coding and labelling of the 
+variable.
 }
 \examples{
 var1 <- labelled::labelled_spss(

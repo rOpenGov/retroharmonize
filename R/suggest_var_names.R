@@ -1,4 +1,4 @@
-#' Suggest Variable Names
+#' @title Suggest Variable Names
 #' 
 #' The function harmonizes the variable names of surveys (of class \code{survey}) that 
 #' are imported from an external file as a wave.
@@ -73,15 +73,18 @@ suggest_var_names <- function( metadata,
   }
 } 
 
-#' Suggest Permanent Names
+#' @title Suggest Permanent Names
 #' 
-#' Established survey programs usually have their own variable name conventions. 
+#' @description Suggest the use of established naming conventions. 
+#' 
+#' @details Established survey programs usually have their own variable name conventions. 
 #' The suggested constant names keep these variable names constant. 
 #' 
 #' @param survey_program Suggest permanent names for the survey progarm \code{"eurobarometer"}
 #' @return A character vector with suggested permanent names.
 #' @family harmonization functions
-#' @examples suggest_permanent_names ( "eurobarometer" )
+#' @examples 
+#' suggest_permanent_names ( "eurobarometer" )
 #' @export
  
 suggest_permanent_names <- function(survey_program = "eurobarometer") {

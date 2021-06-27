@@ -15,7 +15,7 @@ in a survey list: the name of the data file, the number of rows and
 columns, and the size of the object as stored in memory.
 }
 \description{
-Document survey lists
+Document the key attributes surveys in a survey list.
 }
 \examples{
 examples_dir <- system.file( "examples", package = "retroharmonize")

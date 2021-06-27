@@ -1,4 +1,6 @@
 #' @title Document survey lists
+#' 
+#' @description Document the key attributes surveys in a survey list.
 #'
 #' @param survey_list A list of \code{\link{survey}} objects.
 #' @return Returns a data frame with the key attributes of the surveys 

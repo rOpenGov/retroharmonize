@@ -26,8 +26,13 @@
 #' and variable names.\cr
 #' \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
 #' as imported from SPSS, consistent with the \code{na_values} attributes.\cr
+#' \code{\link{suggest_permanent_names}}: Suggest the use of variable naming conventions.
 #' @section documentation functions:
 #' Make the workflow reproducible by recording the harmonization process.
+#' \code{\link{document_survey_item }}: Returns a list of the current and historic coding, 
+#' labelling of the valid range and missing values or range, the history of the variable names 
+#' and the history of the survey IDs.
+#' \code{\link{document_waves}}: Document the key attributes surveys in a survey list.
 #' @section type conversion functions:
 #' Consistently treat labels and SPSS-style user-defined missing 
 #' values in the R language.

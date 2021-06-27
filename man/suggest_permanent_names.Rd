@@ -13,6 +13,9 @@ suggest_permanent_names(survey_program = "eurobarometer")
 A character vector with suggested permanent names.
 }
 \description{
+Suggest the use of established naming conventions.
+}
+\details{
 Established survey programs usually have their own variable name conventions. 
 The suggested constant names keep these variable names constant.
 }
