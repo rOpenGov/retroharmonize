@@ -9,6 +9,8 @@
 state and is being actively
 developed..](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
+[![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5034752.svg)](https://doi.org/10.5281/zenodo.5034752)
 [![Codecov test
 coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
@@ -47,8 +49,8 @@ minor documentation updates. It can be installed from
 devtools::install_github("antaldaniel/retroharmonize")
 ```
 
-You can download the manual in PDF for the [0.1.13 CRAN
-release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.13.pdf)
+You can download the manual in PDF for the [0.1.17 CRAN
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.17.pdf)
 and for the [0.1.16 development
 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.16.pdf).
 
@@ -111,10 +113,10 @@ from cross-national surveys:
 -   [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html)
 
 The creators of `retroharmonize` are not affiliated with either
-Afrobarometer, Eurobarometer, or the organizations that designs,
-produces or archives their surveys.
+Afrobarometer, Arab Barometer, Eurobarometer, or the organizations that
+designs, produces or archives their surveys.
 
-We started building an experimental APIs data is running regions
+We started building an experimental APIs data is running retroharmonize
 regularly and improving known statistical data sources. See: [Digital
 Music Observatory](https://music.dataobservatory.eu/), [Green Deal Data
 Observatory](https://greendeal.dataobservatory.eu/), [Economy Data
@@ -159,7 +161,7 @@ citation("retroharmonize")
 #> To cite package 'retroharmonize' in publications use:
 #> 
 #>   Daniel Antal (2021). retroharmonize: Ex Post Survey Data
-#>   Harmonization. R package version 0.1.16.
+#>   Harmonization. R package version 0.1.17.
 #>   https://retroharmonize.dataobservatory.eu/
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -168,7 +170,7 @@ citation("retroharmonize")
 #>     title = {retroharmonize: Ex Post Survey Data Harmonization},
 #>     author = {Daniel Antal},
 #>     year = {2021},
-#>     note = {R package version 0.1.16},
+#>     note = {R package version 0.1.17},
 #>     url = {https://retroharmonize.dataobservatory.eu/},
 #>   }
 ```
