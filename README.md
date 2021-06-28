@@ -11,6 +11,8 @@ developed..](https://www.repostatus.org/badges/latest/active.svg)](https://www.r
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
+[![metacran
+downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5034752.svg)](https://doi.org/10.5281/zenodo.5034752)
 [![Codecov test
 coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
