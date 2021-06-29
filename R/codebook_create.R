@@ -22,9 +22,13 @@
 #' @export
 
 codebook_create <- function ( metadata, 
-                              suvey = NULL) {
+                              survey = NULL) {
   
-  if (!is.null(survey) ) metadata <- metadata_create(survey)
+  if (!is.null(survey) ) {
+    assert_that ( inherits ( survey, "survey"), 
+                  msg = "Parameter survey must be of class survey.")
+    metadata <- metadata_create(survey) 
+    }
   
   metadata_names <- c('filename', 'id', 'var_name_orig', 'class_orig', 'label_orig', 
                       'labels', 'valid_labels', 'na_labels', 'na_range', 
