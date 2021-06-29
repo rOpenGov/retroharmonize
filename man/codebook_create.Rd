@@ -4,7 +4,7 @@
 \alias{codebook_create}
 \title{Create a codebook}
 \usage{
-codebook_create(metadata, suvey = NULL)
+codebook_create(metadata, survey = NULL)
 }
 \arguments{
 \item{metadata}{A metadata table created by \code{\link{metadata_create}}.}

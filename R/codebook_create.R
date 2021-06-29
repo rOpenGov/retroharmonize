@@ -10,7 +10,7 @@
 #' SPSS-type valid or missing labels. 
 #' @importFrom assertthat assert_that
 #' @importFrom tidyr unnest_longer
-#' @importFrom dplyr mutate filter all_of arrange left_join
+#' @importFrom dplyr mutate filter all_of arrange left_join bind_rows
 #' @importFrom purrr set_names
 #' @examples 
 #' codebook_create (
@@ -48,22 +48,22 @@ codebook_create <- function ( metadata,
     filter ( grepl( "spss", .data$class_orig )) %>%
     select ( all_of(c("entry", "id", "filename", "var_name_orig", "valid_labels")))   %>%
     unnest_longer( .data$valid_labels) %>%
-    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_code_orig", "var_label_orig")) %>%
+    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "val_code_orig", "val_label_orig")) %>%
     mutate ( label_range = "valid")  
   
   na_labels <-  metadata %>%
     filter ( grepl( "spss", .data$class_orig )) %>%
     select ( all_of(c("entry", "id", "filename", "var_name_orig", "na_labels"))) %>%
     unnest_longer( .data$na_labels) %>%
-    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_code_orig", "var_label_orig")) %>%
+    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "val_code_orig", "val_label_orig")) %>%
     mutate ( label_range = "missing") %>%
-    filter ( !is.na(.data$var_code_orig))
+    filter ( !is.na(.data$val_code_orig))
   
   valid_labels %>%
     bind_rows (
       na_labels 
     ) %>%
-    dplyr::arrange( .data$entry, .data$var_code_orig ) %>%
+    dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
     left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
                                                "n_labels", "n_valid_labels", "n_missing_labels", 
                                                user_names))), 
