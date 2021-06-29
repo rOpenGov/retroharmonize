@@ -1,16 +1,9 @@
 
-## Labelling ---------------------------------------------------
-empty <- labelled_spss_survey(label = "hello")
-test_that("label is correct", {
-  expect_equal(attr(empty, "label"), "hello")
-})
-
-
 ## Scenarios with different labels ----------------------------
 v1 <- labelled_spss_survey (
   x = c(1,0,1,9), 
-  labels = c("yes" =1,
-             "no" = 0,
+  labels = c("yes"   = 1,
+             "no"   =  0,
              "inap" = 9),
   na_values = 9, 
   label = "My survey item", 
@@ -76,13 +69,7 @@ test_that("coercion works", {
 })
 
 
-x1 <- labelled_spss_survey(
-  x = 1:10, 
-  labels = c(Good = 1, Bad = 8), 
-  na_values = c(9, 10), 
-  id = "survey1")
 
-x1
 
 my_x <- 1:10
 
@@ -97,6 +84,14 @@ x2
 #  c("good", "good", "bad", "bad", "inap"), c(Good = "good", Bad = "bad"), 
 #  na_values = "inap", 
 #  id = "survey1")
+
+x1 <- labelled_spss_survey(
+  x = 1:10, 
+  labels = c(Good = 1, Bad = 8), 
+  na_values = c(9, 10), 
+  id = "survey1")
+
+x1
 
 test_that("type conversion is correct", {
   expect_equal(as_numeric(x1),c(1:8, NA, NA))
@@ -122,6 +117,8 @@ test_that("attributes are present", {
   expect_equal(attr(x2, "survey2_na_range"), c(9, Inf))
 })
 
+x1
+
 test_that("arithmetic methods work", {
   expect_equal(sum(x1, na.rm=TRUE),
                sum(1:8))
@@ -131,8 +128,8 @@ test_that("arithmetic methods work", {
                median(1:8))
   expect_equal(quantile(x1,0.25),
                quantile(1:8,0.25)) 
-  expect_equal(weighted.mean (x1, c(2, rep(1,9))),
-               weighted.mean (1:8, c(2, rep(1,7)))
+  expect_equal(weighted.mean (x1, w = c(2, rep(1,9))),
+               weighted.mean (1:8, w = c(2, rep(1,7)))
   )
 })
 
@@ -144,4 +141,3 @@ verify_output("retroh_int.txt", {
   pillar::pillar(x1)
 })
 
-x1

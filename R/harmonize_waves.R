@@ -15,7 +15,7 @@
 #' @importFrom dplyr select bind_cols mutate_all pull
 #' @importFrom tidyselect all_of
 #' @importFrom tibble as_tibble
-#' @importFrom stats setNames
+#' @importFrom rlang set_names
 #' @importFrom haven labelled_spss
 #' @family variable label harmonization functions
 #' @examples
@@ -116,7 +116,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
                      nrow = nrow(dat), 
                      ncol = length(to_add_numerics)) 
         ) %>%
-        stats::setNames(to_add_numerics)
+        rlang::set_names(to_add_numerics)
       
       return_data <- bind_cols ( return_data, add_numeric_df)  
     }
@@ -130,7 +130,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
                       length(to_add_characters)*nrow(dat)), 
                  nrow = nrow(dat)) 
        ) %>%
-        stats::setNames(to_add_characters)
+        rlang::set_names(to_add_characters)
       
       return_data <- bind_cols ( return_data, add_character_df )
     }
@@ -143,7 +143,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
                       length(to_add_dates)*nrow(dat)), 
                  nrow = nrow(dat)) 
       ) %>%
-        stats::setNames(to_add_dates)
+        rlang::set_names(to_add_dates)
       
       return_data <- bind_cols (return_data, add_dates_df  )
     }
@@ -164,7 +164,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
                      nrow = nrow(dat)
                 )
         ) %>%
-        stats::setNames(to_add_rh) %>%
+        rlang::set_names(to_add_rh) %>%
         mutate_all ( fn_inap )
       
       for ( i in ncol(add_rh_df)) {

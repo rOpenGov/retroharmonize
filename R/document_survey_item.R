@@ -8,7 +8,7 @@
 #' @return Returns a list of the current and historic coding, labelling
 #' of the valid range and missing values or range, the history of the 
 #' variable names and the history of the survey IDs.
-#' @importFrom stats setNames
+#' @importFrom rlang set_names
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_cols
 #' @family documentation functions
@@ -67,7 +67,7 @@ document_survey_item <- function(x) {
   
   attr_na_range <- attribute_names [grepl("na_range$", attribute_names)]
   coding <- as_tibble(sapply(labels, function(l) attr(x, l)))
-  coding <- stats::setNames(coding, gsub("labels", "values", names(coding)))
+  coding <- rlang::set_names(coding, gsub("labels", "values", names(coding)))
   labelling <- as_tibble(sapply(labels, function(l) names(attr(x, l))))
   tbl_length <- nrow(coding)
   

@@ -8,7 +8,7 @@
 #' \code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.
 #' @return A list of surveys with harmonized names and variable labels.
 #' @export
-#' @importFrom stats setNames
+#' @importFrom rlang set_names
 #' @importFrom dplyr select mutate_if filter
 #' @importFrom haven is.labelled
 #' @importFrom tidyselect all_of
@@ -59,7 +59,7 @@ merge_waves <- function(waves, var_harmonization) {
     
     tmp <- dat %>%
       dplyr::select ( all_of (c( select_vars$var_name_orig)) ) %>%
-      stats::setNames(., nm = select_vars$var_name ) 
+      rlang::set_names( nm = select_vars$var_name ) 
     
     tmp <- tmp %>%
       mutate_if ( haven::is.labelled, 

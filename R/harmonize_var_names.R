@@ -71,7 +71,7 @@ harmonize_var_names <- function ( waves,
     subset_this_survey <- this_survey %>%
       select ( all_of (renaming$var_name_orig) ) 
     
-    rlang:set_names(subset_this_survey, 
+    rlang::set_names(subset_this_survey, 
                      nm = renaming$var_name_suggested)
      
   }

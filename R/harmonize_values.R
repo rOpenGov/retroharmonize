@@ -24,6 +24,7 @@
 #' @importFrom tidyselect all_of
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
+#' @importFrom rlang set_names
 #' @family variable label harmonization functions
 #' @return A labelled vector that contains in its metadata attributes
 #' the original labelling, the original numeric coding and the current
@@ -166,7 +167,7 @@ harmonize_values <- function(
         as_tibble() %>%
         dplyr::select ( tidyselect::all_of(
           c("to", "numeric_values")) ) %>%
-        stats::setNames( c("new_labels", "new_values"))
+        rlang::set_names( c("new_labels", "new_values"))
       
       code_table <- dplyr::left_join ( 
         code_table, 

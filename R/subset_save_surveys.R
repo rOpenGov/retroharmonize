@@ -11,7 +11,7 @@
 #' @importFrom dplyr distinct mutate 
 #' @importFrom fs file_exists path_ext
 #' @importFrom tidyselect all_of
-#' @importFrom stats setNames
+#' @importFrom rlang set_names
 #' @importFrom utils object.size
 #' @importFrom fs dir_exists
 #' @return The function does not return a value. It saves the subsetted
@@ -85,7 +85,7 @@ subset_save_surveys  <- function ( var_harmonization,
     
     save_survey <- this_survey %>%
       select ( all_of (survey_vars$var_name_orig) ) %>%
-      stats::setNames( nm = new_names )
+      rlang::set_names( nm = new_names )
     
     save_file_name <- paste0(survey_files$id[i], "_", 
                              selection_name, ".rds")
