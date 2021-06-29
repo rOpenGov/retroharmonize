@@ -44,6 +44,7 @@ metadata_create <- function( survey ) {
               msg = "Parameter 'survey' must be of s3 class survey. See ?is.survey.")
   
   filename <- attr(survey, "filename")
+  
   if (is.null(filename)) filename <- "unknown"
   id <- attr(survey, "id")
   if (is.null(id)) id <- "missing"

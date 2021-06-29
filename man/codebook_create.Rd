@@ -2,9 +2,12 @@
 % Please edit documentation in R/codebook_create.R
 \name{codebook_create}
 \alias{codebook_create}
+\alias{codebook_waves_create}
 \title{Create a codebook}
 \usage{
 codebook_create(metadata, survey = NULL)
+
+codebook_waves_create(waves)
 }
 \arguments{
 \item{metadata}{A metadata table created by \code{\link{metadata_create}}.}
@@ -18,7 +21,10 @@ A codebook for the survey as a data frame, including the metadata, and all found
 SPSS-type valid or missing labels.
 }
 \description{
-Create a metadata table from the survey data files.
+Create a metadata table from one or more survey data files.
+}
+\details{
+For a list of survey waves, use \code{codebook_waves_create}.
 }
 \examples{
 codebook_create (
@@ -27,4 +33,14 @@ codebook_create (
                       package = "retroharmonize")
           )
 )
+\donttest{
+examples_dir <- system.file("examples", package = "retroharmonize")
+survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
+
+example_surveys <- read_surveys(
+  file.path( examples_dir, survey_list), 
+  save_to_rds = FALSE)     
+
+codebook_waves_create (xample_surveys, to_harmonize )
+}
 }

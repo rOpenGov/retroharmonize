@@ -1,6 +1,8 @@
 #' @title Create a codebook
 #' 
-#' @description Create a metadata table from the survey data files.
+#' @description Create a metadata table from one or more survey data files.
+#' 
+#' @details For a list of survey waves, use \code{codebook_waves_create}.
 #' 
 #' @param metadata A metadata table created by \code{\link{metadata_create}}.
 #' @param survey A survey data frame, defaults to \code{NULL}. If the survey is
@@ -24,7 +26,7 @@
 codebook_create <- function ( metadata, 
                               survey = NULL) {
   
-  if (!is.null(survey) ) {
+  if ( !is.null(survey) ) {
     assert_that ( inherits ( survey, "survey"), 
                   msg = "Parameter survey must be of class survey.")
     metadata <- metadata_create(survey) 
@@ -46,16 +48,16 @@ codebook_create <- function ( metadata,
   
   valid_labels <-  metadata %>%
     filter ( grepl( "spss", .data$class_orig )) %>%
-    select ( all_of(c("entry", "id", "filename", "var_name_orig", "valid_labels")))   %>%
+    select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig", "valid_labels")))   %>%
     unnest_longer( .data$valid_labels) %>%
-    rlang::set_names ( c("entry", "id", "filename", "var_name_orig", "val_code_orig", "val_label_orig")) %>%
+    rlang::set_names ( c("entry", "id", "filename", "var_name_orig","label_orig",  "val_code_orig", "val_label_orig")) %>%
     mutate ( label_range = "valid")  
   
   na_labels <-  metadata %>%
     filter ( grepl( "spss", .data$class_orig )) %>%
-    select ( all_of(c("entry", "id", "filename", "var_name_orig", "na_labels"))) %>%
+    select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig",  "na_labels"))) %>%
     unnest_longer( .data$na_labels) %>%
-    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "val_code_orig", "val_label_orig")) %>%
+    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "label_orig",  "val_code_orig", "val_label_orig")) %>%
     mutate ( label_range = "missing") %>%
     filter ( !is.na(.data$val_code_orig))
   
@@ -65,12 +67,36 @@ codebook_create <- function ( metadata,
     ) %>%
     dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
     left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
-                                               "n_labels", "n_valid_labels", "n_missing_labels", 
+                                               "n_labels", "n_valid_labels", "n_na_labels", 
                                                user_names))), 
                 by = c("entry", "id", "filename"))
 }
 
-
-
+#' @rdname codebook_create
+#' @examples
+#' \donttest{
+#' examples_dir <- system.file("examples", package = "retroharmonize")
+#' survey_list <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
+#' 
+#' example_surveys <- read_surveys(
+#'   file.path( examples_dir, survey_list), 
+#'   save_to_rds = FALSE)     
+#' 
+#' codebook_waves_create (xample_surveys, to_harmonize )
+#' }
+#' @export
+codebook_waves_create <- function ( waves ) {
+  
+  assertthat::assert_that( inherits(waves, "list"), 
+                           msg = "The parameter waves must be a list (of surveys.)")
+  
+  
+  assertthat::assert_that( all(unlist (lapply ( waves, function(x) inherits (x, "survey") ))), 
+                           msg = "Every elements of the wave list must be of type survey.")
+  
+  codebook_list <- lapply ( waves, function(x) codebook_create (survey = x))
+  
+  do.call ( rbind, codebook_list )
+}
 
 

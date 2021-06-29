@@ -1,5 +1,5 @@
 # retroharmoinze 0.1.18
-* New function codebook_create()
+* New functions `codebook_create()` and `codebook_waves_create()`
 
 # retroharmoinze 0.1.17
 * Released on CRAN. (Date: 2021-06-27)
