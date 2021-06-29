@@ -15,7 +15,7 @@
 #' @param rowids Rename var labels of original vars \code{rowid} to simply \code{uniqid}?
 #' @importFrom dplyr mutate left_join select inner_join
 #' @importFrom tidyselect all_of
-#' @importFrom purrr set_names
+#' @importFrom rlang set_names
 #' @importFrom assertthat assert_that
 #' @importFrom glue glue
 #' @family harmonization functions
@@ -71,7 +71,7 @@ harmonize_var_names <- function ( waves,
     subset_this_survey <- this_survey %>%
       select ( all_of (renaming$var_name_orig) ) 
     
-    purrr::set_names(subset_this_survey, 
+    rlang:set_names(subset_this_survey, 
                      nm = renaming$var_name_suggested)
      
   }

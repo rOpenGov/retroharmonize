@@ -10,8 +10,6 @@
 #' wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.
 #' @importFrom dplyr select
 #' @importFrom tidyselect any_of
-#' @importFrom purrr set_names
-#' @importFrom assertthat assert_that
 #' @return The list of surveys with harmonized variable names.
 #' @examples
 #' examples_dir <- system.file("examples", package = "retroharmonize")

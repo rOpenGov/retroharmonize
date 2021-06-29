@@ -11,7 +11,7 @@
 #' @importFrom assertthat assert_that
 #' @importFrom tidyr unnest_longer
 #' @importFrom dplyr mutate filter all_of arrange left_join bind_rows
-#' @importFrom purrr set_names
+#' @importFrom rlang set_names
 #' @examples 
 #' codebook_create (
 #'  survey = read_rds (
@@ -36,7 +36,7 @@ codebook_create <- function ( metadata,
   
   user_names <- names(metadata)[ !names(metadata) %in% metadata_names ]
   
-  assert_that(
+  assertthat::assert_that(
     all ( metadata_names %in% names(metadata ))
   )
   
@@ -48,7 +48,7 @@ codebook_create <- function ( metadata,
     filter ( grepl( "spss", .data$class_orig )) %>%
     select ( all_of(c("entry", "id", "filename", "var_name_orig", "valid_labels")))   %>%
     unnest_longer( .data$valid_labels) %>%
-    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "val_code_orig", "val_label_orig")) %>%
+    rlang::set_names ( c("entry", "id", "filename", "var_name_orig", "val_code_orig", "val_label_orig")) %>%
     mutate ( label_range = "valid")  
   
   na_labels <-  metadata %>%
