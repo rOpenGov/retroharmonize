@@ -12,7 +12,7 @@
 #' @importFrom dplyr select mutate_if filter
 #' @importFrom haven is.labelled
 #' @importFrom tidyselect all_of
-#' @family harmonization functions
+#' @family survey harmonization functions
 #' @seealso survey
 #' @examples 
 #' \donttest{

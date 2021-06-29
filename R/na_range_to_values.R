@@ -27,7 +27,7 @@
 #' na_range_to_values(var1)
 #' as_numeric(na_range_to_values(var1))
 #' as_character(na_range_to_values(var1))
-#' @family harmonization functions
+#' @family variable label harmonization functions
 #' @export
 
 na_range_to_values <- function(x){

@@ -43,16 +43,5 @@ merge_waves ( example_surveys, to_harmonize )
 }
 \seealso{
 survey
-
-Other harmonization functions: 
-\code{\link{collect_val_labels}()},
-\code{\link{harmonize_na_values}()},
-\code{\link{harmonize_values}()},
-\code{\link{harmonize_var_names}()},
-\code{\link{harmonize_waves}()},
-\code{\link{label_normalize}()},
-\code{\link{na_range_to_values}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
 }
-\concept{harmonization functions}
+\concept{survey harmonization functions}

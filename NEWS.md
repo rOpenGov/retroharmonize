@@ -1,5 +1,8 @@
+# retroharmoinze 0.1.18
+* New function codebook_create()
+
 # retroharmoinze 0.1.17
-* Release candidate to CRAN
+* Released on CRAN. (Date: 2021-06-27)
 
 # retroharmoinze 0.1.16
 * Package moved to [rOpenGov](https://github.com/rOpenGov/retroharmonize/).

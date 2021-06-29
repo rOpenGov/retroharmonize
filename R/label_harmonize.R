@@ -27,7 +27,7 @@
 #'       c("Q1_Do you trust the national government?", 
 #'         " Do you trust the European Commission")
 #'         )
-#' @family harmonization functions
+#' @family variable label harmonization functions
 #' @export
 
 label_normalize <- function(x) {

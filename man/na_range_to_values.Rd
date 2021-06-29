@@ -43,15 +43,9 @@ as_numeric(na_range_to_values(var1))
 as_character(na_range_to_values(var1))
 }
 \seealso{
-Other harmonization functions: 
-\code{\link{collect_val_labels}()},
-\code{\link{harmonize_na_values}()},
+Other variable label harmonization functions: 
 \code{\link{harmonize_values}()},
-\code{\link{harmonize_var_names}()},
 \code{\link{harmonize_waves}()},
-\code{\link{label_normalize}()},
-\code{\link{merge_waves}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{label_normalize}()}
 }
-\concept{harmonization functions}
+\concept{variable label harmonization functions}

@@ -1,6 +1,6 @@
-#' Create a metadata table
+#' @title Create a metadata table
 #' 
-#' Create a metadata table from the survey data files.
+#' @description Create a metadata table from the survey data files.
 #' 
 #' @details The structure of the returned tibble:
 #' \describe{

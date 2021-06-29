@@ -6,7 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Harmonize user-defined missing value ranges — na_range_to_values • retroharmonize</title>
+<title>Create a codebook — codebook_create • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -39,9 +39,8 @@
 
 
 
-<meta property="og:title" content="Harmonize user-defined missing value ranges — na_range_to_values" />
-<meta property="og:description" content="Harmonize the na_values attribute with 
-na_range, if the latter is present." />
+<meta property="og:title" content="Create a codebook — codebook_create" />
+<meta property="og:description" content="Create a metadata table from the survey data files." />
 
 
 
@@ -136,73 +135,45 @@ na_range, if the latter is present." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Harmonize user-defined missing value ranges</h1>
-    <small class="dont-index">Source: <a href='https://github.com/rOpenGov/retroharmonize/blob/master/R/na_range_to_values.R'><code>R/na_range_to_values.R</code></a></small>
-    <div class="hidden name"><code>na_range_to_values.Rd</code></div>
+    <h1>Create a codebook</h1>
+    <small class="dont-index">Source: <a href='https://github.com/rOpenGov/retroharmonize/blob/master/R/codebook_create.R'><code>R/codebook_create.R</code></a></small>
+    <div class="hidden name"><code>codebook_create.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Harmonize the <code>na_values</code> attribute with 
-<code>na_range</code>, if the latter is present.</p>
+    <p>Create a metadata table from the survey data files.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>na_range_to_values</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span>
-
-<span class='fu'>is.na_range_to_values</span><span class='op'>(</span><span class='va'>x</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>codebook_create</span><span class='op'>(</span><span class='va'>metadata</span>, suvey <span class='op'>=</span> <span class='cn'>NULL</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
     <colgroup><col class="name" /><col class="desc" /></colgroup>
     <tr>
-      <th>x</th>
-      <td><p>A labelled_spss or labelled_spss_survey vector</p></td>
+      <th>metadata</th>
+      <td><p>A metadata table created by <code><a href='metadata_create.html'>metadata_create</a></code>.</p></td>
+    </tr>
+    <tr>
+      <th>survey</th>
+      <td><p>A survey data frame, defaults to <code>NULL</code>. If the survey is
+given as parameter, the metadata will be set to the metadata of this particular
+survey by <code><a href='metadata_create.html'>metadata_create</a></code>.</p></td>
     </tr>
     </table>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A <code>x</code> with harmonized <code>na_values</code> and 
-<code>na_range</code> attributes.
-If <code><a href='https://rdrr.io/r/base/Extremes.html'>min(na_values)</a></code> or <code><a href='https://rdrr.io/r/base/Extremes.html'>max(na_values)</a></code> than the left- and 
-right-hand value of <code>na_range</code>, it gives a warning and adjusts
-the original <code>na_range</code>.</p>
-    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
-
-    <p><code>na_range_to_values()</code> tests if the function needs to be 
-called for <code>na_values</code> harmonization. The <code>na_range</code>
-is often missing and less likely to cause logical problems 
-when joining survey answers.</p>
-    <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
-
-    <div class='dont-index'><p>Other variable label harmonization functions: 
-<code><a href='harmonize_values.html'>harmonize_values</a>()</code>,
-<code><a href='harmonize_waves.html'>harmonize_waves</a>()</code>,
-<code><a href='label_normalize.html'>label_normalize</a>()</code></p></div>
+    <p>A codebook for the survey as a data frame, including the metadata, and all found 
+SPSS-type valid or missing labels.</p>
 
     <h2 class="hasAnchor" id="examples"><a class="anchor" href="#examples"></a>Examples</h2>
-    <pre class="examples"><div class='input'><span class='va'>var1</span> <span class='op'>&lt;-</span> <span class='fu'>labelled</span><span class='fu'>::</span><span class='fu'><a href='https://haven.tidyverse.org/reference/labelled_spss.html'>labelled_spss</a></span><span class='op'>(</span>
-  x <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>1</span>,<span class='fl'>1</span>,<span class='fl'>0</span>,<span class='fl'>8</span>,<span class='fl'>9</span><span class='op'>)</span>, 
-  labels <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='st'>"TRUST"</span> <span class='op'>=</span> <span class='fl'>1</span>, 
-             <span class='st'>"NOT TRUST"</span> <span class='op'>=</span> <span class='fl'>0</span>, 
-             <span class='st'>"DON'T KNOW"</span> <span class='op'>=</span> <span class='fl'>8</span>, 
-             <span class='st'>"INAP. HERE"</span> <span class='op'>=</span> <span class='fl'>9</span><span class='op'>)</span>, 
-na_range <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/base/c.html'>c</a></span><span class='op'>(</span><span class='fl'>8</span>,<span class='fl'>12</span><span class='op'>)</span><span class='op'>)</span>
-  
-<span class='fu'>na_range_to_values</span><span class='op'>(</span><span class='va'>var1</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; &lt;labelled_spss&lt;double&gt;[7]&gt;
-#&gt; [1] 1 0 1 1 0 8 9
-#&gt; Missing values: 8, 9
-#&gt; Missing range:  [8, 12]
-#&gt; 
-#&gt; Labels:
-#&gt;  value      label
-#&gt;      1      TRUST
-#&gt;      0  NOT TRUST
-#&gt;      8 DON'T KNOW
-#&gt;      9 INAP. HERE</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_numeric</a></span><span class='op'>(</span><span class='fu'>na_range_to_values</span><span class='op'>(</span><span class='va'>var1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1]  1  0  1  1  0 NA NA</div><div class='input'><span class='fu'><a href='labelled_spss_survey.html'>as_character</a></span><span class='op'>(</span><span class='fu'>na_range_to_values</span><span class='op'>(</span><span class='va'>var1</span><span class='op'>)</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; [1] "TRUST"      "NOT TRUST"  "TRUST"      "TRUST"      "NOT TRUST" 
-#&gt; [6] "DON'T KNOW" "INAP. HERE"</div></pre>
+    <pre class="examples"><div class='input'><span class='fu'>codebook_create</span> <span class='op'>(</span>
+ survey <span class='op'>=</span> <span class='fu'><a href='read_rds.html'>read_rds</a></span> <span class='op'>(</span>
+          <span class='fu'><a href='https://rdrr.io/r/base/system.file.html'>system.file</a></span><span class='op'>(</span><span class='st'>"examples"</span>, <span class='st'>"ZA7576.rds"</span>,
+                      package <span class='op'>=</span> <span class='st'>"retroharmonize"</span><span class='op'>)</span>
+          <span class='op'>)</span>
+<span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in codebook_create(survey = read_rds(system.file("examples", "ZA7576.rds",     package = "retroharmonize"))): could not find function "codebook_create"</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

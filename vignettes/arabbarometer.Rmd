@@ -3,6 +3,7 @@ title: 'Case Study: Working With Arab Barometer Surveys'
 output: rmarkdown::html_vignette
 author:
 - Daniel Antal
+- Yousef Ibrahim
 - Ahmed Shaibani
 date: "`r Sys.Date()`"
 resource_files:

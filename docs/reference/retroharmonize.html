@@ -77,7 +77,7 @@ comprehensive S3 classes." />
       </button>
       <span class="navbar-brand">
         <a class="navbar-link" href="../index.html">retroharmonize</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.16</span>
+        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="Released version">0.1.18</span>
       </span>
     </div>
 
@@ -168,20 +168,29 @@ and make them usable in a programmatic context.<br />
 <code><a href='subset_save_surveys.html'>subset_save_surveys</a></code>: programmatically read a list of surveys, 
 and subset them (pre-harmonize the same variables.)<br /> 
 <code><a href='pull_survey.html'>pull_survey</a></code>: pull a single survey from a survey list.<br /></p>
-    <h2 class="hasAnchor" id="harmonization-functions"><a class="anchor" href="#harmonization-functions"></a>harmonization functions</h2>
+    <h2 class="hasAnchor" id="variable-name-harmonization-functions"><a class="anchor" href="#variable-name-harmonization-functions"></a>variable name harmonization functions</h2>
+
+    
+
+<p><code><a href='label_normalize.html'>label_normalize</a></code> removes special characters, whitespace, 
+and other typical typing errors and helps the uniformization of labels
+and variable names.<br />
+<code><a href='suggest_permanent_names.html'>suggest_permanent_names</a></code>: Suggest the use of variable naming conventions.</p>
+    <h2 class="hasAnchor" id="variable-label-harmonization-functions"><a class="anchor" href="#variable-label-harmonization-functions"></a>variable label harmonization functions</h2>
 
     
 
 <p>Create consistent coding and labelling.<br /> 
-<code><a href='harmonize_values.html'>harmonize_values</a></code>:
-<code><a href='merge_waves.html'>merge_waves</a></code>: Create a list of surveys with harmonized names and variable labels.<br /> 
-<code><a href='harmonize_waves.html'>harmonize_waves</a></code>: Create a list of surveys with harmonized value labels.<br /> 
-<code><a href='label_normalize.html'>label_normalize</a></code> removes special characters, whitespace, 
-and other typical typing errors and helps the uniformization of labels
-and variable names.<br />
+<code>create_coodbook</code>: Create a codebook from the original SPSS variable codes and labels.<br />
+<code><a href='harmonize_values.html'>harmonize_values</a></code>: Harmonize the label list across surveys.<br />
+<code><a href='harmonize_waves.html'>harmonize_waves</a></code>: Create a list of surveys with harmonized value labels.<br />
 <code><a href='na_range_to_values.html'>na_range_to_values</a></code>: Make the <code>na_range</code> attributes,
-as imported from SPSS, consistent with the <code>na_values</code> attributes.<br />
-<code><a href='suggest_permanent_names.html'>suggest_permanent_names</a></code>: Suggest the use of variable naming conventions.</p>
+as imported from SPSS, consistent with the <code>na_values</code> attributes.<br /></p>
+    <h2 class="hasAnchor" id="survey-harmonization-functions"><a class="anchor" href="#survey-harmonization-functions"></a>survey harmonization functions</h2>
+
+    
+
+<p><code><a href='merge_waves.html'>merge_waves</a></code>: Create a list of surveys with harmonized names and variable labels.<br /></p>
     <h2 class="hasAnchor" id="documentation-functions"><a class="anchor" href="#documentation-functions"></a>documentation functions</h2>
 
     

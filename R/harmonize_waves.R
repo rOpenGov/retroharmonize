@@ -17,7 +17,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom stats setNames
 #' @importFrom haven labelled_spss
-#' @family harmonization functions
+#' @family variable label harmonization functions
 #' @examples
 #' \donttest{
 #' examples_dir <- system.file("examples", package = "retroharmonize")
