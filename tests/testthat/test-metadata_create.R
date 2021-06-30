@@ -21,6 +21,7 @@ q_labels-q_na
 test_value2 <- example_metadata[which ( example_metadata$var_name_orig == "qg8"), ]
 
 test_that("Correct values are returned", {
+  expect_true(example_metadata$var_name_orig[1] == "rowid")
   expect_equal(unique(example_metadata$filename), "ZA7576.rds")
   expect_equal(as.character(unlist(example_metadata$na_labels[2])), NA_character_)
   expect_equal(example_metadata$label_orig[1], "unique identifier in za7576")

@@ -72,7 +72,7 @@ read_spss <- function(file,
   if ( ! is.null(tmp$error) ) {
     warning ( tmp$error, "\nReturning an empty survey." )
     return(
-      survey ( data.frame(), id="Could not read file", filename=filename, doi=doi)
+      survey ( data.frame(), id="Could not read file", filename=fs::path_file(file), doi=doi)
     )
   } else {
     tmp  <- tmp$result

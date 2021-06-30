@@ -1,5 +1,6 @@
 # retroharmoinze 0.1.18
 * New functions `codebook_create()` and `codebook_waves_create()`
+* Handling exceptions with SPSS imports (discovered with Caucasus Barometer files.)
 
 # retroharmoinze 0.1.17
 * Released on CRAN. (Date: 2021-06-27)

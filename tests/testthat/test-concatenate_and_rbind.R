@@ -44,11 +44,12 @@ h2 <- harmonize_values (
 h3 <- concatenate(h1, h2)
 
 test_that("correct values are returned", {
-  expect_equal(as_numeric(h3), c(1,0,1,1,0,NA,NA, 
+  expect_true (inherits(h3, "retroharmonize_labelled_spss_survey"))
+  expect_equal(retroharmonize::as_numeric(h3), c(1,0,1,1,0,NA,NA, 
                                  0,0,NA,NA, 1,1))
-  expect_equal(as_character(h3), c("trust","not_trust","trust", "trust","not_trust","do_not_know","inap", 
+  expect_equal(retroharmonize::as_character(h3), c("trust","not_trust","trust", "trust","not_trust","do_not_know","inap", 
                                    "not_trust","not_trust","do_not_know","inap", "trust","trust"))
-  expect_equal(levels(as_factor(h3)), c("not_trust", "trust", "do_not_know", "inap"))
+  expect_equal(levels(retroharmonize::as_factor(h3)), c("not_trust", "trust", "do_not_know", "inap"))
   
 })
 
@@ -66,6 +67,7 @@ d <- vctrs::vec_rbind(a,b)
 
 x = a$hvar
 y = b$hvar
+
 test_that("correct values are returned", {
   expect_equal(attr(d$hvar, "survey2_labels"),  c("Tend to trust" = 1, 
                                                   "Tend not to trust" = 2, 
@@ -78,7 +80,7 @@ test_that("correct values are returned", {
   expect_equal(attr(c$hvar, "survey1_labels"), c("TRUST" = 1, 
                                                  "NOT TRUST" = 0, 
                                                  "DON'T KNOW" = 8, 
-                                                 "INAP. HERE" = 9),
+                                                 "INAP. HERE" = 9)
   )
 })
 

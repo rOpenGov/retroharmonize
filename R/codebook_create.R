@@ -1,10 +1,12 @@
 #' @title Create a codebook
 #' 
-#' @description Create a metadata table from one or more survey data files.
+#' @description Create a codebook from one or more survey data files.
 #' 
 #' @details For a list of survey waves, use \code{codebook_waves_create}.
+#' The returned codebook contains only labelled variables, i.e., numeric and
+#' character types are not included, because they do not require coding.
 #' 
-#' @param metadata A metadata table created by \code{\link{metadata_create}}.
+#' @param metadata A metadata table created by \code{\link{metadata_create}}. Defaults to \code{NULL}.
 #' @param survey A survey data frame, defaults to \code{NULL}. If the survey is
 #' given as parameter, the metadata will be set to the metadata of this particular
 #' survey by \code{\link{metadata_create}}.
@@ -23,9 +25,20 @@
 #' )
 #' @export
 
-codebook_create <- function ( metadata, 
+codebook_create <- function ( metadata = NULL, 
                               survey = NULL) {
   
+  assertthat::assert_that(
+    ! ( is.null(metadata) & is.null(survey)), 
+    msg = "Either the parameter 'metadata' or the parameter 'survey' must be given. They are both NULL."
+  )
+  
+  if ( !is.null(metadata)) {
+    if ( inherits ( metadata, "survey") & is.null(survey)) {
+      survey = metadata
+    }
+  }
+
   if ( !is.null(survey) ) {
     assert_that ( inherits ( survey, "survey"), 
                   msg = "Parameter survey must be of class survey.")
@@ -44,32 +57,91 @@ codebook_create <- function ( metadata,
   
   metadata$entry <- 1:nrow(metadata)
   
-  names( metadata)
+  change_label_to_empty <- function() {
+    #moved to metadata_create
+    "none" = NA_real_
+   
+  }
   
-  valid_labels <-  metadata %>%
-    filter ( grepl( "spss", .data$class_orig )) %>%
+  metadata$label_type <- vapply(metadata$labels, function(x) class(x)[1], character(1))
+  metadata$labels <- ifelse (metadata$label_type == "character" & metadata$n_labels ==0 , 
+                             yes = change_label_to_empty(), 
+                             no =  metadata$labels )
+  metadata$valid_labels <- ifelse (metadata$label_type == "character" & metadata$n_labels ==0 , 
+                                   yes = change_label_to_empty(), 
+                                   no =  metadata$valid_labels )
+  vapply(metadata$valid_labels, function(x) class(x)[1], character(1))
+  metadata$na_labels <- ifelse (metadata$label_type == "character" & metadata$n_labels == 0 , 
+                                yes = change_label_to_empty(), 
+                                no =  metadata$na_labels )
+
+  all( vapply(metadata$na_labels, function(x) class(x)[1], character(1)) == "numeric")
+  
+  char_labels <- vapply(metadata$na_labels, function(x) class(x)[1], character(1)) == "character"
+  num_labels <- vapply(metadata$na_labels, function(x) class(x)[1], character(1)) == "numeric"
+
+  valid_num_labels <-  metadata[num_labels ,] %>%
+    filter ( grepl( "labelled", .data$class_orig )) %>%
     select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig", "valid_labels")))   %>%
     unnest_longer( .data$valid_labels) %>%
     rlang::set_names ( c("entry", "id", "filename", "var_name_orig","label_orig",  "val_code_orig", "val_label_orig")) %>%
-    mutate ( label_range = "valid")  
+    mutate ( label_range = "valid", 
+             val_code_orig = as.character(.data$val_code_orig))  
   
-  na_labels <-  metadata %>%
-    filter ( grepl( "spss", .data$class_orig )) %>%
+  valid_char_labels <-  metadata[char_labels ,] %>%
+    filter ( grepl( "labelled", .data$class_orig )) %>%
+    select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig", "valid_labels")))   %>%
+    unnest_longer( .data$valid_labels) %>%
+    rlang::set_names ( c("entry", "id", "filename", "var_name_orig","label_orig",  "val_code_orig", "val_label_orig")) %>%
+    mutate ( label_range = "valid")  %>%
+    mutate ( val_code_orig = as.character(.data$val_code_orig) )
+  
+  na_num_labels <-  metadata[num_labels ,] %>%
+    filter ( grepl( "labelled", .data$class_orig )) %>%
     select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig",  "na_labels"))) %>%
     unnest_longer( .data$na_labels) %>%
     purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "label_orig",  "val_code_orig", "val_label_orig")) %>%
     mutate ( label_range = "missing") %>%
-    filter ( !is.na(.data$val_code_orig))
+    filter ( !is.na(.data$val_code_orig)) %>%
+    mutate ( val_code_orig = as.character(.data$val_code_orig) )
   
-  valid_labels %>%
-    bind_rows (
-      na_labels 
+  na_char_labels <-  metadata[char_labels ,] %>%
+    filter ( grepl( "labelled", .data$class_orig )) %>%
+    select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig",  "na_labels"))) %>%
+    unnest_longer( .data$na_labels) %>%
+    purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "label_orig",  "val_code_orig", "val_label_orig")) %>%
+    mutate ( label_range = "missing") %>%
+    filter ( !is.na(.data$val_code_orig)) %>%
+    mutate ( val_code_orig = as.character(.data$val_code_orig) )
+  
+  num_labels <- valid_num_labels %>% 
+    dplyr::bind_rows (
+      na_num_labels 
     ) %>%
     dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
     left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
                                                "n_labels", "n_valid_labels", "n_na_labels", 
                                                user_names))), 
                 by = c("entry", "id", "filename"))
+  
+  if ( nrow ( na_char_labels) + nrow(na_num_labels) > 0 ) {
+    char_labels <- valid_char_labels %>% 
+      dplyr::bind_rows (
+        na_char_labels 
+      ) %>%
+      dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
+      left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
+                                                 "n_labels", "n_valid_labels", "n_na_labels", 
+                                                 user_names))), 
+                  by = c("entry", "id", "filename"))
+    
+    bind_rows ( num_labels, char_labels ) %>%
+      dplyr::arrange (.data$entry)
+    
+  } else {
+    num_labels %>%
+      dplyr::arrange (.data$entry)
+  }
 }
 
 #' @rdname codebook_create

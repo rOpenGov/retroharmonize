@@ -247,7 +247,9 @@ is.na.retroharmonize_labelled_spss_survey <- function(x) {
 #' @family type conversion functions
 #' @export
 as_character <- function(x) {
-  as.character(as_factor (x, "default"))
+  
+  factor_representation <- as_factor (x, "default")
+  as.character(factor_representation)
 }
 
 #' Convert labelled_spss_survey vector To Factor

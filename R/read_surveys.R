@@ -20,7 +20,7 @@
 #' such as the original file name, doi identifier if present, and other
 #' information is recorded for a reproducible workflow.
 #' @importFrom purrr safely
-#' @importFrom fs file_path
+#' @importFrom fs path_file
 #' @examples
 #' file1 <- system.file(
 #'     "examples", "ZA7576.rds", package = "retroharmonize")
@@ -39,7 +39,7 @@ read_surveys <- function ( import_file_names,
   safely_read_survey <- function( filename, .f ) {
     
     if ( .f == 'read_spss' ) {
-      message ( "Reading: ", fs::path_file(filename) )
+      message ( "Reading: ", fs::path_file(filename))
       
       tried_survey <- read_spss(file = filename, user_na = TRUE)
       

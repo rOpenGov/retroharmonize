@@ -49,15 +49,15 @@ metadata_create <- function( survey ) {
   id <- attr(survey, "id")
   if (is.null(id)) id <- "missing"
   
-  label_orig <- as.character(
-    sapply(survey, labelled::var_label)
-    )
+  label_orig  <- lapply ( survey, labelled::var_label )
+  
+  class_orig <- vapply( survey, function(x) class(x)[1], character(1))
   
   metadata <- tibble::tibble (
     filename = filename, 
     id = id,
     var_name_orig = names(survey), 
-    class_orig =  as.character(sapply( survey, function(x) class(x)[1])), 
+    class_orig =  class_orig, 
     label_orig = ifelse ( vapply(label_orig, is.null, logical(1)), 
                           "", 
                           unlist(label_orig)) %>%
@@ -107,6 +107,7 @@ metadata_create <- function( survey ) {
   range_df$n_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$labels[x]), numeric(1))
   range_df$n_valid_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$valid_labels[x]), numeric(1))
   range_df$n_na_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$na_labels[x]), numeric(1))
+  
 
   return_df <- metadata %>%
     dplyr::left_join ( range_df %>% 
@@ -120,5 +121,23 @@ metadata_create <- function( survey ) {
              n_labels = as.numeric(.data$n_labels)) %>%
     as.data.frame()
   
-  return_df
+  change_label_to_empty <- function() {
+    "none" = NA_real_
+  }
+  ## Avoid the accidental creation of empty CHARACTER lists, because they do not bind with 
+  ## numeric lists. 
+  
+  return_df$label_type <- vapply(return_df$labels, function(x) class(x)[1], character(1))
+  return_dflabels <- ifelse (return_df$label_type == "character" & return_df$n_labels ==0 , 
+                             yes = change_label_to_empty(), 
+                             no =  return_df$labels )
+  return_df$valid_labels <- ifelse (return_df$label_type == "character" & return_df$n_labels ==0 , 
+                                   yes = change_label_to_empty(), 
+                                   no =  return_df$valid_labels )
+  return_df$na_labels <- ifelse (return_df$label_type == "character" & return_df$n_labels == 0 , 
+                                yes = change_label_to_empty(), 
+                                no =  return_df$na_labels )
+  
+  return_df %>%
+    select ( -.data$label_type )
 }

@@ -5,12 +5,12 @@
 \alias{codebook_waves_create}
 \title{Create a codebook}
 \usage{
-codebook_create(metadata, survey = NULL)
+codebook_create(metadata = NULL, survey = NULL)
 
 codebook_waves_create(waves)
 }
 \arguments{
-\item{metadata}{A metadata table created by \code{\link{metadata_create}}.}
+\item{metadata}{A metadata table created by \code{\link{metadata_create}}. Defaults to \code{NULL}.}
 
 \item{survey}{A survey data frame, defaults to \code{NULL}. If the survey is
 given as parameter, the metadata will be set to the metadata of this particular
@@ -21,10 +21,12 @@ A codebook for the survey as a data frame, including the metadata, and all found
 SPSS-type valid or missing labels.
 }
 \description{
-Create a metadata table from one or more survey data files.
+Create a codebook from one or more survey data files.
 }
 \details{
 For a list of survey waves, use \code{codebook_waves_create}.
+The returned codebook contains only labelled variables, i.e., numeric and
+character types are not included, because they do not require coding.
 }
 \examples{
 codebook_create (
