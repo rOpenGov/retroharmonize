@@ -9,5 +9,11 @@ test_that("All files are read", {
   expect_equal(length(example_surveys), 3)
 })
 
+wrong_files <- c(file.path(examples_dir), "no_file.rds", example_surveys)
+
+test_that("exception handling works", {
+  expect_error(read_surveys(wrong_files))
+})
+
 
   

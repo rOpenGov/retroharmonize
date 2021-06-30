@@ -34,7 +34,10 @@ test_that("harmonization_works", {
 })
 
 
+res <- evaluate_promise(na_range_to_values(x=var2))
+
 test_that("harmonization_works2", {
+  expect_equal(res$warnings, "Inconsistent missing ranges: min(na_values) < min(na_range)")
   suppressWarnings(expect_equal(attr(na_range_to_values(x=var2), "na_values"),c(7,9)))
   suppressWarnings(expect_equal(attr(na_range_to_values(x=var2), "na_range"), c(7,12)))
 })

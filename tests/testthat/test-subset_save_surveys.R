@@ -21,8 +21,14 @@ testing_subsetting <- function() {
   
   file.exists ( file.path(tempdir(), "ZA7576_tested.rds"))
 }
- 
+
+res <- evaluate_promise(testing_subsetting())
+
 test_that("saving and subsetting", {
+  expect_equal(res$messages, "Saving ZA7576_tested.rds\n")}
+)
+
+test_that("saving and subsetting (not on CRAN)", {
   skip_on_cran()
   expect_true(testing_subsetting())
   expect_message(testing_subsetting())
