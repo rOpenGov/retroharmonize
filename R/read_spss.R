@@ -1,11 +1,15 @@
-#' Read SPSS (`.sav`, `.zsav`, `.por`) files. Write `.sav` and `.zsav` files.
+#' @title Read SPSS (`.sav`, `.zsav`, `.por`) files. Write `.sav` and `.zsav` files.
+#' 
+#' @description This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}} 
+#' with some exception handling.
 #'
-#' `read_sav()` reads both `.sav` and `.zsav` files; `write_sav()` creates
+#' @details `read_sav()` reads both `.sav` and `.zsav` files; `write_sav()` creates
 #' `.zsav` files when `compress = TRUE`. `read_por()` reads `.por` files.
 #' `read_spss()` uses either `read_por()` or `read_sav()` based on the
 #' file extension.
 #'
-#' This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}} 
+#' When the SPSS file has columns which are of class labelled, but have no labels,
+#' they are read as numeric or character vectors. 
 #'
 #' @param file An SPSS file.
 #' @param user_na Should user-defined na_values be imported? Defaults
@@ -15,11 +19,12 @@
 #' @inheritParams read_rds
 #' @importFrom haven read_spss read_sav write_sav is.labelled
 #' @importFrom tibble rowid_to_column
-#' @importFrom fs path_ext_remove path_file
+#' @importFrom fs path_ext_remove path_file is_file
 #' @importFrom labelled var_label
 #' @importFrom dplyr bind_cols select_if mutate_all select
 #' @importFrom tidyselect all_of
-#' @return A tibble, data frame variant with nice defaults.
+#' @importFrom purrr safely
+#' @return A tibble.
 #'
 #'   Variable labels are stored in the "label" attribute of each variable.
 #'   It is not printed on the console, but the RStudio viewer will show it.
@@ -51,15 +56,35 @@ read_spss <- function(file,
   #n_max =NULL
   #col_select_input <- col_select
   
-  if (! file.exists(file) ) stop ("The file does not exist.")
+  assertthat::assert_that(
+    fs::is_file(file),
+    msg =  paste0("file='", file, "' is not a file. ")
+  )
 
   # how to pass on optional parameters?
-
-  tmp <- haven::read_spss (file = file, 
-                           user_na = user_na, 
-                           .name_repair = .name_repair)
   
-  tmp <- tmp %>% tibble::rowid_to_column()
+  safely_read_haven_spss <- purrr::safely(.f = haven::read_spss)
+
+  tmp <- safely_read_haven_spss (file = file, 
+                                 user_na = user_na, 
+                                 .name_repair = .name_repair)
+  
+  if ( ! is.null(tmp$error) ) {
+    warning ( tmp$error, "\nReturning an empty survey." )
+    return(
+      survey ( data.frame(), id="Could not read file", filename=filename, doi=doi)
+    )
+  } else {
+    tmp  <- tmp$result
+  }
+  
+  tmp <- tmp %>%
+    tibble::rowid_to_column()
+  
+  all_vars <- names(tmp)
+  
+  assertthat::assert_that(length(all_vars)>0, 
+                          msg = "The SPSS file has no names.")
   
   filename <- fs::path_file(file)
   
@@ -74,20 +99,69 @@ read_spss <- function(file,
   }
   
   tmp$rowid <- paste0(id, "_", tmp$rowid)
+  
+ 
+  label_orig <- lapply ( tmp, labelled::var_label  )
+ 
   labelled::var_label ( 
     tmp$rowid ) <- paste0("Unique identifier in ", id)
+
+  converted <- tmp [ ! vapply ( tmp, function(x) is.null(attr(x, "labels")), logical(1)) ]
+  converted <- converted  [ ! vapply ( converted , function(x) length(attr(x, "labels"))>0, logical(1)) ]
   
-  all_vars <- names(tmp)
-  
-  converted <- tmp %>%
-    select_if( haven::is.labelled ) %>%
+
+  converted <- converted %>%
     mutate_all ( as_labelled_spss_survey, id )
   
   not_converted <- tmp %>%
     select( -all_of(names(converted)))
   
-  tmp <- bind_cols ( not_converted, converted ) %>%
-    select ( all_of(all_vars) )
+  convert_fake_labelled <- function (x) {
+    
+    # Fake labelled cases do not have labels, and they confuse the labelling functions
+    # They should be immediately imported as non-labelled vectors 
+    
+    if (! inherits(x, "haven_labelled")) { return (x)}
+    
+    if ( inherits(x, "double") & length(attr(x, "labels"))==0) {
+      as_numeric(x)
+    } else if ( inherits(x, "character") & length(attr(x, "labels"))==0 ) {
+      as_character(x)
+    } else {
+      x
+    }
+  }
+  
+  not_converted <- not_converted %>%
+    mutate_all ( convert_fake_labelled )
+  
+  if ( ncol(converted)==0 ) {
+    return_df <- not_converted
+  } else if ( ncol(not_converted) == 0 ) {
+    return_df <- converted
+  } else {
+    return_df <- bind_cols (not_converted, converted)
+  }
 
-  survey (tmp, id=id, filename=filename, doi=doi)
+  return_df <- return_df  %>%
+    select ( all_of(all_vars) )
+  
+  names ( return_df )
+  
+  labelling_orig <- names  ( label_orig )
+  labelling_orig[as.numeric(which(  vapply ( label_orig, is.null, logical(1)))) ] <- ""
+  labelling_orig 
+  
+  original_labels <- c(
+    list ( rowid = "Unique ID"), 
+    lapply ( label_orig, function(x) ifelse(is.null(x), "", x))
+    
+  )  
+
+  for ( i in seq_along(return_df ) ) {
+    ## only labellled classes will have a label
+    labelled::var_label ( return_df[,1] ) <- unlist(original_labels)[i]
+  }
+  
+  survey (return_df, id=id, filename=filename, doi=doi)
 }

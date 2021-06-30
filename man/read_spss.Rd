@@ -30,7 +30,7 @@ file name.}
 \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.}
 }
 \value{
-A tibble, data frame variant with nice defaults.
+A tibble.
 
   Variable labels are stored in the "label" attribute of each variable.
   It is not printed on the console, but the RStudio viewer will show it.
@@ -38,13 +38,17 @@ A tibble, data frame variant with nice defaults.
   `write_sav()` returns the input `data` invisibly.
 }
 \description{
+This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}} 
+with some exception handling.
+}
+\details{
 `read_sav()` reads both `.sav` and `.zsav` files; `write_sav()` creates
 `.zsav` files when `compress = TRUE`. `read_por()` reads `.por` files.
 `read_spss()` uses either `read_por()` or `read_sav()` based on the
 file extension.
-}
-\details{
-This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}}
+
+When the SPSS file has columns which are of class labelled, but have no labels,
+they are read as numeric or character vectors.
 }
 \examples{
 \donttest{

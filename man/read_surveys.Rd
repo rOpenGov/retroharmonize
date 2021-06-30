@@ -2,12 +2,9 @@
 % Please edit documentation in R/read_surveys.R
 \name{read_surveys}
 \alias{read_surveys}
-\title{Read Survey Files
-
-Import surveys into a list. Adds filename as a constant to each
-element of the list.}
+\title{Read Survey Files}
 \usage{
-read_surveys(import_file_names, .f = "read_rds", save_to_rds = TRUE)
+read_surveys(import_file_names, .f = "read_rds", save_to_rds = FALSE)
 }
 \arguments{
 \item{import_file_names}{A vector of file names to import.}
@@ -19,7 +16,7 @@ well-parameterized version of \code{\link[haven]{read_spss}} that
 saves some metadata, too.}
 
 \item{save_to_rds}{Should it save the imported survey to .rds?
-Defaults to \code{TRUE}.}
+Defaults to \code{FALSE}.}
 }
 \value{
 A list of the surveys.  Each element of the list is a data
@@ -28,10 +25,13 @@ such as the original file name, doi identifier if present, and other
 information is recorded for a reproducible workflow.
 }
 \description{
-Read Survey Files
-
 Import surveys into a list. Adds filename as a constant to each
 element of the list.
+}
+\details{
+The functions handle exceptions with wrong filenames and not readable 
+files. If I file cannot be read, a warning is given, and empty survey is added to the 
+the list in the place of this file.
 }
 \examples{
 file1 <- system.file(

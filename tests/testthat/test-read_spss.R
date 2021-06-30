@@ -11,3 +11,6 @@ test_that("attributes work", {
 })
 
 
+test_that("exception handling works", {
+  expect_error ( read_spss (file.path(examples_dir, "not_iris.sav")))
+})
