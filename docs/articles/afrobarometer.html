@@ -123,7 +123,7 @@ Round 7: <code>r7_merged_data_34ctry.release.sav</code></p>
 <span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va"><a href="https://tidyr.tidyverse.org">tidyr</a></span><span class="op">)</span></code></pre></div>
 <div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co">### use here your own directory</span>
-<span class="va">ab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span> <span class="op">(</span> <span class="va">afrobarometer_dir</span> <span class="op">)</span>
+<span class="va">ab</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/list.files.html">dir</a></span> <span class="op">(</span> <span class="va">afrobarometer_dir</span>, pattern <span class="op">=</span> <span class="st">"sav$"</span> <span class="op">)</span>
 <span class="va">afrobarometer_rounds</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/file.path.html">file.path</a></span><span class="op">(</span><span class="va">afrobarometer_dir</span>, <span class="va">ab</span><span class="op">)</span>
 
 <span class="va">ab_waves</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/read_surveys.html">read_surveys</a></span><span class="op">(</span><span class="va">afrobarometer_rounds</span>, .f<span class="op">=</span><span class="st">'read_spss'</span><span class="op">)</span></code></pre></div>

@@ -6,10 +6,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-<title>Read Survey Files
-
-Import surveys into a list. Adds filename as a constant to each
-element of the list. — read_surveys • retroharmonize</title>
+<title>Read Survey Files — read_surveys • retroharmonize</title>
 
 
 <!-- jquery -->
@@ -42,12 +39,8 @@ element of the list. — read_surveys • retroharmonize</title>
 
 
 
-<meta property="og:title" content="Read Survey Files
-
-Import surveys into a list. Adds filename as a constant to each
-element of the list. — read_surveys" />
-<meta property="og:description" content="Read Survey Files
-Import surveys into a list. Adds filename as a constant to each
+<meta property="og:title" content="Read Survey Files — read_surveys" />
+<meta property="og:description" content="Import surveys into a list. Adds filename as a constant to each
 element of the list." />
 
 
@@ -143,21 +136,17 @@ element of the list." />
 <div class="row">
   <div class="col-md-9 contents">
     <div class="page-header">
-    <h1>Read Survey Files
-
-Import surveys into a list. Adds filename as a constant to each
-element of the list.</h1>
+    <h1>Read Survey Files</h1>
     <small class="dont-index">Source: <a href='https://github.com/rOpenGov/retroharmonize/blob/master/R/read_surveys.R'><code>R/read_surveys.R</code></a></small>
     <div class="hidden name"><code>read_surveys.Rd</code></div>
     </div>
 
     <div class="ref-description">
-    <p>Read Survey Files</p>
-<p>Import surveys into a list. Adds filename as a constant to each
+    <p>Import surveys into a list. Adds filename as a constant to each
 element of the list.</p>
     </div>
 
-    <pre class="usage"><span class='fu'>read_surveys</span><span class='op'>(</span><span class='va'>import_file_names</span>, .f <span class='op'>=</span> <span class='st'>"read_rds"</span>, save_to_rds <span class='op'>=</span> <span class='cn'>TRUE</span><span class='op'>)</span></pre>
+    <pre class="usage"><span class='fu'>read_surveys</span><span class='op'>(</span><span class='va'>import_file_names</span>, .f <span class='op'>=</span> <span class='st'>"read_rds"</span>, save_to_rds <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span></pre>
 
     <h2 class="hasAnchor" id="arguments"><a class="anchor" href="#arguments"></a>Arguments</h2>
     <table class="ref-arguments">
@@ -177,7 +166,7 @@ saves some metadata, too.</p></td>
     <tr>
       <th>save_to_rds</th>
       <td><p>Should it save the imported survey to .rds?
-Defaults to <code>TRUE</code>.</p></td>
+Defaults to <code>FALSE</code>.</p></td>
     </tr>
     </table>
 
@@ -187,6 +176,11 @@ Defaults to <code>TRUE</code>.</p></td>
 frame-like <code><a href='survey.html'>survey</a></code> type object where some metadata, 
 such as the original file name, doi identifier if present, and other
 information is recorded for a reproducible workflow.</p>
+    <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
+
+    <p>The functions handle exceptions with wrong filenames and not readable 
+files. If I file cannot be read, a warning is given, and empty survey is added to the 
+the list in the place of this file.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>survey</p>

@@ -42,18 +42,17 @@ The package is available on [CRAN](https://CRAN.R-project.org):
 install.packages("retroharmonize")
 ```
 
-The development version has some small improvements in functionality and
-minor documentation updates. It can be installed from
-[GitHub](https://github.com/) with:
+The development version has new features with the `create_codebook()`
+functions. It can be installed from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("antaldaniel/retroharmonize")
+devtools::install_github("rOpenGov/retroharmonize")
 ```
 
 You can download the manual in PDF for the [0.1.17 CRAN
 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.17.pdf)
-and for the [0.1.16 development
+and for the [0.1.18 development
 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.16.pdf).
 
 ## Retrospective data harmonization
@@ -163,7 +162,7 @@ citation("retroharmonize")
 #> To cite package 'retroharmonize' in publications use:
 #> 
 #>   Daniel Antal (2021). retroharmonize: Ex Post Survey Data
-#>   Harmonization. R package version 0.1.17.
+#>   Harmonization. R package version 0.1.18.
 #>   https://retroharmonize.dataobservatory.eu/
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -172,7 +171,7 @@ citation("retroharmonize")
 #>     title = {retroharmonize: Ex Post Survey Data Harmonization},
 #>     author = {Daniel Antal},
 #>     year = {2021},
-#>     note = {R package version 0.1.17},
+#>     note = {R package version 0.1.18},
 #>     url = {https://retroharmonize.dataobservatory.eu/},
 #>   }
 ```

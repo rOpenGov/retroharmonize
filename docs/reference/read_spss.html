@@ -40,10 +40,8 @@
 
 
 <meta property="og:title" content="Read SPSS (`.sav`, `.zsav`, `.por`) files. Write `.sav` and `.zsav` files. — read_spss" />
-<meta property="og:description" content="`read_sav()` reads both `.sav` and `.zsav` files; `write_sav()` creates
-`.zsav` files when `compress = TRUE`. `read_por()` reads `.por` files.
-`read_spss()` uses either `read_por()` or `read_sav()` based on the
-file extension." />
+<meta property="og:description" content="This is a wrapper around haven::read_spss 
+with some exception handling." />
 
 
 
@@ -144,10 +142,8 @@ file extension." />
     </div>
 
     <div class="ref-description">
-    <p>`read_sav()` reads both `.sav` and `.zsav` files; `write_sav()` creates
-`.zsav` files when `compress = TRUE`. `read_por()` reads `.por` files.
-`read_spss()` uses either `read_por()` or `read_sav()` based on the
-file extension.</p>
+    <p>This is a wrapper around <code>haven::<a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code> 
+with some exception handling.</p>
     </div>
 
     <pre class="usage"><span class='fu'>read_spss</span><span class='op'>(</span>
@@ -193,13 +189,18 @@ file name.</p></td>
 
     <h2 class="hasAnchor" id="value"><a class="anchor" href="#value"></a>Value</h2>
 
-    <p>A tibble, data frame variant with nice defaults.</p>
+    <p>A tibble.</p>
 <p>Variable labels are stored in the "label" attribute of each variable.
   It is not printed on the console, but the RStudio viewer will show it.</p>
 <p>`write_sav()` returns the input `data` invisibly.</p>
     <h2 class="hasAnchor" id="details"><a class="anchor" href="#details"></a>Details</h2>
 
-    <p>This is a wrapper around <code>haven::<a href='https://haven.tidyverse.org/reference/read_spss.html'>read_spss</a></code></p>
+    <p>`read_sav()` reads both `.sav` and `.zsav` files; `write_sav()` creates
+`.zsav` files when `compress = TRUE`. `read_por()` reads `.por` files.
+`read_spss()` uses either `read_por()` or `read_sav()` based on the
+file extension.</p>
+<p>When the SPSS file has columns which are of class labelled, but have no labels,
+they are read as numeric or character vectors.</p>
     <h2 class="hasAnchor" id="see-also"><a class="anchor" href="#see-also"></a>See also</h2>
 
     <div class='dont-index'><p>Other import functions: 

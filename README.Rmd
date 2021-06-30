@@ -40,14 +40,14 @@ The package is available on [CRAN](https://CRAN.R-project.org):
 install.packages("retroharmonize")
 ```
 
-The development version has some small improvements in functionality and minor documentation updates. It can be installed from [GitHub](https://github.com/) with:
+The development version has new features with the `create_codebook()` functions. It can be installed from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("antaldaniel/retroharmonize")
+devtools::install_github("rOpenGov/retroharmonize")
 ```
 
-You can download the manual in PDF for the  [0.1.17 CRAN release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.17.pdf) and for the [0.1.16 development release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.16.pdf).
+You can download the manual in PDF for the  [0.1.17 CRAN release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.17.pdf) and for the [0.1.18 development release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.16.pdf).
 
 ## Retrospective data harmonization
 

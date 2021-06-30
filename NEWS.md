@@ -1,6 +1,7 @@
 # retroharmoinze 0.1.18
 * New functions `codebook_create()` and `codebook_waves_create()`
 * Much exception handling included in the import file (discovered problems with Caucasus Barometer files.)
+* Sometimes `haven::read_spss()` reads columns as labelled, even though they do not have a single label. In class `survey()` we convert them back to numeric or character types.
 
 # retroharmoinze 0.1.17
 * Released on CRAN. (Date: 2021-06-27)
