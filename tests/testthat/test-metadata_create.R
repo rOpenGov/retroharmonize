@@ -3,6 +3,13 @@ test_survey <- read_rds (
                      package = "retroharmonize")
 )
 
+examples_dir <- system.file( "examples", package = "retroharmonize")
+
+my_rds_files <- dir( examples_dir)[grepl(".rds", 
+                                         dir(examples_dir))]
+
+example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+
 test_that("Only surveys are accepted", {
   expect_error(metadata_create ( data.frame ( a = 1:2, 
                                         b = c("b", "C"))))
@@ -39,3 +46,10 @@ test_that("Correct values are returned", {
   ), c(8,6,2))
 })
 
+
+metadata_waves <- metadata_waves_create( example_surveys )
+
+
+test_that("Correct values are returned from waves", {
+  expect_true(metadata_waves$var_name_orig[1] == "rowid") 
+  })

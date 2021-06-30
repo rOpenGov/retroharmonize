@@ -46,3 +46,13 @@ example_surveys <- read_surveys(
 codebook_waves_create (xample_surveys, to_harmonize )
 }
 }
+\seealso{
+Other metadata functions: 
+\code{\link{metadata_create}()},
+\code{\link{metadata_waves_create}()}
+
+Other metadata functions: 
+\code{\link{metadata_create}()},
+\code{\link{metadata_waves_create}()}
+}
+\concept{metadata functions}

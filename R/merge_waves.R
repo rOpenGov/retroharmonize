@@ -8,7 +8,7 @@
 #' \code{filename}, \code{var_name_orig}, \code{var_name}, \code{var_label}.
 #' @return A list of surveys with harmonized names and variable labels.
 #' @export
-#' @importFrom rlang set_names
+#' @importFrom rlang set_names .data
 #' @importFrom dplyr select mutate_if filter
 #' @importFrom haven is.labelled
 #' @importFrom tidyselect all_of
@@ -23,8 +23,7 @@
 #'   file.path( examples_dir, survey_list), 
 #'   save_to_rds = FALSE)
 #'     
-#' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
-#' metadata <- do.call(rbind, metadata)
+#' metadata <- metadata_waves_create(example_surveys)
 #'  
 #' to_harmonize <- metadata %>%
 #'   dplyr::filter ( var_name_orig %in% 
@@ -38,7 +37,7 @@
 
 merge_waves <- function(waves, var_harmonization) {
   
-  . <- filename <- NULL
+  . <- NULL
   
   validate_survey_list(waves)
   
@@ -51,7 +50,7 @@ merge_waves <- function(waves, var_harmonization) {
   fn_merge <- function(dat) {
     
     select_vars <- var_harmonization  %>% 
-      dplyr::filter ( filename == attr(dat, "filename") )
+      dplyr::filter ( .data$filename == attr(dat, "filename") )
     
     if ( ! "rowid" %in% select_vars$var_name_orig ) {
       warning("rowid is not selected from ", attr(dat, "filename") )

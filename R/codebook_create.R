@@ -16,6 +16,7 @@
 #' @importFrom tidyr unnest_longer
 #' @importFrom dplyr mutate filter all_of arrange left_join bind_rows
 #' @importFrom rlang set_names
+#' @family metadata functions
 #' @examples 
 #' codebook_create (
 #'  survey = read_rds (
@@ -145,6 +146,7 @@ codebook_create <- function ( metadata = NULL,
 }
 
 #' @rdname codebook_create
+#' @family metadata functions
 #' @examples
 #' \donttest{
 #' examples_dir <- system.file("examples", package = "retroharmonize")

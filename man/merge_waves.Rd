@@ -28,8 +28,7 @@ example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
   save_to_rds = FALSE)
     
-metadata <- lapply ( X = example_surveys, FUN = metadata_create )
-metadata <- do.call(rbind, metadata)
+metadata <- metadata_waves_create(example_surveys)
  
 to_harmonize <- metadata \%>\%
   dplyr::filter ( var_name_orig \%in\% 

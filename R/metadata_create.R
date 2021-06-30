@@ -2,7 +2,12 @@
 #' 
 #' @description Create a metadata table from the survey data files.
 #' 
-#' @details The structure of the returned tibble:
+#' @details A data frame like tibble ojbect is returned. 
+#' In case you are working with a list of surveys (waves), call 
+#' \code{\link{metadata_waves_create}}, which is a wrapper around 
+#' a list of  \code{\link{metadata_create}} calls.
+#' 
+#' The structure of the returned tibble:
 #' \describe{
 #'   \item{filename}{The original file name; if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
 #'   \item{id}{The ID of the survey, if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
@@ -27,6 +32,7 @@
 #' @importFrom purrr map
 #' @importFrom assertthat assert_that
 #' @importFrom rlang .data
+#' @family metadata functions
 #' @return A nested data frame with metadata and the range of 
 #' labels, na_values and the na_range itself.
 #' @examples
@@ -48,6 +54,11 @@ metadata_create <- function( survey ) {
   if (is.null(filename)) filename <- "unknown"
   id <- attr(survey, "id")
   if (is.null(id)) id <- "missing"
+  
+  if( ncol(survey) == 0) {
+    # Special case when file could not be read and survey is empty
+    return(metadata_initialize(filename = filename, id = paste0(filename, " could not be read.")))
+  }
   
   label_orig  <- lapply ( survey, labelled::var_label )
   
@@ -141,3 +152,53 @@ metadata_create <- function( survey ) {
   return_df %>%
     select ( -.data$label_type )
 }
+
+#' @title Create a metadata table
+#' @rdname metadat_create
+#' @param survey_list A list containing surveys of class survey.
+#' @family metadata functions
+#' @examples
+#' examples_dir <- system.file( "examples", package = "retroharmonize")
+#'
+#' my_rds_files <- dir( examples_dir)[grepl(".rds", 
+#'                                         dir(examples_dir))]
+#'
+#' example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+#' metadata_waves_create (example_surveys)
+#' @export
+
+metadata_waves_create <- function ( survey_list ) {
+  
+  validate_survey_list( survey_list)
+  
+  metadata_list <- lapply ( survey_list, metadata_create )
+
+  do.call ( rbind, metadata_list )
+  
+}
+
+#' @title Initialize a metadata data frame
+#'
+#' @inheritParams metadata_create
+#' @importFrom tibble tibble
+#' @return A nested data frame with metadata and the range of 
+#' labels, na_values and the na_range itself.
+#' @keywords internal
+metadata_initialize <- function (filename, id ){
+  
+  tibble::tibble ( 
+    filename = filename, 
+    id = id, 
+    class_orig = NA_character_,
+    var_name_orig = NA_character_, 
+    label_orig   = NA_character_, 
+    labels       = NA_character_, 
+    valid_labels = list("none" = NA_real_),
+    na_labels = list("none" = NA_real_),
+    na_range = list("none" = NA_real_),
+    n_labels = 0,
+    n_valid_labels = 0,
+    n_na_labels = 0 )  
+  
+}
+

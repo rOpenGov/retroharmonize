@@ -17,6 +17,11 @@ labels, na_values and the na_range itself.
 Create a metadata table from the survey data files.
 }
 \details{
+A data frame like tibble ojbect is returned. 
+In case you are working with a list of surveys (waves), call 
+\code{\link{metadata_waves_create}}, which is a wrapper around 
+a list of  \code{\link{metadata_create}} calls.
+
 The structure of the returned tibble:
 \describe{
   \item{filename}{The original file name; if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
@@ -42,3 +47,9 @@ metadata_create (
           )
 )
 }
+\seealso{
+Other metadata functions: 
+\code{\link{codebook_create}()},
+\code{\link{metadata_waves_create}()}
+}
+\concept{metadata functions}

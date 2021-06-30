@@ -264,45 +264,8 @@ harmonize_values <- function(
   
 }
 
-#' @importFrom dplyr select
-#' @importFrom tidyselect all_of
-#' @importFrom tibble as_tibble
-#' @keywords  internal
-validate_harmonize_labels <- function( harmonize_labels ) {
-  
-  if( inherits(harmonize_labels, "list") ) {
-    if ( "numeric_value" %in% names(harmonize_labels) ) {
-      names(harmonize_labels)[which(names(harmonize_labels)=="numeric_value")] <- "numeric_values"
-    }
-    
-  if( !all( 
-    sort (names ( harmonize_labels )) 
-    == c("from", "numeric_values", "to")) ) {
-      stop( "<harmonize_label> must have <from>, <to>, <numeric_values> of equal lengths.")
-    }
-    
-  if(length(
-    unique(vapply(harmonize_labels, length, integer(1)))
-    ) !=1) {
-      stop("<harmonize_label> must have <from>, <to>, <numeric_values> of equal lengths.")
-    }
-  } else if ( inherits(harmonize_labels, "data.frame") ) {
-    if(!all(sort (names ( harmonize_labels )) == c("from", "numeric_values", "to"))) {
-      stop( "<harmonize_label> must have <from>, <to>, <numeric_values>.")
-    }
-  } else {
-    stop("<harmonize label> must have <from>, <to>, <numeric_values> of equal lengths as list or data.frame.")
-  }
-  harmonize_labels <- tibble::as_tibble(harmonize_labels)
-  
-  assertthat::assert_that(is.numeric(harmonize_labels$numeric_values) |
-                            is.null(harmonize_labels$numeric_values))
-  
-  dplyr::select (harmonize_labels, 
-                 tidyselect::all_of(c("from", "to", "numeric_values")))
-}
-
 #' @importFrom dplyr distinct_all
+#' @keywords internal
 get_labelled_attributes <- function(x) {
   
   unlabelled_x <- sapply(attributes(x), function(i) { attributes(i) <- NULL; x })[,1]

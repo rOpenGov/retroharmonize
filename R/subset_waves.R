@@ -19,8 +19,7 @@
 #'   file.path( examples_dir, survey_list), 
 #'   save_to_rds = FALSE)
 
-#' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
-#' metadata <- do.call(rbind, metadata)
+#' metadata <- metadata_waves_create(example_surveys)
 #' 
 #' metadata$var_name_suggested <- label_normalize(metadata$var_name)
 #' 

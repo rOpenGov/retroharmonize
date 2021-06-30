@@ -49,6 +49,10 @@ as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 
 \section{documentation functions}{
 
+\code{\link{metadata_create}} and \code{\link{metadata_waves_create}}
+\code{\link{codebook_create}} and \code{\link{codebook_waves_create}}
+
+
 Make the workflow reproducible by recording the harmonization process.
 \code{\link{document_survey_item}}: Returns a list of the current and historic coding, 
 labelling of the valid range and missing values or range, the history of the variable names 

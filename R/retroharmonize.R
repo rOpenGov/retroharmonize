@@ -16,6 +16,7 @@
 #' \code{\link{subset_save_surveys}}: programmatically read a list of surveys, 
 #' and subset them (pre-harmonize the same variables.)\cr 
 #' \code{\link{pull_survey}}: pull a single survey from a survey list.\cr 
+#' 
 #' @section variable name harmonization functions:
 #' \code{\link{label_normalize}} removes special characters, whitespace, 
 #' and other typical typing errors and helps the uniformization of labels
@@ -30,12 +31,18 @@
 #' as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 #' @section survey harmonization functions:
 #' \code{\link{merge_waves}}: Create a list of surveys with harmonized names and variable labels.\cr 
+#' 
+#' @section documentation functions:
+#' \code{\link{metadata_create}} and \code{\link{metadata_waves_create}}
+#' \code{\link{codebook_create}} and \code{\link{codebook_waves_create}}
+#' 
 #' @section documentation functions:
 #' Make the workflow reproducible by recording the harmonization process.
 #' \code{\link{document_survey_item}}: Returns a list of the current and historic coding, 
 #' labelling of the valid range and missing values or range, the history of the variable names 
 #' and the history of the survey IDs.
 #' \code{\link{document_waves}}: Document the key attributes surveys in a survey list.
+#' 
 #' @section type conversion functions:
 #' Consistently treat labels and SPSS-style user-defined missing 
 #' values in the R language.
