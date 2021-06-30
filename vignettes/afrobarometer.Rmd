@@ -64,7 +64,7 @@ library(tidyr)
 
 ```{r import, eval=FALSE}
 ### use here your own directory
-ab <- dir ( afrobarometer_dir )
+ab <- dir ( afrobarometer_dir, pattern = "sav$" )
 afrobarometer_rounds <- file.path(afrobarometer_dir, ab)
 
 ab_waves <- read_surveys(afrobarometer_rounds, .f='read_spss')
