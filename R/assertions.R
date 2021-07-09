@@ -1,5 +1,3 @@
-
-
 #' @keywords  internal
 validate_survey_list <- function(survey_list) { 
   
@@ -57,40 +55,48 @@ validate_survey_list <- function(survey_list) {
               ))
 }
 
+
+#' @title Validate harmonize_labels parameter
+#' Check if "from", "to", and "numeric_values" are of equal lengths.
 #' @importFrom dplyr select
-#' @importFrom tidyselect all_of
-#' @importFrom tibble as_tibble
+#' @importFrom assertthat assert_that
 #' @keywords  internal
 validate_harmonize_labels <- function( harmonize_labels ) {
   
-  if( inherits(harmonize_labels, "list") ) {
-    if ( "numeric_value" %in% names(harmonize_labels) ) {
-      names(harmonize_labels)[which(names(harmonize_labels)=="numeric_value")] <- "numeric_values"
-    }
+  if( inherits(harmonize_labels, "list") | inherits (harmonize_labels, "data.frame") ) {
     
-    if( !all( 
-      sort (names ( harmonize_labels )) 
-      == c("from", "numeric_values", "to")) ) {
-      stop( "<harmonize_label> must have <from>, <to>, <numeric_values> of equal lengths.")
-    }
+    assertthat::assert_that(
+      all(c("from", "numeric_values", "to") %in% names (harmonize_labels)), 
+      msg = "The harmonize_values must contain <from>, <to> and <numeric_values> vectors."
+    )
     
-    if(length(
-      unique(vapply(harmonize_labels, length, integer(1)))
-    ) !=1) {
-      stop("<harmonize_label> must have <from>, <to>, <numeric_values> of equal lengths.")
-    }
-  } else if ( inherits(harmonize_labels, "data.frame") ) {
-    if(!all(sort (names ( harmonize_labels )) == c("from", "numeric_values", "to"))) {
-      stop( "<harmonize_label> must have <from>, <to>, <numeric_values>.")
-    }
+    assertthat::assert_that(
+      inherits( harmonize_labels$numeric_values, "numeric"), 
+      msg = "The harmonize_values must a numeric <numeric_values> vector."
+    )
+   
+    assertthat::assert_that(is.numeric(harmonize_labels$numeric_values) |
+                              is.null(harmonize_labels$numeric_values), 
+                            msg = "The harmonize_values must have a numeric <numeric_values> with non-NULL or non-NA values.")
+    
+    assertthat::assert_that(
+      inherits( harmonize_labels$from, "character"), 
+      msg = "The harmonize_values must a character <from> vector."
+    )
+    
+    assertthat::assert_that(
+      inherits( harmonize_labels$to, "character"), 
+      msg = "The harmonize_values must a character <to> vector."
+    )
+    
+    list_length <- as.numeric(vapply ( c("from", "numeric_values", "to"), function(x) length(harmonize_labels[[x]]), numeric(1)))
+    
+    assertthat::assert_that(
+      all(vapply ( list_length, function(x) list_length[[1]] == x, logical(1))), 
+      msg = "<harmonize_label> must have <from>, <to>, <numeric_values> of equal lengths.")
+      
+    
   } else {
     stop("<harmonize label> must have <from>, <to>, <numeric_values> of equal lengths as list or data.frame.")
   }
-  harmonize_labels <- tibble::as_tibble(harmonize_labels)
-  
-  assertthat::assert_that(is.numeric(harmonize_labels$numeric_values) |
-                            is.null(harmonize_labels$numeric_values))
-  
-  dplyr::select (harmonize_labels, 
-                 tidyselect::all_of(c("from", "to", "numeric_values")))
 }
