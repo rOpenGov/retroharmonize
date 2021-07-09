@@ -19,12 +19,12 @@
 #' @param perl Use perl-like regex? Defaults to {FALSE}.
 #' @importFrom labelled to_character labelled na_values val_labels
 #' @importFrom labelled var_label
-#' @importFrom tibble tibble 
+#' @importFrom tibble tibble as_tibble
 #' @importFrom dplyr mutate left_join distinct select if_else
 #' @importFrom tidyselect all_of
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
-#' @importFrom rlang set_names
+#' @importFrom rlang set_names .data
 #' @family variable label harmonization functions
 #' @return A labelled vector that contains in its metadata attributes
 #' the original labelling, the original numeric coding and the current
@@ -65,8 +65,13 @@ harmonize_values <- function(
   remove = NULL,
   perl = FALSE ) {
   
-  input_na_values <- na_values
   
+  if ( "na_values" %in% names( harmonize_labels) ) {
+    input_na_values <- na_values
+  } else {
+    #what if there are no na_values given?
+    input_na_values <- na_values
+  } 
   
   validate_label_list <- function ( label_list ) {
     
@@ -113,8 +118,9 @@ harmonize_values <- function(
   if (is.null(harmonize_label)) harmonize_label <- labelled::var_label(x)
   if (is.null(harmonize_label)) harmonize_label <- original_x_name
   
-  if ( !is.null(harmonize_labels)) {
-    harmonize_labels <- validate_harmonize_labels(harmonize_labels)  ## see below main function
+  if ( !is.null(harmonize_labels) & validate_harmonize_labels(harmonize_labels) ) { ## see assertions.R
+    harmonize_labels <- tibble::as_tibble(harmonize_labels)  %>%
+      select( all_of(c("from", "to", "numeric_values")))
   }
   
   original_values <- tibble::tibble (
