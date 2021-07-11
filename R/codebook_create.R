@@ -51,7 +51,7 @@ codebook_create <- function ( metadata = NULL,
                       'labels', 'valid_labels', 'na_labels', 'na_range', 
                       'n_labels', 'n_valid_labels', 'n_na_labels')
   
-  user_names <- names(metadata)[ !names(metadata) %in% metadata_names ]
+  user_vars <- names(metadata)[!names(metadata) %in% metadata_names ]
   
   assertthat::assert_that(
     all ( metadata_names %in% names(metadata ))
@@ -59,47 +59,29 @@ codebook_create <- function ( metadata = NULL,
   
   metadata$entry <- 1:nrow(metadata)
   
-  change_label_to_empty <- function() {
-    #moved to metadata_create
-    "none" = NA_real_
-    
+  if ( length(user_vars)>0 ) {
+    user_data <- metadata %>% select ( all_of(c("entry", user_vars)))
   }
   
+  
   metadata$label_type <- vapply(metadata$labels, function(x) class(x)[1], character(1))
+  metadata$label_type <- ifelse ( 
+    test = is.na(metadata$valid_labels)&is.na(metadata$na_labels), 
+    yes  = "not_labelled", 
+    no   = metadata$label_type)
   
-  metadata$labels <- ifelse (
-    ## character types, either not truly labelled, or truly labelled
-    metadata$label_type == "character" & metadata$n_labels == 0, 
-    yes = change_label_to_empty(), 
-    no =  metadata$labels )
+
+  char_labels <- vapply(metadata$valid_labels, function(x) class(x)[1], character(1)) == "character"
+  num_labels  <- vapply(metadata$valid_labels, function(x) class(x)[1], character(1)) == "numeric"
   
-  metadata$valid_labels <- ifelse (
-    metadata$label_type == "character" & metadata$n_labels == 0, 
-    yes = change_label_to_empty(), 
-    no =  metadata$valid_labels )
-  
-  metadata$na_labels <- ifelse (
-    metadata$label_type == "character" & metadata$n_labels == 0 , 
-    yes = change_label_to_empty(), 
-    no =  metadata$na_labels )
-  
-  assertthat::assert_that(
-    all( vapply(metadata$na_labels, function(x) class(x)[1], character(1)) == "numeric"),
-    msg = "All na_labels must be named numeric vectors. There was a type mismatch."
-    
-  )
-  
-  char_labels <- vapply(metadata$na_labels, function(x) class(x)[1], character(1)) == "character"
-  num_labels  <- vapply(metadata$na_labels, function(x) class(x)[1], character(1)) == "numeric"
-  
-  metadata_na_labels_numeric <- metadata[num_labels ,] 
-  n_labelled_numeric  <-  ifelse ( !is.null(metadata_na_labels_numeric), 
-                                    nrow(metadata_na_labels_numeric), 
+  metadata_labelled_numeric <- metadata[num_labels ,] 
+  n_labelled_numeric  <-  ifelse ( !is.null(metadata_labelled_numeric), 
+                                    nrow(metadata_labelled_numeric), 
                                     0) 
   
   if ( n_labelled_numeric  > 0 ) {
     # These area cases when the labels are of class numeric
-    valid_labels_numeric <-  metadata_na_labels_numeric %>%
+    valid_labelled_numeric <-  metadata_labelled_numeric %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig", "valid_labels")))   %>%
       unnest_longer( .data$valid_labels) %>%
@@ -109,7 +91,7 @@ codebook_create <- function ( metadata = NULL,
         label_range = "valid", 
         val_code_orig = as.character(.data$val_code_orig))  
     
-    na_num_labels <-  metadata[num_labels ,] %>%
+    na_labelled_numeric <-  metadata[num_labels ,] %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig",  "na_labels"))) %>%
       unnest_longer( .data$na_labels) %>%
@@ -121,27 +103,28 @@ codebook_create <- function ( metadata = NULL,
       mutate ( val_code_orig = as.character(.data$val_code_orig) )
     
     
-    num_labels <- valid_num_labels %>% 
+    num_labels <- valid_labelled_numeric  %>% 
       dplyr::bind_rows (
-        na_num_labels 
+        na_labelled_numeric 
       ) %>%
       dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
       left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
                                                  "n_labels", "n_valid_labels", "n_na_labels", 
-                                                 user_names))), 
+                                                 user_vars))), 
                   by = c("entry", "id", "filename"))
     
+   
   }
   
-  metadata_na_labels_character <- metadata[char_labels ,] 
+  metadata_labelled_character <- metadata[char_labels ,] 
   n_labelled_character <- ifelse ( 
-    !is.null(metadata_na_labels_character), 
-    nrow(metadata_na_labels_character), 
+    !is.null(metadata_labelled_character), 
+    nrow(metadata_labelled_character), 
     0) 
   
   if ( n_labelled_character > 0) {
     # These area cases when the na_labels are of class character
-    valid_labels_character  <-   metadata_na_labels_character %>%
+    valid_labelled_character  <-   metadata_labelled_character %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig", "valid_labels")))   %>%
       unnest_longer( .data$valid_labels) %>%
@@ -152,11 +135,12 @@ codebook_create <- function ( metadata = NULL,
       mutate ( val_code_orig = as.character(.data$val_code_orig) )
     
     
-    na_char_labels <-  metadata[char_labels ,] %>%
+    na_labelled_character <-  metadata[char_labels ,] %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig",  "na_labels"))) %>%
       unnest_longer( .data$na_labels) %>%
-      purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "label_orig",  "val_code_orig", "val_label_orig")) %>%
+      purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "label_orig",  
+                           "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the missing observation range
         label_range = "missing") %>%
@@ -164,26 +148,42 @@ codebook_create <- function ( metadata = NULL,
       mutate ( val_code_orig = as.character(.data$val_code_orig) )
     
     
-    char_labels <- valid_char_labels %>% 
+    char_labels <- valid_labelled_character %>% 
       dplyr::bind_rows (
-        na_char_labels 
+        na_labelled_character 
       ) %>%
       dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
       left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
                                                  "n_labels", "n_valid_labels", "n_na_labels", 
-                                                 user_names))), 
+                                                 user_vars))), 
                   by = c("entry", "id", "filename"))
     
   }
 
-  if ( n_labelled_character == 0 ) {
+  if ( n_labelled_character + n_labelled_numeric == 0 ) {
+    # There are no labelled variables
+    tibble ( entry = vector("integer"), 
+             id = vector("character"),
+             filename = vector("character"), 
+             var_name_orig = vector("character"), 
+             label_orig = vector("character"), 
+             val_code_orig = vector("character"), 
+             val_label_orig = vector("character"), 
+             label_range = vector("character"), 
+             na_range = vector("character"), 
+             n_labels = vector("numeric"),
+             n_valid_labels = vector("numeric"), 
+             n_na_labels = vector("numeric")) %>%
+      left_join ( user_data[0,], by = "entry" )
+  } else if ( n_labelled_character == 0 ) {
     num_labels %>%
       dplyr::arrange (.data$entry)
   } else if ( n_labelled_numeric == 0  ) {
     char_labels %>%
       dplyr::arrange (.data$entry)
   } else {
-    bind_rows ( num_labels, char_labels ) %>%
+   num_labels %>%
+      bind_rows ( char_labels) %>%
       dplyr::arrange (.data$entry)
   }
 }
