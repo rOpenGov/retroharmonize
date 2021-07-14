@@ -3,6 +3,7 @@
 \name{survey}
 \alias{survey}
 \alias{is.survey}
+\alias{summary.survey}
 \title{Survey data frame}
 \usage{
 survey(
@@ -13,6 +14,8 @@ survey(
 )
 
 is.survey(df)
+
+\method{summary}{survey}(df, ...)
 }
 \arguments{
 \item{df}{A tibble or data frame that contains the survey data.}
