@@ -74,3 +74,39 @@ survey <- function ( df = data.frame(),
 is.survey <- function (df) {
   inherits(df, "survey")
 }
+
+#' @rdname survey
+#' @importFrom tibble as_tibble
+#' @importFrom dplyr bind_cols mutate_all all_of
+#' @importFrom purrr set_names
+#' @export
+summary.survey <- function(df, ...) {
+  if (!is.null(attr(df, "label"))) {
+    cat(attr(df, "label"))
+  }
+  
+  print(summary(as_tibble(df)))
+  
+  not_yet_implement <- function() {
+    labelled_types <- names(df)[vapply ( df, function(x)inherits(x, "haven_labelled"), logical(1))]
+    not_labelled_types <- df[!names(df) %in% labelled_types]
+    
+    labelled_cols <- df %>% 
+      select ( all_of(labelled_types))  
+    
+    numeric_cols <- labelled_cols %>%
+      set_names(  paste0(names(labelled_cols), "_numeric")) %>%
+      mutate_all ( as_numeric )
+    
+    factor_cols <- labelled_cols %>%
+      set_names(  paste0(names(labelled_cols), "_factor")) %>%
+      mutate_all ( as_factor )
+    
+    df %>% select ( -all_of(labelled_types)) %>%
+      bind_cols(numeric_cols) %>%
+      bind_cols(factor_cols) %>%
+      as_tibble() %>%
+      summary() %>%
+      print()
+  }
+}
