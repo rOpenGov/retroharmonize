@@ -402,7 +402,15 @@ as_numeric <- function(x) {
 
 #' @export
 summary.retroharmonize_labelled_spss_survey <- function(object, ...) {
-  summary(vec_data(object), ...)
+  if (!is.null(attr(object, "label"))) {
+    cat(attr(object, "label"))
+  }
+  cat("\nNumeric values without coding:\n")
+  print(summary(vec_data(object), ...))
+  cat("Numeric representation:\n")
+  print(summary(as_numeric(object)))
+  cat("Factor representation:\n")
+  summary(as_factor(object))
 }
 
 ## Prototype --------------------------------------
