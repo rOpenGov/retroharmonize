@@ -45,11 +45,15 @@ read_surveys <- function ( import_file_names,
       
     } else if ( .f == 'read_rds') {
       
-      tried_survey <- read_rds(file = filename)
+      tried_survey <- read_rds(file = filename) 
       
-    } else {
-      stop ( "Other file types need to be fixed.")
-      tried_survey <- purrr::safely (.f = .f )(file = filename)
+    } else if ( .f == 'read_dta') {
+       
+      tried_survey <- read_dta(file = filename)
+       
+      } else {
+     
+      tried_survey <- purrr::safely (.f = .f )(file = filename) 
       
       if ( is.null(tried_survey$error)) {
         tried_survey  <- tried_survey$result

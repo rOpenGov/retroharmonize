@@ -33,6 +33,7 @@ pull_survey(example_surveys, id = "ZA5913")
 }
 \seealso{
 Other import functions: 
+\code{\link{read_dta}()},
 \code{\link{read_rds}()},
 \code{\link{read_spss}()},
 \code{\link{read_surveys}()},

@@ -178,8 +178,7 @@ variable labels and survey identifiers.</p>
   <span class='fu'><a href='https://rdrr.io/r/base/file.path.html'>file.path</a></span><span class='op'>(</span> <span class='va'>examples_dir</span>, <span class='va'>survey_list</span><span class='op'>)</span>, 
   save_to_rds <span class='op'>=</span> <span class='cn'>FALSE</span><span class='op'>)</span>
     
-<span class='va'>metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/lapply.html'>lapply</a></span> <span class='op'>(</span> X <span class='op'>=</span> <span class='va'>example_surveys</span>, FUN <span class='op'>=</span> <span class='va'>metadata_create</span> <span class='op'>)</span>
-<span class='va'>metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='https://rdrr.io/r/base/do.call.html'>do.call</a></span><span class='op'>(</span><span class='va'>rbind</span>, <span class='va'>metadata</span><span class='op'>)</span>
+<span class='va'>metadata</span> <span class='op'>&lt;-</span> <span class='fu'><a href='metadata_waves_create.html'>metadata_waves_create</a></span><span class='op'>(</span><span class='va'>example_surveys</span><span class='op'>)</span>
  
 <span class='va'>to_harmonize</span> <span class='op'>&lt;-</span> <span class='va'>metadata</span> <span class='op'>%&gt;%</span>
   <span class='fu'>dplyr</span><span class='fu'>::</span><span class='fu'><a href='https://dplyr.tidyverse.org/reference/filter.html'>filter</a></span> <span class='op'>(</span> <span class='va'>var_name_orig</span> <span class='op'>%in%</span> 

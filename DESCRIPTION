@@ -1,8 +1,8 @@
 Package: retroharmonize
 Type: Package
 Title: Ex Post Survey Data Harmonization
-Version: 0.1.18
-Date: 2021-06-27
+Version: 0.1.19
+Date: 2021-07-21
 Authors@R: 
     c(person(given = "Daniel",
            family = "Antal",

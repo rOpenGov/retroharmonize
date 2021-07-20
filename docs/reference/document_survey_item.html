@@ -196,7 +196,7 @@ na_values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/
               <span class='st'>"inap"</span> <span class='op'>=</span> <span class='fl'>99999</span><span class='op'>)</span>, 
   id <span class='op'>=</span> <span class='st'>"survey1"</span>,
 <span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: There are values exceeding 99990, these may be mising values.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='error'>Error in ans[npos] &lt;- rep(no, length.out = len)[npos]: replacement has length zero</span></div><div class='input'>
 <span class='va'>h2</span> <span class='op'>&lt;-</span> <span class='fu'><a href='harmonize_values.html'>harmonize_values</a></span> <span class='op'>(</span>
   x <span class='op'>=</span> <span class='va'>var2</span>, 
   harmonize_label <span class='op'>=</span> <span class='st'>"Do you trust the European Union?"</span>,
@@ -208,35 +208,10 @@ na_values <span class='op'>=</span> <span class='fu'><a href='https://rdrr.io/r/
                 <span class='st'>"inap"</span> <span class='op'>=</span> <span class='fl'>99999</span><span class='op'>)</span>, 
   id <span class='op'>=</span> <span class='st'>"survey2"</span>
 <span class='op'>)</span>
-
+</div><div class='output co'>#&gt; <span class='warning'>Warning: There are values exceeding 99990, these may be mising values.</span></div><div class='output co'>#&gt; <span class='warning'>Warning: 'x' is NULL so the result will be NULL</span></div><div class='output co'>#&gt; <span class='error'>Error in ans[npos] &lt;- rep(no, length.out = len)[npos]: replacement has length zero</span></div><div class='input'>
 <span class='va'>h3</span> <span class='op'>&lt;-</span> <span class='fu'><a href='concatenate.html'>concatenate</a></span><span class='op'>(</span><span class='va'>h1</span>, <span class='va'>h2</span><span class='op'>)</span> 
-<span class='fu'>document_survey_item</span><span class='op'>(</span><span class='va'>h3</span><span class='op'>)</span>
-</div><div class='output co'>#&gt; $code_table
-#&gt; <span style='color: #949494;'># A tibble: 4 x 7</span>
-#&gt;   values survey1_values survey2_values labels     survey1_labels survey2_labels 
-#&gt;    <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;dbl&gt;</span> <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>      <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          <span style='color: #949494; font-style: italic;'>&lt;chr&gt;</span>          
-#&gt; <span style='color: #BCBCBC;'>1</span>      0              1              1 not_trust  TRUST          Tend to trust  
-#&gt; <span style='color: #BCBCBC;'>2</span>      1              0              2 trust      NOT TRUST      Tend not to tr~
-#&gt; <span style='color: #BCBCBC;'>3</span>  <span style='text-decoration: underline;'>99</span>997              8              8 do_not_kn~ DON'T KNOW     DK             
-#&gt; <span style='color: #BCBCBC;'>4</span>  <span style='text-decoration: underline;'>99</span>999              9              9 inap       INAP. HERE     Inap           
-#&gt; <span style='color: #949494;'># ... with 1 more variable: missing &lt;lgl&gt;</span>
-#&gt; 
-#&gt; $history_var_name
-#&gt;         name survey1_name survey2_name 
-#&gt;         "h3"       "var1"       "var2" 
-#&gt; 
-#&gt; $history_var_label
-#&gt;                              label                      survey1_label 
-#&gt; "Do you trust the European Union?" "Do you trust the European Union?" 
-#&gt;                      survey2_label 
-#&gt; "Do you trust the European Union?" 
-#&gt; 
-#&gt; $history_na_range
-#&gt; character(0)
-#&gt; 
-#&gt; $history_id
-#&gt; [1] "survey1" "survey2"
-#&gt; </div></pre>
+</div><div class='output co'>#&gt; <span class='error'>Error in haven::is.labelled(x): object 'h1' not found</span></div><div class='input'><span class='fu'>document_survey_item</span><span class='op'>(</span><span class='va'>h3</span><span class='op'>)</span>
+</div><div class='output co'>#&gt; <span class='error'>Error in document_survey_item(h3): object 'h3' not found</span></div></pre>
   </div>
   <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
     <nav id="toc" data-toggle="toc" class="sticky-top">

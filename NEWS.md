@@ -1,3 +1,6 @@
+# retroharmonize 0.1.9
+* New function `read_dta()` for importing STATA files, not fully tested yet. 
+
 # retroharmoinze 0.1.18
 * New functions `codebook_create()` and `codebook_waves_create()`
 * Improved `retroharmonize_labelled_spss_survey()` `summary` method.

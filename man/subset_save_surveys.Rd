@@ -56,6 +56,7 @@ file.exists ( file.path(tempdir(), "ZA7576_tested.rds"))
 \seealso{
 Other import functions: 
 \code{\link{pull_survey}()},
+\code{\link{read_dta}()},
 \code{\link{read_rds}()},
 \code{\link{read_spss}()},
 \code{\link{read_surveys}()}
