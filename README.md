@@ -13,7 +13,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5034752.svg)](https://doi.org/10.5281/zenodo.5034752)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5117890.svg)](https://doi.org/10.5281/zenodo.5117890)
 [![Codecov test
 coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
 [![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
@@ -52,8 +52,8 @@ devtools::install_github("rOpenGov/retroharmonize")
 
 You can download the manual in PDF for the [0.1.17 CRAN
 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.17.pdf)
-and for the [0.1.18 development
-release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.16.pdf).
+and for the [0.1.19 development
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.1.19.pdf).
 
 ## Retrospective data harmonization
 

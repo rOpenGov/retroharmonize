@@ -82,7 +82,7 @@ collect_na_labels(eb_trust_metadata)
 
 We have created a helper function `subset_save_survey()` that programmatically reads in SPSS files, makes the necessary type conversion to `labelled_spss_survey()` without harmonization, and saves a small, subsetted `rds` file. Because this is a native R file, it is far more efficient to handle in the actual workflow.
 
-```{r}
+```{r tempdir}
 ## You will likely use your own local working directory, or
 ## tempdir() that will create a temporary directory for your 
 ## session only. 
@@ -147,7 +147,7 @@ documented_eb_waves
 
 To review the harmonization on a single survey use `pull_survey()`. 
 
-```{r, check, eval=FALSE}
+```{r, test-trust, eval=FALSE}
 test_trust <- pull_survey(eb_waves, filename = "ZA4414_trust.rds")
 ```
 
@@ -160,7 +160,7 @@ test_trust$trust_european_commission[1:16]
 After performing harmonization, it would look like this:
 
 ```{r}
-harmonize_eb_trust(test_trust$trust_european_commission[1:16])
+harmonize_eb_trust(x=test_trust$trust_european_commission[1:16])
 ```
 
 If you are satisfied with the results, run `harmonize_eb_trust()` through the 9 survey waves. Whenever a variable is missing from a wave, it is filled up with `inapproriate` missing values.
@@ -169,7 +169,7 @@ If you are satisfied with the results, run `harmonize_eb_trust()` through the 9 
 
 We define a selection of countries: Belgium, Hungary, Italy, Malta, the Netherlands, Poland, Slovakia, and variables.
 
-```{r}
+```{r ebwavesselected}
 eb_waves_selected <- lapply ( eb_waves, function(x) x %>% select ( 
   any_of (c("rowid", "country_id", "weight_poststrat", 
             "trust_national_parliament", "trust_european_commission", 
@@ -188,16 +188,16 @@ harmonized_eb_waves <- harmonize_waves (
 
 We cannot rely on `document_waves()` anymore, because the result is a single data frame. Let's have a look at the descriptive metadata.
 
-```{r}
+```{r wavesattributes}
 wave_attributes <- attributes(harmonized_eb_waves)
 wave_attributes$id
 wave_attributes$filename
 wave_attributes$names
 ```
+
 ## Analyze the data
 
 The harmonized data can be analyzed in R.  The labelled survey data is stored in `labelled_spss_survey()` vectors, which is a complex class that retains much metadata for reproducibility. Most statistical R packages do not know it. To them, the data should be presented either as numeric data with `as_numeric()` or as categorical with `as_factor()`.  (See more why you should not fall back on the more generic `as.factor()` or `as.numeric()` methods in [The labelled_spss_survey class vignette.](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html))
-
 
 First, let's treat the trust variables as factors. A summary of the resulting data allows us to screen for values that are outside of the expected range. In the trust variables, any values other than "trust" and "not trust" that are not defined as missing, are unacceptable. In our example, this is not the case. In our example, this is not the case. 
 
@@ -219,10 +219,11 @@ summary(numeric_harmonization)
 
 Finally, let's calculate weighted means of trust in the national parliament, the European Parliament, and the European Commission, for the selected countries, across all EB waves.
 
-```{r}
+```{r numericharmonization}
 numeric_harmonization %>%
   group_by(country_id) %>%
-  summarize_at ( vars(contains("trust")), list(~mean(.*weight_poststrat, na.rm=TRUE))) 
+  summarize_at ( vars(contains("trust")), 
+                 list(~mean(.*weight_poststrat, na.rm=TRUE))) 
 ```
 
 

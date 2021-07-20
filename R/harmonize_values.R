@@ -223,7 +223,7 @@ harmonize_values <- function(
   ## define new missing values, not with range
   ## A warning should be given, these are just suspected to be missing
   new_na_values <- new_value_table$new_values[which(new_value_table$new_values >= 99900 )]
-  if (length(new_na_values)>0) warning("There are values exceeding 99990, these may be mising values.")
+  if (length(new_na_values)>0) warning("There are values exceeding 99990, these may be mising values.\n")
   new_na_values <- input_na_values
    
   # define new value - label pairs
@@ -255,9 +255,9 @@ harmonize_values <- function(
   new_numerics <- tibble::tibble( x = original_values$x ) %>%
     dplyr::left_join (original_numerics, by = 'x' )
   
-  ifelse ( is.null(labelled::na_values(x)), 
-           na_values, 
-           c())
+  #ifelse ( is.null(labelled::na_values(x)), 
+  #         na_values, 
+  #         c())
 
   na_value_labels <- na_values
 
