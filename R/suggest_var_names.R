@@ -79,7 +79,7 @@ suggest_var_names <- function( metadata,
 #' @details Established survey programs usually have their own variable name conventions. 
 #' The suggested constant names keep these variable names constant. 
 #' 
-#' @param survey_program Suggest permanent names for the survey progarm \code{"eurobarometer"}
+#' @param survey_program Suggest permanent names for the survey program \code{"eurobarometer"}
 #' @return A character vector with suggested permanent names.
 #' @family harmonization functions
 #' @examples 

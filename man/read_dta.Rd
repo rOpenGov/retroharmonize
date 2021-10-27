@@ -34,7 +34,7 @@ with some exception handling.
 \details{
 `read_dta()` reads both `.dta`  files.
 
-The funcion is not yet tested.
+The function is not yet tested.
 }
 \examples{
 \donttest{

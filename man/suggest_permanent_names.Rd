@@ -7,7 +7,7 @@
 suggest_permanent_names(survey_program = "eurobarometer")
 }
 \arguments{
-\item{survey_program}{Suggest permanent names for the survey progarm \code{"eurobarometer"}}
+\item{survey_program}{Suggest permanent names for the survey program \code{"eurobarometer"}}
 }
 \value{
 A character vector with suggested permanent names.

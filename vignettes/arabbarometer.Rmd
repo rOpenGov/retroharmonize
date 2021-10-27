@@ -340,7 +340,7 @@ harmonize_arabb_eval <- function(x){
 }
 ```
 
-The problem is that the numeric codes are not only used for the evaluation question, but also for country names.  Beware not to apply the election evaluation code tabel to the country names!
+The problem is that the numeric codes are not only used for the evaluation question, but also for country names.  Beware not to apply the election evaluation code table to the country names!
 
 ```{r harmonize-evaluations, eval=TRUE}
 harmonized_evaluations <- harmonize_waves( 
@@ -617,7 +617,7 @@ Daniel Antal, & Ahmed Shaibani. (2021). Replication Data for the retroharmonize 
 
 ### Citing the data sources
 
-Arab Baromeeter data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
+Arab Barometer data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
 
 
 ### Citing the retroharmonize R package

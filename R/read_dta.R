@@ -5,7 +5,7 @@
 #'
 #' @details `read_dta()` reads both `.dta`  files.
 #'
-#' The funcion is not yet tested.
+#' The function is not yet tested.
 #'
 #' @param file A STATA file.
 #' @param .name_repair Defaults to \code{"unique"} See 

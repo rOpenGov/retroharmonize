@@ -87,7 +87,7 @@ documented_ab_waves <- document_waves(ab_waves)
 print(documented_ab_waves)
 ```
 
-Create a metadata table, or a data map, that contains information about the variable names and labels, and where each row correspnds to one variable in the survey data file. We do this with the function `metadata_create()`, which extracts the metadata from the survery data files, normalizes variable labels, identifies ranges of substantive responses and missing value codes.
+Create a metadata table, or a data map, that contains information about the variable names and labels, and where each row corresponds to one variable in the survey data file. We do this with the function `metadata_create()`, which extracts the metadata from the survey data files, normalizes variable labels, identifies ranges of substantive responses and missing value codes.
 
 ```{r create-metadata, eval=FALSE}
 ab_metadata <- lapply ( X = ab_waves, FUN = metadata_create )
