@@ -190,6 +190,7 @@ codebook_create <- function ( metadata = NULL,
 
 #' @rdname codebook_create
 #' @family metadata functions
+#' @inheritParams merge_waves
 #' @examples
 #' \donttest{
 #' examples_dir <- system.file("examples", package = "retroharmonize")
@@ -199,7 +200,7 @@ codebook_create <- function ( metadata = NULL,
 #'   file.path( examples_dir, survey_list), 
 #'   save_to_rds = FALSE)     
 #' 
-#' codebook_waves_create (xample_surveys, to_harmonize )
+#' codebook_waves_create (example_surveys)
 #' }
 #' @export
 codebook_waves_create <- function ( waves ) {

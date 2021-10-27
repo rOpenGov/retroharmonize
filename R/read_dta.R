@@ -8,8 +8,6 @@
 #' The funcion is not yet tested.
 #'
 #' @param file A STATA file.
-#' @param user_na Should user-defined na_values be imported? Defaults
-#' to \code{TRUE}.
 #' @param .name_repair Defaults to \code{"unique"} See 
 #' \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.
 #' @inheritParams read_rds

@@ -15,7 +15,7 @@ survey(
 
 is.survey(df)
 
-\method{summary}{survey}(df, ...)
+\method{summary}{survey}(object = df, ..., df)
 }
 \arguments{
 \item{df}{A tibble or data frame that contains the survey data.}
@@ -25,6 +25,10 @@ is.survey(df)
 \item{filename}{The import file name.}
 
 \item{doi}{Optional doi, can be omitted.}
+
+\item{object}{an object for which a summary is desired.}
+
+\item{...}{additional arguments affecting the summary produced.}
 }
 \value{
 A tibble with \code{id},  \code{filename},  \code{doi} 

@@ -19,3 +19,4 @@
 ^\.rhub_check\.R$
 ^CRAN-RELEASE$
 ^\.github$
+^_pkgdown\.yml$

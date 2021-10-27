@@ -76,16 +76,22 @@ is.survey <- function (df) {
 }
 
 #' @rdname survey
+#' @inheritParams base::summary
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_cols mutate_all all_of
 #' @importFrom purrr set_names
 #' @export
-summary.survey <- function(df, ...) {
+summary.survey <- function(object = df, ..., df) {
+  # Need at least the same parameters on a Generic
+  # Here I gather df from object if the function has been called
+  # using positional parameters (i.e, summary.survey(mydf))
+  df <- object
+  
   if (!is.null(attr(df, "label"))) {
     cat(attr(df, "label"))
   }
   
-  print(summary(as_tibble(df)))
+  print(summary(as_tibble(df), ...))
   
   not_yet_implement <- function() {
     labelled_types <- names(df)[vapply ( df, function(x)inherits(x, "haven_labelled"), logical(1))]

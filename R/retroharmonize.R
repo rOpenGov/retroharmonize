@@ -24,7 +24,7 @@
 #' \code{\link{suggest_permanent_names}}: Suggest the use of variable naming conventions.
 #' @section variable label harmonization functions:
 #' Create consistent coding and labelling.\cr 
-#' \code{\link{create_coodbook}}: Create a codebook from the original SPSS variable codes and labels.\cr
+#' \code{\link{codebook_create}}: Create a codebook from the original SPSS variable codes and labels.\cr
 #' \code{\link{harmonize_values}}: Harmonize the label list across surveys.\cr
 #' \code{\link{harmonize_waves}}: Create a list of surveys with harmonized value labels.\cr
 #' \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
