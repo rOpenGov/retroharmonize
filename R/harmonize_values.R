@@ -220,10 +220,18 @@ harmonize_values <- function(
     )) %>%  #invalid labels should be treated elsewhere 
     dplyr::arrange( .data$new_values )
   
+  
+  original_values$x
   ## define new missing values, not with range
   ## A message should be given, these are just suspected to be missing
   new_na_values <- new_value_table$new_values[which(new_value_table$new_values >= 99900 )]
-  if (length(new_na_values)>0) message("There are values exceeding 99990, these may be mising values.\n")
+  
+  if (!is.null(na_values) & length(na_values)>0) {
+    potential_na_values <- original_values$x[which(original_values$x %in% as.numeric(na_values) )]
+    if (length(potential_na_values )>0) warning("There are values original values in the states new NA range. Make sure that these are not accidentally labelled as missing.\n")
+  }
+  
+  
   new_na_values <- input_na_values
    
   # define new value - label pairs

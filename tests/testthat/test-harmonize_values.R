@@ -21,6 +21,31 @@ h1 <- harmonize_values (
   harmonize_label = "Do you trust the European Union?"
 )
 
+var_warn <- labelled::labelled_spss(
+  x = c(1,0,1,1,0,8,99999), 
+  labels = c("TRUST" = 1, 
+             "NOT TRUST" = 0, 
+             "DON'T KNOW" = 8, 
+             "INAP. HERE" = 99999), 
+  na_values = c(8,9))
+
+
+test_that("warning works", {
+  expect_warning(harmonize_values (
+    x = var_warn , 
+    harmonize_labels = list ( 
+      from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
+      to = c("trust", "not_trust", "do_not_know", "inap"),
+      numeric_values = c(1,0,99997, 99999)), 
+    na_values = c("do_not_know" = 99997,
+                  "declined" = 99998,
+                  "inap" = 99999), 
+    id = "survey_id",
+    harmonize_label = "Do you trust the European Union?"
+  ))
+})
+
+
 test_that("casting works", {
   expect_equal(inherits(h1, "haven_labelled_spss"), TRUE)
   expect_equal(is.numeric(h1), TRUE)

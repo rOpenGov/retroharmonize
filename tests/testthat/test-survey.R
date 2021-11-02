@@ -1,5 +1,5 @@
 example_survey <- survey( 
-  df =data.frame ( 
+  object =data.frame ( 
     rowid = 1:6,
     observations = runif(6)), 
   id = 'example', 

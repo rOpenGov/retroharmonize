@@ -36,9 +36,9 @@ harmonize_eb_trust <- function(x) {
 
 merged_surveys <- merge_waves ( example_surveys, var_harmonization = to_harmonize  )
 
-harmonized <- harmonize_waves(waves = merged_surveys, 
-                .f = harmonize_eb_trust,
-                status_message = FALSE)
+harmonized <- suppressWarnings( harmonize_waves(waves = merged_surveys, 
+                                  .f = harmonize_eb_trust,
+                                  status_message = FALSE) )
 
 test_that("correct type is returned", {
   expect_true(is.labelled_spss_survey(harmonized$trust_in_institutions_army))
