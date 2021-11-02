@@ -33,8 +33,8 @@
 #' \code{\link{merge_waves}}: Create a list of surveys with harmonized names and variable labels.\cr 
 #' 
 #' @section documentation functions:
-#' \code{\link{metadata_create}} and \code{\link{metadata_waves_create}}
-#' \code{\link{codebook_create}} and \code{\link{codebook_waves_create}}
+#' \code{\link{metadata_create}} and \code{\link{metadata_waves_create}}\cr 
+#' \code{\link{create_codebook}} and \code{\link{codebook_waves_create}}
 #' 
 #' @section documentation functions:
 #' Make the workflow reproducible by recording the harmonization process.

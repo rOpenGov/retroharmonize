@@ -49,8 +49,8 @@ as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 
 \section{documentation functions}{
 
-\code{\link{metadata_create}} and \code{\link{metadata_waves_create}}
-\code{\link{codebook_create}} and \code{\link{codebook_waves_create}}
+\code{\link{metadata_create}} and \code{\link{metadata_waves_create}}\cr 
+\code{\link{create_codebook}} and \code{\link{codebook_waves_create}}
 
 
 Make the workflow reproducible by recording the harmonization process.
