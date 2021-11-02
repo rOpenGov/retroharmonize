@@ -1,7 +1,7 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# retroharmonize <a href='https://ropengov.github.io/retroharmonize/'><img src='man/figures/logo.png' align="right" height="139" /></a>
+# retroharmonize <a href='https://retroharmonize.dataobservatory.eu/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
