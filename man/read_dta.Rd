@@ -18,9 +18,6 @@ file name.}
 
 \item{.name_repair}{Defaults to \code{"unique"} See 
 \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.}
-
-\item{user_na}{Should user-defined na_values be imported? Defaults
-to \code{TRUE}.}
 }
 \value{
 A tibble.
