@@ -19,3 +19,9 @@
 ^\.rhub_check\.R$
 ^CRAN-RELEASE$
 ^\.github$
+^retroharmonize\.Rcheck$
+^retroharmonize.*\.tar\.gz$
+^retroharmonize.*\.tgz$
+^\._pkgdown\.yml$
+^pkgdown$
+^_pkgdown\.yml$

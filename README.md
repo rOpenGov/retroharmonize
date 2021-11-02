@@ -1,10 +1,11 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-# retroharmonize
+# retroharmonize <a href='https://ropengov.github.io/retroharmonize/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 <!-- badges: start -->
 
+[![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
 [![Project Status: Active. The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -14,9 +15,8 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5117890.svg)](https://doi.org/10.5281/zenodo.5117890)
-[![Codecov test
-coverage](https://codecov.io/gh/antaldaniel/retroharmonize/branch/master/graph/badge.svg)](https://codecov.io/gh/antaldaniel/retroharmonize?branch=master)
-[![R-CMD-check](https://github.com/antaldaniel/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
+[![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/main/graph/badge.svg)](https://app.codecov.io/gh/ropengov/retroharmonize)
+[![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow
 author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
 [![Follow
@@ -162,8 +162,9 @@ citation("retroharmonize")
 #> To cite package 'retroharmonize' in publications use:
 #> 
 #>   Daniel Antal (2021). retroharmonize: Ex Post Survey Data
-#>   Harmonization. R package version 0.1.18.
-#>   https://retroharmonize.dataobservatory.eu/
+#>   Harmonization. https://retroharmonize.dataobservatory.eu/,
+#>   https://ropengov.github.io/retroharmonize/,
+#>   https://github.com/rOpenGov/retroharmonize.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -171,8 +172,9 @@ citation("retroharmonize")
 #>     title = {retroharmonize: Ex Post Survey Data Harmonization},
 #>     author = {Daniel Antal},
 #>     year = {2021},
-#>     note = {R package version 0.1.18},
-#>     url = {https://retroharmonize.dataobservatory.eu/},
+#>     note = {https://retroharmonize.dataobservatory.eu/,
+#> https://ropengov.github.io/retroharmonize/,
+#> https://github.com/rOpenGov/retroharmonize},
 #>   }
 ```
 
