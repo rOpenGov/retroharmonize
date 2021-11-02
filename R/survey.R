@@ -1,22 +1,22 @@
 ## Constructor for new survey, not to be exported ---------------------
-new_survey <- function ( df = tibble::tibble(), 
+new_survey <- function ( object = tibble::tibble(), 
                          id = character(1), 
                          filename = character(1), 
                          doi = character(1)) { 
   
- validate_survey (df, id, filename, doi)
+ validate_survey (object, id, filename, doi)
 
- structure(df, 
+ structure(object, 
            id = id, 
            filename = filename, 
            doi = doi, 
-           class = c("survey", class ( df)))
+           class = c("survey", class ( object)))
   
 }
 
 ## Validator for survey class, not to be exported ---------------------
 
-validate_survey <- function (df, id, filename, doi ) {
+validate_survey <- function (object, id, filename, doi ) {
   
   if ( !is.null(filename)) {
     if ( (class (filename) != "character") && (length(filename) != 1) ) {
@@ -34,7 +34,7 @@ validate_survey <- function (df, id, filename, doi ) {
   if ( (class (id) != "character") && (length(id) != 1) ) stop ("The id must be a character of length 1L")
   
   assert_that(
-    inherits(df, "data.frame"),
+    inherits(object, "data.frame"),
     msg =  "df in validate_survey(df) must be a data.frame like object."
   )
 }
@@ -46,7 +46,7 @@ validate_survey <- function (df, id, filename, doi ) {
 #' Store the data of a survey in a tibble (data frame) with a unique
 #' survey identifier, import filename, and optional doi.
 #' 
-#' @param df A tibble or data frame that contains the survey data.
+#' @param object A tibble or data frame that contains the survey data.
 #' @param id A mandatory identifier for the survey
 #' @param filename The import file name.
 #' @param doi Optional doi, can be omitted.
@@ -54,7 +54,7 @@ validate_survey <- function (df, id, filename, doi ) {
 #' metadata information.
 #' @examples
 #' example_survey <- survey( 
-#'   df =data.frame ( 
+#'   object =data.frame ( 
 #'     rowid = 1:6,
 #'     observations = runif(6)), 
 #'   id = 'example', 
@@ -62,36 +62,38 @@ validate_survey <- function (df, id, filename, doi ) {
 #' )
 #' @export
 
-survey <- function ( df = data.frame(),
+survey <- function ( object = data.frame(),
                      id = character(), 
                      filename = character(), 
-                     doi = character()) { 
-  new_survey (df, id, filename, doi)
+                     doi = character()
+                     ) { 
+  new_survey (object, id, filename, doi)
   }
 
 #' @rdname survey
 #' @export
-is.survey <- function (df) {
-  inherits(df, "survey")
+is.survey <- function (object) {
+  inherits(object, "survey")
 }
 
 #' @rdname survey
+#' @param ... Arguments passed to summary method.
 #' @importFrom tibble as_tibble
 #' @importFrom dplyr bind_cols mutate_all all_of
 #' @importFrom purrr set_names
 #' @export
-summary.survey <- function(df, ...) {
-  if (!is.null(attr(df, "label"))) {
-    cat(attr(df, "label"))
+summary.survey <- function(object, ...) {
+  if (!is.null(attr(object, "label"))) {
+    cat(attr(object, "label"))
   }
   
-  print(summary(as_tibble(df)))
+  print(summary(as_tibble(object)))
   
   not_yet_implement <- function() {
-    labelled_types <- names(df)[vapply ( df, function(x)inherits(x, "haven_labelled"), logical(1))]
-    not_labelled_types <- df[!names(df) %in% labelled_types]
+    labelled_types <- names(object)[vapply ( object, function(x)inherits(x, "haven_labelled"), logical(1))]
+    not_labelled_types <- object[!names(object) %in% labelled_types]
     
-    labelled_cols <- df %>% 
+    labelled_cols <- object %>% 
       select ( all_of(labelled_types))  
     
     numeric_cols <- labelled_cols %>%
@@ -102,7 +104,7 @@ summary.survey <- function(df, ...) {
       set_names(  paste0(names(labelled_cols), "_factor")) %>%
       mutate_all ( as_factor )
     
-    df %>% select ( -all_of(labelled_types)) %>%
+    object %>% select ( -all_of(labelled_types)) %>%
       bind_cols(numeric_cols) %>%
       bind_cols(factor_cols) %>%
       as_tibble() %>%
