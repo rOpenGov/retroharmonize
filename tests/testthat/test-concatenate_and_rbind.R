@@ -7,6 +7,8 @@ var1 <- labelled::labelled_spss(
              "INAP. HERE" = 9), 
   na_values = c(8,9))
 
+var1
+
 var2 <- labelled::labelled_spss(
   x = c(2,2,8,9,1,1 ), 
   labels = c("Tend to trust" = 1, 
@@ -15,6 +17,7 @@ var2 <- labelled::labelled_spss(
              "Inap" = 9), 
   na_values = c(8,9))
 
+var2
 
 h1 <- harmonize_values (
   x = var1, 
@@ -41,7 +44,7 @@ h2 <- harmonize_values (
   id = "survey2"
 )
 
-h3 <- concatenate(h1, h2)
+h3 <- concatenate(x=h1, y=h2)
 
 test_that("correct values are returned", {
   expect_true (inherits(h3, "retroharmonize_labelled_spss_survey"))

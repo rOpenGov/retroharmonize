@@ -82,6 +82,7 @@ validate_concatenate <- function(x, y) {
   }
   
   if ( is.null(attr(x, "na_range")) ) {
+    # na_range consistency check
     if ( ! is.null(attr(y, "na_range")) ) {
       stop("The first (x) na_range is NULL, the second (y) is not.")
     }
