@@ -200,7 +200,7 @@ codebook_create <- function ( metadata = NULL,
 #'   file.path( examples_dir, survey_list), 
 #'   save_to_rds = FALSE)     
 #' 
-#' codebook_waves_create (xample_surveys, to_harmonize )
+#' codebook_waves_create (example_surveys)
 #' }
 #' @export
 
