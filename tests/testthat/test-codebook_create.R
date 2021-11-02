@@ -9,8 +9,8 @@ metadata_2 <- metadata
 metadata_2$user_var <- paste0(1:nrow(metadata), "_user")
 
 names (metadata )
-test_codebook <- codebook_create ( metadata )
-test_codebook_2 <- codebook_create ( metadata = metadata_2 )
+test_codebook <- create_codebook ( metadata )
+test_codebook_2 <- create_codebook ( metadata = metadata_2 )
 
 names ( test_codebook_2)
 
@@ -21,7 +21,7 @@ example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
   save_to_rds = FALSE)
 
-test_survey_codebook <- codebook_create  (survey = example_surveys[[1]])
+test_survey_codebook <- create_codebook  (survey = example_surveys[[1]])
 
 waves_codebook <- codebook_waves_create ( waves = example_surveys )
 
@@ -45,8 +45,8 @@ test_that("correct codebook contents are returned", {
   })
 
 test_that("error handling", {
-  expect_error ( codebook_create( survey = data.frame()) )
-  expect_error ( codebook_create(metadata = NULL, survey = NULL ))
+  expect_error ( create_codebook( survey = data.frame()) )
+  expect_error ( create_codebook(metadata = NULL, survey = NULL ))
 })
 
 
