@@ -44,3 +44,7 @@ not_included
 .RDataTmp
 /doc/
 /Meta/
+retroharmonize.Rcheck/
+retroharmonize*.tar.gz
+retroharmonize*.tgz
+docs/

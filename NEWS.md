@@ -1,5 +1,6 @@
 # retroharmonize 0.1.9
-* New function `read_dta()` for importing STATA files, not fully tested yet. 
+* New function `read_dta()` for importing STATA files, not fully tested yet.
+* Adding [rogtemplate](https://github.innominds.com/rOpenGov/rogtemplate) for more consistent ROpenGov documentation.
 
 # retroharmoinze 0.1.18
 * New functions `codebook_create()` and `codebook_waves_create()`
