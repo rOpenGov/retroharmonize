@@ -51,7 +51,7 @@ devtools::install_github("rOpenGov/retroharmonize")
 ```
 
 You can download the manual in PDF for the [0.2.0
-release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.20.pdf).
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.0.pdf).
 
 ## Retrospective data harmonization
 

@@ -48,7 +48,7 @@ The development version has new features with the `create_codebook()` functions.
 devtools::install_github("rOpenGov/retroharmonize")
 ```
 
-You can download the manual in PDF for the  [0.2.0 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.20.pdf).
+You can download the manual in PDF for the  [0.2.0 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.0.pdf).
 
 ## Retrospective data harmonization
 
