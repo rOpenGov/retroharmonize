@@ -85,7 +85,7 @@ harmonize_values <- function(
     
     ll_lengths <- vapply ( label_list[c("from", "to", "numeric_values")], length, numeric(1))
     
-    assertthat::assert_that(
+    assert_that(
       length(unique (ll_lengths))==1, 
       msg = paste0 ("The 'from', 'to', and 'numeric_values' vectors must be of equal length, currently it is: ", 
                     as.character( paste(ll_lengths, collapse = ", ")))
@@ -221,9 +221,9 @@ harmonize_values <- function(
     dplyr::arrange( .data$new_values )
   
   ## define new missing values, not with range
-  ## A warning should be given, these are just suspected to be missing
+  ## A message should be given, these are just suspected to be missing
   new_na_values <- new_value_table$new_values[which(new_value_table$new_values >= 99900 )]
-  if (length(new_na_values)>0) warning("There are values exceeding 99990, these may be mising values.\n")
+  if (length(new_na_values)>0) message("There are values exceeding 99990, these may be mising values.\n")
   new_na_values <- input_na_values
    
   # define new value - label pairs
