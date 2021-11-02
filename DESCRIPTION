@@ -30,7 +30,6 @@ Description: Assist in reproducible retrospective (ex-post) harmonization
     s3 classes.
 License: GPL-3
 URL: https://retroharmonize.dataobservatory.eu/,
-    https://ropengov.github.io/retroharmonize/,
     https://github.com/rOpenGov/retroharmonize
 BugReports: https://github.com/rOpenGov/retroharmonize/issues
 Depends: 
