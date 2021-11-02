@@ -15,6 +15,8 @@ codebook_waves_create(waves)
 \item{survey}{A survey data frame, defaults to \code{NULL}. If the survey is
 given as parameter, the metadata will be set to the metadata of this particular
 survey by \code{\link{metadata_create}}.}
+
+\item{waves}{A list of surveys.}
 }
 \value{
 A codebook for the survey as a data frame, including the metadata, and all found 

@@ -189,6 +189,7 @@ codebook_create <- function ( metadata = NULL,
 }
 
 #' @rdname codebook_create
+#' @param waves A list of surveys. 
 #' @family metadata functions
 #' @examples
 #' \donttest{
@@ -202,6 +203,7 @@ codebook_create <- function ( metadata = NULL,
 #' codebook_waves_create (xample_surveys, to_harmonize )
 #' }
 #' @export
+
 codebook_waves_create <- function ( waves ) {
   
   assertthat::assert_that( inherits(waves, "list"), 
