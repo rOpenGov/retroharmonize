@@ -1,6 +1,6 @@
 #' @title Suggest variable names
 #' 
-#' The function harmonizes the variable names of surveys (of class \code{survey}) that 
+#' @description The function harmonizes the variable names of surveys (of class \code{survey}) that 
 #' are imported from an external file as a wave.
 #' 
 #' @param metadata A metadata table created by \code{metadata_create} and binded together for 
