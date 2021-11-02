@@ -18,7 +18,7 @@
 #' @importFrom rlang set_names
 #' @family metadata functions
 #' @examples 
-#' codebook_create (
+#' create_codebook (
 #'  survey = read_rds (
 #'           system.file("examples", "ZA7576.rds",
 #'                       package = "retroharmonize")
@@ -26,7 +26,7 @@
 #' )
 #' @export
 
-codebook_create <- function ( metadata = NULL, 
+create_codebook <- function ( metadata = NULL, 
                               survey = NULL) {
   
   assertthat::assert_that(
@@ -188,7 +188,7 @@ codebook_create <- function ( metadata = NULL,
   }
 }
 
-#' @rdname codebook_create
+#' @rdname create_codebook
 #' @param waves A list of surveys. 
 #' @family metadata functions
 #' @examples
@@ -213,7 +213,7 @@ codebook_waves_create <- function ( waves ) {
   assertthat::assert_that( all(unlist (lapply ( waves, function(x) inherits (x, "survey") ))), 
                            msg = "Every elements of the wave list must be of type survey.")
   
-  codebook_list <- lapply ( waves, function(x) codebook_create (survey = x))
+  codebook_list <- lapply ( waves, function(x) create_codebook (survey = x))
   
   do.call ( rbind, codebook_list )
 }
