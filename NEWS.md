@@ -1,6 +1,6 @@
 # retroharmonize 0.2.0
 * Adding [rogtemplate](https://github.innominds.com/rOpenGov/rogtemplate) for more consistent ROpenGov documentation.
-* Several documentation good practices. (Thanks for the contribution from [\@dieghernan](@dieghernan)).
+* Several documentation good practices. (Thanks for the contribution from [\@dieghernan](https://github.com/dieghernan)).
 * The former *create_codebook()* function is now `create_codebook()` for naming consistency.
 
 # retroharmonize 0.1.9

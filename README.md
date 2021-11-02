@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5639098.svg)](https://doi.org/10.5281/zenodo.5639098)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5639435.svg)](https://doi.org/10.5281/zenodo.5639435)
 [![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
 [![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow
