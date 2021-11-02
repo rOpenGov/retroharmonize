@@ -2,7 +2,7 @@
 % Please edit documentation in R/suggest_var_names.R
 \name{suggest_permanent_names}
 \alias{suggest_permanent_names}
-\title{Suggest Permanent Names}
+\title{Suggest permanent names}
 \usage{
 suggest_permanent_names(survey_program = "eurobarometer")
 }

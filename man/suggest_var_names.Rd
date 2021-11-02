@@ -2,10 +2,7 @@
 % Please edit documentation in R/suggest_var_names.R
 \name{suggest_var_names}
 \alias{suggest_var_names}
-\title{Suggest Variable Names
-
-The function harmonizes the variable names of surveys (of class \code{survey}) that 
-are imported from an external file as a wave.}
+\title{Suggest variable names}
 \usage{
 suggest_var_names(
   metadata,
@@ -30,8 +27,6 @@ called with this parameter, unless it is also \code{NULL}}
 A \code{metadata} tibble augmented with $var_name_suggested
 }
 \description{
-Suggest Variable Names
-
 The function harmonizes the variable names of surveys (of class \code{survey}) that 
 are imported from an external file as a wave.
 }

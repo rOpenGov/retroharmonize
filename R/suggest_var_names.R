@@ -1,4 +1,4 @@
-#' @title Suggest Variable Names
+#' @title Suggest variable names
 #' 
 #' The function harmonizes the variable names of surveys (of class \code{survey}) that 
 #' are imported from an external file as a wave.
@@ -72,7 +72,7 @@ suggest_var_names <- function( metadata,
   }
 } 
 
-#' @title Suggest Permanent Names
+#' @title Suggest permanent names
 #' 
 #' @description Suggest the use of established naming conventions. 
 #' 

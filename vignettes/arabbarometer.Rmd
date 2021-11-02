@@ -241,7 +241,7 @@ Let's take a look at the variables:
 lapply (merged_ab_elections, names)
 ```
 
-The variable harmonization took place, but the variable names are not very practical for programmatic use. We apply snakecase variable naming:
+The variable harmonization took place, but the variable names are not very practical for programmatic use. We apply `snakecase` variable naming:
 
 ```{r snakecase, message=FALSE}
 library(snakecase)
@@ -617,7 +617,7 @@ Daniel Antal, & Ahmed Shaibani. (2021). Replication Data for the retroharmonize 
 
 ### Citing the data sources
 
-Arab Baromeeter data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
+Arab Barometer data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
 
 
 ### Citing the retroharmonize R package
