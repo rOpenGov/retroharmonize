@@ -1,13 +1,10 @@
-Package: retroharmonize
 Type: Package
+Package: retroharmonize
 Title: Ex Post Survey Data Harmonization
 Version: 0.1.19
 Date: 2021-07-21
-Authors@R: 
-    c(person(given = "Daniel",
-           family = "Antal",
-           role = c("aut", "cre"),
-           email = "daniel.antal@ceemid.eu",
+Authors@R: c(
+    person("Daniel", "Antal", , "daniel.antal@ceemid.eu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760")),
       person(given = "Marta",
            family = "Kolczynska",
@@ -25,49 +22,55 @@ Authors@R:
              )
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
-Description: Assist in reproducible retrospective (ex-post) harmonization of data,
-    particularly individual level survey data, by providing tools for organizing metadata,
-    standardizing the coding of variables, and variable names and value labels, 
-    including missing values, and documenting the data transformations,
-    with the help of comprehensive s3 classes.
+Description: Assist in reproducible retrospective (ex-post) harmonization
+    of data, particularly individual level survey data, by providing tools
+    for organizing metadata, standardizing the coding of variables, and
+    variable names and value labels, including missing values, and
+    documenting the data transformations, with the help of comprehensive
+    s3 classes.
 License: GPL-3
-Encoding: UTF-8
-Language: en-US
-URL: https://retroharmonize.dataobservatory.eu/
+URL: https://retroharmonize.dataobservatory.eu/,
+    https://ropengov.github.io/retroharmonize/,
+    https://github.com/rOpenGov/retroharmonize
 BugReports: https://github.com/rOpenGov/retroharmonize/issues
-LazyData: true
-Imports: 
-    vctrs,
-    haven,
-    dplyr (>= 1.0.0),
-    magrittr,
-    stats,
-    tibble,
-    labelled,
-    methods,
-    rlang,
-    fs,
-    assertthat,
-    tidyselect,
-    pillar,
-    snakecase,
-    purrr,
-    tidyr,
-    here,
-    glue,
-    stringr,
-    utils
-RoxygenNote: 7.1.1
 Depends: 
     R (>= 3.5.0)
+Imports: 
+    assertthat,
+    dplyr (>= 1.0.0),
+    fs,
+    glue,
+    haven,
+    here,
+    labelled,
+    magrittr,
+    methods,
+    pillar,
+    purrr,
+    rlang,
+    snakecase,
+    stats,
+    stringr,
+    tibble,
+    tidyr,
+    tidyselect,
+    utils,
+    vctrs
 Suggests: 
-    knitr,
-    rmarkdown,
     covr,
-    testthat (>= 3.0.0),
-    png,
-    spelling,
+    ggplot2,
+    knitr,
     markdown,
-    ggplot2
-VignetteBuilder: knitr
+    png,
+    rmarkdown,
+    spelling,
+    testthat (>= 3.0.0)
+VignetteBuilder: 
+    knitr
 Config/testthat/edition: 3
+Encoding: UTF-8
+Language: en-US
+LazyData: true
+RoxygenNote: 7.1.2
+X-schema.org-isPartOf: http://ropengov.org/
+X-schema.org-keywords: ropengov
