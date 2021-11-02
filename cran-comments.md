@@ -12,14 +12,17 @@
 ### rhub
 * Fedora Linux, R-devel, clang, gfortran, on r_hub
 * Ubuntu Linux 20.04.1 LTS, R-release, GCC, on r_hub
+* 
 
 ## R CMD check results
 There were no ERRORs or WARNINGs. 
 
+There is one NOTE:
 
-## Submission 0.1.16
+installed size is  5.7Mb
+     sub-directories of 1Mb or more:
+       doc        1.1Mb
+       examples   1.9Mb
 
-This is a minor release with very limited new functionality and a few bug fixes. We implemented some good coding practices and brought the non-standard evaluation in many places in line with the tidyverse 1.0+ dependencies.
-
-The novelty of the package is the new vignette working with Arab Barometer survey files. We are improving the code quality and documentation by applying the software to newer data sources, which we document in the vignettes.  The vignettes are only partly evaluated on CRAN, with a very small subset of the data used.  We do not have the rights to republish the original datasets, and it would be also very impracitcal because of the amount of the data and the file sizes involved.
-
+The size of the package did not increse since the last release on CRAN.  Because of the nature of the package (harmonizing real-life surveys) the
+examples are relatively great in size (with permission, we use small subsets of actual Eurobarometer surveys.) This makes unit-testing and documenting with vignettes much easier and more realistic for the user.

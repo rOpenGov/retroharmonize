@@ -1,6 +1,11 @@
-# retroharmonize 0.1.9
-* New function `read_dta()` for importing STATA files, not fully tested yet.
+# retroharmonize 0.2.0
 * Adding [rogtemplate](https://github.innominds.com/rOpenGov/rogtemplate) for more consistent ROpenGov documentation.
+* Several documentation good practices. (Thanks for the contribution from [\@dieghernan](@dieghernan)).
+* The former *create_codebook()* function is now `create_codebook()` for naming consistency.
+* `haronize_vaues()` throws a message and not a warning when suspectedly missing values are present in the harmonized data frame.
+
+# retroharmonize 0.1.9
+* New function `read_dta()` for importing STATA files.
 
 # retroharmoinze 0.1.18
 * New functions `codebook_create()` and `codebook_waves_create()`
@@ -41,16 +46,3 @@ retroharmonize 0.1.6-0.1.12 are making the package ready for CRAN release.
 
 * Added a `NEWS.md` file to track changes to the package.
 * Class definition and description.
-
-
-
-
-
-
-
-
-
-
-
-
-
