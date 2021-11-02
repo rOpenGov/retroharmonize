@@ -153,8 +153,8 @@ metadata_create <- function( survey ) {
     select ( -.data$label_type )
 }
 
-#' @title Create a metadata table
-#' @rdname metadat_create
+#' @title Create a metadata table from several surveys
+#' @rdname metadata_create
 #' @param survey_list A list containing surveys of class survey.
 #' @family metadata functions
 #' @examples
