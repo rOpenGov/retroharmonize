@@ -2,10 +2,13 @@
 % Please edit documentation in R/metadata_create.R
 \name{metadata_create}
 \alias{metadata_create}
+\alias{metadata_surveys_create}
 \alias{metadata_waves_create}
 \title{Create a metadata table}
 \usage{
 metadata_create(survey)
+
+metadata_surveys_create(survey_list)
 
 metadata_waves_create(survey_list)
 }
@@ -24,7 +27,7 @@ Create a metadata table from the survey data files.
 \details{
 A data frame like tibble ojbect is returned. 
 In case you are working with a list of surveys (waves), call 
-\code{\link{metadata_waves_create}}, which is a wrapper around 
+\code{\link{metadata_surveys_create}}, which is a wrapper around 
 a list of  \code{\link{metadata_create}} calls.
 
 The structure of the returned tibble:
@@ -43,6 +46,8 @@ The structure of the returned tibble:
   \item{n_na_labels}{Number of categories of the variable, should be the sum of the former two.}
   \item{na_levels}{A list of the user-defined missing values.}
 }
+
+The form \code{metadata_waves_create} is deprecated.
 }
 \examples{
 metadata_create (

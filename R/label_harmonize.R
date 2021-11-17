@@ -3,15 +3,15 @@
 #' \code{label_normalize} removes special characters, whitespace, 
 #' and other typical typing errors.
 #' 
-#' \code{var_label_normalize} changes the vector to snake_case.
-#' \code{val_label_normalize} removes possible chunks from question
-#' identifiers.
+#' \code{var_label_normalize} and \code{val_label_normalize} removes possible 
+#' chunks from question identifiers.
 #' 
 #' The functions \code{var_label_normalize} and 
 #' \code{val_label_normalize} may 
 #' be differently implemented for various survey series.
 #' 
 #' @param x A character vector of labels to be normalized.
+#' @importFrom snakecase to_snake_case
 #' @examples 
 #' label_normalize (
 #' c("Don't know", " TRUST", "DO NOT  TRUST", 
@@ -28,6 +28,9 @@
 #'         " Do you trust the European Commission")
 #'         )
 #' @family variable label harmonization functions
+#' @return Returns a suggested, normalized label without special characters. The 
+#' \code{var_label_normalize} and \code{val_label_normalize} returns them in 
+#' \code{snake_case} for programmatic use.
 #' @export
 
 label_normalize <- function(x) {
@@ -77,7 +80,7 @@ var_label_normalize <- function(x) {
   y <- label_normalize(y)
   y <- gsub(' +',' ',y) 
   y <- trimws(tolower(as.character(y)), which = "both")
-  y
+  snakecase::to_snake_case(y)
 }
 
 #' @rdname label_normalize 
