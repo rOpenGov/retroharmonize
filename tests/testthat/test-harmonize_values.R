@@ -52,6 +52,9 @@ test_that("casting works", {
   expect_equal(is.double(h1), TRUE)
 })
 
+h1
+
+
 test_that("attributes work", {
   expect_equal(attr(h1, "label"), "Do you trust the European Union?")
   expect_equal(attr(h1, "id"), "survey_id")
@@ -146,4 +149,25 @@ test_that("exception handling works", {
   ))
 })
 
+mc_var <- labelled::labelled_spss(
+  x = c(1,0,1,1,0,8,9), 
+  labels = c("Mentioned" = 1, 
+             "Not mentioned" = 0, 
+             "DON'T KNOW" = 8, 
+             "INAP. HERE" = 9), 
+  na_values = c(8,9))
+
+
+h_mc <- harmonize_values (
+  x = mc_var, 
+  harmonize_labels = list ( 
+    from = c("^mentioned", "^not mentioned", "^dk|^don", "^inap"), 
+    to = c("mentioned", "not_mentioned", "do_not_know", "inap"),
+    numeric_values = c(1,0,99997, 99999), 
+    na_values = NULL) 
+)
+
+test_that("properly working with labels that contain each other", {
+  expect_equal(unique(as_character(h_mc)), c("mentioned", "not_mentioned", "do_not_know", "inap"))
+})
 

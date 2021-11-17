@@ -34,9 +34,9 @@ harmonize_eb_trust <- function(x) {
   )
 }
 
-merged_surveys <- merge_waves ( example_surveys, var_harmonization = to_harmonize  )
+merged_surveys <- merge_surveys ( example_surveys, var_harmonization = to_harmonize  )
 
-harmonized <- suppressWarnings( harmonize_waves(waves = merged_surveys, 
+harmonized <- suppressWarnings( harmonize_surveys(waves = merged_surveys, 
                                   .f = harmonize_eb_trust,
                                   status_message = FALSE) )
 
