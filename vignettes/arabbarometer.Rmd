@@ -49,9 +49,9 @@ knitr::opts_chunk$set(
 ```{r load-pkgs, echo=FALSE, message=FALSE}
 library(retroharmonize)
 library(dplyr, quietly=TRUE)
-library(tidyr)
-library(ggplot2)
-library(knitr)
+library(tidyr, quietly=TRUE)
+library(ggplot2, quietly=TRUE)
+library(knitr, quietly=TRUE)
 load(file = system.file(
   # the first steps are saved becasue of 
   # large file/object sizes.
@@ -113,11 +113,11 @@ attr(arab_waves[[5]],"id") <- "Arab_Barometer_4"
 save(arab_waves, file = here("not_included", "arab_waves.rda"))
 ```
 
-We use `document_waves()`to see the primary descriptive information of our survey wave (one harmonized survey set) files. Visually check that the file names correspond with the meaningful IDs that you gave to each survey wave, i.e., `Arab_Barometer_1` corresponds with `ABI_English.sav`.
+We use `document_surveys()`to see the primary descriptive information of our survey wave (one harmonized survey set) files. Visually check that the file names correspond with the meaningful IDs that you gave to each survey wave, i.e., `Arab_Barometer_1` corresponds with `ABI_English.sav`.
 
 ```{r document-arab-waves, eval=FALSE}
 # In the vignette this is pre-loaded.
-documented_arab_waves <- document_waves(arab_waves)
+documented_arab_waves <- document_surveys(arab_waves)
 ```
 
 ```{r print_documented_arab_waves}
@@ -132,8 +132,7 @@ In this step, we build a comprehensive metadata table that maps information abou
 
 ```{r create-arabb-metadata, eval=FALSE}
 # In the vignette this is pre-loaded.
-arabbarometer_metadata <- lapply ( X = arab_waves, FUN = metadata_create)
-arabbarometer_metadata <- do.call(rbind, arabbarometer_metadata)
+arabbarometer_metadata <- metadata_surveys_create(arab_waves)
 ```
 
 Let's randomly review some metadata:
@@ -178,8 +177,10 @@ sample_n(to_harmonize_elections%>%
 ```
 
 ```{r country-labels-example, include=FALSE}
-country_labels <- collect_val_labels (to_harmonize_elections %>% 
-                      filter (.data$var_name == "country")) 
+country_labels <- collect_val_labels (
+    to_harmonize_elections %>% 
+                      filter (.data$var_name == "country")
+    ) 
 
 algeria_labels <- paste0("`", 
                          paste(country_labels[grepl("lgeria" , country_labels)], collapse = '`, `'), 
@@ -191,12 +192,12 @@ algeria_labels <- paste0("`",
 
 In this case, the variable name harmonization is a simple task. The names need a bit of normalization for programmatic use.
 
-The function `merge_waves()` harmonizes the variable names, the variable labels, the survey identifiers, and returns a list of surveys (of `class survey()`.) The parameter _var_harmonization_ must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the function correctly makes the harmonization steps.
+The function `merge_surveys()` harmonizes the variable names, the variable labels, the survey identifiers, and returns a list of surveys (of `class survey()`.) The parameter _var_harmonization_ must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the function correctly makes the harmonization steps.
 
 ```{r merge-arabb-waves, eval=FALSE}
 # In the vignette this is pre-loaded.
-merged_ab_elections <- merge_waves(
-  waves = arab_waves, 
+merged_ab_elections <- merge_surveys(
+  survey_list = arab_waves, 
   var_harmonization = to_harmonize_elections)
 ```
 
@@ -215,8 +216,8 @@ to_harmonize_economy <- arabbarometer_metadata %>%
 ```
 
 ```{r merged_ab_economic-to-save, include=FALSE, eval=FALSE}
-merged_ab_economic  <- merge_waves ( 
-  waves = arab_waves, 
+merged_ab_economic  <- merge_surveys ( 
+  survey_list = arab_waves, 
   var_harmonization = to_harmonize_economy )
 
 merged_ab_economic  <- lapply ( merged_ab_economic, 
@@ -232,7 +233,7 @@ save (merged_ab_elections, merged_ab_economic,
 ```
 
 ```{r document-merged-ab}
-document_waves(merged_ab_elections)
+document_surveys(merged_ab_elections)
 ```
  
 Let's take a look at the variables: 
@@ -280,12 +281,12 @@ ab_elections <- lapply(ab_elections, function(x){
 ```
 
 ```{r print-remaining-waves}
-document_waves(ab_elections)
+document_surveys(ab_elections)
 ```
 
 ### Variable Label Harmonization 
 
-The R language uses special NA values for missing values.  These are differently encoded in SPSS, and in various survey programs unfortunately are not always consistently used.  Compared to our Eurobarometer and Afrobarometer use cases, the Arab Barometer needs particularly lot of harmonization, because
+The R language uses special `NA` values for missing values.  These are differently encoded in SPSS, and in various survey programs unfortunately are not always consistently used.  Compared to our Eurobarometer and Afrobarometer use cases, the Arab Barometer needs particularly lot of harmonization, because
 -	The published Arab Barometer files do not contain either missing range, nor the explicitly stated missing cases, and the values that refer to various missing cases are mixed with valid values;
 -	The missing cases, like the valid cases, are labelled inconsistently. 
 
@@ -340,11 +341,11 @@ harmonize_arabb_eval <- function(x){
 }
 ```
 
-The problem is that the numeric codes are not only used for the evaluation question, but also for country names.  Beware not to apply the election evaluation code tabel to the country names!
+The problem is that the numeric codes are not only used for the evaluation question, but also for country names.  Beware not to apply the election evaluation code table to the country names!
 
 ```{r harmonize-evaluations, eval=TRUE}
-harmonized_evaluations <- harmonize_waves( 
-  waves = lapply ( ab_elections, function(x) x %>% 
+harmonized_evaluations <- harmonize_surveys( 
+  survey_list = lapply ( ab_elections, function(x) x %>% 
                      select (-.data$country)), 
   .f =harmonize_arabb_eval )
 ```
@@ -367,9 +368,9 @@ normalize_country_names <- function(x) {
 ```
 
 ```{r harmonize-countries}
-harmonize_countries <- lapply ( ab_elections, 
-                                function(x) x %>% 
-                                          select ( -.data$evaluation_in_the_last_parliamentary_elections)
+harmonize_countries <- lapply (
+  X = ab_elections, function(x) { x %>% 
+      select ( -.data$evaluation_in_the_last_parliamentary_elections) }
                                 )
 harmonized_countries <- lapply ( harmonize_countries, function(x) x %>%
                 mutate ( country = normalize_country_names(.data$country)) %>%
@@ -395,9 +396,9 @@ harmonized_ab_dataset <- harmonized_countries  %>%
   rename ( eval_parl = .data$evaluation_in_the_last_parliamentary_elections) %>%
   mutate ( 
     wave = as_factor(gsub(".*(\\b[A-Z0-9]+).*", "\\1", .data$unique_id_ab_english)),
-    weight = ifelse(is.na(.data$weight), 1, .data$weight), 
+    weight     = ifelse(is.na(.data$weight), 1, .data$weight), 
     eval_parl = as_factor(.data$eval_parl), 
-    country = as_factor(.data$country)) 
+    country   = as_factor(.data$country)) 
 
 summary(harmonized_ab_dataset)
 ```
@@ -412,7 +413,7 @@ Due to the categorical format of the question of MENA parliamentary election eva
 categorical_summary <- harmonized_ab_dataset %>%
   select ( -all_of(c("unique_id_ab_english")) )  %>%
   group_by ( .data$country, .data$wave, .data$eval_parl ) %>%
-  summarize (n = n(),
+  summarize (n        = n(),
              weighted = round(n*weight, 0)
              ) %>%
   ungroup() 
@@ -435,7 +436,7 @@ numeric_summary <- harmonized_ab_dataset %>%
   mutate ( eval_parl = as_numeric(.data$eval_parl)) %>%
   group_by ( .data$country, .data$wave ) %>%
   summarize (
-    mean = weighted.mean(.data$eval_parl, w = .data$weight),
+    mean   = weighted.mean(.data$eval_parl, w = .data$weight),
     median = median(.data$eval_parl)
   ) %>%
   ungroup() 

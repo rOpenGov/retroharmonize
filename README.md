@@ -24,11 +24,11 @@ rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](http
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to facilitate retrospective (ex-post)
-harmonization of data, particularly survey data, in a reproducible
-manner. The package provides tools for organizing the metadata,
-standardizing the coding of variables, variable names and value labels,
-including missing values, and for documenting all transformations, with
-the help of comprehensive S3 classes.
+harmonization of survey data in a reproducible manner. The package
+provides tools for organizing the metadata, standardizing the coding of
+variables, variable names and value labels, including missing values,
+and for documenting all transformations, with the help of comprehensive
+S3 classes.
 
 Currently being generalized from problems solved in the not yet released
 [eurobarometer](https://github.com/antaldaniel/eurobarometer) package
@@ -55,32 +55,65 @@ release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.0.pdf).
 
 ## Retrospective data harmonization
 
-The aim of `retroharmonize` is to provide tools for reproducible
-retrospective (ex-post) harmonization of datasets that contain variables
-measuring the same concepts but coded in different ways. Ex-post data
-harmonization enables better use of existing data and creates new
-research opportunities. For example, harmonizing data from different
-countries enables cross-national comparisons, while merging data from
-different time points makes it possible to track changes over time.
+Survey data harmonization refers to procedures that improve the data
+comparability or the inferential capacity of multiple surveys. *Ex-post*
+or retrospective harmonization refers to the procedures applied to data
+that is already collected, while *ex ante* harmonization refers to
+survey design that makes future retrospective harmonization easier or
+more complete. From a computational point of view, the tasks are very
+similar or identical. The *ex ante* harmonization refers to procedures
+followed before the primary data is collected in order to make later
+data harmonization easier or more complete.
 
-Retrospective data harmonization is associated with challenges including
-conceptual issues with establishing equivalence and comparability,
-practical complications of having to standardize the naming and coding
-of variables, technical difficulties with merging data stored in
-different formats, and the need to document a large number of data
-transformations. The `retroharmonize` package assists with the latter
-three components, freeing up the capacity of researchers to focus on the
-first.
+Our reproducible workflow aims to arrive to a single data frame that
+contains the observations joined from different surveys, with harmonized
+coding and labelling. Conceptually, we can work with two versions of two
+workflows. Sometimes it may be practical to alter the variable class and
+the label/code harmonization.
 
-Specifically, the `retroharmonize` package proposes a reproducible
-workflow, including a new class for storing data together with the
-harmonized and original metadata, as well as functions for importing
-data from different formats, harmonizing data and metadata, documenting
-the harmonization process, and converting between data types. See
+1.  Harmonize concepts -&gt; Tidy datasets -&gt; Harmonize variable
+    names -&gt; Harmonize variable classes -&gt; Harmonize labels and
+    codes -&gt; Join data
+
+2.  Harmonize concepts -&gt; Tidy datasets -&gt; Harmonize variable
+    names -&gt; Harmonize labels and codes - &gt; Harmonize variable
+    classes -&gt; Join data
+
+3.  Harmonize concepts -&gt; Tidy datasets -&gt; Harmonize labels and
+    codes -&gt; Harmonize variable classes -&gt; Harmonize names -&gt;
+    Join data
+
+If you are planning to analyze the data in R, you are likely to want to
+have all the data in numeric or factor classes, because these are the
+variable types that are supported by many statistical functions in many
+packages. If you prefer to use a different analytical software, the
+joined, longitudional data frame must be exported in a consistent
+manner.
+
+The first workflow is relatively easy to implement when the number of
+variables to be harmonized is relatively low.
+
+## Working with SPSS files
+
+Survey data is often available in SPSS’s custom labelled format.
+Unfortunately, joining data with different labelling is not possible.
+When you work with first workflow, and you do not need to preserve the
+history of complex harmonization problems, codebook, etc, then you do
+not necessary need to look under the hoods of our S3 classes.
+
+For more complex and reproducible cases, particularly which involve SPSS
+files, the `retroharmonize` package introduces a new class for storing
+data together with the harmonized and original metadata, as well as
+functions for importing data from different formats, harmonizing data
+and metadata, documenting the harmonization process, and converting
+between data types. See
 [here](https://retroharmonize.dataobservatory.eu/reference/retrohamonize.html)
 for an overview of the functionalities.
 
-The new `labelled_spss_survey()` class is an extension of [haven’s
+We rely on the haven package to import SPSS classes, which inherits the
+labelled class from labelled. The haven package is not designed to
+harmonize dissimilarly coded SPSS files. The new
+`labelled_spss_survey()` class is an inherited extension of [haven’s
 labelled\_spss
 class](https://haven.tidyverse.org/reference/labelled_spss.html). It not
 only preserves variable and value labels and the user-defined missing
@@ -101,6 +134,8 @@ In [Harmonize Value
 Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html)
 we discuss the characteristics of the `labelled_spss_survey()` class and
 demonstrates the problems that using this class solves.
+
+## Use Cases
 
 We also provide three extensive case studies illustrating how the
 `retroharmonize` package can be used for ex-post harmonization of data
@@ -161,7 +196,6 @@ citation("retroharmonize")
 #> 
 #>   Daniel Antal (2021). retroharmonize: Ex Post Survey Data
 #>   Harmonization. https://retroharmonize.dataobservatory.eu/,
-#>   https://ropengov.github.io/retroharmonize/,
 #>   https://github.com/rOpenGov/retroharmonize.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -171,7 +205,6 @@ citation("retroharmonize")
 #>     author = {Daniel Antal},
 #>     year = {2021},
 #>     note = {https://retroharmonize.dataobservatory.eu/,
-#> https://ropengov.github.io/retroharmonize/,
 #> https://github.com/rOpenGov/retroharmonize},
 #>   }
 ```

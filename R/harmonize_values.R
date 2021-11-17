@@ -1,4 +1,5 @@
-#' Harmonize the values and labels of labelled vectors
+#' @title Harmonize the values and labels of labelled vectors
+#' 
 #' 
 #' @param x A labelled vector
 #' @param harmonize_label A character vector of 1L containing the new,
@@ -65,9 +66,11 @@ harmonize_values <- function(
   remove = NULL,
   perl = FALSE ) {
   
+  if (is.null(na_values)) input_na_values <- NULL
+  
   if ( is.null(na_values)[1]|is.na(na_values)[1]) {
     if ( "na_values" %in% names( harmonize_labels) ) {
-      input_na_values <- na_values
+      input_na_values  <- na_values
       harmonize_labels <- harmonize_labels[c("from", "to", "numeric_values")]
     }
   } else {
@@ -123,6 +126,7 @@ harmonize_values <- function(
   ## Get the original object name for recording it as metadata
   original_x_name <- deparse(substitute(x))  
   
+  ## Harmonize SPSS variable labels, if they exist
   if (is.null(harmonize_label)) harmonize_label <- labelled::var_label(x)
   if (is.null(harmonize_label)) harmonize_label <- original_x_name
   
@@ -144,7 +148,6 @@ harmonize_values <- function(
     harmonize_labels$from <- gsub(remove, "", harmonize_labels$from)
     original_values$orig_labels <- gsub(remove, "", original_values$orig_labels)
   }
-
   
   if (is.na_range_to_values(x)) {
     x <- na_range_to_values(x)
@@ -152,11 +155,14 @@ harmonize_values <- function(
 
   if (! is.null(harmonize_labels) ) {
     
+    condition_string <- tolower(gsub("\\.|\\(|\\)", "", harmonize_labels$from))
+    codebook_string <- tolower(gsub("\\.|\\(|\\)", "", original_values$orig_labels))
+    
     original_values$orig_labels <- if_else ( 
       #label == "" if not in the harmonization list
-      condition = grepl(paste ( tolower(harmonize_labels$from), collapse = "|"), 
-                   tolower(original_values$orig_labels), perl = perl), 
-      true = tolower(original_values$orig_labels), 
+      condition = grepl(paste (condition_string , collapse = "|"), 
+                        codebook_string, perl = perl), 
+      true = codebook_string, 
       false  = "") 
     
     code_table <- dplyr::distinct_all(original_values)
@@ -164,9 +170,14 @@ harmonize_values <- function(
     code_table$new_labels <- NA_character_
     code_table$new_values <- NA_real_
     
-    for ( o in seq_along (harmonize_labels$from )) { 
-      code_table$new_labels [which ( grepl ( tolower(harmonize_labels$from[o]), str))] <- harmonize_labels$to[o]
-      code_table$new_values [which ( grepl ( tolower(harmonize_labels$from[o]), str))] <- harmonize_labels$numeric_values[o]
+    for ( o in seq_along (harmonize_labels$from) ) { 
+      from_string <- tolower(gsub("\\.|\\(|\\)", "", harmonize_labels$from[o]))
+      
+      code_table$new_labels [which ( grepl ( from_string, str))] <- harmonize_labels$to[o]
+      code_table$new_values [which ( grepl ( from_string, str))] <- harmonize_labels$numeric_values[o]
+      
+      #code_table$new_labels [which ( tolower(harmonize_labels$from[o]) == str) ] <- harmonize_labels$to[o]
+      #code_table$new_values [which ( tolower(harmonize_labels$from[o]) == str) ] <- harmonize_labels$numeric_values[o]
       }
     
     old_code <- function () {

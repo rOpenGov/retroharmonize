@@ -3,11 +3,14 @@
 \name{create_codebook}
 \alias{create_codebook}
 \alias{codebook_waves_create}
+\alias{codebook_surveys_create}
 \title{Create a codebook}
 \usage{
 create_codebook(metadata = NULL, survey = NULL)
 
 codebook_waves_create(waves)
+
+codebook_surveys_create(survey_list)
 }
 \arguments{
 \item{metadata}{A metadata table created by \code{\link{metadata_create}}. Defaults to \code{NULL}.}
@@ -17,6 +20,8 @@ given as parameter, the metadata will be set to the metadata of this particular
 survey by \code{\link{metadata_create}}.}
 
 \item{waves}{A list of surveys.}
+
+\item{survey_list}{A list containing surveys of class survey.}
 }
 \value{
 A codebook for the survey as a data frame, including the metadata, and all found 
@@ -45,7 +50,7 @@ example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
   save_to_rds = FALSE)     
 
-codebook_waves_create (example_surveys)
+codebook_surveys_create (example_surveys)
 }
 }
 \seealso{

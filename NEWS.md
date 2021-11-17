@@ -1,3 +1,6 @@
+# retroharmonize 0.2.2
+* All functions containing 'wave' in the name are deprecated.  Survey 'waves' are renamed to 'survey_list', because 'waves' is used in Eurobarometer and a more generaic and standardized interface was built.
+
 # retroharmonize 0.2.0
 * Adding [rogtemplate](https://github.innominds.com/rOpenGov/rogtemplate) for more consistent ROpenGov documentation.
 * Several documentation good practices. (Thanks for the contribution from [\@dieghernan](https://github.com/dieghernan)).

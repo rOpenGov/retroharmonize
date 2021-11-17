@@ -4,7 +4,7 @@
 #' 
 #' @details A data frame like tibble ojbect is returned. 
 #' In case you are working with a list of surveys (waves), call 
-#' \code{\link{metadata_waves_create}}, which is a wrapper around 
+#' \code{\link{metadata_surveys_create}}, which is a wrapper around 
 #' a list of  \code{\link{metadata_create}} calls.
 #' 
 #' The structure of the returned tibble:
@@ -164,10 +164,10 @@ metadata_create <- function( survey ) {
 #'                                         dir(examples_dir))]
 #'
 #' example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
-#' metadata_waves_create (example_surveys)
+#' metadata_surveys_create (example_surveys)
 #' @export
 
-metadata_waves_create <- function ( survey_list ) {
+metadata_surveys_create <- function ( survey_list ) {
   
   validate_survey_list( survey_list)
   
@@ -176,6 +176,15 @@ metadata_waves_create <- function ( survey_list ) {
   do.call ( rbind, metadata_list )
   
 }
+#' @rdname metadata_create
+#' @details The form \code{metadata_waves_create} is deprecated.
+
+metadata_waves_create <- function(survey_list) {
+  .Deprecated(new = "create_surveys_metadata",
+              msg = "metadata_waves_create () is deprecated, use create_surveys_metadata() instead", 
+              old = "merge_waves")
+  create_surveys_metadata(survey_list)
+  }
 
 #' @title Initialize a metadata data frame
 #'

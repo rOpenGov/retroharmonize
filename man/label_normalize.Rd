@@ -15,14 +15,18 @@ val_label_normalize(x)
 \arguments{
 \item{x}{A character vector of labels to be normalized.}
 }
+\value{
+Returns a suggested, normalized label without special characters. The 
+\code{var_label_normalize} and \code{val_label_normalize} returns them in 
+\code{snake_case} for programmatic use.
+}
 \description{
 \code{label_normalize} removes special characters, whitespace, 
 and other typical typing errors.
 }
 \details{
-\code{var_label_normalize} changes the vector to snake_case.
-\code{val_label_normalize} removes possible chunks from question
-identifiers.
+\code{var_label_normalize} and \code{val_label_normalize} removes possible 
+chunks from question identifiers.
 
 The functions \code{var_label_normalize} and 
 \code{val_label_normalize} may 
@@ -46,8 +50,8 @@ c("Don't know", " TRUST", "DO NOT  TRUST",
 }
 \seealso{
 Other variable label harmonization functions: 
+\code{\link{harmonize_surveys}()},
 \code{\link{harmonize_values}()},
-\code{\link{harmonize_waves}()},
 \code{\link{na_range_to_values}()}
 
 Other harmonization functions: 

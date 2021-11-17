@@ -5,7 +5,7 @@
 \title{Harmonize the variable names of surveys}
 \usage{
 harmonize_var_names(
-  waves,
+  survey_list,
   metadata,
   old = "var_name_orig",
   new = "var_name_suggested",
@@ -13,10 +13,10 @@ harmonize_var_names(
 )
 }
 \arguments{
-\item{waves}{A list of surveys imported with \code{\link{read_surveys}}.}
+\item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}}
 
 \item{metadata}{A metadata table created by \code{metadata_create} and binded together for 
-all surveys in \code{waves}.}
+all surveys in \code{survey_list}.}
 
 \item{old}{The column name in \code{metadata} that contains the old, not harmonized variable names.}
 
@@ -34,7 +34,7 @@ are imported from an external file as a wave.
 \details{
 If the \code{metadata} that contains subsetting information is subsetted, then 
 it will subset the surveys in 
-\code{waves}.
+\code{survey_list}.
 }
 \examples{
 examples_dir <- system.file("examples", package = "retroharmonize")
@@ -43,17 +43,17 @@ survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
 example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
   save_to_rds = FALSE)
-metadata <- lapply ( X = example_surveys, FUN = metadata_create )
-metadata <- do.call(rbind, metadata)
-
+  
+metadata <- metadata_surveys_create(example_surveys)
 metadata$var_name_suggested <- label_normalize(metadata$var_name)
+metadata$var_name_suggested[metadata$label_orig == "age_education"] <- "age_education"
 
-metadata$var_name_suggested[metadata$label_orig == "age education"] <- "age_education"
-
-harmonize_var_names(waves = example_surveys, 
-                    metadata = metadata )
+harmonize_var_names(survey_list = example_surveys, 
+                    metadata    = metadata )
 }
 \seealso{
+crosswalk
+
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
 \code{\link{harmonize_na_values}()},

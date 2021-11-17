@@ -78,10 +78,10 @@ attr(ab_waves[[2]], "id") <- "Afrobarometer_R6"
 attr(ab_waves[[3]], "id") <- "Afrobarometer_R7"
 ```
 
-We can review if the main descriptive metadata is correctly present with `document_waves()`.
+We can review if the main descriptive metadata is correctly present with `document_surveys()`.
 
 ```{r document-ab, eval=FALSE}
-documented_ab_waves <- document_waves(ab_waves)
+documented_ab_waves <- document_surveys(ab_waves)
 ```
 ```{r}
 print(documented_ab_waves)
@@ -131,11 +131,11 @@ head(to_harmonize %>%
        select ( all_of(c("id", "var_name", "var_label"))), 10)
 ```
 
-The `merge_waves()` function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the program knows which variables to take from what files and how to call and label them after transformation.
+The `merge_surveys()` function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the program knows which variables to take from what files and how to call and label them after transformation.
 
 
 ```{r merge, eval=FALSE}
-merged_ab <- merge_waves ( waves = ab_waves, 
+merged_ab <- merge_surveys ( waves = ab_waves, 
                            var_harmonization = to_harmonize  )
 
 # country will be a character variable, and doesn't need a label
@@ -144,10 +144,10 @@ merged_ab <- lapply ( merged_ab,
            mutate( country = as_character(country)))
 ```
 
-Review the most important metadata with `document_waves()`:
+Review the most important metadata with `document_surveys()`:
 
 ```{r, eval=FALSE}
-documenteded_merged_ab <- document_waves(merged_ab)
+documenteded_merged_ab <- document_surveys(merged_ab)
 ```
 ```{r}
 print(documenteded_merged_ab)
@@ -208,10 +208,10 @@ harmonize_ab_trust <- function(x) {
 }
 ```
 
-We apply this function to the trust variables. The `harmonize_waves()` function binds all variables that are present in all surveys.
+We apply this function to the trust variables. The `harmonize_surveys()` function binds all variables that are present in all surveys.
 
 ```{r harmonize, eval=FALSE}
-harmonized_ab_waves <- harmonize_waves ( 
+harmonized_ab_waves <- harmonize_surveys ( 
   waves = merged_ab, 
   .f = harmonize_ab_trust ) 
 ```

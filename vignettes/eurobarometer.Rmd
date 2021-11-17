@@ -46,10 +46,10 @@ eurobarometer_waves <- file.path(working_dir, dir(working_dir))
 eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
 ```
 
-We can review if the main descriptive metadata is correctly present with `document_waves()`.
+We can review if the main descriptive metadata is correctly present with `document_surveys()`.
 
 ```{r document-waves, eval=FALSE}
-documented_eb_waves <- document_waves(eb_waves) 
+documented_eb_waves <- document_surveys(eb_waves) 
 ```
 
 ## Metadata map
@@ -139,7 +139,7 @@ harmonize_eb_trust <- function(x) {
 Let's see if things did work out fine:
 
 ```{r, eval=FALSE}
-document_waves(eb_waves)
+document_surveys(eb_waves)
 ```
 ```{r, echo=FALSE}
 documented_eb_waves
@@ -181,12 +181,12 @@ eb_waves_selected <- lapply ( eb_waves, function(x) x %>% select (
 
 
 ```{r harmonizewaves, eval=FALSE}
-harmonized_eb_waves <- harmonize_waves ( 
+harmonized_eb_waves <- harmonize_surveys ( 
   waves = eb_waves_selected, 
   .f = harmonize_eb_trust )
 ```
 
-We cannot rely on `document_waves()` anymore, because the result is a single data frame. Let's have a look at the descriptive metadata.
+We cannot rely on `document_surveys()` anymore, because the result is a single data frame. Let's have a look at the descriptive metadata.
 
 ```{r wavesattributes}
 wave_attributes <- attributes(harmonized_eb_waves)

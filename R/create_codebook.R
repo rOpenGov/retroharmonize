@@ -190,6 +190,14 @@ create_codebook <- function ( metadata = NULL,
 
 #' @rdname create_codebook
 #' @param waves A list of surveys. 
+#' @export
+codebook_waves_create <- function ( waves ) {
+  .Deprecated(new = 'codebook_surveys_create', 
+              msg = "codebook_waves_create() is deprecated, use codebook_surveys_create() instead.")
+}
+
+#' @rdname create_codebook
+#' @param survey_list A list containing surveys of class survey.
 #' @family metadata functions
 #' @examples
 #' \donttest{
@@ -200,20 +208,20 @@ create_codebook <- function ( metadata = NULL,
 #'   file.path( examples_dir, survey_list), 
 #'   save_to_rds = FALSE)     
 #' 
-#' codebook_waves_create (example_surveys)
+#' codebook_surveys_create (example_surveys)
 #' }
 #' @export
 
-codebook_waves_create <- function ( waves ) {
+codebook_surveys_create <- function ( survey_list ) {
   
-  assertthat::assert_that( inherits(waves, "list"), 
+  assertthat::assert_that( inherits(survey_list, "list"), 
                            msg = "The parameter waves must be a list (of surveys.)")
   
   
-  assertthat::assert_that( all(unlist (lapply ( waves, function(x) inherits (x, "survey") ))), 
+  assertthat::assert_that( all(unlist (lapply ( survey_list, function(x) inherits (x, "survey") ))), 
                            msg = "Every elements of the wave list must be of type survey.")
   
-  codebook_list <- lapply ( waves, function(x) create_codebook (survey = x))
+  codebook_list <- lapply ( survey_list, function(x) create_codebook (survey = x))
   
   do.call ( rbind, codebook_list )
 }

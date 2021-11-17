@@ -62,7 +62,7 @@ my_rds_files <- dir( examples_dir)[grepl(".rds",
                                         dir(examples_dir))]
 
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
-metadata_waves_create (example_surveys)
+metadata_surveys_create (example_surveys)
 }
 \seealso{
 Other metadata functions: 

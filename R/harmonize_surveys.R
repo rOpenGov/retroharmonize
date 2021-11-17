@@ -1,12 +1,14 @@
-#' @title Harmonize waves
+#' @title Harmonize values in surveys
 #' 
-#' @description Harmonize the values of surveys. 
+#' @description Harmonize the value codes and value labels across multiple surveys. 
 #' 
 #' @details The functions binds together variables
 #' that are all present in the surveys, and applies a 
-#' harmonization function \code{.f} on them. 
+#' harmonization function \code{.f} on them. Till
+#' retroharmonize 0.2.0 called \code{harmonize_waves}.
 #' 
-#' @param waves A list of surveys
+#' @param survey_list A list of surveys. In the deprecated form the parameter was called
+#' \code{waves}.
 #' @param .f A function to apply for the harmonization.
 #' @param status_message Defaults to \code{FALSE}. If set to \code{TRUE}
 #' it shows the id of the survey that is being joined.
@@ -30,12 +32,16 @@
 #' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
 #' metadata <- do.call(rbind, metadata)
 #' 
+#' require(dplyr)
+#' 
 #' to_harmonize <- metadata %>%
-#'   dplyr::filter ( var_name_orig %in% 
-#'                   c("rowid", "w1") |
-#'                   grepl("trust ", label_orig ) ) %>%
-#'   dplyr::mutate ( var_label = var_label_normalize(label_orig)) %>%
-#'   dplyr::mutate ( var_name = val_label_normalize(var_label))
+#'   filter ( var_name_orig %in% 
+#'              c("rowid", "w1") |
+#'              grepl("^trust", label_orig ) ) %>%
+#'   mutate ( var_label = var_label_normalize(label_orig) ) %>%
+#'   mutate ( var_name_target = val_label_normalize(var_label) ) %>%
+#'   mutate ( var_name_target = ifelse(.data$var_name_orig %in% c("rowid", "w1", "wex"), 
+#'                                     .data$var_name_orig, .data$var_name_target) )
 #' 
 #' harmonize_eb_trust <- function(x) {
 #'   label_list <- list(
@@ -54,23 +60,24 @@
 #'                    )
 #' }
 #' 
-#' merged_surveys <- merge_waves ( example_surveys, var_harmonization = to_harmonize  )
+#' merged_surveys <- merge_surveys ( example_surveys, var_harmonization = to_harmonize  )
 #' 
-#' harmonized <- harmonize_waves(waves = merged_surveys, 
+#' harmonized <- harmonize_surveys(survey_list = merged_surveys, 
 #'                               .f = harmonize_eb_trust,
 #'                               status_message = FALSE)
 #'                               
 #' # For details see Afrobarometer and Eurobarometer Case Study vignettes.
 #' }
 
-harmonize_waves <- function(waves, .f, status_message = FALSE) {
+harmonize_surveys <- function(survey_list, .f, status_message = FALSE) {
   
-  validate_survey_list(waves)
+  validate_survey_list(survey_list)
   
-  all_names <-  unique(unlist(lapply ( waves, names ))) #change from sapply
+  all_names <-  unique(unlist(lapply ( survey_list, names ))) 
   
-  classes <- unlist(lapply ( waves, function(x) lapply( x, function(y) class(y)[1]) ))
-  #classes <- unlist(sapply ( waves, function(x) sapply( x, function(y) class(y)[1]) ))
+  
+  classes <- unlist(lapply ( survey_list, function(x) lapply( x, function(y) class(y)[1]) ))
+  #classes <- unlist(sapply ( survey_list, function(x) sapply( x, function(y) class(y)[1]) ))
   
   # The harmonization must take place by variable classes 
   # The retroharmonized, numeric, character, Date types are separately treated ---------------------
@@ -84,7 +91,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   assert_that(length(other_types)==0, 
               msg = "Only labelled_spss_survey, numeric, character and Date types are allowed.")
   
-  original_attributes <- document_waves(waves)
+  original_attributes <- document_surveys(survey_list)
 
   extend_survey <- function (dat) {
     
@@ -191,9 +198,9 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
     
   }
   
-  extended <- lapply ( waves, extend_survey )
+  extended <- lapply ( survey_list, extend_survey )
   
-  #document_waves ( extended )
+  #document_surveys ( extended )
 
   full_join_characters <- do.call(
     vctrs::vec_rbind, 
@@ -281,11 +288,28 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   }
 
   attributes (return_value)
-  attr(return_value, "id") <- paste0("Waves: ", 
+  attr(return_value, "id") <- paste0("Surveys: ", 
                                      paste ( original_attributes$id, collapse = "; " ))
   
   attr(return_value, "filename") <- paste0("Original files: ", 
                                      paste ( original_attributes$filename, collapse = "; " ))
   attributes (return_value)
   return_value
+}
+
+
+#' @rdname harmonize_surveys
+#' @details The earlier form \code{harmonize_waves} is deprecated. 
+#' The function is currently called \code{\link{harmonize_waves}}.
+#' @param waves A list of surveys. Deprecated with \code{harmonize_waves}.
+#' @export
+
+
+harmonize_waves <- function(waves, .f, status_message = FALSE) {
+  .Deprecated("harmonize_waves ",
+              msg = "harmonize_waves() is deprecated, use harmonize_surveys() instead", 
+              old = "harmonize_waves")
+  harmonize_surveys(suvey_list = waves, 
+                .f = .f, 
+                status_message = status_message )
 }

@@ -65,6 +65,6 @@ document_survey_item(h3)
 }
 \seealso{
 Other documentation functions: 
-\code{\link{document_waves}()}
+\code{\link{document_surveys}()}
 }
 \concept{documentation functions}

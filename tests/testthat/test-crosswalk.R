@@ -22,8 +22,6 @@ test_that("crosswalk_table_create", {
 
 expected_total_rows <- sum(vapply ( example_surveys, nrow, numeric(1) ))
 
-crosswalk(example_surveys, crosswalk_table)
-                           
 crosswalked_1 <- crosswalk_surveys(survey_list = example_surveys, 
                                  crosswalk_table = crosswalk_table)
 
@@ -88,11 +86,6 @@ test_that("crosswalk_surveys_correct_harmonization", {
                                crosswalk_table = crosswalk_table, 
                                na_values = c("inap" = 99999 ) )), expected_total_rows)
 })
-
-
-
-
-
 
 new_documentation <- metadata_surveys_create ( crosswalked_2 )
 

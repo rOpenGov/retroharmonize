@@ -20,10 +20,10 @@ c( "do_you_trust_the_national_government",
    "do_you_trust_the_european_commission")
 
 test_that("normalization works", {
-  expect_equal(vrn, c("do you trust the national government",
-                      "do you trust the european commission"))
-  expect_equal(vln, c("do_you_trust_the_national_government",
+  expect_equal(vrn, c("do_you_trust_the_national_government",
                       "do_you_trust_the_european_commission"))
+  expect_equal(vln,  c("do_you_trust_the_national_government",
+                       "do_you_trust_the_european_commission"))
   expect_equal(ln, 
                c("do not know","trust","do not trust",     
                  "inap in q 3", "not 100 pct","trust lt 50 pct",

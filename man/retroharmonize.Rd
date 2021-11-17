@@ -37,19 +37,19 @@ and variable names.\cr
 Create consistent coding and labelling.\cr 
 \code{\link{create_codebook}}: Create a codebook from the original SPSS variable codes and labels.\cr
 \code{\link{harmonize_values}}: Harmonize the label list across surveys.\cr
-\code{\link{harmonize_waves}}: Create a list of surveys with harmonized value labels.\cr
+\code{\link{harmonize_surveys}}: Create a list of surveys with harmonized value labels.\cr
 \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
 as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 }
 
 \section{survey harmonization functions}{
 
-\code{\link{merge_waves}}: Create a list of surveys with harmonized names and variable labels.\cr
+\code{\link{merge_surveys}}: Create a list of surveys with harmonized names and variable labels.\cr
 }
 
 \section{documentation functions}{
 
-\code{\link{metadata_create}} and \code{\link{metadata_waves_create}}\cr 
+\code{\link{metadata_create}} and \code{\link{metadata_surveys_create}}\cr 
 \code{\link{create_codebook}} and \code{\link{codebook_waves_create}}
 
 
@@ -57,7 +57,7 @@ Make the workflow reproducible by recording the harmonization process.
 \code{\link{document_survey_item}}: Returns a list of the current and historic coding, 
 labelling of the valid range and missing values or range, the history of the variable names 
 and the history of the survey IDs.
-\code{\link{document_waves}}: Document the key attributes surveys in a survey list.
+\code{\link{document_surveys}}: Document the key attributes surveys in a survey list.
 }
 
 \section{type conversion functions}{

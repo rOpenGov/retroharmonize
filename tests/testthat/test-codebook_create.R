@@ -1,4 +1,3 @@
-
 metadata <- metadata_create (
  survey = read_rds (
           system.file("examples", "ZA7576.rds",
@@ -23,7 +22,11 @@ example_surveys <- read_surveys(
 
 test_survey_codebook <- create_codebook  (survey = example_surveys[[1]])
 
-waves_codebook <- codebook_waves_create ( waves = example_surveys )
+test_that("Deprecation warning is given", {
+  expect_warning(codebook_waves_create ( waves = example_surveys ))
+})
+
+waves_codebook <- codebook_surveys_create ( survey_list = example_surveys )
 
 test_that("correct codebook structure is returned", {
   expect_true ( "user_var" %in% names(test_codebook_2))

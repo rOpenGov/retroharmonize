@@ -74,7 +74,7 @@ harmonize_values (
 }
 \seealso{
 Other variable label harmonization functions: 
-\code{\link{harmonize_waves}()},
+\code{\link{harmonize_surveys}()},
 \code{\link{label_normalize}()},
 \code{\link{na_range_to_values}()}
 

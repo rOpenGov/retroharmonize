@@ -17,13 +17,13 @@
 #' 
 #' example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
 #'  
-#' waves_document <- document_waves(example_surveys)
+#' documented_surveys <- document_surveys(example_surveys)
 #' 
-#' attr(waves_document, "original_list" )
-#' waves_document
+#' attr(documented_surveys, "original_list" )
+#' documented_surveys
 #' @export
 
-document_waves <- function( survey_list ) {
+document_surveys <- function( survey_list ) {
   
   validate_survey_list(survey_list)
   
@@ -40,4 +40,16 @@ document_waves <- function( survey_list ) {
   attr(tmp, "original_list")  <- deparse(substitute(survey_list))
   
   tmp
+}
+
+
+#' @rdname document_surveys
+#' @details The earlier form \code{document_waves} is deprecated.  
+#' Currently called \code{\link{document_surveys}}.
+#' @inheritParams document_surveys
+
+document_waves <- function(survey_list, var_harmonization) {
+  message ("This function will be deprecated. Use document_sureys() instead")
+  merge_surveys(suvey_list = survey_list, 
+                var_harmonization = var_harmonization)
 }
