@@ -37,7 +37,7 @@ example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
   save_to_rds = FALSE)
     
-metadata <- metadata_waves_create(example_surveys)
+metadata <- metadata_surveys_create(example_surveys)
  
 require(dplyr)
 

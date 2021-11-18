@@ -22,7 +22,8 @@
 #' observations that are defined to be treated as missing in 
 #' the SPSS-style coding. Defaults to \code{NULL}.
 #' @importFrom dplyr filter select mutate distinct_all relocate across everything
-#' @importFrom rlang .data 
+#' @importFrom rlang .data
+#' @importFrom assertthat assert_that
 #' @examples 
 #' \donttest{
 #' examples_dir <- system.file("examples", package = "retroharmonize")
@@ -44,19 +45,19 @@
 
 crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
   
-  assertthat::assert_that(is.null(na_values)|is.character(na_values)|is.numeric(na_values), 
-                          msg = "Parameter 'na_values' must be a named character or numeric string.")
+  assert_that(is.null(na_values)|is.character(na_values)|is.numeric(na_values), 
+              msg = "Parameter 'na_values' must be a named character or numeric string.")
   
   set_na_values <- na_values
   
   relabel_survey <- function(y, selection) {
     
-    assertthat::assert_that(inherits(selection, 'data.frame'), 
-                            msg = "selectin must be a data.frame")
+    assert_that(inherits(selection, 'data.frame'), 
+                msg = "selectin must be a data.frame")
     
-    assertthat::assert_that(nrow(selection)>0, 
-                            msg = "selection must have rows")
-
+    assert_that(nrow(selection)>0, 
+                msg = "selection must have rows")
+    
     select_to_harmonize <- selection %>%
       filter ( !is.na(.data$val_label_orig) )
     
@@ -71,8 +72,8 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
       correspondence_table <- select_to_harmonize %>%
         filter ( .data$var_name_target == this_var )
       
-      assertthat::assert_that(is.numeric(correspondence_table$val_numeric_target), 
-                              msg = "Error in relabel_survey: 'val_numeric_target' must be a numeric vector")
+      assert_that(is.numeric(correspondence_table$val_numeric_target), 
+                  msg = "Error in relabel_survey: 'val_numeric_target' must be a numeric vector")
       
       
       harmonize_these_labels <- function(z) {
@@ -182,20 +183,20 @@ crosswalk <- function(survey_list, crosswalk_table, na_values = NULL) {
 #' @importFrom assertthat assert_that
 #' @export
 
-crosswalk_table_create <- function( metadata ) {
+crosswalk_table_create <- function(metadata) {
   
-  assertthat::assert_that(inherits(metadata, "data.frame"), 
-                          msg = "Parameter 'metadata' must be a data frame object.")
+  assert_that(inherits(metadata, "data.frame"), 
+              msg = "Parameter 'metadata' must be a data frame object.")
   
-  assertthat::assert_that(nrow(metadata)>=1, 
-                          msg = "The 'metadata' data frame must have at least one row.")
+  assert_that(nrow(metadata)>=1, 
+              msg = "The 'metadata' data frame must have at least one row.")
   
   compulsory_columns <- c("filename", "id", "var_name_orig", "labels")
   missing_columns <- compulsory_columns[! which(compulsory_columns %in% names(metadata))]
   
-  assertthat::assert_that(
+  assert_that(
     length(missing_columns)==0, 
-    msg = glue::glue("The 'metadata' data frame has missing columns: {paste(missing_columns, collapse = ", "}")
+    msg = glue("The 'metadata' data frame has missing columns: {paste(missing_columns, collapse = ", "}")
   )
   
   fn_labels <- function(x) {
