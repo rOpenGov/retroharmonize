@@ -301,7 +301,7 @@ harmonize_surveys <- function(survey_list, .f, status_message = FALSE) {
 #' @rdname harmonize_surveys
 #' @details The earlier form \code{harmonize_waves} is deprecated. 
 #' The function is currently called \code{\link{harmonize_waves}}.
-#' @param waves A list of surveys. Deprecated with \code{harmonize_waves}.
+#' @param waves A list of surveys. Deprecated.
 #' @export
 
 
@@ -309,7 +309,7 @@ harmonize_waves <- function(waves, .f, status_message = FALSE) {
   .Deprecated("harmonize_waves ",
               msg = "harmonize_waves() is deprecated, use harmonize_surveys() instead", 
               old = "harmonize_waves")
-  harmonize_surveys(suvey_list = waves, 
+  harmonize_surveys(survey_list = waves, 
                 .f = .f, 
                 status_message = status_message )
 }

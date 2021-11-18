@@ -14,6 +14,8 @@ merge_waves(waves, var_harmonization)
 
 \item{var_harmonization}{Metadata of surveys, including at least
 \code{filename}, \code{var_name_orig}, \code{var_name_target}, \code{var_label}.}
+
+\item{waves}{Deprecated.}
 }
 \value{
 A list of surveys with harmonized names and variable labels.

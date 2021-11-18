@@ -97,9 +97,10 @@ merge_surveys <- function(survey_list, var_harmonization) {
 
 #' @title merge_waves
 #' @rdname merge_surveys
+#' @param waves Deprecated.
 #' @export
 merge_waves <- function(waves, var_harmonization) {
-  merge_surveys(suvey_list = waves, 
+  merge_surveys(survey_list = waves, 
                 var_harmonization = var_harmonization)
 }
 

@@ -18,7 +18,7 @@ harmonize_waves(waves, .f, status_message = FALSE)
 \item{status_message}{Defaults to \code{FALSE}. If set to \code{TRUE}
 it shows the id of the survey that is being joined.}
 
-\item{waves}{A list of surveys. Deprecated with \code{harmonize_waves}.}
+\item{waves}{A list of surveys. Deprecated.}
 }
 \value{
 A natural full join of all surveys in a single data frame.
