@@ -57,8 +57,7 @@ documented_eb_waves <- document_surveys(eb_waves)
 We start by extracting metadata from the survey data files and storing them in a tidy table, where each row contains information about a variable from the survey data file. To keep the size manageable, we keep only a few variables: the row ID, the weighting variable, the country code, and variables that contain "parliament" or "commission" in their labels.
 
 ```{r metadata, eval=FALSE}
-eb_trust_metadata <- lapply ( X = eb_waves, FUN = metadata_create )
-eb_trust_metadata <- do.call(rbind, eb_trust_metadata)
+eb_trust_metadata <- metadata_surveys_create (eb_waves)
 #let's keep the example manageable:
 eb_trust_metadata  <- eb_trust_metadata %>%
   filter ( grepl("parliament|commission|rowid|weight_poststrat|country_id", var_name_orig) )
@@ -170,19 +169,21 @@ If you are satisfied with the results, run `harmonize_eb_trust()` through the 9 
 We define a selection of countries: Belgium, Hungary, Italy, Malta, the Netherlands, Poland, Slovakia, and variables.
 
 ```{r ebwavesselected}
-eb_waves_selected <- lapply ( eb_waves, function(x) x %>% select ( 
-  any_of (c("rowid", "country_id", "weight_poststrat", 
-            "trust_national_parliament", "trust_european_commission", 
-            "trust_european_parliament"))) %>%
-    filter ( country_id %in% c("NL", "PL", "HU", "SK", "BE", 
-                               "MT", "IT")))
+eb_waves_selected <- lapply ( 
+  eb_waves, function(x) { x %>% select ( 
+    any_of (c("rowid", "country_id", "weight_poststrat", 
+              "trust_national_parliament", "trust_european_commission", 
+              "trust_european_parliament"))) %>%
+      filter ( country_id %in% c("NL", "PL", "HU", "SK", "BE", 
+                                 "MT", "IT"))}
+)
 
 ```
 
 
 ```{r harmonizewaves, eval=FALSE}
 harmonized_eb_waves <- harmonize_surveys ( 
-  waves = eb_waves_selected, 
+  survey_list = eb_waves_selected, 
   .f = harmonize_eb_trust )
 ```
 

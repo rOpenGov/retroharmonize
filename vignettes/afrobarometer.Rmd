@@ -135,8 +135,8 @@ The `merge_surveys()` function harmonizes the variable names, the variable label
 
 
 ```{r merge, eval=FALSE}
-merged_ab <- merge_surveys ( waves = ab_waves, 
-                           var_harmonization = to_harmonize  )
+merged_ab <- merge_surveys ( survey_list = ab_waves, 
+                             var_harmonization = to_harmonize )
 
 # country will be a character variable, and doesn't need a label
 merged_ab <- lapply ( merged_ab, 
@@ -212,7 +212,7 @@ We apply this function to the trust variables. The `harmonize_surveys()` functio
 
 ```{r harmonize, eval=FALSE}
 harmonized_ab_waves <- harmonize_surveys ( 
-  waves = merged_ab, 
+  survey_list = merged_ab, 
   .f = harmonize_ab_trust ) 
 ```
 
