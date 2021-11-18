@@ -11,7 +11,7 @@
 #' \code{filename}, \code{var_name_orig}, \code{var_name_target}, \code{var_label}.
 #' @return A list of surveys with harmonized names and variable labels.
 #' @importFrom rlang set_names .data
-#' @importFrom dplyr select mutate_if filter
+#' @importFrom dplyr select mutate_if filter across
 #' @importFrom haven is.labelled
 #' @importFrom tidyselect all_of
 #' @family survey harmonization functions

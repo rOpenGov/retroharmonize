@@ -180,10 +180,10 @@ metadata_surveys_create <- function ( survey_list ) {
 #' @details The form \code{metadata_waves_create} is deprecated.
 
 metadata_waves_create <- function(survey_list) {
-  .Deprecated(new = "create_surveys_metadata",
-              msg = "metadata_waves_create () is deprecated, use create_surveys_metadata() instead", 
+  .Deprecated(new = "metadata_surveys_create",
+              msg = "metadata_waves_create() is deprecated, use create_surveys_metadata() instead", 
               old = "merge_waves")
-  create_surveys_metadata(survey_list)
+  metadata_surveys_create(survey_list)
   }
 
 #' @title Initialize a metadata data frame

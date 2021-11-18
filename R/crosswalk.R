@@ -8,8 +8,8 @@
 #' for identifying a survey, \code{var_name_orig} for the original variable name 
 #' and \code{var_name_target} for the new (target) variable name. Optionally you can harmonize
 #' the value labels, the numeric codes, and the special missing labels, too.
-#'
 #' 
+#' @param survey_list A list of \code{\link{survey}} objects.
 #' @param crosswalk_table A table created with \code{crosswalk_table_create}, or a 
 #' data frame with at least the following columns: \code{var_name_orig}, \code{var_name_target},
 #' for harmonizing the variable names. If \code{val_label_orig}, \code{val_label_target} 
@@ -21,7 +21,7 @@
 #' @param na_values A named vector of \code{na_values}, the 
 #' observations that are defined to be treated as missing in 
 #' the SPSS-style coding. Defaults to \code{NULL}.
-#' @importFrom dplyr filter select mutate distinct_all relocate
+#' @importFrom dplyr filter select mutate distinct_all relocate across everything
 #' @importFrom rlang .data 
 #' @examples 
 #' \donttest{
@@ -35,7 +35,10 @@
 #' documented_surveys <- create_surveys_metadata(example_surveys)
 #' 
 #' documented_surveys <- metadata_surveys_create(example_surveys)
-#' documented_surveys <- documented_surveys[documented_surveys$var_name_orig %in% c( "rowid", "isocntry", "w1", "qd3_4", "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),]
+#' documented_surveys <- documented_surveys[
+#'  documented_surveys$var_name_orig %in% c( "rowid", "isocntry", "w1", "qd3_4",
+#'                                           "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),
+#'                                           ]
 #' crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
 #' 
 #'                   crosswalk_table = crosswalk_table)

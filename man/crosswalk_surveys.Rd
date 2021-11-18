@@ -7,6 +7,8 @@
 crosswalk_surveys(survey_list, crosswalk_table, na_values = NULL)
 }
 \arguments{
+\item{survey_list}{A list of \code{\link{survey}} objects.}
+
 \item{crosswalk_table}{A table created with \code{crosswalk_table_create}, or a 
 data frame with at least the following columns: \code{var_name_orig}, \code{var_name_target},
 for harmonizing the variable names. If \code{val_label_orig}, \code{val_label_target} 
@@ -43,7 +45,10 @@ example_surveys <- read_surveys(
 documented_surveys <- create_surveys_metadata(example_surveys)
 
 documented_surveys <- metadata_surveys_create(example_surveys)
-documented_surveys <- documented_surveys[documented_surveys$var_name_orig \%in\% c( "rowid", "isocntry", "w1", "qd3_4", "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),]
+documented_surveys <- documented_surveys[
+ documented_surveys$var_name_orig \%in\% c( "rowid", "isocntry", "w1", "qd3_4",
+                                          "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),
+                                          ]
 crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
 
                   crosswalk_table = crosswalk_table)

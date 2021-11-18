@@ -19,11 +19,11 @@
 #'  
 #' documented_surveys <- document_surveys(example_surveys)
 #' 
-#' attr(documented_surveys, "original_list" )
+#' attr(documented_surveys, "original_list")
 #' documented_surveys
 #' @export
 
-document_surveys <- function( survey_list ) {
+document_surveys <- function(survey_list) {
   
   validate_survey_list(survey_list)
   
@@ -46,10 +46,11 @@ document_surveys <- function( survey_list ) {
 #' @rdname document_surveys
 #' @details The earlier form \code{document_waves} is deprecated.  
 #' Currently called \code{\link{document_surveys}}.
-#' @inheritParams document_surveys
+#' @param waves  A list of \code{\link{survey}} objects.
+#' @export
 
-document_waves <- function(survey_list, var_harmonization) {
-  message ("This function will be deprecated. Use document_sureys() instead")
-  merge_surveys(suvey_list = survey_list, 
-                var_harmonization = var_harmonization)
+document_waves <- function(waves) {
+  .Deprecated("document_surveys", 
+              msg = "document_waves() is deprecated. Use document_surveys() instead")
+  merge_surveys( survey_list = waves)
 }
