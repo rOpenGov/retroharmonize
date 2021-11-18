@@ -15,7 +15,7 @@
 #' for harmonizing the variable names. If \code{val_label_orig}, \code{val_label_target} 
 #' are present, the value labels will be harmonized, too. If 
 #' \code{var_numeric_orig}, \code{var_numeric_target} are present, the numeric codes of the 
-#' variable will be harmonized. If \code{var_class} is present, then the class of the variable 
+#' variable will be harmonized. If \code{class_target} is present, then the class of the variable 
 #' will be harmonized to any of \code{factor}, \code{numeric} or \code{character} using 
 #' \code{\link{as_factor}}, \code{\link{as_numeric}}, or \code{\link{as_character}}.
 #' @param na_values A named vector of \code{na_values}, the 
@@ -129,11 +129,11 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
       
       ## At last harmonnize class if possible
         
-      if ( ! "var_class" %in% names(selection) ) return(tmp)
+      if ( ! "class_target" %in% names(selection) ) return(tmp)
       
-      factor_vars <- selection$var_name_target[selection$var_class == "factor"]
-      character_vars <- selection$var_name_target[selection$var_class == "character"]
-      numeric_vars <-selection$var_name_target[selection$var_class == "numeric"]
+      factor_vars <- selection$var_name_target[selection$class_target == "factor"]
+      character_vars <- selection$var_name_target[selection$class_target == "character"]
+      numeric_vars <-selection$var_name_target[selection$class_target == "numeric"]
       
       return_df <-  tmp %>%
         mutate ( across (any_of(factor_vars), as_factor), 
@@ -181,6 +181,7 @@ crosswalk <- function(survey_list, crosswalk_table, na_values = NULL) {
 #' target values need to be set by further manipulations. 
 #' @importFrom glue glue
 #' @importFrom assertthat assert_that
+#' @importFrom purrr reduce
 #' @export
 
 crosswalk_table_create <- function(metadata) {
@@ -212,13 +213,15 @@ crosswalk_table_create <- function(metadata) {
         val_numeric_orig = NA_real_,
         val_numeric_target  = NA_real_,
         val_label_orig = NA_character_,
-        val_label_target = NA_character_
+        val_label_target = NA_character_, 
+        na_numeric_target = NA_real_,
+        na_label_target = NA_character_
       )
     } else {
-      val_labels <- names(x$labels)
+      val_labels   <- names(unlist(x$labels))
       label_length <- length(unlist(x$labels))
       
-      tibble (
+      tmp <- tibble (
         id = rep(unique(x$id), label_length),
         filename = rep(unique(x$filename), label_length),
         var_name_orig = rep(x$var_name_orig, label_length),
@@ -228,12 +231,43 @@ crosswalk_table_create <- function(metadata) {
         val_label_orig = as.character(vapply ( x$labels, names, character(label_length) )),
         val_label_target = as.character(vapply ( x$labels, names, character(label_length) ))
       )
+      
+      if ( "na_labels" %in% names(x)) {
+        na_labels <- names(unlist(x$na_labels))
+        
+        tmp$na_label_target <- ifelse (tmp$val_label_orig %in% na_labels, 
+                                        tmp$val_label_orig, NA_character_ )
+        tmp$na_numeric_target <- ifelse (tmp$val_label_orig %in% na_labels, 
+                                          tmp$val_numeric_orig, NA_real_)
+      } else {
+        tmp$na_label_target <- NA_character_
+        tmp$na_numeric_target <- NA_real_
+      }
+      
+      if ( "class_orig" %in% names(x) ) {
+        
+        tmp <- tmp %>%
+          left_join ( x %>% select ( all_of(c("var_name_orig", "class_orig")) ), 
+                      by = "var_name_orig")
+        
+        tmp$class_target <- case_when (
+          tmp$class_orig %in% c("numeric", "character") ~ tmp$class_orig,
+          TRUE ~ "factor"
+        )
+      } else {
+        tmp$class_orig <- NA_character_
+        tmp$class_target <- NA_character_
+      }
+      tmp
     }
+    
   }
   
   if (nrow(metadata)==1) {
-    fn_labels(metadata[1,])
+    fn_labels(x=metadata[1,])
   } else {
-    do.call (rbind, lapply ( 1:nrow(metadata), function(x) fn_labels(metadata[x,])  ))
+    ctable_list <- lapply ( 1:nrow(metadata), function(x) fn_labels(metadata[x,])  )
+    ctable <- purrr::reduce ( ctable_list, full_join )
+    
   }
 }

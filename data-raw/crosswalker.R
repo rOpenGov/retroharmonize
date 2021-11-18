@@ -1,4 +1,4 @@
-crosswalk
+#crosswalk
 
 devtools::load_all()
 here::here()
@@ -31,18 +31,52 @@ if ( file.exists( here::here("data-raw", "eb_climate_change_waves.rda") )) {
   load (here::here( "data-raw", "eb_climate_change_waves.rda" ) )
 } 
 
-eb_climate_metadata <- lapply ( X = eb_climate_waves, FUN = metadata_create )
-eb_climate_metadata <- do.call(rbind, eb_climate_metadata)
+eb_climate_metadata <- metadata_surveys_create (survey_list = eb_climate_waves)
 
 most_serious_global_problem <- eb_climate_metadata %>% 
-  filter ( grepl("serious world problems first", .data$label_orig) )  %>%
-  mutate ( var_name_suggested = var_label_normalize(.data$label_orig) ) %>%
-  mutate ( var_name_target = "global_problem")
+  filter ( grepl("serious_world_problems_first", .data$label_orig) |
+             .data$var_name_orig == "rowid")  
+
+global_problem_ctable <- crosswalk_table_create(metadata = most_serious_global_problem) %>%
+  mutate ( val_label_target = val_label_normalize(.data$val_label_orig) ) %>%
+  mutate ( var_name_target = case_when ( 
+    .data$var_name_orig == "rowid"  ~ "rowid", 
+    TRUE ~ "global_problem")) %>%
+  mutate ( na_label_target = case_when (
+    grepl("^DK", .data$val_label_orig)    ~ "declined", 
+    grepl("^Refus", .data$val_label_orig) ~ "declined",
+    TRUE ~ .data$na_label_target
+  )) %>%
+  mutate ( val_label_target = case_when (
+    .data$na_label_target == "declined" ~ "declined",
+    TRUE ~ .data$val_label_target), 
+    val_numeric_target = case_when (
+      .data$na_label_target == "declined" ~ 99998,
+      TRUE ~ .data$val_numeric_target), 
+    na_numeric_target = case_when (
+      .data$na_label_target == "declined" ~ 99998,
+      TRUE ~ .data$na_numeric_target)) %>%
+  mutate ( class_target = case_when (
+             .data$var_name_target == "rowid" ~ "character",
+             TRUE ~ .data$class_target))
+
+global_problem_ctable %>%
+  select ( all_of(c("var_name_orig", "class_target", "var_name_target", "id")) ) %>%
+  distinct_all() %>%
+  pivot_wider ( names_from = "id", values_from  = "var_name_orig")
+
+
+
+global_problems <- crosswalk (survey_list = eb_climate_waves, 
+                              crosswalk_table = global_problem_ctable %>%
+                                filter ( id != "ZA7488_v1-0-0"))
 
 eb_demography_metadata  <- eb_climate_metadata %>%
   filter ( grepl( "rowid|isocntry|^d8$|^d7$|^wex|^w1$|d25|^d15a|^d11$", .data$var_name_orig) ) %>%
-  filter ( .data$filename %in% most_serious_global_problem$filename ) %>%
-  mutate ( var_name_suggested = var_label_normalize(.data$label_orig) ) %>%
+  filter ( .data$filename %in% most_serious_global_problem$filename ) 
+
+demography_ctable <- crosswalk_table_create(eb_demography_metadata) %>%
+  mutate ( val_label_target = var_label_normalize(.data$val_label_orig) ) %>%
   mutate ( var_name_target = case_when (
     var_name_orig == "d11"      ~ "age", 
     var_name_orig == "d15a"     ~ "occupation", 
@@ -51,27 +85,50 @@ eb_demography_metadata  <- eb_climate_metadata %>%
     var_name_orig == "d25"      ~ "type_community", 
     var_name_orig == "d7"       ~ "marital_status", 
     var_name_orig == "d8"       ~ "age_education", 
-    var_name_orig == "isocntry" ~ "country_code", 
-    var_name_orig == "w1"       ~ "weight", 
+    var_name_orig == "isocntry" ~ "geo", 
+    var_name_orig == "w1"       ~ "w1", 
     var_name_orig %in% c("wex", "wextra") ~ "wex", 
     var_name_orig == "rowid"    ~ "rowid",
     TRUE ~ "<error>"
-  ))
+  )) %>%
+  mutate ( na_label_target = case_when (
+    grepl("^DK", .data$val_label_orig)    ~ "declined", 
+    grepl("^Refus", .data$val_label_orig) ~ "declined",
+    TRUE ~ .data$na_label_target
+  )) %>%
+  mutate ( na_numeric_target = ifelse (!is.na(.data$na_label_target), 
+                                       99998, NA_real_)) %>%
+  mutate ( val_numeric_target = ifelse (.data$val_label_orig == "No full-time education", 14, .data$val_numeric_target), 
+           val_numeric_target = ifelse (.data$val_label_orig == "Still studying", 99996, .data$val_numeric_target), 
+           na_numeric_target  = ifelse (.data$val_label_orig == "Still studying", 99996, .data$val_numeric_target), 
+           na_label_target    = ifelse (.data$val_label_orig == "Still studying", "still_studying", .data$na_label_target), 
+           class_target = case_when (
+             var_name_target %in% c("w1", "wex") ~ "numeric", 
+             var_name_target == "rowid"          ~ "character",
+             var_name_target == "geo"            ~ "factor",
+             var_name_target == "age_education"  ~ "factor",
+             TRUE ~ .data$class_target
+           ))
 
+demography  <- crosswalk (survey_list = eb_climate_waves, 
+                              crosswalk_table = demography_ctable %>%
+                                filter ( id != "ZA7488_v1-0-0"))
+
+climate_dataset <- left_join ( global_problems, demography, by = c("id", "rowid") )
 
 ## Create a crosswalk table
 
 crosswalk_global_problem <- eb_demography_metadata  %>%
   bind_rows (most_serious_global_problem) %>%
-  select ( all_of(c("filename", "var_name_orig", "var_name_target"))) %>%
-  pivot_wider ( names_from = "filename", 
-                values_from = "var_name_orig") %>%
-  mutate ( class_var =case_when ( 
+  mutate ( class_var = case_when ( 
     var_name_target %in%  c("rowid", "age", "w1", "wex") ~ "numeric", 
-    TRUE ~ "factor"))
+    TRUE ~ "factor")) %>%
+  select ( all_of(c("filename", "class_var", "var_name_orig", "var_name_target"))) %>%
+  pivot_wider ( names_from = "filename", 
+                values_from = "var_name_orig") 
 
 numeric_vars <- crosswalk_global_problem$var_name_target[crosswalk_global_problem$class_var == "numeric"]
-factor_vars <- crosswalk_global_problem$var_name_target[crosswalk_global_problem$class_var == "factor"]
+factor_vars  <- crosswalk_global_problem$var_name_target[crosswalk_global_problem$class_var == "factor"]
 
 crosswalk_table <- crosswalk_global_problem  %>%
   pivot_longer (cols = starts_with("ZA"), 
@@ -141,7 +198,7 @@ crosstable <- data.frame (
     )
 )
 
-crosstable$var_class <- ifelse(crosstable$var_name_orig == "w1", "numeric", "factor")
+crosstable$class_target <- ifelse(crosstable$var_name_orig == "w1", "numeric", "factor")
 crosswalk ( example_surveys, crosswalk_table = crosstable)
 
 

@@ -14,7 +14,7 @@ data frame with at least the following columns: \code{var_name_orig}, \code{var_
 for harmonizing the variable names. If \code{val_label_orig}, \code{val_label_target} 
 are present, the value labels will be harmonized, too. If 
 \code{var_numeric_orig}, \code{var_numeric_target} are present, the numeric codes of the 
-variable will be harmonized. If \code{var_class} is present, then the class of the variable 
+variable will be harmonized. If \code{class_target} is present, then the class of the variable 
 will be harmonized to any of \code{factor}, \code{numeric} or \code{character} using 
 \code{\link{as_factor}}, \code{\link{as_numeric}}, or \code{\link{as_character}}.}
 
