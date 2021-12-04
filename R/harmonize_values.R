@@ -79,7 +79,7 @@ harmonize_values <- function(
     harmonize_labels <- harmonize_labels[c("from", "to", "numeric_values")]
   } 
   
-  validate_label_list <- function ( label_list ) {
+  validate_label_list <- function (label_list) {
     
     assert_that( 
       all(c("from", "to", "numeric_values") %in% names (label_list)),
@@ -218,7 +218,9 @@ harmonize_values <- function(
       }
     }
   
-  code_table <- code_table %>% distinct_all %>% dplyr::arrange(.data$new_values )
+  code_table <- code_table %>%
+    distinct_all() %>%
+    dplyr::arrange(.data$new_values )
   
   new_value_table <- original_values %>%
     dplyr::left_join (
@@ -237,9 +239,14 @@ harmonize_values <- function(
   ## A message should be given, these are just suspected to be missing
   new_na_values <- new_value_table$new_values[which(new_value_table$new_values >= 99900 )]
   
-  if (!is.null(na_values) & length(na_values)>0) {
+  if ( !is.null(na_values) & length(na_values)>0 ) {
+    # The user gets a message if the state missing range (described with labels) is not empty.
     potential_na_values <- original_values$x[which(original_values$x %in% as.numeric(na_values) )]
-    if (length(potential_na_values )>0) warning("There are values original values in the states new NA range. Make sure that these are not accidentally labelled as missing.\n")
+    if (length(potential_na_values )>0) {
+      unique_potential_na_values <- paste(unique(potential_na_values), collapse = ", ")
+      warning_message <- glue::glue("Variable {original_x_name} has values {unique_potential_na_values} that you mark as missing.")
+     # message ( warning_message) 
+     }
   }
   
   

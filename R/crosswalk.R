@@ -103,11 +103,13 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
       if (length(set_na_values)==0) set_na_values <- NULL
       
       harmonize_these_labels <- function(z) {
+      
         harmonize_labels = list ( 
           from = paste0("^", correspondence_table$val_label_orig, "$"), 
           to =   correspondence_table$val_label_target, 
           numeric_values = correspondence_table$val_numeric_target
           )
+        
         
         harmonize_values (x = z, 
                           harmonize_labels = harmonize_labels, 
@@ -177,9 +179,9 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
     
     if ( ! "class_target" %in% names(selection) ) return(tmp)
     
-    factor_vars <- selection$var_name_target[selection$class_target == "factor"]
-    character_vars <- selection$var_name_target[selection$class_target == "character"]
-    numeric_vars <-selection$var_name_target[selection$class_target == "numeric"]
+    factor_vars    <- selection$var_name_target[which(selection$class_target == "factor")]
+    character_vars <- selection$var_name_target[which(selection$class_target == "character")]
+    numeric_vars   <-selection$var_name_target[which(selection$class_target == "numeric")]
     
     return_df <-  tmp %>%
       mutate ( across (any_of(factor_vars), as_factor), 
@@ -190,8 +192,9 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
     return_df 
   }
   
+
   subsetted <- lapply ( survey_list, function(x) purrr::safely(subset_survey)(x) )
-  
+
   errors <- lapply ( subsetted, function(x) x$error)
     
   error_table <-  tibble ( 

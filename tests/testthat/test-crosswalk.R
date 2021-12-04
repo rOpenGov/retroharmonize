@@ -13,17 +13,22 @@ crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
 freedom_vars <- documented_surveys[grepl("freedom", documented_surveys$label_orig),]$var_name_orig
 solidarity_vars <- documented_surveys[grepl("solidarity", documented_surveys$label_orig),]$var_name_orig
 
+names(crosswalk_table)
+
 test_that("crosswalk_table_create", {
   expect_true(nrow(crosswalk_table) >= nrow(documented_surveys))
-  expect_equal(names(crosswalk_table),c("id", "filename", "var_name_orig", "var_name_target", 
+  expect_equal(names(crosswalk_table), c("id", "filename", "var_name_orig", "var_name_target", 
                                         "val_numeric_orig", "val_numeric_target", 
-                                        "val_label_orig", "val_label_target"))
+                                        "val_label_orig", "val_label_target", 
+                                        "na_numeric_target", "na_label_target",
+                                        "class_orig",  "class_target"))
 })
 
 expected_total_rows <- sum(vapply ( example_surveys, nrow, numeric(1) ))
 
-crosswalked_1 <- crosswalk_surveys(survey_list = example_surveys, 
-                                 crosswalk_table = crosswalk_table)
+crosswalked_1 <- crosswalk_surveys(
+  survey_list = example_surveys, 
+  crosswalk_table = crosswalk_table)
 
 test_that("crosswalk_surveys", {
   expect_equal(length(crosswalked_1), 3)
