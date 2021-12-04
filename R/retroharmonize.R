@@ -17,24 +17,29 @@
 #' and subset them (pre-harmonize the same variables.)\cr 
 #' \code{\link{pull_survey}}: pull a single survey from a survey list.\cr 
 #' 
-#' @section variable name harmonization functions:
+#' @section harmonization functions:
 #' \code{\link{label_normalize}} removes special characters, whitespace, 
 #' and other typical typing errors and helps the uniformization of labels
 #' and variable names.\cr
 #' \code{\link{suggest_permanent_names}}: Suggest the use of variable naming conventions.
 #' @section variable label harmonization functions:
 #' Create consistent coding and labelling.\cr 
-#' \code{\link{create_codebook}}: Create a codebook from the original SPSS variable codes and labels.\cr
 #' \code{\link{harmonize_values}}: Harmonize the label list across surveys.\cr
 #' \code{\link{harmonize_surveys}}: Create a list of surveys with harmonized value labels.\cr
 #' \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
 #' as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 #' @section survey harmonization functions:
 #' \code{\link{merge_surveys}}: Create a list of surveys with harmonized names and variable labels.\cr 
-#' 
-#' @section documentation functions:
-#' \code{\link{metadata_create}} and \code{\link{metadata_surveys_create}}\cr 
+#' \code{\link{harmonize_surveys}}: Create a list of surveys with harmonized value labels.\cr
+#' \code{\link{crosswalk_surveys}}: Create a list of surveys with harmonized variable names, harmonized 
+#' value labels and harmonize R classes.\cr
+#' \code{\link{crosswalk}}: Create a joined data frame of surveys with harmonized variable names, harmonized 
+#' value labels and harmonize R classes.\cr
+#' @section metadata functions:
+#' \code{\link{metadata_create}}: Createa metadata dataa from from one \code{\link{survey}}.\cr 
+#' \code{\link{metadata_surveys_create}}: Create a joined metadata data frame from more than one survey.\cr 
 #' \code{\link{create_codebook}} and \code{\link{codebook_waves_create}}
+#' \code{\link{crosswalk_table_create}}: Create an initial crosswalk table from a metadata data frame.\cr
 #' 
 #' @section documentation functions:
 #' Make the workflow reproducible by recording the harmonization process.

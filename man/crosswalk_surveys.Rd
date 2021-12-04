@@ -2,9 +2,12 @@
 % Please edit documentation in R/crosswalk.R
 \name{crosswalk_surveys}
 \alias{crosswalk_surveys}
+\alias{crosswalk}
 \title{Crosswalk surveys}
 \usage{
 crosswalk_surveys(survey_list, crosswalk_table, na_values = NULL)
+
+crosswalk(survey_list, crosswalk_table, na_values = NULL)
 }
 \arguments{
 \item{survey_list}{A list of \code{\link{survey}} objects.}
@@ -21,6 +24,11 @@ will be harmonized to any of \code{factor}, \code{numeric} or \code{character} u
 \item{na_values}{A named vector of \code{na_values}, the 
 observations that are defined to be treated as missing in 
 the SPSS-style coding. Defaults to \code{NULL}.}
+}
+\value{
+\code{crosswalk} will return a data frame, and \code{crosswalk_surveys} a list of
+data frames, where the variable names, and optionally the variable labels, and the missing 
+value range is harmonized (the same names, labels, codes are used.)
 }
 \description{
 Harmonize surveys with crosswalk tables.
@@ -50,3 +58,16 @@ documented_surveys$var_name_orig \%in\% c( "rowid", "isocntry", "w1", "qd3_4",
 crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
 }
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{collect_val_labels}()},
+\code{\link{crosswalk_table_create}()},
+\code{\link{harmonize_na_values}()},
+\code{\link{harmonize_surveys}()},
+\code{\link{harmonize_values}()},
+\code{\link{harmonize_var_names}()},
+\code{\link{label_normalize}()},
+\code{\link{suggest_permanent_names}()},
+\code{\link{suggest_var_names}()}
+}
+\concept{harmonization functions}

@@ -2,12 +2,17 @@
 % Please edit documentation in R/crosswalk.R
 \name{crosswalk_table_create}
 \alias{crosswalk_table_create}
+\alias{is.crosswalk_table}
 \title{Create a crosswalk table}
 \usage{
 crosswalk_table_create(metadata)
+
+is.crosswalk_table(ctable)
 }
 \arguments{
 \item{metadata}{A metadata table created by \code{\link{metadata_create}}.}
+
+\item{ctable}{A table to validate if it is a crosswalk table.}
 }
 \value{
 A tibble with raw crosswalk table. It contains all harmonization tasks, but the 
@@ -20,3 +25,21 @@ Create a crosswalk table with the source variable names and variable labels.
 The table contains a \code{var_name_target} and \code{val_label_target} column, but 
 these values need to be set by further manual or reproducible harmonization steps.
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{collect_val_labels}()},
+\code{\link{crosswalk_surveys}()},
+\code{\link{harmonize_na_values}()},
+\code{\link{harmonize_surveys}()},
+\code{\link{harmonize_values}()},
+\code{\link{harmonize_var_names}()},
+\code{\link{label_normalize}()},
+\code{\link{suggest_permanent_names}()},
+\code{\link{suggest_var_names}()}
+
+Other metadata functions: 
+\code{\link{create_codebook}()},
+\code{\link{metadata_create}()}
+}
+\concept{harmonization functions}
+\concept{metadata functions}

@@ -26,7 +26,7 @@
 #' @importFrom haven labelled_spss
 #' @importFrom assertthat assert_that
 #' @importFrom rlang set_names .data
-#' @family variable label harmonization functions
+#' @family harmonization functions
 #' @return A labelled vector that contains in its metadata attributes
 #' the original labelling, the original numeric coding and the current
 #' labelling, with the numerical values representing the harmonized

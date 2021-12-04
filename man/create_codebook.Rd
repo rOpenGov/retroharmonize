@@ -55,9 +55,11 @@ codebook_surveys_create (example_surveys)
 }
 \seealso{
 Other metadata functions: 
+\code{\link{crosswalk_table_create}()},
 \code{\link{metadata_create}()}
 
 Other metadata functions: 
+\code{\link{crosswalk_table_create}()},
 \code{\link{metadata_create}()}
 }
 \concept{metadata functions}

@@ -44,8 +44,6 @@ as_character(na_range_to_values(var1))
 }
 \seealso{
 Other variable label harmonization functions: 
-\code{\link{harmonize_surveys}()},
-\code{\link{harmonize_values}()},
 \code{\link{label_normalize}()}
 }
 \concept{variable label harmonization functions}

@@ -50,11 +50,19 @@ devtools::install_github("rOpenGov/retroharmonize")
 
 You can download the manual in PDF for the  [0.2.2 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.2.pdf).
 
-## Retrospective data harmonization
+## Survey harmonization
 
-Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. *Ex-post* or retrospective harmonization refers to the procedures applied to data that is already collected, while *ex ante* harmonization refers to survey design that makes future retrospective harmonization easier or more complete. From a computational point of view, the tasks are very similar or identical. The *ex ante* harmonization refers to procedures followed before the primary data is collected in order to make later data harmonization easier or more complete.
+Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. The *retroharmonize* package support various data processing, documentation, file/type conversion aspects of various survey harmonization workflows. 
 
-Our reproducible workflow aims to arrive to a single data frame that contains the observations joined from different surveys, with harmonized coding and labelling. Conceptually, we can work with two versions of two workflows. Sometimes it may be practical to alter the variable class and the label/code harmonization. 
+1.  **Harmonization of concepts**: Create a mental map of the measured concepts that needs to be harmonized, for example, a binary sex variable with missing cases and a four-level categorical variable on gender identification that has *other* and *declined* options. 
+2.  **Variable names**: Make sure that `survey_1$sex` and `survey_2$gender` can be concatenated to a gender vector or `survey_joined$gender`.
+3.  **Variable coding and labels**: Female=0  in `survey_1$sex` and female=2 in `survey_2$gender` becomes consistently female=0.  Missing and *declined* values are consistently handled.
+4.  **Variable types**: to use R's statistical functions with the concatenated version of `survey_1$sex` and `survey_2$gender` they must have the same R type. In the vast majority of the cases either *numeric* or *factor*, and in data visualization applications sometimes *character*.  
+5.  **Reproducibility**: To review statistics derived from the concatenated variable (or the joined data frame), they must remain comparable with `survey_1$sex` and `survey_2$gender`. It is also necessary to have a new, unique row ID for each observation. If you want to make your work available outside R, in a different software, the joined, longitudional data frame must be exported in a consistent manner.
+
+For an extended overview of these problems with illustrations please refer to the vignette [Survey Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization).
+
+Researchers may have different preferred workflows, for example:
 
 1. Harmonize concepts ->  Tidy datasets -> Harmonize variable names -> Harmonize variable classes -> Harmonize labels and codes -> Join data
 
@@ -62,9 +70,7 @@ Our reproducible workflow aims to arrive to a single data frame that contains th
 
 3. Harmonize concepts ->  Tidy datasets -> Harmonize labels and codes -> Harmonize variable classes -> Harmonize names -> Join data
 
-If you are planning to analyze the data in R, you are likely to want to have all the data in numeric or factor classes, because these are the variable types that are supported by many statistical functions in many packages. If you prefer to use a different analytical software, the joined, longitudional data frame must be exported in a consistent manner.
-
-The first workflow is relatively easy to implement when the number of variables to be harmonized is relatively low. 
+Our package has different utilities for different workflows.
 
 ## Working with SPSS files
 

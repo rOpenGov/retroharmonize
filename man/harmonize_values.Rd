@@ -73,18 +73,26 @@ harmonize_values (
 )
 }
 \seealso{
-Other variable label harmonization functions: 
+Other harmonization functions: 
+\code{\link{collect_val_labels}()},
+\code{\link{crosswalk_surveys}()},
+\code{\link{crosswalk_table_create}()},
+\code{\link{harmonize_na_values}()},
 \code{\link{harmonize_surveys}()},
+\code{\link{harmonize_var_names}()},
 \code{\link{label_normalize}()},
-\code{\link{na_range_to_values}()}
+\code{\link{suggest_permanent_names}()},
+\code{\link{suggest_var_names}()}
 
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
+\code{\link{crosswalk_surveys}()},
+\code{\link{crosswalk_table_create}()},
 \code{\link{harmonize_na_values}()},
+\code{\link{harmonize_surveys}()},
 \code{\link{harmonize_var_names}()},
 \code{\link{label_normalize}()},
 \code{\link{suggest_permanent_names}()},
 \code{\link{suggest_var_names}()}
 }
 \concept{harmonization functions}
-\concept{variable label harmonization functions}

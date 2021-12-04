@@ -19,7 +19,7 @@
 #' @importFrom tibble as_tibble
 #' @importFrom rlang set_names
 #' @importFrom haven labelled_spss
-#' @family variable label harmonization functions
+#' @family harmonization functions
 #' @examples
 #' \donttest{
 #' examples_dir <- system.file("examples", package = "retroharmonize")
