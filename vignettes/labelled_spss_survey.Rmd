@@ -14,6 +14,24 @@ knitr::opts_chunk$set(
 )
 ```
 
+Large international survey programs that provide data access to their data, such as the aforementioned Eurobarometer, Afrobarometer and Arab Barometer, or the European Values Survey, or Lationbarometro usually give access to the data in SPSS files. In some cases, Stata files are available, too. Our examples always start with SPSS files.
+
+In R, the [haven](https://haven.tidyverse.org/) package provides functions to import and export data to and from IBM's propriertary SPSS files. We had to realize that while [haven::read_spss](https://haven.tidyverse.org/reference/read_spss.html) works perfectly with importing the data and metadata of a single survey, it is not always suitable for multiple survey files, for two important reasons. SPSS files contain the survey data in a coded form, with the coding (labelling) metadata optionally included to each variable.  
+
+1. Variables imported with inconsistent labelling cannot always be concatenaed.  For example, unlabelled age variables are imported to an R numeric vector, whilst when the age 18 is labelled *18 years* or *18 éves*, it is imported to a labelled class. 
+
+2. The SPSS variables do not handle various missing cases in a complete and unambigous form.  In an age variable, *998* and *999* may be labelled as 'not asked' and 'declined to anser', or simply the numerical range between 120-999 may be marked as a range of numeric values representing missing cases.
+
+One practical problem in the Eurobarometer surveys, which targets the population of at least 15 years old Europeans is that in some standard questions, such as the age of finishing full-time education, 10 represents a special missing value, whilst in other surveys it may be a prefectly valid numerical answer. The real coding problem is that SPSS users can freely chose to use explicit labelling of missing cases, using a numerical range for missing cases, or not providing any missing case metadata at all.
+
+Our importing functions rely on two new S3 classes.  A single survey is imported into a `survey()` class, which inherits all the properties of a modern data frame, i.e., it is a `tibble` or `tbl_df` from [tibble](https://tibble.tidyverse.org/) in the tidyverse, but it includes as much metadata from the original SPSS file as possible. These metadata attributes are handled in a way that they can facilitate proper documentation and a reproducible workflow. Furthermore, it converts labelled variables into the *retroharmonize_labelled_spss* class inherited from [haven::labelled_spss](https://haven.tidyverse.org/reference/labelled_spss.html) with more consistent handling of missing value ranges and labels. See `?labelled_spss_survey`.
+
+Working with our new *retroharmonize_labelled_spss class* can be very cumbersome, particularly with simple harmonization tasks. In the case of harmonizing a single question from two surveys, this may not be practical, and a simple crosswalk table can help with spotting and correcting inconsistent codes.
+
+Our survey objects or retroharmonize_labelled_spss vectors can be converted to base R classes with the `as_numeric()`, `as_factor(`) or `as_character()` methods.  When comupting a numerical average,  the special age value of 10 is converted to `NA_real`_ as a numeric. In other statistical applications, missing and special values are best represented as categories---this calls for the factor representation. The character representation is often more useful for visualizing the data then the factor representation.
+
+## Create A labelled_spss_survey Vector
+
 ```{r setup}
 library(retroharmonize)
 ```
@@ -32,11 +50,13 @@ sl1 <- labelled_spss_survey (
 
 print(sl1)
 ```
+
 You can check the type: 
 
 ```{r}
 is.labelled_spss_survey (sl1)
 ```
+
 The `labelled_spss_survey()` class inherits some properties from `haven::labelled()`, which can be manipulated by the `labelled` package (See particularly the vignette *Introduction to labelled* by Joseph Larmarange.)
 
 ```{r}
@@ -76,6 +96,7 @@ vctrs::vec_c(sl1, 1/7)
 ```{r integer}
 c(sl1, 1:3)
 ```
+
 Conversion to character works as expected:
 
 ```{r character}
