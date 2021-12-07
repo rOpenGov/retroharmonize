@@ -348,7 +348,7 @@ harmonize_survey_variables <- function( crosswalk_table,
 #' @rdname subset_surveys
 #' @param waves A list of surveys imported with \code{\link{read_surveys}}.
 #' @export
-subset_waves <- function( waves, subset_names = NULL) {
+subset_waves <- function( waves, subset_vars = NULL) {
   .Deprecated(new = "subset_surveys", msg = "subset_waves is deprecated, use subset_surveys instead.")
-  subset_surveys ( survey_list = waves, subset_names = subset_names )  
+  subset_surveys ( survey_list = waves, subset_vars = subset_subset_vars )  
 }
