@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5710064.svg)](https://doi.org/10.5281/10.5281/zenodo.5710064)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5764361.svg)](https://doi.org/10.5281/zenodo.5764361)
 [![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
 [![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow
@@ -50,8 +50,8 @@ functions. It can be installed from [GitHub](https://github.com/) with:
 devtools::install_github("rOpenGov/retroharmonize")
 ```
 
-You can download the manual in PDF for the [0.2.2
-release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.2.pdf).
+You can download the manual in PDF for the [0.2.3
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.3.pdf).
 
 ## Survey harmonization
 
@@ -75,7 +75,8 @@ and the concatenated and harmonized variables.
     with this first step.
 2.  **Variable names**: Make sure that `survey_1$sex` and
     `survey_2$gender` can be concatenated to a gender vector or
-    `survey_joined$gender`.
+    `survey_joined$gender`. See more in the [Working With A Crosswalk
+    Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html).
 3.  **Variable coding and labels**: Female=0 in `survey_1$sex` and
     female=2 in `survey_2$gender` becomes consistently female=0. Missing
     and *declined* values are consistently handled.
@@ -83,7 +84,9 @@ and the concatenated and harmonized variables.
     concatenated version of `survey_1$sex` and `survey_2$gender` they
     must have the same R type. In the vast majority of the cases either
     *numeric* or *factor*, and in data visualization applications
-    sometimes *character*.  
+    sometimes *character*. See more in the [Harmonize Value
+    Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html)
+    vignette.
 5.  **Reproducibility**: To review statistics derived from the
     concatenated variable (or the joined data frame), they must remain
     comparable with `survey_1$sex` and `survey_2$gender`. It is also

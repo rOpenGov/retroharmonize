@@ -182,9 +182,10 @@ country_labels <- collect_val_labels (
                       filter (.data$var_name == "country")
     ) 
 
-algeria_labels <- paste0("`", 
-                         paste(country_labels[grepl("lgeria" , country_labels)], collapse = '`, `'), 
-                         "`")
+algeria_labels <- paste0(
+  "`", 
+  paste(country_labels[grepl("lgeria" , country_labels)], collapse = '`, `'), 
+  "`")
 ```
 
 * Variable harmonization means that the date of the interview should be called exactly the same way in each survey table, i.e. not `date` and `date_of_interview`, only `date_of_interview`. The auxiliary and demography variables appear to be relatively well harmonized in the  Arab Barometer, but the other survey items will require more work.
@@ -297,7 +298,7 @@ Arabbarometer's SPSS files use various missing value categories, we must careful
 ```{r review-value-labels, eval=TRUE}
 collect_val_labels(
   to_harmonize_elections %>% 
-     filter(grepl("evaluation in the last parliamentary elections", 
+     filter(grepl("evaluation_in_the_last_parliamentary_elections", 
                   .data$var_name))
   )
 ```
@@ -315,7 +316,6 @@ We created the following retrospective labelling and coding:
 5. We use three types of missing value categories: `Do not know`, `Declined` and `Missing`.
 
 The harmonization function from the `harmonize_values()` is a prototype function. We could call it directly, but instead we create `harmonize_arabb_eval()` to avoid the complicated parameterization. 
-
 ```{r harmonize_arabb_eval}
 harmonize_arabb_eval <- function(x){
   label_list <- list(
@@ -344,7 +344,7 @@ harmonize_arabb_eval <- function(x){
 The problem is that the numeric codes are not only used for the evaluation question, but also for country names.  Beware not to apply the election evaluation code table to the country names!
 
 ```{r harmonize-evaluations, eval=TRUE}
-harmonized_evaluations <- harmonize_surveys( 
+harmonized_evaluations <- harmonize_survey_values( 
   survey_list = lapply ( ab_elections, function(x) x %>% 
                      select (-.data$country)), 
   .f =harmonize_arabb_eval )

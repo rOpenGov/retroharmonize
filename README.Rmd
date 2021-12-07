@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5710064.svg)](https://doi.org/10.5281/10.5281/zenodo.5710064)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5764361.svg)](https://doi.org/10.5281/zenodo.5764361)
 [![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
 [![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
@@ -48,7 +48,7 @@ The development version has new features with the `create_codebook()` functions.
 devtools::install_github("rOpenGov/retroharmonize")
 ```
 
-You can download the manual in PDF for the  [0.2.2 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.2.pdf).
+You can download the manual in PDF for the  [0.2.3 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.3.pdf).
 
 ## Survey harmonization
 
@@ -57,9 +57,9 @@ Survey data harmonization refers to procedures that improve the data comparabili
 From a technical perspecitve, the aim of the survey harmonization is to create a single, tidy, joined table in the form of a data frame that contains a row identifier, which is truly unique across all observations and the concatenated and harmonized variables.
 
 1.  **Harmonization of concepts**: Create a mental map of the measured concepts that needs to be harmonized, for example, a binary sex variable with missing cases and a four-level categorical variable on gender identification that has *other* and *declined* options. See the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization) how mapping the metadata of the surveys can help getting started with this first step.
-2.  **Variable names**: Make sure that `survey_1$sex` and `survey_2$gender` can be concatenated to a gender vector or `survey_joined$gender`.
+2.  **Variable names**: Make sure that `survey_1$sex` and `survey_2$gender` can be concatenated to a gender vector or `survey_joined$gender`. See more in the [Working With A Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html).
 3.  **Variable coding and labels**: Female=0  in `survey_1$sex` and female=2 in `survey_2$gender` becomes consistently female=0.  Missing and *declined* values are consistently handled.
-4.  **Variable types**: to use R's statistical functions with the concatenated version of `survey_1$sex` and `survey_2$gender` they must have the same R type. In the vast majority of the cases either *numeric* or *factor*, and in data visualization applications sometimes *character*.  
+4.  **Variable types**: to use R's statistical functions with the concatenated version of `survey_1$sex` and `survey_2$gender` they must have the same R type. In the vast majority of the cases either *numeric* or *factor*, and in data visualization applications sometimes *character*.  See more in the [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) vignette.
 5.  **Reproducibility**: To review statistics derived from the concatenated variable (or the joined data frame), they must remain comparable with `survey_1$sex` and `survey_2$gender`. It is also necessary to have a new, unique row ID for each observation. If you want to make your work available outside R, in a different software, the joined, longitudional data frame must be exported in a consistent manner.
 
 For an extended overview of these problems with illustrations please refer to the vignette [Survey Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization).

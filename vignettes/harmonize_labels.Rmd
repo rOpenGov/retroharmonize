@@ -18,6 +18,11 @@ knitr::opts_chunk$set(
 library(retroharmonize)
 ```
 
+This vignette follows up on the [Working With A Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html). In the that vignette, you learned how to remove variables that cannot be harmonized with `subset_surveys()` and harmonize variable names with `harmonize_survey_variables()`.
+
+As a result of these steps, you have a list of surveys, or surveys saved in files that are harmonization candidates. They now need a consistent numerical coding, labelling with special attention given to missing values and other special values.
+
+
 ## Harmonize value codes and labels
 
 The function `harmonize_values()` solves problems in the following situations:
@@ -206,6 +211,7 @@ For a single vector, you can use the `concatenate()` function, which, under the 
 ```{r}
 vctrs::vec_c(h1,h2)
 ```
+
 ## Binding surveys together
 
 As soon as you have only compatible variables with matching names in two data frames, you can bind them together in a way that their history is preserved.  You can do this with `vctrs::vec_rbind` or `dplyr::bind_rows()`. The generic `rbind()` will lose the labelling information.

@@ -25,17 +25,17 @@ survey_files
 ```
 ## Working With a Single Survey
 
-```{r}
+```{r readfiles}
 survey_1 <- read_rds(file.path(examples_dir, survey_files[1]))
 ```
 
-```{r}
+```{r metadatacreate}
 metadata_create(survey_1)
 ```
 
 ## Working With Multiple Surveys
 
-```{r}
+```{r surveypaths}
 survey_paths <- file.path(examples_dir, survey_files)
 ```
 
@@ -55,10 +55,10 @@ metadata_surveys_create (survey_list = example_surveys)
 
 If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
 
-```{r readfiles}
+```{r createmetadatasurveys}
 example_metadata <- metadata_surveys_create ( survey_files = survey_paths, .f = "read_rds")
 ```
-```{r}
+```{r printexample}
 example_metadata
 ```
 A quick glance at some metadata:
@@ -66,9 +66,9 @@ A quick glance at some metadata:
 ```{r subsetmetadata}
 library(dplyr)
 subset_example_metadata <- example_metadata %>%
-  filter ( grepl("trust", .data$label_orig) ) %>%
-  filter ( grepl("european_parliament", .data$label_orig)) %>%
-  select ( all_of(c("filename", "label_orig", "var_name_orig", "valid_labels", "na_labels", "class_orig")))
+  filter ( grepl("trust", .data$var_label_orig) ) %>%
+  filter ( grepl("european_parliament", .data$var_label_orig)) %>%
+  select ( all_of(c("filename", "var_label_orig", "var_name_orig", "valid_labels", "na_labels", "class_orig")))
 
 subset_example_metadata
 ```
@@ -77,13 +77,13 @@ In `ZA5913.rds` the Trust in European Parliament variable is called `qa10_1`, in
 
 In the first survey, the variable has two values (coded as 1 and 2, and labelled as `Tend to trust` and `Tend not to trust`. )
 
-```{r}
+```{r examplelabels}
 unlist(subset_example_metadata$valid_labels[1])
 ```
 
 In the first survey, the variable has two values (coded as 1 and 2, and labelled as `Tend to trust` and `Tend not to trust`.) In the second survey, we have three values, and non of them are marked as special, missing values. This is not surprising, because they were not SPSS files. They have related, but not exactly matching classes, too.  Therefore, these variables need to be harmonized.
 
-```{r}
+```{r examplenalabels2}
 unlist(subset_example_metadata$valid_labels[2])
 unlist(subset_example_metadata$na_labels[2])
 ```

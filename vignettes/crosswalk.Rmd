@@ -182,8 +182,7 @@ The names are identical to the original names:
 ```{r subsetsave14}
 lapply (subset_survey_list_1, names)
 ```
-This is not a very practical, because we cannot join these tables into a single, harmonized dataset. The first step is to harmonize the names of those variables that represent the same concept, in this case, *Trust in the European Parliament*.  The next steps, i.e. the harmonization of the numerical codes of answers and their labels will be discussed in the vignette xxxxx.
-
+This is not a very practical, because we cannot join these tables into a single, harmonized dataset. The first step is to harmonize the names of those variables that represent the same concept, in this case, *Trust in the European Parliament*.  The next steps, i.e. the harmonization of the numerical codes of answers and their labels will be discussed in the [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) vignette.
 
 ## Variable Name Harmonization
 
@@ -238,7 +237,6 @@ Having a subsetted list of surveys with harmonized variable names is usually not
 
 At last, if the statistical analysis will take place in R, a converstion to basic R classes is necessary to rely on the vast arsenal of R’s statistical packages.  This means that the survey data must be brought to a consistent numeric or a consistent factor format (and in some cases, for visualization, to a character format).
 
-We created a special s3 class (see `?labelled_spss_survey`), which retains the metadata about coding and special values, and created three methods that take into consideration the retained metadata. For example, if 999 is the code for declined answers, then the base are `as.numeric()` will coerce observations (survey responses) with a value `999` to a numerical value of `999`, but the `as_numeric()` method will give a `NA_real_` representation to this observation.  Averaging numerical, coded values will give a logically wrong result with the basic as.numeric, but a correct with the as_numeric method.
+We created a special s3 class (see `?labelled_spss_survey`), which retains the metadata about coding and special values, and created three methods that take into consideration the retained metadata. For example, if 999 is the code for declined answers, then the base are `as.numeric()` will coerce observations (survey responses) with a value `999` to a numerical value of `999`, but the `as_numeric()` method will give a `NA_real_` representation to this observation.  Averaging numerical, coded values will give a logically wrong result with the basic as.numeric, but a correct with the `as_numeric()` method.
 
-
-The crosswalk table is a map for value code and label harmonization, and for type conversion, too.  This is the topic of the xxxxx vignette.
+The crosswalk table is a map for value code and label harmonization, and for type conversion, too.  This is the topic of the [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) vignette.
