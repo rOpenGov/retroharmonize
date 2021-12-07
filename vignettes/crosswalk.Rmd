@@ -59,7 +59,7 @@ ct <- crosswalk_table_create(subset_example_metadata)
 ct
 ```
 
-The harmonization of the variable names requires a single, unambigous name for the variables that represent the same concept: 
+The harmonization of the variable names requires a single, unambiguous name for the variables that represent the same concept: 
 
 ```{r varnames}
 ct %>%

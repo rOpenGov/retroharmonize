@@ -60,7 +60,7 @@ comparability or the inferential capacity of multiple surveys. The
 *retroharmonize* package support various data processing, documentation,
 file/type conversion aspects of various survey harmonization workflows.
 
-From a technical perspecitve, the aim of the survey harmonization is to
+From a technical perspective, the aim of the survey harmonization is to
 create a single, tidy, joined table in the form of a data frame that
 contains a row identifier, which is truly unique across all observations
 and the concatenated and harmonized variables.

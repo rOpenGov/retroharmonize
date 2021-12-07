@@ -51,7 +51,7 @@ survey_1 %>%
 
 The ordering of the survey harmonization workflow is flexible, and it is likely that even the same researcher would choose a different workflow in the case of smaller, simpler harmonization tasks and more complex harmonization tasks.
 
-The data science aspect of a successful survey harmonization task is the creation of a consistent data frame that contains harmonized information from multiple surveys. It practically means that questionnaire items are mapped into variables with a consistent numerical coding, descriptive metadata (variable and value labels) and a consistent handling of missing and special values. In practice, this is a very laborous taks, when surveys are conducted in different years, saved in different file formats with a different metadata structure, missing and special values are handled differently, and the metadata contains potentially different natural language descriptions or spelling.
+The data science aspect of a successful survey harmonization task is the creation of a consistent data frame that contains harmonized information from multiple surveys. It practically means that questionnaire items are mapped into variables with a consistent numerical coding, descriptive metadata (variable and value labels) and a consistent handling of missing and special values. In practice, this is a very laborous tasks, when surveys are conducted in different years, saved in different file formats with a different metadata structure, missing and special values are handled differently, and the metadata contains potentially different natural language descriptions or spelling.
 
 Survey 1 labels the sex of respondents as Male and Female, and has cases that are neither Male or Female, but we do not know why.
 
@@ -61,7 +61,7 @@ survey_2 %>%
            gender_factor  = as_factor(.data$gender))
 ```
 
-Survey 2 records gender, which contains the same information as sex in Survey 1 (Male and Female), but allows people to identify as Other, and labels cases when people decline to identify with any of these thre categories.
+Survey 2 records gender, which contains the same information as sex in Survey 1 (Male and Female), but allows people to identify as Other, and labels cases when people decline to identify with any of these three categories.
 
 In practice, you want to end up with the following joined representation of your survey:
 
@@ -87,7 +87,7 @@ survey_joined %>%
     *  Data measuring sufficiently similar concepts, i.e. data that can be harmonized, is stored in variables that have the same name in different data frames representing the survey, therefore they can be bind or joined together. We want to join or bind by rows `survey_1` with `survey_2`, or, we want to concatenate `survey_1$sex` with `survey_2$gender`.
     *  Descriptive metadata about the variable, such as "variable labels" in SPSS files, is recorded for documentation, and if needed, harmonized across surveys. In SPSSS,  `survey_1$sex` may come with a variable label something like *SEX OF RESPONDENT*, and `survey_2$gender` may be labelled as *GENDER IDENTIFICATION*. This label should be harmonized to *Sex or gender or the respondent*. 
 3.  Variable coding and labels
-    * Variables recording or measuring the same concept, such as the gender of the respondent, are coded exactly the same way, for example, females with 0, males with 1, non-binary respondants with 3, and people declining to reveal their gender with 9. This means that observations in `survey_2$gender` coded with a numeric 2 must be changed to a numeric 0.
+    * Variables recording or measuring the same concept, such as the gender of the respondent, are coded exactly the same way, for example, females with 0, males with 1, non-binary respondents with 3, and people declining to reveal their gender with 9. This means that observations in `survey_2$gender` coded with a numeric 2 must be changed to a numeric 0.
     * Variable labels are used consistently and in exactly the same way, i.e. `survey_1$sex` *Female* respondents and `survey_2$gender` *female* respondents will be consistently labelled as *female*.
 4.  Variable types
     * Variables recording or measuring the same concept are stored in exactly the same R type, and they can be consistently concatenated across surveys, or they can be subsetted, cross-cutting surveys, for example, all female respondents from Survey 1 and Survey 2 can be subsetted into a female vector.
@@ -141,7 +141,7 @@ Apart from the simple, descriptive variable of the survey identification, non of
 ```{r}
 summary(survey_var_harmonized)
 ```
-The variable labels must be harmonized for a succesful factor representation.  The numerical coding must be harmonized, and the missing cases must be consistently handled to acheive any useful numerical representation. 
+The variable labels must be harmonized for a successful factor representation.  The numerical coding must be harmonized, and the missing cases must be consistently handled to acheive any useful numerical representation. 
 
 ```{r}
 survey_joined %>%
