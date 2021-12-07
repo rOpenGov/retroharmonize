@@ -39,13 +39,13 @@ suggest_var_names <- function( metadata,
                                case = "snake" ) {
   
   names_to_keep <- NULL
-  survey_program <- tolower(as.character(survey_program))
-  recognized_survey_programs <- c("eurobarometer", "afrobarometer")
 
   if (!is.null(survey_program)) {
+    survey_program <- tolower(as.character(survey_program))
     if ( survey_program %in% c("eurobarometer")) {
       names_to_keep  <- suggest_permanent_names("eurobarometer")
     } else {
+      recognized_survey_programs <- c("eurobarometer", "afrobarometer")
       rsp <- paste(recognized_survey_programs, collapse = "' OR '")
       warning ( glue::glue("Currently only survey_program = '{rsp}' is recognized.") )
     }
@@ -55,7 +55,8 @@ suggest_var_names <- function( metadata,
     mutate ( var_name_suggested = ifelse ( 
       test = .data$var_name_orig %in% names_to_keep, 
       yes  = .data$var_name_orig, 
-      no   = var_label_normalize(.data$label_orig)))
+      no   = var_label_normalize(.data$var_label_orig))
+      )
   
   if ( is.null(case) ) {
     return_metadata

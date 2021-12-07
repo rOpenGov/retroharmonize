@@ -37,17 +37,7 @@ testing_subsetting <- function() {
   
   saveRDS(test_survey, temporary_saving_location, version = 2)
   
-  subset_save_surveys  ( crosswalk_table = ctable, 
-                         subset_name = "tested", 
-                         import_path = NULL, 
-                         export_path = NULL)
-  
-  subset_save_surveys  ( crosswalk_table = ctable, 
-                         subset_name = "tested",
-                         survey_list =  test_survey,
-                         import_path = NULL
-                         )
-  
+
   file.exists ( file.path(tempdir(), "ZA7576_tested.rds"))
 }
 
@@ -58,11 +48,16 @@ test_that("saving and subsetting", {
   }
 )
 
+
+
 test_that("saving and subsetting (not on CRAN)", {
   skip_on_cran()
   expect_true(testing_subsetting())
   expect_message(testing_subsetting())
   expect_true(ncol(readRDS ( file.path(tempdir(), "ZA7576_tested.rds"))) == 3)
+  expect_error(subset_save_surveys  ( crosswalk_table = ctable, 
+                                      subset_name = "tested", 
+                                      import_path = NULL, 
+                                      export_path = NULL))
 })
-
 

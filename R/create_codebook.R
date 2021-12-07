@@ -61,7 +61,7 @@ create_codebook <- function ( metadata = NULL,
   metadata$entry <- 1:nrow(metadata)
   
   if ( length(user_vars)>0 ) {
-    user_data <- metadata %>% select ( all_of(c("entry", user_vars)))
+    user_data <- metadata %>% select (all_of(c("entry", user_vars)))
   }
   
   

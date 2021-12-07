@@ -29,23 +29,6 @@ var_warn <- labelled::labelled_spss(
              "INAP. HERE" = 99999), 
   na_values = c(8,9))
 
-
-test_that("warning works", {
-  expect_warning(harmonize_values (
-    x = var_warn , 
-    harmonize_labels = list ( 
-      from = c("^tend\\sto|^trust", "^tend\\snot|not\\strust", "^dk|^don", "^inap"), 
-      to = c("trust", "not_trust", "do_not_know", "inap"),
-      numeric_values = c(1,0,99997, 99999)), 
-    na_values = c("do_not_know" = 99997,
-                  "declined" = 99998,
-                  "inap" = 99999), 
-    id = "survey_id",
-    harmonize_label = "Do you trust the European Union?"
-  ))
-})
-
-
 test_that("casting works", {
   expect_equal(inherits(h1, "haven_labelled_spss"), TRUE)
   expect_equal(is.numeric(h1), TRUE)
@@ -170,4 +153,3 @@ h_mc <- harmonize_values (
 test_that("properly working with labels that contain each other", {
   expect_equal(unique(as_character(h_mc)), c("mentioned", "not_mentioned", "do_not_know", "inap"))
 })
-
