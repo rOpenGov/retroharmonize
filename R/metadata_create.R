@@ -3,7 +3,8 @@
 #' @description Create a metadata table from the survey data files.
 #' 
 #' @details A data frame like tibble object is returned. 
-#' In case you are working with a list of surveys (waves), call 
+#' In case you are working with several surveys, a list of surveys or a vector
+#' of file names containing the full path to the survey must be called with 
 #' \code{\link{metadata_surveys_create}}, which is a wrapper around 
 #' a list of  \code{\link{metadata_create}} calls.
 #' 
@@ -13,7 +14,7 @@
 #'   \item{id}{The ID of the survey, if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
 #'   \item{var_name_orig}{The original variable name in SPSS.}
 #'   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
-#'   \item{label_orig}{The original variable label in SPSS.}
+#'   \item{var_label_orig}{The original variable label in SPSS.}
 #'   \item{labels}{A list of the value labels.}
 #'   \item{valid_labels}{A list of the value labels that are not marked as missing values.}
 #'   \item{na_labels}{A list of the value labels that refer to user-defined missing values.}
@@ -24,7 +25,8 @@
 #'   \item{na_levels}{A list of the user-defined missing values.}
 #' }
 #' 
-#' @param survey A survey data frame.
+#' @param survey A survey data frame, or a list of survey data frames, in which case the 
+#' \code{\link{metadata_surveys_create} will be called as a wrapper.}
 #' @importFrom tibble tibble
 #' @importFrom dplyr left_join mutate case_when group_by
 #' @importFrom tidyr nest unnest
@@ -44,10 +46,26 @@
 #' )
 #' @export
 
-metadata_create <- function( survey ) {
 
-  assert_that(is.survey(survey), 
-              msg = "Parameter 'survey' must be of s3 class survey. See ?is.survey.")
+metadata_create <- function( survey ) {
+  
+  if ( "list" %in% class(survey) ) {
+    assert_that(all(vapply ( survey, is.survey, logical(1))), 
+                msg = "Parameter 'survey' is not of s3 class survey or a list of them. See ?is.survey.")
+    metadata_df <- metadata_surveys_create(survey_list = survey)
+    return(metadata_df)
+  } else if ( 
+    # Accidentally the file names were supplied.
+    # This will validate if the surveys are indeed existing files.
+    is.character(survey) ) {
+    warning("The parameter 'survey' is not a single survey but a character vector. Try to understand them as a file names. See ?metadata_surveys_create.")
+    metadata_df <- metadata_surveys_create(survey_files = survey)
+    return(metadata_df)
+  } else {
+    assert_that(is.survey(survey), 
+                msg = "Parameter 'survey' must be of s3 class survey. See ?is.survey.")
+  }
+
   
   filename <- attr(survey, "filename")
   
@@ -60,7 +78,7 @@ metadata_create <- function( survey ) {
     return(metadata_initialize(filename = filename, id = paste0(filename, " could not be read.")))
   }
   
-  label_orig  <- lapply ( survey, labelled::var_label )
+  var_label_orig  <- lapply ( survey, labelled::var_label )
   
   class_orig <- vapply( survey, function(x) class(x)[1], character(1))
   
@@ -69,9 +87,9 @@ metadata_create <- function( survey ) {
     id = id,
     var_name_orig = names(survey), 
     class_orig =  class_orig, 
-    label_orig = ifelse ( vapply(label_orig, is.null, logical(1)), 
+    var_label_orig = ifelse ( vapply(var_label_orig, is.null, logical(1)), 
                           "", 
-                          unlist(label_orig)) %>%
+                          unlist(var_label_orig)) %>%
       as.character() %>%
       var_label_normalize()
   )
@@ -155,7 +173,12 @@ metadata_create <- function( survey ) {
 
 #' @title Create a metadata table from several surveys
 #' @rdname metadata_create
-#' @param survey_list A list containing surveys of class survey.
+#' @param survey_list A list containing surveys of class survey. Defaults to \code{NULL}.
+#' @param survey_files A vector of survey files to read with a full, valid path.
+#' Defaults to \code{NULL}.
+#' @param .f The importing function to use, defaults to \code{\link{read_spss}}. 
+#' It is only used if \code{survey_list = NULL} and \code{survey_files} contain one or more
+#' existing surveys stored in files.
 #' @family metadata functions
 #' @examples
 #' examples_dir <- system.file( "examples", package = "retroharmonize")
@@ -167,15 +190,41 @@ metadata_create <- function( survey ) {
 #' metadata_surveys_create (example_surveys)
 #' @export
 
-metadata_surveys_create <- function ( survey_list ) {
-  
-  validate_survey_list( survey_list)
-  
-  metadata_list <- lapply ( survey_list, metadata_create )
-
-  do.call ( rbind, metadata_list )
-  
+metadata_surveys_create <- function ( survey_list = NULL, 
+                                      survey_files = NULL, 
+                                      .f = 'read_spss') {
+ 
+  if ( !is.null(survey_list)) {
+    validate_survey_list( survey_list)
+    metadata_list <- lapply ( survey_list, metadata_create )
+    do.call ( rbind, metadata_list )
+  } else if (is.null(survey_files)) {
+    stop("Error in metadata_surveys_create(): both 'survey_list' and 'survey_files' are NULL.")
+  } else {
+    validate_survey_files (survey_files)
+    
+    if ( .f == "read_spss" ) {
+      .f = read_spss
+    } else if ( .f == "read_dta") {
+      .f = read_dta
+    } else if ( .f == "read_rds") {
+      .f = read_rds
+    } else {
+      stop("in metadata_surveys_create(..., .f=) must be one of 'read_spss', 'read_dta' or 'read_rds', and not '", .f, "'.")
+    }
+    
+    read_survey_create_metadata <- function(x, .f) {
+      tmp <- .f (file = x)
+      message ("Read: ", x)
+      metadata_create(tmp)
+    }
+    
+    metadata_list <- lapply ( X = survey_files, 
+                              FUN = function(x) read_survey_create_metadata(x, .f) )
+    do.call(rbind, metadata_list)
+  }
 }
+
 #' @rdname metadata_create
 #' @details The form \code{metadata_waves_create} is deprecated.
 
@@ -200,7 +249,7 @@ metadata_initialize <- function (filename, id ){
     id = id, 
     class_orig = NA_character_,
     var_name_orig = NA_character_, 
-    label_orig   = NA_character_, 
+    var_label_orig   = NA_character_, 
     labels       = NA_character_, 
     valid_labels = list("none" = NA_real_),
     na_labels = list("none" = NA_real_),
@@ -210,4 +259,5 @@ metadata_initialize <- function (filename, id ){
     n_na_labels = 0 )  
   
 }
+
 

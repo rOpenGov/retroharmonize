@@ -1,5 +1,6 @@
 # retroharmonize 0.2.3
 * New long form documentation.
+* `metadata_surveys_create()` will take now either a list of surveys, or file names of saved surveys.
 
 # retroharmonize 0.2.2
 * All functions containing 'wave' in the name are deprecated.  Survey 'waves' are renamed to 'survey_list', because 'waves' is used in Eurobarometer and a more generaic and standardized interface was built.

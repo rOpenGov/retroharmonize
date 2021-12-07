@@ -52,9 +52,11 @@ You can download the manual in PDF for the  [0.2.2 release](https://retroharmoni
 
 ## Survey harmonization
 
-Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. The *retroharmonize* package support various data processing, documentation, file/type conversion aspects of various survey harmonization workflows. 
+Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. The *retroharmonize* package support various data processing, documentation, file/type conversion aspects of various survey harmonization workflows.
 
-1.  **Harmonization of concepts**: Create a mental map of the measured concepts that needs to be harmonized, for example, a binary sex variable with missing cases and a four-level categorical variable on gender identification that has *other* and *declined* options. 
+From a technical perspecitve, the aim of the survey harmonization is to create a single, tidy, joined table in the form of a data frame that contains a row identifier, which is truly unique across all observations and the concatenated and harmonized variables.
+
+1.  **Harmonization of concepts**: Create a mental map of the measured concepts that needs to be harmonized, for example, a binary sex variable with missing cases and a four-level categorical variable on gender identification that has *other* and *declined* options. See the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization) how mapping the metadata of the surveys can help getting started with this first step.
 2.  **Variable names**: Make sure that `survey_1$sex` and `survey_2$gender` can be concatenated to a gender vector or `survey_joined$gender`.
 3.  **Variable coding and labels**: Female=0  in `survey_1$sex` and female=2 in `survey_2$gender` becomes consistently female=0.  Missing and *declined* values are consistently handled.
 4.  **Variable types**: to use R's statistical functions with the concatenated version of `survey_1$sex` and `survey_2$gender` they must have the same R type. In the vast majority of the cases either *numeric* or *factor*, and in data visualization applications sometimes *character*.  

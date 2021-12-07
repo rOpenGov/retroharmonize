@@ -34,7 +34,6 @@ Other import functions:
 \code{\link{pull_survey}()},
 \code{\link{read_dta}()},
 \code{\link{read_spss}()},
-\code{\link{read_surveys}()},
-\code{\link{subset_save_surveys}()}
+\code{\link{read_surveys}()}
 }
 \concept{import functions}

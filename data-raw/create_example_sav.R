@@ -6,9 +6,9 @@ selected_files <- c("ZA5913_v2-0-0.sav",
                     "ZA6863_v1-0-0.sav", 
                     "ZA7576_v1-0-0.sav")
 
-ZA5913_names <- c('doi','version','uniqid','isocntry','p1','p3','p4','p5','nuts','d7','d8','d25','d60','qa10_3','qa10_2','qa10_1','qa7_4','qa7_2','qa7_3','qa7_1','qa7_5','qd3_1','qd3_2','qd3_3','qd3_4','qd3_5','qd3_6','qd3_7','qd3_8','qd3_9','qd3_10','qd3_11','qd3_12','qd3_13','qd3_14','w1','w3')
-ZA6863_names <- c('doi','version','uniqid', 'serialid','isocntry','p1','p2','p3','p4','p5','nuts','d7','d8','d25','d60','qa14_3','qa14_2','qa14_1','qa8a_3','qa8a_9','qa8b_2','qa8a_1','qa8a_7','qa8a_8','qa8a_2','qa8a_5','qa8b_1','qa8a_4','qa8a_6','qa8a_10','qa8b_3','qd7.1','qd7.2','qd7.3','qd7.4','qd7.5','qd7.6','qd7.7','qd7.8','qd7.9','qd7.10','qd7.11','qd7.12','qd7.13','qd7.14','w1','w3','wex')
-ZA7576_names <- c('doi','version','uniqid','caseid', 'serialid', 'isocntry','p1','p2','p3','p4','p5','nuts','d7','d8','d25','d60','qa14_5','qa14_3','qa14_2','qa14_4','qa14_1','qa6a_5','qa6a_10','qa6b_2','qa6a_3','qa6a_1','qa6b_4','qa6a_8','qa6a_9','qa6a_4','qa6a_2','qa6b_1','qa6a_6','qa6a_7','qa6a_11','qa6b_3','qd6.1','qd6.2','qd6.3','qd6.4','qd6.5','qd6.6','qd6.7','qd6.8','qd6.9','qd6.10','qd6.11','qd6.12','qd6.13','qd6.14','qg1b','qg8','w1','w3','wex')
+ZA5913_names <- c('doi','version','uniqid','isocntry','p1','p3','p4', 'nuts','d7','d8','d25','d60','qa10_3','qa10_2','qa10_1','qa7_4','qa7_2','qa7_3','qa7_1','qa7_5','qd3_1','qd3_2','qd3_3','qd3_4','qd3_5','qd3_6','qd3_7','qd3_8','qd3_9','qd3_10','qd3_11','qd3_12','qd3_13','qd3_14','w1','w3')
+ZA6863_names <- c('doi','version','uniqid', 'serialid','isocntry','p1','p2','p3','p4','nuts','d7','d8','d25','d60','qa14_3','qa14_2','qa14_1','qa8a_3','qa8a_9','qa8b_2','qa8a_1','qa8a_7','qa8a_8','qa8a_2','qa8a_5','qa8b_1','qa8a_4','qa8a_6','qa8a_10','qa8b_3','qd7.1','qd7.2','qd7.3','qd7.4','qd7.5','qd7.6','qd7.7','qd7.8','qd7.9','qd7.10','qd7.11','qd7.12','qd7.13','qd7.14','w1','w3','wex')
+ZA7576_names <- c('doi','version','uniqid','caseid', 'serialid', 'isocntry','p1','p2','p3','p4','nuts','d7','d8','d25','d60','qa14_5','qa14_3','qa14_2','qa14_4','qa14_1','qa6a_5','qa6a_10','qa6b_2','qa6a_3','qa6a_1','qa6b_4','qa6a_8','qa6a_9','qa6a_4','qa6a_2','qa6b_1','qa6a_6','qa6a_7','qa6a_11','qa6b_3','qd6.1','qd6.2','qd6.3','qd6.4','qd6.5','qd6.6','qd6.7','qd6.8','qd6.9','qd6.10','qd6.11','qd6.12','qd6.13','qd6.14','qg1b','qg8','w1','w3','wex')
 
 ZA5913 <- haven::read_spss(file.path(gesis_dir, selected_files[1]), 
                            user_na = TRUE)

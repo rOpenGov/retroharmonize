@@ -5,7 +5,14 @@
 \alias{harmonize_waves}
 \title{Harmonize values in surveys}
 \usage{
-harmonize_surveys(survey_list, .f, status_message = FALSE)
+harmonize_surveys(
+  crosswalk_table,
+  subset_name = "subset",
+  survey_list = NULL,
+  survey_paths = NULL,
+  import_path = "",
+  export_path = NULL
+)
 
 harmonize_waves(waves, .f, status_message = FALSE)
 }
@@ -13,12 +20,12 @@ harmonize_waves(waves, .f, status_message = FALSE)
 \item{survey_list}{A list of surveys. In the deprecated form the parameter was called
 \code{waves}.}
 
+\item{waves}{A list of surveys. Deprecated.}
+
 \item{.f}{A function to apply for the harmonization.}
 
 \item{status_message}{Defaults to \code{FALSE}. If set to \code{TRUE}
 it shows the id of the survey that is being joined.}
-
-\item{waves}{A list of surveys. Deprecated.}
 }
 \value{
 A natural full join of all surveys in a single data frame.

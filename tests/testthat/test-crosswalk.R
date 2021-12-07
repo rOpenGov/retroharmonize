@@ -20,7 +20,9 @@ test_that("crosswalk_table_create", {
   expect_equal(names(crosswalk_table), c("id", "filename", "var_name_orig", "var_name_target", 
                                         "val_numeric_orig", "val_numeric_target", 
                                         "val_label_orig", "val_label_target", 
-                                        "na_numeric_target", "na_label_target",
+                                        "na_label_orig", "na_label_target",
+                                        "na_numeric_orig", "na_numeric_target",
+                                        "var_label_orig", "var_label_target",
                                         "class_orig",  "class_target"))
 })
 

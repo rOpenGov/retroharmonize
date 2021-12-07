@@ -8,14 +8,26 @@
 \usage{
 metadata_create(survey)
 
-metadata_surveys_create(survey_list)
+metadata_surveys_create(
+  survey_list = NULL,
+  survey_files = NULL,
+  .f = "read_spss"
+)
 
 metadata_waves_create(survey_list)
 }
 \arguments{
-\item{survey}{A survey data frame.}
+\item{survey}{A survey data frame, or a list of survey data frames, in which case the 
+\code{\link{metadata_surveys_create} will be called as a wrapper.}}
 
-\item{survey_list}{A list containing surveys of class survey.}
+\item{survey_list}{A list containing surveys of class survey. Defaults to \code{NULL}.}
+
+\item{survey_files}{A vector of survey files to read with a full, valid path.
+Defaults to \code{NULL}.}
+
+\item{.f}{The importing function to use, defaults to \code{\link{read_spss}}. 
+It is only used if \code{survey_list = NULL} and \code{survey_files} contain one or more
+existing surveys stored in files.}
 }
 \value{
 A nested data frame with metadata and the range of 
@@ -26,7 +38,8 @@ Create a metadata table from the survey data files.
 }
 \details{
 A data frame like tibble object is returned. 
-In case you are working with a list of surveys (waves), call 
+In case you are working with several surveys, a list of surveys or a vector
+of file names containing the full path to the survey must be called with 
 \code{\link{metadata_surveys_create}}, which is a wrapper around 
 a list of  \code{\link{metadata_create}} calls.
 
@@ -36,7 +49,7 @@ The structure of the returned tibble:
   \item{id}{The ID of the survey, if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
   \item{var_name_orig}{The original variable name in SPSS.}
   \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
-  \item{label_orig}{The original variable label in SPSS.}
+  \item{var_label_orig}{The original variable label in SPSS.}
   \item{labels}{A list of the value labels.}
   \item{valid_labels}{A list of the value labels that are not marked as missing values.}
   \item{na_labels}{A list of the value labels that refer to user-defined missing values.}

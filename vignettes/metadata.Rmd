@@ -1,0 +1,98 @@
+---
+title: "Working With Survey Metadata"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Working With Survey Metadata}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r knitropts, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(retroharmonize)
+```
+
+```{r}
+examples_dir <- system.file("examples", package = "retroharmonize")
+survey_files <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
+survey_files
+```
+## Working With a Single Survey
+
+```{r}
+survey_1 <- read_rds(file.path(examples_dir, survey_files[1]))
+```
+
+```{r}
+metadata_create(survey_1)
+```
+
+## Working With Multiple Surveys
+
+```{r}
+survey_paths <- file.path(examples_dir, survey_files)
+```
+
+With smaller data frames representing your surveys, the most efficient way to work with the information is to read them into a list of surveys. 
+
+Read the surveys into a list object in the memory:
+
+```{r readtolist}
+example_surveys <- read_surveys (survey_paths, .f = "read_rds")
+```
+
+Map the metadata contents of the files:
+
+```{r processlist}
+metadata_surveys_create (survey_list = example_surveys)
+```
+
+If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
+
+```{r readfiles}
+example_metadata <- metadata_surveys_create ( survey_files = survey_paths, .f = "read_rds")
+```
+```{r}
+example_metadata
+```
+A quick glance at some metadata:
+
+```{r subsetmetadata}
+library(dplyr)
+subset_example_metadata <- example_metadata %>%
+  filter ( grepl("trust", .data$label_orig) ) %>%
+  filter ( grepl("european_parliament", .data$label_orig)) %>%
+  select ( all_of(c("filename", "label_orig", "var_name_orig", "valid_labels", "na_labels", "class_orig")))
+
+subset_example_metadata
+```
+
+In `ZA5913.rds` the Trust in European Parliament variable is called `qa10_1`, in the other surveys it is called `qa14_1`.  
+
+In the first survey, the variable has two values (coded as 1 and 2, and labelled as `Tend to trust` and `Tend not to trust`. )
+
+```{r}
+unlist(subset_example_metadata$valid_labels[1])
+```
+
+In the first survey, the variable has two values (coded as 1 and 2, and labelled as `Tend to trust` and `Tend not to trust`.) In the second survey, we have three values, and non of them are marked as special, missing values. This is not surprising, because they were not SPSS files. They have related, but not exactly matching classes, too.  Therefore, these variables need to be harmonized.
+
+```{r}
+unlist(subset_example_metadata$valid_labels[2])
+unlist(subset_example_metadata$na_labels[2])
+```
+The metadata created by the `metadata_create()` and its version for multiple surveys, `metadata_surveys_create`, gives a first overview for the harmonization of concepts, the necessary harmonization of variable names and variable labels. In this case:
+
+* Variable name harmonization is required: For a successful join, you must use a common name for
+    `qa10_1` and `qa14_1`, for example, `trust_european_parliament`, because the variable refers to the same concept.
+* Variable label harmonization is required: You must make sure that the variable has three
+    categories, even if one category, `Declined` (to answer) is missing from `ZA5913.rds`.
+* Type harmonization is needed: For various statistical procedures you must convert the concatenated contents of  `qa10_1` and `qa14_1` into a numerical variable or factor variable. It is practical to use *1="Tend to Trust"*, *0="Tend not to trust"* for calculating the percentage of people trusting the European Parliament, making sure that Decline will get a `NA_real_` value for averaging, or creating a factor variable with three levels, for example *trust*, *not_trust*, *declined*.
+
+

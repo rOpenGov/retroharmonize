@@ -1,60 +1,85 @@
 #' @keywords  internal
 validate_survey_list <- function(survey_list) { 
   
-  assert_that(is.list(survey_list))
-  assert_that(is.survey(survey_list[[1]]))
   
-  n_survey <- length(survey_list)
+  assert_that(!is.null(survey_list), 
+              msg = "The parameter 'survey_list' is NULL.")
+
+  assert_that("list" %in%  class (survey_list) | is.survey(survey_list), 
+              msg = "The parameter 'survey_list' is not a list or a single survey.")
   
-  filenames <-  sapply ( survey_list, function(x) attr(x, "filenames"))
-  ids <-  sapply ( survey_list, function(x) attr(x, "ids"))
-  
-  duplicate_ids <- ids[duplicated (ids )]
-  missing_ids <- vapply ( survey_list, function(x) is.null(attr(x, "id")), logical(1))
-  missing_filenames <- vapply ( survey_list, function(x) is.null(attr(x, "filename")), logical(1))
-  
-  assert_that(! all(missing_ids), 
-              msg = paste0(paste(which(missing_ids), " have no IDs"))
-  )
-  
-  assert_that(! all(missing_filenames), 
-              msg = paste0(paste(which(missing_ids), " have no filenames"))
-  )
-  
-  ids  <- tryCatch({
-    vapply ( survey_list, function(x) attr(x, "id"), character(1))
-  }, 
-  error = function(cond) {
-    message ( "Some IDs are not character(1L) single characters.") 
-  },
-  finally = {}
-  )
-  
-  filenames  <- tryCatch({
-    vapply ( survey_list, function(x) attr(x, "filename"), character(1))
-  }, 
-  error = function(cond) {
-    message ( "Some filenames are not character(1L) single characters.") 
-  },
-  finally = {}
-  )
-  
-  duplicate_ids <- ids[duplicated (ids )]
-  duplicate_filenames <- filenames[duplicated (filenames)]
-  
-  assert_that(length(duplicate_ids)==0, 
-              msg = paste0(
-                paste(duplicate_ids), 
-                " are not unique."
-              ))
-  
-  assert_that(length(duplicate_filenames)==0, 
-              msg = paste0(
-                paste(duplicate_filenames), 
-                " are not unique."
-              ))
+  if ( "list" %in%  class (survey_list) ) {
+    are_these_surveys <- vapply ( survey_list, is.survey, logical(1))
+    not_surveys <- paste( which (are_these_surveys == FALSE), collapse = ", ")
+    assert_that(all(are_these_surveys), 
+                msg = glue::glue("{not_surveys} in 'survey_list' are not surveys.") )
+    
+    n_survey <- length(survey_list)
+    
+    filenames <- vapply ( survey_list, function(x) attr(x, "filename"), character(1))
+    ids <-  vapply ( survey_list, function(x) attr(x, "id"), character(1))
+    
+    duplicate_ids <- ids[duplicated (ids )]
+    missing_ids <- vapply ( survey_list, function(x) is.null(attr(x, "id")), logical(1))
+    missing_filenames <- vapply ( survey_list, function(x) is.null(attr(x, "filename")), logical(1))
+    
+    assert_that(! all(missing_ids), 
+                msg = paste0(paste(which(missing_ids), " have no IDs"))
+    )
+    
+    assert_that(! all(missing_filenames), 
+                msg = paste0(paste(which(missing_ids), " have no filenames"))
+    )
+    
+    ids  <- tryCatch({
+      vapply ( survey_list, function(x) attr(x, "id"), character(1))
+    }, 
+    error = function(cond) {
+      message ( "Some IDs are not character(1L) single characters.") 
+    },
+    finally = {}
+    )
+    
+    filenames  <- tryCatch({
+      vapply ( survey_list, function(x) attr(x, "filename"), character(1))
+    }, 
+    error = function(cond) {
+      message ( "Some filenames are not character(1L) single characters.") 
+    },
+    finally = {}
+    )
+    
+    duplicate_ids <- ids[duplicated (ids )]
+    duplicate_filenames <- filenames[duplicated (filenames)]
+    
+    assert_that(length(duplicate_ids)==0, 
+                msg = paste0(
+                  paste(duplicate_ids), 
+                  " are not unique."
+                ))
+    
+    assert_that(length(duplicate_filenames)==0, 
+                msg = paste0(
+                  paste(duplicate_filenames), 
+                  " are not unique."
+                ))
+  }
 }
 
+#' @importFrom fs file_exists
+#' @keywords internal
+validate_survey_files <- function(survey_files) {
+  
+  existing_survey_files <- vapply ( survey_files, fs::file_exists, logical(1))
+  not_existing_survey_files <- existing_survey_files [ existing_survey_files == FALSE  ]
+  
+  if (length(not_existing_survey_files)>0) {
+    error_msg <- paste0("the following files were not found :", paste(names(not_existing_survey_files), collapse = ", "))
+    stop ("Error in validate_survey_files() -  ", error_msg)
+  }
+  
+  TRUE
+}
 
 #' @title Validate harmonize_labels parameter
 #' Check if "from", "to", and "numeric_values" are of equal lengths.
@@ -100,3 +125,4 @@ validate_harmonize_labels <- function( harmonize_labels ) {
     stop("<harmonize label> must have <from>, <to>, <numeric_values> of equal lengths as list or data.frame.")
   }
 }
+

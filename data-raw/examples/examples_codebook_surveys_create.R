@@ -14,3 +14,7 @@ example_surveys <- read_surveys(
   save_to_rds = FALSE)     
 
 codebook_surveys_create (example_surveys)
+
+
+examples_dir <- system.file("examples", package = "retroharmonize")
+survey_files <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]

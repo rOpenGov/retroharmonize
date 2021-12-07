@@ -3,33 +3,88 @@
 \name{subset_surveys}
 \alias{subset_surveys}
 \alias{subset_waves}
-\title{Subset all surveys in a wave}
+\alias{subset_save_surveys}
+\alias{harmonize_surveys}
+\title{Subset surveys}
 \usage{
-subset_surveys(survey_list, rowid = "rowid", subset_names = NULL)
+subset_surveys(
+  survey_list,
+  survey_paths = NULL,
+  rowid = "rowid",
+  subset_name = "subset",
+  subset_vars = NULL,
+  crosswalk_table = NULL,
+  import_path = NULL,
+  export_path = NULL
+)
 
 subset_waves(waves, subset_names = NULL)
+
+subset_save_surveys(
+  crosswalk_table,
+  subset_name = "subset",
+  survey_list = NULL,
+  survey_paths = NULL,
+  import_path = "",
+  export_path = NULL
+)
+
+harmonize_surveys(
+  crosswalk_table,
+  subset_name = "subset",
+  survey_list = NULL,
+  survey_paths = NULL,
+  import_path = "",
+  export_path = NULL
+)
 }
 \arguments{
-\item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}.}
+\item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
+\code{NULL}, the \code{survey_path} should give full path to the surveys.}
+
+\item{survey_paths}{A vector of full file paths to the surveys to subset.}
 
 \item{rowid}{The unique row (observation) identifier in the files. Defaults to 
 \code{"rowid"}, which is the default of the importing functions in this package.}
 
-\item{subset_names}{The names of the variables that should be kept from all surveys in the list that contains the
+\item{subset_name}{An identifier for the survey subset.}
+
+\item{subset_vars}{The names of the variables that should be kept from all surveys in the list that contains the
 wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.}
 
+\item{import_path}{The path to the survey files. Defaults to \code{NULL}.}
+
+\item{export_path}{The path where the subsets should be saved. Defaults to \code{NULL} when
+the surveys are not saved but returned as a list.}
+
 \item{waves}{A list of surveys imported with \code{\link{read_surveys}}.}
+
+\item{crosstable}{A crosstable created by \code{\link{crosstable_create}} or a manually created 
+crosstable including at least
+\code{filename}, \code{var_name_orig}, \code{var_name_target} and optionally 
+ \code{var_label_orig} and \code{var_label_target}. This parameter is optional and 
+ defaults to \code{NULL}.}
 }
 \value{
-The list of surveys with harmonized variable names.
+A list of surveys or save individual rds files on the \code{export_path}.
+
+The function does not return a value. It saves the subsetted
+surveys into .rds files.
 }
 \description{
-The function harmonizes the variable names of surveys (of class \code{survey}) that 
-are imported from an external file as a wave with with \code{\link{read_surveys}}.
+This is a wrapper function for various procedures to reduce the size of surveys
+by removing variables that are not harmonized.
 }
 \details{
-It is likely that you want to harmonize the variable names with 
-\code{\link{harmonize_var_names}} first.
+This function allows several workflows. 
+Subsetting can be based on a vector of variable names
+given by \code{survey_path}, or on the basis of a \code{crosstable}. 
+The \code{\link{subset_save_surveys}} can be called directly. 
+
+\code{subset_surveys} will also harmonize the variable names if the \code{var_name_target} is 
+optionally defined in the \code{crosswalk_table} input.  
+\code{harmonize_surveys} is a wrapper and will require that the new (target) variable names are
+present in a valid \code{crosstable}.
 }
 \examples{
 examples_dir <- system.file("examples", package = "retroharmonize")
@@ -38,14 +93,38 @@ survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
 example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
   save_to_rds = FALSE)
-metadata <- metadata_surveys_create(example_surveys)
+subset_surveys(survey_list = example_surveys, 
+              subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
+              subset_name = "subset_example")
+test_survey <- read_rds (
+  file = system.file("examples", "ZA7576.rds",
+                     package = "retroharmonize")
+)
 
-metadata$var_name_suggested <- label_normalize(metadata$var_name)
+  test_metadata <- metadata_create ( test_survey )
+  test_metadata <- test_metadata[c(1,7,18),]
+  ctable <- crosswalk_table_create(test_metadata)
 
-metadata$var_name_suggested[metadata$label_orig == "age education"] <- "age_education"
+subset_save_surveys  ( crosswalk_table = ctable, 
+                       subset_name = "tested",
+                       survey_list =  test_survey,
+                       import_path = NULL
+)
+test_survey <- read_rds (
+  file = system.file("examples", "ZA7576.rds",
+                     package = "retroharmonize")
+)
 
-hnw <- harmonize_var_names(survey_list = example_surveys, 
-                           metadata    = metadata )
-                           
-subset_surveys (hnw, subset_names = c("uniqid", "w1", "age_education"))
+  test_metadata <- metadata_create ( test_survey )
+  test_metadata <- test_metadata[c(1,7,18),]
+  ctable_2 <- crosswalk_table_create(test_metadata)
+  ctable_2$var_name_target  <- ifelse(ctable$var_name_orig == "qa14_3", 
+                                     "trust_ecb", 
+                                      ctable$var_name_orig)
+
+subset_save_surveys  ( crosswalk_table = ctable_2, 
+                       subset_name = "tested",
+                       survey_list =  test_survey,
+                       import_path = NULL
+)
 }

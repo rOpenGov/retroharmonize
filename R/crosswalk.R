@@ -276,9 +276,7 @@ crosswalk_table_create <- function(metadata) {
         val_numeric_orig = NA_real_,
         val_numeric_target  = NA_real_,
         val_label_orig = NA_character_,
-        val_label_target = NA_character_, 
-        na_numeric_target = NA_real_,
-        na_label_target = NA_character_
+        val_label_target = NA_character_
       )
     } else {
       val_labels   <- names(unlist(x$labels))
@@ -298,13 +296,27 @@ crosswalk_table_create <- function(metadata) {
       if ( "na_labels" %in% names(x)) {
         na_labels <- names(unlist(x$na_labels))
         
-        tmp$na_label_target <- ifelse (tmp$val_label_orig %in% na_labels, 
+        tmp$na_label_orig <- ifelse (tmp$val_label_orig %in% na_labels, 
                                         tmp$val_label_orig, NA_character_ )
-        tmp$na_numeric_target <- ifelse (tmp$val_label_orig %in% na_labels, 
+        tmp$na_label_target <- tmp$na_label_orig 
+        
+        tmp$na_numeric_orig <- ifelse (tmp$val_label_orig %in% na_labels, 
                                           tmp$val_numeric_orig, NA_real_)
+        tmp$na_numeric_target <- tmp$na_numeric_orig 
+        
       } else {
+        tmp$na_label_orig <- NA_character_
         tmp$na_label_target <- NA_character_
+        tmp$na_numeric_orig <- NA_character_
         tmp$na_numeric_target <- NA_real_
+      }
+      
+      if ( "var_label_orig" %in% names(x)) {
+        tmp$var_label_orig <- x$var_label_orig
+        tmp$var_label_target <- tmp$var_label_orig
+      } else {
+        tmp$var_label_orig   <- NA_character_
+        tmp$var_label_target <- NA_character_
       }
       
       if ( "class_orig" %in% names(x) ) {
