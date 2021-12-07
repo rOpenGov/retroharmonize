@@ -10,7 +10,7 @@
 #' 
 #' \code{subset_surveys} will also harmonize the variable names if the \code{var_name_target} is 
 #' optionally defined in the \code{crosswalk_table} input.  
-#' \code{harmonize_surveys} is a wrapper and will require that the new (target) variable names are
+#' \code{harmonize_survey_variables} is a wrapper and will require that the new (target) variable names are
 #' present in a valid \code{crosstable}. 
 #' 
 #' @param crosstable A crosstable created by \code{\link{crosstable_create}} or a manually created 
@@ -27,6 +27,7 @@
 #' @param subset_vars The names of the variables that should be kept from all surveys in the list that contains the
 #' wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.
 #' @importFrom dplyr select any_of
+#' @family harmonization functions
 #' @return A list of surveys or save individual rds files on the \code{export_path}.
 #' @examples
 #' examples_dir <- system.file("examples", package = "retroharmonize")
@@ -70,6 +71,8 @@ subset_surveys <- function ( survey_list,
     
   } else  if ( !is.null(crosswalk_table) ) {
     
+    is.crosswalk_table(crosswalk_table)
+    
     subset_save_surveys(crosswalk_table = crosswalk_table, 
                         survey_list = survey_list, 
                         survey_paths = survey_paths, 
@@ -81,13 +84,6 @@ subset_surveys <- function ( survey_list,
   }
 }
 
-#' @rdname subset_surveys
-#' @param waves A list of surveys imported with \code{\link{read_surveys}}.
-#' @export
-subset_waves <- function( waves, subset_names = NULL) {
-  .Deprecated(new = "subset_surveys", msg = "subset_waves is deprecated, use subset_surveys instead.")
-  subset_surveys ( survey_list = waves, subset_names = subset_names )  
-}
 
 
 #' @title Subset and save surveys
@@ -126,12 +122,12 @@ subset_save_surveys  <- function ( crosswalk_table,
                                    subset_name = "subset",
                                    survey_list = NULL,
                                    survey_paths = NULL,
-                                   import_path = "", 
+                                   import_path = NULL, 
                                    export_path = NULL) {
   
   
-  if ( is.null(survey_list) & is.null(import_path)) {
-    stop( " in subset_save_surveys(...survey_list, import_path, ...): both the 'survey_list' and the 'import_path' is missing." )
+  if (is.null(survey_list) & is.null(import_path)) {
+    stop(" in subset_save_surveys(...survey_list, import_path, ...): both the 'survey_list' and the 'import_path' is missing." )
   }
   
   if ( !is.null(survey_list)) {
@@ -141,8 +137,8 @@ subset_save_surveys  <- function ( crosswalk_table,
     if ( ! "list" %in% class(survey_list) ) {
       survey_id <- attr(survey_list, "id") 
       survey_list <- list( i = survey_list )
-      names(survey_list)[1] <- survey_id
-    } 
+      names(survey_list)[1] <- survey_id    } 
+    
     imported_survey_files <- vapply ( survey_list, function(x) attr(x, "filename"), character(1) )
     } else {
     # Importing from a files
@@ -310,18 +306,35 @@ subset_save_surveys  <- function ( crosswalk_table,
 #' )
 #' @export
 
-harmonize_surveys <- function( crosswalk_table, 
-                               subset_name = "subset",
-                               survey_list = NULL,
-                               survey_paths = NULL,
-                               import_path = "", 
-                               export_path = NULL ) {
+harmonize_survey_variables <- function( crosswalk_table, 
+                                 subset_name = "subset",
+                                 survey_list = NULL,
+                                 survey_paths = NULL,
+                                 import_path = NULL, 
+                                 export_path = NULL ) {
   
   ## This is a wrapper for subset_save_survey with strict validation of new variable names.
   
-  assert_that(
-    all(c("filename", "id", "var_name_orig", "var_name_target") %in% names(crosswalk_table) ), 
-    msg = "in harmonize_surveys(croswalk_table,....): the crosswalk table must have 'filename', 'id', 'var_name_orig', 'var_name_target' columns."
+  is.crosswalk_table(crosswalk_table)
+  
+  ## selection: relevant metadata for this particular survey
+  selection <- crosswalk_table %>% 
+    filter ( .data$id == survey_id ) %>%
+    distinct_all()
+  
+  ## metadata for the harmonization of variable names 
+  crosswalk_var_names <- selection %>%
+    select  ( all_of(c("var_name_orig", "var_name_target")) ) %>%
+    distinct_all() %>%
+    add_count (.data$var_name_target)
+  
+  multiple_target_names <- crosswalk_var_names$var_name_target[which(crosswalk_var_names$n>1)]
+  multiple_target_names <- paste(multiple_target_names, collapse = ", ")
+  
+  assertthat::assert_that(
+    # There should be no unambigous names, duplicates are not allowed.
+    nchar(multiple_target_names)==0,
+    msg = glue("The following names are duplicated in {survey_id}: {multiple_target_names}")
   )
   
   subset_save_surveys(crosswalk_table = crosswalk_table, 
@@ -330,4 +343,12 @@ harmonize_surveys <- function( crosswalk_table,
                       import_path  = import_path,
                       export_path = export_path )
   
+}
+
+#' @rdname subset_surveys
+#' @param waves A list of surveys imported with \code{\link{read_surveys}}.
+#' @export
+subset_waves <- function( waves, subset_names = NULL) {
+  .Deprecated(new = "subset_surveys", msg = "subset_waves is deprecated, use subset_surveys instead.")
+  subset_surveys ( survey_list = waves, subset_names = subset_names )  
 }

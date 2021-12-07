@@ -52,7 +52,7 @@
 #'     numeric_values = c(0,0,1,1, 99997,99999,99999)
 #'   )
 #'   
-#'   harmonize_values(x, 
+#'   harmonize_survey_values(x, 
 #'                    harmonize_labels = label_list, 
 #'                    na_values = c("do_not_know"=99997,
 #'                                  "declined"=99998,
@@ -62,14 +62,14 @@
 #' 
 #' merged_surveys <- merge_surveys ( example_surveys, var_harmonization = to_harmonize  )
 #' 
-#' harmonized <- harmonize_surveys(survey_list = merged_surveys, 
+#' harmonized <- harmonize_survey_values(survey_list = merged_surveys, 
 #'                               .f = harmonize_eb_trust,
 #'                               status_message = FALSE)
 #'                               
 #' # For details see Afrobarometer and Eurobarometer Case Study vignettes.
 #' }
 
-harmonize_surveys <- function(survey_list, .f, status_message = FALSE) {
+harmonize_survey_values <- function(survey_list, .f, status_message = FALSE) {
   
   validate_survey_list(survey_list)
   
@@ -298,7 +298,7 @@ harmonize_surveys <- function(survey_list, .f, status_message = FALSE) {
 }
 
 
-#' @rdname harmonize_surveys
+#' @rdname harmonize_survey_values
 #' @details The earlier form \code{harmonize_waves} is deprecated. 
 #' The function is currently called \code{\link{harmonize_waves}}.
 #' @param waves A list of surveys. Deprecated.
@@ -307,9 +307,9 @@ harmonize_surveys <- function(survey_list, .f, status_message = FALSE) {
 
 harmonize_waves <- function(waves, .f, status_message = FALSE) {
   .Deprecated("harmonize_waves ",
-              msg = "harmonize_waves() is deprecated, use harmonize_surveys() instead", 
+              msg = "harmonize_waves() is deprecated, use harmonize_survey_values() instead", 
               old = "harmonize_waves")
-  harmonize_surveys(survey_list = waves, 
+  harmonize_survey_values(survey_list = waves, 
                 .f = .f, 
                 status_message = status_message )
 }

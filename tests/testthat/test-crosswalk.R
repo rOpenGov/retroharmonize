@@ -10,8 +10,8 @@ documented_surveys <- metadata_surveys_create(example_surveys)
 documented_surveys <- documented_surveys[documented_surveys$var_name_orig %in% c( "rowid", "isocntry", "w1", "qd3_4", "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),]
 crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
 
-freedom_vars <- documented_surveys[grepl("freedom", documented_surveys$label_orig),]$var_name_orig
-solidarity_vars <- documented_surveys[grepl("solidarity", documented_surveys$label_orig),]$var_name_orig
+freedom_vars <- documented_surveys[grepl("freedom", documented_surveys$var_label_orig),]$var_name_orig
+solidarity_vars <- documented_surveys[grepl("solidarity", documented_surveys$var_label_orig),]$var_name_orig
 
 names(crosswalk_table)
 

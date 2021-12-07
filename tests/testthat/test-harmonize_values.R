@@ -153,3 +153,4 @@ h_mc <- harmonize_values (
 test_that("properly working with labels that contain each other", {
   expect_equal(unique(as_character(h_mc)), c("mentioned", "not_mentioned", "do_not_know", "inap"))
 })
+

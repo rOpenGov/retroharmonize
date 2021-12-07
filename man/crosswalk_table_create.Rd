@@ -30,10 +30,11 @@ Other harmonization functions:
 \code{\link{collect_val_labels}()},
 \code{\link{crosswalk_surveys}()},
 \code{\link{harmonize_na_values}()},
-\code{\link{harmonize_surveys}()},
+\code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
 \code{\link{label_normalize}()},
+\code{\link{subset_surveys}()},
 \code{\link{suggest_permanent_names}()},
 \code{\link{suggest_var_names}()}
 

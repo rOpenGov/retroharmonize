@@ -4,8 +4,6 @@ example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
   save_to_rds = FALSE)
 
-names(example_surveys[[2]])
-
 subset_survey_list_1 <- subset_surveys(survey_list = example_surveys, 
                                        subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
                                        subset_name = "subset_example")
@@ -37,25 +35,33 @@ testing_subsetting <- function() {
   
   saveRDS(test_survey, temporary_saving_location, version = 2)
   
+  subset_surveys(crosswalk_table = ctable, 
+                 survey_list = test_survey, 
+                 subset_name = "tested",
+                 import_path = NULL,
+                 export_path = tempdir())
 
   file.exists ( file.path(tempdir(), "ZA7576_tested.rds"))
 }
 
 res <- evaluate_promise(testing_subsetting())
 
+
+
 test_that("saving and subsetting", {
-  expect_true("Saving ZA7576_tested.rds\n" %in% res$messages)
+  skip_on_cran()
+  expect_true("Saving ZA7576_subset.rds\n" %in% evaluate_promise(testing_subsetting())$messages)
   }
 )
 
 test_that("saving and subsetting (not on CRAN)", {
   skip_on_cran()
-  expect_true(testing_subsetting())
-  expect_message(testing_subsetting())
-  expect_true(ncol(readRDS ( file.path(tempdir(), "ZA7576_tested.rds"))) == 3)
+  expect_true(ncol(readRDS ( file.path(tempdir(), "ZA7576_subset.rds"))) == 3)
   expect_error(subset_save_surveys  ( crosswalk_table = ctable, 
                                       subset_name = "tested", 
                                       import_path = NULL, 
                                       export_path = NULL))
 })
+
+# evaluate_promise(testing_subsetting())$result
 

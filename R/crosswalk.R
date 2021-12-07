@@ -68,6 +68,11 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
     } else { set_na_values <- NULL }
   } 
   
+  harmonized_survey_vars <- harmonize_survey_variables ( 
+    survey_list = survey_list, 
+    crosswalk_table = crosswalk_table)
+  
+  ## Relabel surveys -------------------------------------------------
   relabel_survey <- function(y, selection) {
     
     assert_that(inherits(selection, 'data.frame'), 
@@ -123,50 +128,14 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
   }
   
   subset_survey <- function(this_survey) {
-    
-    # See if survey can be identified --------------
-    survey_id <- NULL
-    survey_id <- attr(this_survey, "id")
-    if ( is.null(survey_id)) survey_id <- "survey_id"
-    
-    if ( ! survey_id %in% unique(crosswalk_table$id) ) {
-      message (
-        glue::glue("{survey_id} is not present in 'survey_list'")
-      )
-      return(NULL)
-    }
-    
-    
-    # Start the crosswalk -------------------------
-    
-    ## selection: relevant metadata for this particular survey
-    selection <- crosswalk_table %>% 
-      filter ( .data$id == survey_id ) %>%
-      distinct_all()
-    
-    ## metadata for the harmonization of variable names 
-    crosswalk_var_names <- selection %>%
-      select  ( all_of(c("var_name_orig", "var_name_target")) ) %>%
-      distinct_all() %>%
-      add_count (.data$var_name_target)
-    
-    multiple_target_names <- crosswalk_var_names$var_name_target[which(crosswalk_var_names$n>1)]
-    multiple_target_names <- paste(multiple_target_names, collapse = ", ")
-    
-    assertthat::assert_that(
-      # There should be no unambigous names, duplicates are not allowed.
-      nchar(multiple_target_names)==0,
-      msg = glue("The following names are duplicated in {survey_id}: {multiple_target_names}")
-    )
-    
-    ## First harmonize the variable names 
     tmp <- this_survey %>% 
-      select ( all_of(crosswalk_var_names$var_name_orig) ) %>%
-      set_names( crosswalk_var_names$var_name_target ) %>%
       mutate ( id = attr(this_survey, "id")) %>%
       relocate ( .data$id, .before = everything())
     
-    ## Second harmonize labels if possible
+    selection <- crosswalk_table %>% 
+      filter ( .data$id == survey_id ) %>%
+      distinct_all()
+
     
     if (  # label harmonization is possible
       all ( c("val_label_orig", "val_label_target", "val_numeric_target") %in% names(selection) )
@@ -191,9 +160,8 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
     
     return_df 
   }
-  
-
-  subsetted <- lapply ( survey_list, function(x) purrr::safely(subset_survey)(x) )
+ 
+  subsetted <- lapply ( harmonized_survey_vars, function(x) purrr::safely(subset_survey)(x) )
 
   errors <- lapply ( subsetted, function(x) x$error)
     

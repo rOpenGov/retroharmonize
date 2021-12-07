@@ -36,7 +36,8 @@ and variable names.\cr
 
 Create consistent coding and labelling.\cr 
 \code{\link{harmonize_values}}: Harmonize the label list across surveys.\cr
-\code{\link{harmonize_surveys}}: Create a list of surveys with harmonized value labels.\cr
+\code{\link{harmonize_survey_values}}: Create a list of surveys with harmonized value labels.\cr
+\code{\link{harmonize_survey_variables}}: Create a list of surveys with harmonized variable names.\cr
 \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
 as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 }
@@ -44,7 +45,6 @@ as imported from SPSS, consistent with the \code{na_values} attributes.\cr
 \section{survey harmonization functions}{
 
 \code{\link{merge_surveys}}: Create a list of surveys with harmonized names and variable labels.\cr 
-\code{\link{harmonize_surveys}}: Create a list of surveys with harmonized value labels.\cr
 \code{\link{crosswalk_surveys}}: Create a list of surveys with harmonized variable names, harmonized 
 value labels and harmonize R classes.\cr
 \code{\link{crosswalk}}: Create a joined data frame of surveys with harmonized variable names, harmonized 

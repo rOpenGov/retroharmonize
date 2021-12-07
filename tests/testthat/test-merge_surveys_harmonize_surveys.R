@@ -1,6 +1,5 @@
 require(dplyr)
 library(vctrs)
-library(rlang)
 examples_dir <- system.file( "examples", package = "retroharmonize")
 my_rds_files <- dir( examples_dir)[grepl(".rds", 
                                          dir(examples_dir))]
@@ -11,9 +10,9 @@ metadata <- metadata_surveys_create(example_surveys)
 to_harmonize <- metadata %>%
   filter ( var_name_orig %in% 
              c("rowid", "w1") |
-             grepl("^trust", label_orig ) ) %>%
-  mutate ( var_label = var_label_normalize(label_orig) ) %>%
-  mutate ( var_name_target = val_label_normalize(var_label) ) %>%
+             grepl("^trust", var_label_orig ) ) %>%
+  mutate ( var_label = var_label_normalize(.data$var_label_orig) ) %>%
+  mutate ( var_name_target = val_label_normalize(.data$var_label_orig) ) %>%
   mutate ( var_name_target = ifelse(.data$var_name_orig %in% c("rowid", "w1", "wex"), 
                                     .data$var_name_orig, .data$var_name_target) )
 
@@ -44,9 +43,9 @@ test_that("correct structure is returned", {
 })
 
 harmonized <- suppressWarnings( 
-  harmonize_surveys(survey_list = merged_surveys, 
-                    .f = harmonize_eb_trust,
-                    status_message = FALSE) 
+  harmonize_survey_values(survey_list = merged_surveys, 
+                          .f = harmonize_eb_trust,
+                          status_message = FALSE) 
   )
 
 test_that("correct type is returned", {

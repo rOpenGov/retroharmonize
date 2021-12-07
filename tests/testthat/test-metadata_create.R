@@ -31,7 +31,7 @@ test_that("Correct values are returned", {
   expect_true(example_metadata$var_name_orig[1] == "rowid")
   expect_equal(unique(example_metadata$filename), "ZA7576.rds")
   expect_equal(as.character(unlist(example_metadata$na_labels[2])), NA_character_)
-  expect_equal(example_metadata$label_orig[1], "unique_identifier_in_za_7576")
+  expect_equal(example_metadata$var_label_orig[1], "unique_identifier_in_za_7576")
   expect_equal(
     length(test_value$na_labels), 
     q_na)
@@ -46,9 +46,7 @@ test_that("Correct values are returned", {
   ), c(8,6,2))
 })
 
-
 metadata_multiple_surveys <- metadata_surveys_create( example_surveys )
-
 
 test_that("Correct values are returned from waves", {
   expect_true(metadata_multiple_surveys$var_name_orig[1] == "rowid") 

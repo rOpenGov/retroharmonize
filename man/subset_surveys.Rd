@@ -2,9 +2,9 @@
 % Please edit documentation in R/subset_surveys.R
 \name{subset_surveys}
 \alias{subset_surveys}
-\alias{subset_waves}
 \alias{subset_save_surveys}
-\alias{harmonize_surveys}
+\alias{harmonize_survey_variables}
+\alias{subset_waves}
 \title{Subset surveys}
 \usage{
 subset_surveys(
@@ -18,25 +18,25 @@ subset_surveys(
   export_path = NULL
 )
 
-subset_waves(waves, subset_names = NULL)
-
 subset_save_surveys(
   crosswalk_table,
   subset_name = "subset",
   survey_list = NULL,
   survey_paths = NULL,
-  import_path = "",
+  import_path = NULL,
   export_path = NULL
 )
 
-harmonize_surveys(
+harmonize_survey_variables(
   crosswalk_table,
   subset_name = "subset",
   survey_list = NULL,
   survey_paths = NULL,
-  import_path = "",
+  import_path = NULL,
   export_path = NULL
 )
+
+subset_waves(waves, subset_names = NULL)
 }
 \arguments{
 \item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
@@ -83,7 +83,7 @@ The \code{\link{subset_save_surveys}} can be called directly.
 
 \code{subset_surveys} will also harmonize the variable names if the \code{var_name_target} is 
 optionally defined in the \code{crosswalk_table} input.  
-\code{harmonize_surveys} is a wrapper and will require that the new (target) variable names are
+\code{harmonize_survey_variables} is a wrapper and will require that the new (target) variable names are
 present in a valid \code{crosstable}.
 }
 \examples{
@@ -128,3 +128,17 @@ subset_save_surveys  ( crosswalk_table = ctable_2,
                        import_path = NULL
 )
 }
+\seealso{
+Other harmonization functions: 
+\code{\link{collect_val_labels}()},
+\code{\link{crosswalk_surveys}()},
+\code{\link{crosswalk_table_create}()},
+\code{\link{harmonize_na_values}()},
+\code{\link{harmonize_survey_values}()},
+\code{\link{harmonize_values}()},
+\code{\link{harmonize_var_names}()},
+\code{\link{label_normalize}()},
+\code{\link{suggest_permanent_names}()},
+\code{\link{suggest_var_names}()}
+}
+\concept{harmonization functions}
