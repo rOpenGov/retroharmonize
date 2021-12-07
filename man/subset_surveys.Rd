@@ -36,7 +36,7 @@ harmonize_survey_variables(
   export_path = NULL
 )
 
-subset_waves(waves, subset_names = NULL)
+subset_waves(waves, subset_vars = NULL)
 }
 \arguments{
 \item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
@@ -52,18 +52,18 @@ subset_waves(waves, subset_names = NULL)
 \item{subset_vars}{The names of the variables that should be kept from all surveys in the list that contains the
 wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.}
 
+\item{crosswalk_table}{A crosswalk table created by \code{\link{crosswalk_table_create}} or a manually created 
+crosstable including at least
+\code{filename}, \code{var_name_orig}, \code{var_name_target} and optionally 
+ \code{var_label_orig} and \code{var_label_target}. This parameter is optional and 
+ defaults to \code{NULL}.}
+
 \item{import_path}{The path to the survey files. Defaults to \code{NULL}.}
 
 \item{export_path}{The path where the subsets should be saved. Defaults to \code{NULL} when
 the surveys are not saved but returned as a list.}
 
 \item{waves}{A list of surveys imported with \code{\link{read_surveys}}.}
-
-\item{crosstable}{A crosstable created by \code{\link{crosstable_create}} or a manually created 
-crosstable including at least
-\code{filename}, \code{var_name_orig}, \code{var_name_target} and optionally 
- \code{var_label_orig} and \code{var_label_target}. This parameter is optional and 
- defaults to \code{NULL}.}
 }
 \value{
 A list of surveys or save individual rds files on the \code{export_path}.

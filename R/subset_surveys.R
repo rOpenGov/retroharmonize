@@ -13,7 +13,7 @@
 #' \code{harmonize_survey_variables} is a wrapper and will require that the new (target) variable names are
 #' present in a valid \code{crosstable}. 
 #' 
-#' @param crosstable A crosstable created by \code{\link{crosstable_create}} or a manually created 
+#' @param crosswalk_table A crosswalk table created by \code{\link{crosswalk_table_create}} or a manually created 
 #' crosstable including at least
 #' \code{filename}, \code{var_name_orig}, \code{var_name_target} and optionally 
 #'  \code{var_label_orig} and \code{var_label_target}. This parameter is optional and 
@@ -87,8 +87,6 @@ subset_surveys <- function ( survey_list,
 
 
 #' @title Subset and save surveys
-#'   
-#' @inheritParams subset_surveys
 #' @rdname subset_surveys
 #' @param subset_name An identifier for the survey subset.
 #' @param import_path The path to the survey files. Defaults to \code{NULL}.
@@ -285,7 +283,6 @@ subset_save_surveys  <- function ( crosswalk_table,
 }
 
 #' @rdname subset_surveys
-#' @inheritParams subset_surveys
 #' @examples 
 #' test_survey <- read_rds (
 #'   file = system.file("examples", "ZA7576.rds",
