@@ -48,8 +48,6 @@ test_that("saving and subsetting", {
   }
 )
 
-
-
 test_that("saving and subsetting (not on CRAN)", {
   skip_on_cran()
   expect_true(testing_subsetting())
