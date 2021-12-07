@@ -27,7 +27,9 @@ testing_subsetting <- function() {
   test_metadata <- metadata_create ( test_survey )
   test_metadata <- test_metadata[c(1,7,18),]
   ctable <- crosswalk_table_create(test_metadata)
-  ctable$var_name_target  <- ifelse(ctable$var_name_orig == "qa14_3", "trust_ecb", ctable$var_name_orig)
+  ctable$var_name_target  <- ifelse(ctable$var_name_orig == "qa14_3", 
+                                    "trust_ecb", 
+                                    ctable$var_name_orig)
   
   temporary_directory <- tempdir()
   

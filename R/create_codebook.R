@@ -6,7 +6,8 @@
 #' The returned codebook contains only labelled variables, i.e., numeric and
 #' character types are not included, because they do not require coding.
 #' 
-#' @param metadata A metadata table created by \code{\link{metadata_create}}. Defaults to \code{NULL}.
+#' @param metadata A metadata table created by \code{\link{metadata_create}}. 
+#' Defaults to \code{NULL}.
 #' @param survey A survey data frame, defaults to \code{NULL}. If the survey is
 #' given as parameter, the metadata will be set to the metadata of this particular
 #' survey by \code{\link{metadata_create}}.
@@ -47,7 +48,7 @@ create_codebook <- function ( metadata = NULL,
     metadata <- metadata_create(survey) 
   }
   
-  metadata_names <- c('filename', 'id', 'var_name_orig', 'class_orig', 'label_orig', 
+  metadata_names <- c('filename', 'id', 'var_name_orig', 'class_orig', 'var_label_orig', 
                       'labels', 'valid_labels', 'na_labels', 'na_range', 
                       'n_labels', 'n_valid_labels', 'n_na_labels')
   
@@ -83,9 +84,9 @@ create_codebook <- function ( metadata = NULL,
     # These area cases when the labels are of class numeric
     valid_labelled_numeric <-  metadata_labelled_numeric %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
-      select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig", "valid_labels")))   %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels")))   %>%
       unnest_longer( .data$valid_labels) %>%
-      rlang::set_names ( c("entry", "id", "filename", "var_name_orig","label_orig",  "val_code_orig", "val_label_orig")) %>%
+      rlang::set_names ( c("entry", "id", "filename", "var_name_orig","var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the valid observation range
         label_range = "valid", 
@@ -93,9 +94,9 @@ create_codebook <- function ( metadata = NULL,
     
     na_labelled_numeric <-  metadata[num_labels ,] %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
-      select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig",  "na_labels"))) %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels"))) %>%
       unnest_longer( .data$na_labels) %>%
-      purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "label_orig",  "val_code_orig", "val_label_orig")) %>%
+      purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the missing observation range
         label_range = "missing") %>%
@@ -126,9 +127,9 @@ create_codebook <- function ( metadata = NULL,
     # These area cases when the na_labels are of class character
     valid_labelled_character  <-   metadata_labelled_character %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
-      select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig", "valid_labels")))   %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels")))   %>%
       unnest_longer( .data$valid_labels) %>%
-      rlang::set_names ( c("entry", "id", "filename", "var_name_orig","label_orig",  "val_code_orig", "val_label_orig")) %>%
+      rlang::set_names ( c("entry", "id", "filename", "var_name_orig","var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the valid observation range
         label_range = "valid")  %>%
@@ -137,9 +138,9 @@ create_codebook <- function ( metadata = NULL,
     
     na_labelled_character <-  metadata[char_labels ,] %>%
       filter ( grepl( "labelled", .data$class_orig )) %>%
-      select ( all_of(c("entry", "id", "filename", "var_name_orig", "label_orig",  "na_labels"))) %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels"))) %>%
       unnest_longer( .data$na_labels) %>%
-      purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "label_orig",  
+      purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_label_orig",  
                            "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the missing observation range
@@ -166,7 +167,7 @@ create_codebook <- function ( metadata = NULL,
              id = vector("character"),
              filename = vector("character"), 
              var_name_orig = vector("character"), 
-             label_orig = vector("character"), 
+             var_label_orig = vector("character"), 
              val_code_orig = vector("character"), 
              val_label_orig = vector("character"), 
              label_range = vector("character"), 
@@ -216,7 +217,6 @@ codebook_surveys_create <- function ( survey_list ) {
   
   assertthat::assert_that( inherits(survey_list, "list"), 
                            msg = "The parameter waves must be a list (of surveys.)")
-  
   
   assertthat::assert_that( all(unlist (lapply ( survey_list, function(x) inherits (x, "survey") ))), 
                            msg = "Every elements of the wave list must be of type survey.")

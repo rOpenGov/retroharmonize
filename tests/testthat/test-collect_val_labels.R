@@ -14,5 +14,5 @@ test_that("val label collection works", {
   expect_equal(collect_val_labels(metadata = trust_media_metadata ), 
                c("Tend to trust", "Tend not to trust", "DK"))
   expect_equal(collect_na_labels(metadata = trust_media_metadata ), 
-               c("Inap. (CY-TCC in isocntry)"))
+               c("Inap. (not CY-TCC in isocntry)"))
 })

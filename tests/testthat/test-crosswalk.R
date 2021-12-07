@@ -15,7 +15,9 @@ solidarity_vars <- documented_surveys[grepl("solidarity", documented_surveys$lab
 
 names(crosswalk_table)
 
-test_that("crosswalk_table_create", {
+test_that(
+  ## 
+  "crosswalk_table_create", {
   expect_true(nrow(crosswalk_table) >= nrow(documented_surveys))
   expect_equal(names(crosswalk_table), c("id", "filename", "var_name_orig", "var_name_target", 
                                         "val_numeric_orig", "val_numeric_target", 
@@ -26,7 +28,7 @@ test_that("crosswalk_table_create", {
                                         "class_orig",  "class_target"))
 })
 
-expected_total_rows <- sum(vapply ( example_surveys, nrow, numeric(1) ))
+expected_total_rows <- sum(vapply(example_surveys, nrow, numeric(1)))
 
 crosswalked_1 <- crosswalk_surveys(
   survey_list = example_surveys, 
