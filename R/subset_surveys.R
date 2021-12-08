@@ -27,7 +27,7 @@
 #' @param subset_vars The names of the variables that should be kept from all surveys in the list that contains the
 #' wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.
 #' @importFrom dplyr select any_of
-#' @family harmonization functions
+#' @family subsetting function
 #' @return A list of surveys or save individual rds files on the \code{export_path}.
 #' @examples
 #' examples_dir <- system.file("examples", package = "retroharmonize")
@@ -50,239 +50,252 @@ subset_surveys <- function ( survey_list,
                              import_path = NULL, 
                              export_path = NULL) {
   
-  validate_survey_list(survey_list)
-  
-  if ( !is.null(subset_vars) ) {
-    subset_vars <- unique(c(rowid, subset_vars))
+  if ( !is.null(survey_list)) {
+    validate_survey_list(survey_list)
+    subset_from_files <- FALSE
+    files_to_subset <- NULL
     
-    subset_survey <- function(this_survey) {
-      
-      tmp  <- this_survey %>% 
-        select ( any_of ( subset_vars ) )
-      
-      this_file_name <- attr(tmp, "filename")
-      new_file_name <- paste0(fs::path_ext_remove(this_file_name), "_", subset_name, ".", fs::path_ext(this_file_name ))
-      attr(tmp, "filename") <- new_file_name
-      
-      tmp
+    if ( !"list" %in% class(survey_list) & is.survey(survey_list) ) {
+      survey_list <- list ( i = survey_list )
+      names(survey_list)[1] <- attr(survey_list[[1]], "id")
+    }
+  }    else {
+    subset_from_files <- TRUE
+  }
+  if ( !is.null(survey_paths) )   validate_survey_files(survey_paths)
+  if ( !is.null(crosswalk_table)) { 
+    is.crosswalk_table(crosswalk_table) 
+    if (!is.null(survey_paths)) {
+      files_to_subset <- survey_paths [fs::path_file(survey_paths) %in% fs::path_file(crosswalk_table$filename)]
+    } else if ( !is.null(import_path)) {
+      files_to_subset <- dir(import_path) [dir(import_path) %in% fs::path_file(crosswalk_table$filename)]
+    } else {
+      files_to_subset <- unique(crosswalk_table$filename)
     }
     
-    lapply ( survey_list, subset_survey )
+  }
+  if ( !is.null(import_path)) {
+    assert_that(fs::dir_exists(import_path) == TRUE, 
+                msg = " in subset_surveys: the 'import_path' is not a valid path to a directory.")
     
-  } else  if ( !is.null(crosswalk_table) ) {
+    files_to_subset <- dir(import_path)[dir(import_path) %in% fs::path_file(crosswalk_table$filename)]
+    files_to_subset <- file.path(import_path, files_to_subset)
+  }
+  if ( !is.null(export_path)) {
+    assert_that(fs::dir_exists(export_path) == TRUE, 
+                msg = " in subset_surveys: the 'export_path' is not a valid path to a directory.")
     
-    is.crosswalk_table(crosswalk_table)
-    
-    subset_save_surveys(crosswalk_table = crosswalk_table, 
-                        survey_list = survey_list, 
-                        survey_paths = survey_paths, 
-                        import_path = import_path,
-                        export_path = export_path )
+  }
+  
+  if ( subset_from_files ) {
+    ## Subsetting from files 
+    if (length(files_to_subset) ==0) {
+      message ("subset_surveys(): No files to subset.")
+      return(NULL)}
+
+    ### Subsetting with crosswalk table ----------------------
+    if ( !is.null(crosswalk_table)) {
+      get_survey <- function(x) {
+        this_path <- files_to_subset[x]
+        
+        this_id <- crosswalk_table %>% filter (
+          .data$filename == fs::path_file(this_path)
+        ) %>% distinct(.data$id) %>% unlist() %>% as.character()
+        
+        subset_vars <- crosswalk_table %>%
+          filter ( .data$id == this_id ) %>%
+          select ( .data$var_name_orig ) %>%
+          unlist() %>%
+          as.character() %>% unique()
+        
+        subset_survey_files(
+          file_path = this_path, 
+          subset_vars = subset_vars, 
+          id = this_id, 
+          export_path = export_path
+        )
+      }
+      
+      if (!is.null(export_path)) {
+        lapply (seq_along(files_to_subset), function(x) get_survey(x))
+        return(NULL)
+      }
+      return_list  <- lapply (seq_along(files_to_subset), function(x) get_survey(x))
+    } else {
+      ## Subsetting without crosswalk table -----------------
+      
+      get_survey_no_ctable <- function(x) {
+        this_path <- files_to_subset[x]
+       
+        subset_survey_files(
+          file_path = this_path, 
+          subset_vars = subset_vars, 
+          id = this_id, 
+          export_path = export_path
+        )
+        }
+      
+      if (!is.null(export_path)) {
+        lapply (seq_along(files_to_subset), function(x) get_survey_no_ctable(x))
+        return(NULL)
+      }
+      return_list <- lapply (seq_along(files_to_subset), function(x) get_survey_no_ctable(x))
+    }
+     
     
   } else {
-    stop( ": in subset_surveys() - neither 'crosswalk_table' nor 'subset_vars' are given. ")
+    ### Subsetting from memory, with cross_table ------------------------------
+    
+    if (!is.null(crosswalk_table)) {
+      
+      available_surveys <- vapply(survey_list, function(x) attr(x, "id"), character(1))
+      surveys_in_ctable <- unique(crosswalk_table$id)[unique(crosswalk_table$id) %in% available_surveys]
+      
+      s <- which(surveys_in_ctable == available_surveys)
+      
+      get_survey_memory <- function(x) {
+        subset_vars <- crosswalk_table %>%
+          select ( .data$var_name_orig ) %>%
+          unlist() %>%
+          as.character() %>% unique()
+        
+        subset_survey_memory(
+          this_survey = survey_list[[x]],
+          subset_vars = subset_vars, 
+          subset_name = subset_name, 
+          export_path = export_path
+        )
+      }
+      if (!is.null(export_path)) {
+        lapply (seq_along(s), function(x) get_survey_memory(x))
+        return(NULL)
+      } else {
+        return_list <- lapply (seq_along(s), function(x) get_survey_memory(x))
+      }
+      
+      
+    } else {
+      ### Subsetting from memory, without cross_table ------------------------------
+      get_survey_no_ctable_memory <- function(x) {
+        subset_survey_memory(
+          this_survey = survey_list[[x]],
+          subset_vars = subset_vars, 
+          subset_name = subset_name, 
+          export_path = export_path
+        )
+      }
+      
+      if (!is.null(export_path)) {
+        lapply (seq_along(survey_list), function(x) get_survey_no_ctable_memory(x))
+        return(NULL)
+      } else {
+        return_list <- lapply (seq_along(survey_list), function(x) get_survey_no_ctable_memory(x))
+      }
+    }
   }
+  return_list
+}
+  
+
+#' @rdname subset_surveys
+#' @param waves A list of surveys imported with \code{\link{read_surveys}}.
+#' @export
+subset_waves <- function( waves, subset_vars = NULL) {
+  .Deprecated(new = "subset_surveys", msg = "subset_waves is deprecated, use subset_surveys instead.")
+  subset_surveys ( survey_list = waves, subset_vars = subset_subset_vars )  
 }
 
 
-
-#' @title Subset and save surveys
 #' @rdname subset_surveys
-#' @param subset_name An identifier for the survey subset.
-#' @param import_path The path to the survey files. Defaults to \code{NULL}.
-#' @param export_path The path where the subsets should be saved. Defaults to \code{NULL} when
-#' the surveys are not saved but returned as a list.
-#' @importFrom dplyr distinct mutate  all_of distinct select
-#' @importFrom fs file_exists path_ext dir_exists path_file path_ext_remove
-#' @importFrom assertthat assert_that
-#' @importFrom rlang set_names .data
-#' @importFrom utils object.size
-#' @return The function does not return a value. It saves the subsetted
-#' surveys into .rds files.
-#' @examples 
-#' test_survey <- read_rds (
-#'   file = system.file("examples", "ZA7576.rds",
-#'                      package = "retroharmonize")
-#' )
-#' 
-#'   test_metadata <- metadata_create ( test_survey )
-#'   test_metadata <- test_metadata[c(1,7,18),]
-#'   ctable <- crosswalk_table_create(test_metadata)
-#' 
-#' subset_save_surveys  ( crosswalk_table = ctable, 
-#'                        subset_name = "tested",
-#'                        survey_list =  test_survey,
-#'                        import_path = NULL
-#' )
 #' @export
-
 subset_save_surveys  <- function ( crosswalk_table, 
                                    subset_name = "subset",
                                    survey_list = NULL,
                                    survey_paths = NULL,
                                    import_path = NULL, 
                                    export_path = NULL) {
+  .Deprecated(new = "subset_surveys", 
+              msg = "subset_save_surveys is deprecated, use subset_surveys instead.")
+  subset_surveys ( 
+    crosswalk_table = crosswalk_table, 
+    subset_name = subset_name, 
+    survey_list = survey_list, 
+    subset_vars = subset_vars, 
+    import_path = import_path, 
+    export_path = export_path)  
+}
+
+#' @title Subset surveys from files
+#' @inheritParams subset_surveys
+#' @param file_path A single survey files. 
+#' @keywords internal
+subset_survey_files <- function( file_path, 
+                                 subset_vars, 
+                                 subset_name = 'subset',
+                                 id = NULL, 
+                                 export_path = NULL ) {
   
+  subset_vars <- unique(c("rowid",subset_vars))
   
-  if (is.null(survey_list) & is.null(import_path)) {
-    stop(" in subset_save_surveys(...survey_list, import_path, ...): both the 'survey_list' and the 'import_path' is missing." )
-  }
+  survey_file_ext <- fs::path_ext(file_path)
+  if ( is.null(id)) id <- fs::path_ext_remove(fs::path_file(file_path))
   
-  if ( !is.null(survey_list)) {
-    ## Importing from a list in memory
-    validate_survey_list(survey_list = survey_list)
-    subset_from_files <- FALSE
-    if ( ! "list" %in% class(survey_list) ) {
-      survey_id <- attr(survey_list, "id") 
-      survey_list <- list( i = survey_list )
-      names(survey_list)[1] <- survey_id    } 
-    
-    imported_survey_files <- vapply ( survey_list, function(x) attr(x, "filename"), character(1) )
-    } else {
-    # Importing from a files
-    assert_that(fs::dir_exists(import_path) == TRUE, 
-                msg = " in subset_save_surveys: the 'import_path' is not a valid path to a directory.")
-    subset_from_files <- TRUE
-  }
-  
-  assert_that(
-    all(c("filename", "id", "var_name_orig") %in% names(crosswalk_table) ), 
-    msg = "in subset_save_surveys(croswalk_table,....): the crosswalk table must have 'filename', 'id', 'var_name_orig' columns."
-  )
-  
-  ## Subsetting the crosswalk table for this particular task ---------------------------------
-  selection <- crosswalk_table %>%
-    distinct ( 
-      across (any_of(c("filename", "id", 
-                       "var_name_orig", "var_name_target", 
-                       "var_label_orig", "var_label_target")
-      )
-      )
-    )
-  
-  if ( ! "var_name_target" %in% names(selection) ) {
-    selection <- selection %>% 
-      mutate ( var_name_target = .data$var_name_orig )
-  }
-  
-  ## Finding the location of the surveys that need to be subsetted ---------------------------
-  if ( is.null(survey_paths) ) {
-    survey_files <- selection %>%
-      distinct ( across (all_of(c("filename", "id"))) )
-    subset_survey_files <- survey_files$filename
-  } 
-  
-  if ( !is.null(import_path) ) {
-    validate_survey_files(vapply ( subset_survey_files, 
-                                   function(x) file.path(import_path, x), 
-                                   character(1))  )
-  } else { 
-    ## if survey_paths are given as full path
-    validate_survey_files(survey_paths)
-  }
-  
-  ## A sequential subsetting of the surveys -----------------------------------------------------
-  
-  for (i in seq_along(subset_survey_files) ) {
-    
-    if ( subset_from_files ) {
-      ## The subsetting requires importing the surveys from files ------------------------------
-      
-      if ( is.null(import_path) ) {
-        this_file <- survey_paths[i]
-        this_file_name <-  fs::path_file(survey_paths)
-        
-      } else {
-        this_file <- file.path(import_path, subset_survey_files[i])
-        this_file_name <- subset_survey_files[i]
-      }
-      
-      if ( ! fs::file_exists(this_file) ) {
-        warning( this_file, " does not exist.")
-        next
-      }
-      
-      this_ext <- fs::path_ext(this_file)
-      
-      if ( this_ext %in% c("sav", "por")) {
-        this_survey <- read_spss(this_file, id = survey_files$id[i])
-      } else if (this_ext == "rds") {
-        this_survey <- read_rds(file = this_file, id = survey_files$id[i])
-      } else if ( this_ext == "dta") {
-        this_survey <- read_dta(file = this_file, id = survey_files$id[i])
-      } else {
-        next
-      }
-      
-    } else {
-      ## Subseting takes place from  a list in memory -------------------------------------------
-      this_file_name <-  fs::path_file(subset_survey_files[i])
-      this_survey <- survey_list[[which( imported_survey_files == this_file_name)]]
-    }
-    
-    ## If no new names are given, this will be identical to the old names
-    survey_vars <- selection %>%
-      select ( any_of(c("filename", "var_name_orig", "var_name_target", 
-                        "var_label_orig", "var_label_target"))) %>% 
-      filter ( .data$filename == this_file_name ) 
-    
-    
-    new_names <- as.character(survey_vars$var_name_target)
-    
-    renaming_table <- survey_vars %>%
-      distinct ( .data$var_name_orig, .data$var_name_target )
-    
-    
-    ## The actual subsetting --------------------------------------------------------------------
-    subsetted_survey <- this_survey %>%
-      select ( all_of (renaming_table$var_name_orig) ) %>%
-      rlang::set_names( nm = renaming_table$var_name_target )
-    
-    ## Returning either a vector of the files created or a list ---------------------------------
-    if ( !is.null(export_path) ) {
-      # if the export_path is given then the surveys will be saved there.
-      
-      assert_that(fs::dir_exists(export_path) == TRUE, 
-                  msg = " in subset_save_surveys: the 'export_path' is not a valid path to a directory.")
-      
-      save_file_name <- paste0(fs::path_ext_remove(this_file_name), "_", 
-                               subset_name, ".rds")
-      
-      message ( "Saving ", save_file_name )
-      
-      saveRDS(subsetted_survey, file = file.path(
-        export_path, save_file_name ), 
-        version = 2)
-      
-      if ( i == 1 ) {
-        return_file_vector <- file.path(export_path, save_file_name )
-      } else {
-        return_file_vector <- c(
-          return_file_vector, 
-          file.path(export_path, save_file_name)
-        )
-      }
-    } else {
-      ## If export_path is given, the subsetted surveys are returned as a list
-      if (i == 1 ) {
-        return_list <- list ( i = subsetted_survey)
-        names(return_list)[i] <- attr(this_survey, "id")
-        
-      } else {
-        return_list <- c( return_list, list ( i = subsetted_survey))
-        names(return_list)[i] <- attr(this_survey, "id")
-      }
-    }
-  }
-  
-  if ( is.null(export_path) ) {
-    return_list
+  if ( survey_file_ext %in% c("sav", "por")) {
+    this_survey <- read_spss(file_path, id = id)
+  } else if (survey_file_ext == "rds") {
+    this_survey <- read_rds(file = file_path, id = id)
+  } else if ( survey_file_ext == "dta") {
+    this_survey <- read_dta(file = file_path, id = id )
+  } else if ( survey_file_ext == "csv") { 
+    this_survey <- read_csv(file = file_path, id = id )
   } else {
-    return_file_vector
+    return(NULL)
+  }
+  subset_survey_memory (this_survey, 
+                        subset_vars = subset_vars,
+                        subst_name = subset_name, 
+                        export_path = export_path)
+
+}
+
+#' @title Subset surveys in memory
+#' @inheritParams subset_surveys
+#' @importFrom tibble as_tibble
+#' @keywords internal
+subset_survey_memory <- function(this_survey, 
+                                 subset_vars, 
+                                 subset_name = 'subset', 
+                                 export_path = NULL ) {
+  
+  subset_vars <- unique(c("rowid", subset_vars))
+  
+  subset_survey <- this_survey %>%
+    select (any_of(subset_vars))
+  
+  attr(subset_survey, "subset_size") <- as.numeric(object.size(as_tibble(subset_survey)))
+  
+  this_file_name <- paste0(
+    fs::path_ext_remove(attr(subset_survey, "filename") ), 
+    "_", subset_name, ".",
+    fs::path_ext(attr(subset_survey, "filename"))) 
+  
+  attr(subset_survey, "filename") <- this_file_name 
+  
+  
+  if(!is.null(export_path)) { 
+    save_file_name <- paste0(fs::path_ext_remove(fs::path_file(this_file_name)), ".rds")
+    message("Saving ", paste0(fs::path_ext_remove(fs::path_file(this_file_name)), ".rds"))
+    saveRDS(object = subset_survey_memory (this_survey, subset_vars), 
+            file = file.path(export_path, save_file_name), 
+            version = 2)
+  } else {
+    subset_survey
   }
 }
 
+
 #' @rdname subset_surveys
+#' @importfrom dplyr add_count
 #' @examples 
 #' test_survey <- read_rds (
 #'   file = system.file("examples", "ZA7576.rds",
@@ -302,50 +315,3 @@ subset_save_surveys  <- function ( crosswalk_table,
 #'                        import_path = NULL
 #' )
 #' @export
-
-harmonize_survey_variables <- function( crosswalk_table, 
-                                 subset_name = "subset",
-                                 survey_list = NULL,
-                                 survey_paths = NULL,
-                                 import_path = NULL, 
-                                 export_path = NULL ) {
-  
-  ## This is a wrapper for subset_save_survey with strict validation of new variable names.
-  
-  is.crosswalk_table(crosswalk_table)
-  
-  ## selection: relevant metadata for this particular survey
-  selection <- crosswalk_table %>% 
-    filter ( .data$id == survey_id ) %>%
-    distinct_all()
-  
-  ## metadata for the harmonization of variable names 
-  crosswalk_var_names <- selection %>%
-    select  ( all_of(c("var_name_orig", "var_name_target")) ) %>%
-    distinct_all() %>%
-    add_count (.data$var_name_target)
-  
-  multiple_target_names <- crosswalk_var_names$var_name_target[which(crosswalk_var_names$n>1)]
-  multiple_target_names <- paste(multiple_target_names, collapse = ", ")
-  
-  assertthat::assert_that(
-    # There should be no unambigous names, duplicates are not allowed.
-    nchar(multiple_target_names)==0,
-    msg = glue("The following names are duplicated in {survey_id}: {multiple_target_names}")
-  )
-  
-  subset_save_surveys(crosswalk_table = crosswalk_table, 
-                      subset_name = subset_name, 
-                      survey_list = survey_list,
-                      import_path  = import_path,
-                      export_path = export_path )
-  
-}
-
-#' @rdname subset_surveys
-#' @param waves A list of surveys imported with \code{\link{read_surveys}}.
-#' @export
-subset_waves <- function( waves, subset_vars = NULL) {
-  .Deprecated(new = "subset_surveys", msg = "subset_waves is deprecated, use subset_surveys instead.")
-  subset_surveys ( survey_list = waves, subset_vars = subset_subset_vars )  
-}

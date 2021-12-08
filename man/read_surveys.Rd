@@ -4,16 +4,16 @@
 \alias{read_surveys}
 \title{Read Survey Files}
 \usage{
-read_surveys(import_file_names, .f = "read_rds", save_to_rds = FALSE)
+read_surveys(survey_paths, .f = "read_rds", save_to_rds = FALSE)
 }
 \arguments{
-\item{import_file_names}{A vector of file names to import.}
+\item{survey_paths}{A vector of file names to import.}
 
 \item{.f}{A function to import the surveys with.
 Defaults to \code{'read_rds'}. For SPSS files,
 \code{read_spss} is recommended, which is a
 well-parameterized version of \code{\link[haven]{read_spss}} that
-saves some metadata, too.}
+saves some metadata, too. For STATA files use \code{read_dta}.}
 
 \item{save_to_rds}{Should it save the imported survey to .rds?
 Defaults to \code{FALSE}.}
@@ -46,6 +46,7 @@ survey
 
 Other import functions: 
 \code{\link{pull_survey}()},
+\code{\link{read_csv}()},
 \code{\link{read_dta}()},
 \code{\link{read_rds}()},
 \code{\link{read_spss}()}

@@ -1,16 +1,20 @@
-#' @title Read rds file
+#' @title Read csv file
 #' 
-#' @description Import a survey from an rds file.
-#'
+#' @description Import a survey from a csv file.
+#' 
+#' @inheritParams read.csv
 #' @param file A path to a file to import.
 #' @param id An identifier of the tibble, if omitted, defaults to the
 #' file name without its extension.
 #' @param doi An optional document object identifier.
-#' @importFrom tibble rowid_to_column as_tibble
+#' @importFrom tibble rowid_to_column
+#' @return A tibble, data frame variant with survey attributes.
 #' @importFrom fs path_ext_remove path_file is_file
 #' @importFrom labelled var_label
 #' @importFrom purrr safely
-#' @return A tibble, data frame variant with survey attributes.
+#' @importFrom utils read.csv
+#' @importFrom tibble as_tibble
+#' @importFrom purrr safely
 #' @family import functions
 #' @examples
 #' path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
@@ -20,22 +24,41 @@
 #' attr(read_survey, "doi") 
 #' @export
 
-read_rds <- function(file,
+read_csv <- function(file,
                      id = NULL, 
                      filename = NULL, 
-                     doi = NULL) {
+                     doi = NULL, 
+                     header = FALSE, 
+                     sep = "", quote = "\"'",
+                     dec = ".",
+                     numerals = c("allow.loss", "warn.loss", "no.loss"),
+                     na.strings = "NA", 
+                     skip = 0, check.names = TRUE, 
+                     strip.white = FALSE, 
+                     blank.lines.skip = TRUE,
+                     stringsAsFactors = FALSE,
+                     fileEncoding = "", encoding = "unknown") {
   
-  source_file_info <- valid_file_info(file)
   filename <- fs::path_file(file)
   
   if ( is.null(id) ) {
     id <- fs::path_ext_remove ( filename )
   }
   
-  safely_readRDS <- purrr::safely (readRDS)
+  safely_readcsv <- purrr::safely (read.csv)
   
-  tmp <- safely_readRDS (file = file)  
   
+  tmp <- safely_readcsv(file = file,
+                        na.strings = na.strings, 
+                        dec = dec, 
+                        skip = skip, 
+                        strip.white = strip.white,
+                        blank.lines.skip = blank.lines.skip,
+                        numerals = numerals,
+                        stringsAsFactors = stringsAsFactors, 
+                        fileEncoding = fileEncoding, 
+                        encoding = encoding)  
+
   if ( ! is.null(tmp$error) ) {
     warning ( tmp$error, "\nReturning an empty survey." )
     return(

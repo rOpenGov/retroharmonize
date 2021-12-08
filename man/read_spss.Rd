@@ -20,9 +20,7 @@ read_spss(
 to \code{TRUE}.}
 
 \item{id}{An identifier of the tibble, if omitted, defaults to the
-file name.}
-
-\item{filename}{An import file name.}
+file name without its extension.}
 
 \item{doi}{An optional document object identifier.}
 
@@ -63,6 +61,7 @@ haven::read_sav(tmp)
 \seealso{
 Other import functions: 
 \code{\link{pull_survey}()},
+\code{\link{read_csv}()},
 \code{\link{read_dta}()},
 \code{\link{read_rds}()},
 \code{\link{read_surveys}()}

@@ -1,8 +1,8 @@
 ---
-title: "Working With A Crosswalk Table"
+title: "Working with a Crosswalk Table"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Working With A Crosswalk Table}
+  %\VignetteIndexEntry{Working with a Crosswalk Table}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -54,10 +54,23 @@ subset_example_metadata <- example_metadata %>%
 subset_example_metadata
 ```
 
+### Create a crosswalk table
+
+You can easily create a crosswalk table with `crosswalk_table_create()`. Crosswalk tables are validated with `is.crosswalk()`. You can create or modify your own crosswalk table in any spreadsheet program. The mandatory elements of a crosswalk table are 
+
+* `id`: a unique identifier for a survey
+* `filename`: the original source data file
+* `var_name_orig`: the original variable name at source
+* `var_name_target`: the original variable name after using the crosswalk, by default, it equal to     `var_name_orig`.  
+
+All other columns are optional because they are needed for specific tasks, namely to change the numeric coding and labelling of valid and special survey response values, or to harmonize the eventual R type representation of the data.
+
 ```{r ct1}
 ct <- crosswalk_table_create(subset_example_metadata)
 ct
 ```
+
+### Variable name harmonization
 
 The harmonization of the variable names requires a single, unambiguous name for the variables that represent the same concept: 
 
@@ -71,7 +84,14 @@ ct %>%
   distinct ( across(all_of(c("filename", "var_name_orig", "var_name_target"))))
 ```
 
-The table should contain instruction on harmonizing the numeric value codes and value labels.  We create an unambigous coding, and to be on the safe side, the special missing value is placed far away from the normal values. 
+### Value numeric code and label harmonization
+
+For code and label harmonization, the crosswalk table should optionally contain instructions on harmonizing the numeric value codes and value labels. 
+
+* The `crosswalk_table_create()` will create identical source and target columns for labeling (and type setting.) 
+* You can save this table into `.csv` or `.xls` and edit it in a spreadsheet application if you want. If you do not change the default values (`source`=`target`) then the harmonization in those aspects will not take place. 
+
+In this example, for full reproducability, we do not work in a spreadsheet program like Excel or Numbers or OpenOffice but we create programatically an unambigous coding. To be on the safe side, the special missing value is placed far away from the normal values. 
 
 ```{r vallabels}
 ct %>%
@@ -107,8 +127,9 @@ ct %>%
                              "na_label_orig",  "na_label_target")))
              )
 ```
+### A reproducible recoding and relabelling
 
-Putting the entire process in one pipeline:
+Let's put the entire process into a tidyverse pipeline with [dplyr](https://dplyr.tidyverse.org/):
 
 ```{r crosswalktarget}
 example_crosswalk_table <- ct %>%
@@ -138,14 +159,15 @@ example_crosswalk_table <- ct %>%
 
 example_crosswalk_table
 ```
+Needless to say that you do not need to work with *dplyr*. 
 
-Reading the crosswalk table is very simple:
+Reading the crosswalk table is very simple, for example, the last two (15-16) rows read like this:
 
-* In `ZA6863.rds` rename the questionnaire item `qa14_1` stored as a variable to `trust_ep`.  
-* Recode the numeric values from `2` to `0` and label them to `distrust`.
-* Recode the special values from `3` to `99999` and label them `declined`.
+* In `ZA6863.rds` rename the variable storing questionnaire item `qa14_1` to `trust_ep` (`Trust in European Parliament`).  
+* Recode the numeric values from `2` to `0` and label them as `distrust`.
+* Recode the special values from `3` to `99999` and label them as `declined`.
 
-## Subsetting
+### Subsetting
 
 From a technical perspecitve, the aim of the survey harmonization is to create a single, tidy, joined table. For making joining possible (and to reduce memory use), a first processing step is to remove irrelevant variables that will not be harmonized. 
 

@@ -65,55 +65,94 @@ create a single, tidy, joined table in the form of a data frame that
 contains a row identifier, which is truly unique across all observations
 and the concatenated and harmonized variables.
 
-1.  **Harmonization of concepts**: Create a mental map of the measured
-    concepts that needs to be harmonized, for example, a binary sex
-    variable with missing cases and a four-level categorical variable on
-    gender identification that has *other* and *declined* options. See
-    the vignette [Working With Survey
-    Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization)
-    how mapping the metadata of the surveys can help getting started
-    with this first step.
-2.  **Variable names**: Make sure that `survey_1$sex` and
-    `survey_2$gender` can be concatenated to a gender vector or
-    `survey_joined$gender`. See more in the [Working With A Crosswalk
-    Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html).
-3.  **Variable coding and labels**: Female=0 in `survey_1$sex` and
-    female=2 in `survey_2$gender` becomes consistently female=0. Missing
-    and *declined* values are consistently handled.
-4.  **Variable types**: to use R’s statistical functions with the
-    concatenated version of `survey_1$sex` and `survey_2$gender` they
-    must have the same R type. In the vast majority of the cases either
-    *numeric* or *factor*, and in data visualization applications
-    sometimes *character*. See more in the [Harmonize Value
-    Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html)
-    vignette.
-5.  **Reproducibility**: To review statistics derived from the
-    concatenated variable (or the joined data frame), they must remain
-    comparable with `survey_1$sex` and `survey_2$gender`. It is also
-    necessary to have a new, unique row ID for each observation. If you
-    want to make your work available outside R, in a different software,
-    the joined, longitudional data frame must be exported in a
-    consistent manner.
-
 For an extended overview of these problems with illustrations please
 refer to the vignette [Survey
 Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization).
 
-Researchers may have different preferred workflows, for example:
+### Importing
 
-1.  Harmonize concepts -&gt; Tidy datasets -&gt; Harmonize variable
-    names -&gt; Harmonize variable classes -&gt; Harmonize labels and
-    codes -&gt; Join data
+Survey data, i.e., data derived from questionnaires or systematic data
+collection, such as inspecting objects in nature, recording prices at
+shops are usually stored databases, and converted to complex files
+retaining at least coding, labelling metadata together with the data.
+This must be imported to R so that the appropriate harmonization tasks
+can be carried out with the appropriate R types.
 
-2.  Harmonize concepts -&gt; Tidy datasets -&gt; Harmonize variable
-    names -&gt; Harmonize labels and codes - &gt; Harmonize variable
-    classes -&gt; Join data
+### Harmonization of concepts
 
-3.  Harmonize concepts -&gt; Tidy datasets -&gt; Harmonize labels and
-    codes -&gt; Harmonize variable classes -&gt; Harmonize names -&gt;
-    Join data
+After importing data with some descriptive metadata such as numerical
+coding and labelling, we need to create a map of the information that is
+in our R session to prepare a harmonization plan. We must find
+information related to sufficiently similar concepts that can be
+harmonized to be successfully joined into a single variable, and
+eventually a table of similar variables must be joined.
 
-Our package has different utilities for different workflows.
+We create a map of the measured concepts that needs to be harmonized,
+for example, a binary sex variable with missing cases and a four-level
+categorical variable on gender identification that has *other* and
+*declined* options. See the vignette [Working With Survey
+Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization)
+how mapping the metadata of the surveys can help getting started with
+this first step.
+
+We use a [crosswalk
+table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html)
+or a *crosswalk scheme* for all the variable name, value label and type
+conversion tasks that we plan to do.
+
+### Harmonization of variable names
+
+Make sure that `survey_1$sex` and `survey_2$gender` can be concatenated
+to a gender vector or `survey_joined$gender`. See more in the [Working
+With A Crosswalk
+Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html).
+
+### Harmonization of variable numerical codes and labels
+
+For example, *Female=0* in `survey_1$sex` and *female=2* in
+`survey_2$gender` becomes consistently female=0. Missing and *declined*
+values are consistently handled.
+
+### Consistent types
+
+To use R’s statistical functions with the concatenated version of
+`survey_1$sex` and `survey_2$gender` they must have the same R type. In
+the vast majority of the cases either *numeric* or *factor*, and in data
+visualization applications sometimes *character*. See more in the
+[Harmonize Value
+Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html)
+vignette.
+
+### Reproducibility & Documentation
+
+To review statistical results and model results derived from the
+concatenated variable (or the joined data frame), they must remain
+comparable with `survey_1$sex` and `survey_2$gender`. It is also
+necessary to have a new, unique row ID for each observation. If you want
+to make your work available outside R, in a different software, the
+joined, longitudional data frame must be exported in a consistent
+manner.
+
+## Use Cases
+
+We also provide three extensive case studies illustrating how the
+`retroharmonize` package can be used for ex-post harmonization of data
+from cross-national surveys:
+
+-   [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html)
+-   [Arab
+    Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html)
+-   [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html)
+
+The creators of `retroharmonize` are not affiliated with either
+Afrobarometer, Arab Barometer, Eurobarometer, or the organizations that
+designs, produces or archives their surveys.
+
+We started building an experimental APIs data is running retroharmonize
+regularly and improving known statistical data sources. See: [Digital
+Music Observatory](https://music.dataobservatory.eu/), [Green Deal Data
+Observatory](https://greendeal.dataobservatory.eu/), [Economy Data
+Observatory](https://economy.dataobservatory.eu/).
 
 ## Working with SPSS files
 
@@ -138,27 +177,6 @@ In [Harmonize Value
 Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html)
 we discuss the characteristics of the `labelled_spss_survey()` class and
 demonstrates the problems that using this class solves.
-
-## Use Cases
-
-We also provide three extensive case studies illustrating how the
-`retroharmonize` package can be used for ex-post harmonization of data
-from cross-national surveys:
-
--   [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html)
--   [Arab
-    Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html)
--   [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html)
-
-The creators of `retroharmonize` are not affiliated with either
-Afrobarometer, Arab Barometer, Eurobarometer, or the organizations that
-designs, produces or archives their surveys.
-
-We started building an experimental APIs data is running retroharmonize
-regularly and improving known statistical data sources. See: [Digital
-Music Observatory](https://music.dataobservatory.eu/), [Green Deal Data
-Observatory](https://greendeal.dataobservatory.eu/), [Economy Data
-Observatory](https://economy.dataobservatory.eu/).
 
 ## Citations and related work
 

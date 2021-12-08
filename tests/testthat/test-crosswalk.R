@@ -19,13 +19,13 @@ test_that(
   ## 
   "crosswalk_table_create", {
   expect_true(nrow(crosswalk_table) >= nrow(documented_surveys))
-  expect_equal(names(crosswalk_table), c("id", "filename", "var_name_orig", "var_name_target", 
-                                        "val_numeric_orig", "val_numeric_target", 
-                                        "val_label_orig", "val_label_target", 
-                                        "na_label_orig", "na_label_target",
-                                        "na_numeric_orig", "na_numeric_target",
-                                        "var_label_orig", "var_label_target",
-                                        "class_orig",  "class_target"))
+  expect_true(all(names(crosswalk_table) %in% c("id", "filename", "var_name_orig", "var_name_target", 
+                                                 "val_numeric_orig", "val_numeric_target", 
+                                                 "val_label_orig", "val_label_target", 
+                                                 "na_label_orig", "na_label_target",
+                                                 "na_numeric_orig", "na_numeric_target",
+                                                 "var_label_orig", "var_label_target",
+                                                 "class_orig",  "class_target")))
 })
 
 expected_total_rows <- sum(vapply(example_surveys, nrow, numeric(1)))
@@ -93,7 +93,8 @@ test_that("crosswalk_surveys_correct_harmonization", {
 test_that("crosswalk_surveys_correct_harmonization", {
   expect_equal(nrow(crosswalk( survey_list = example_surveys, 
                                crosswalk_table = crosswalk_table, 
-                               na_values = c("inap" = 99999 ) )), expected_total_rows)
+                               na_values = c("inap" = 99999 ) )), 
+               expected_total_rows)
 })
 
 new_documentation <- metadata_surveys_create ( crosswalked_2 )

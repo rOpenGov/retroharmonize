@@ -1,0 +1,60 @@
+---
+title: "cap"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{cap}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(retroharmonize)
+cap_files <- c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav', 'ZA6925_v1-0-0.sav')
+```
+
+To replicate this example, you must acquire these files from [GESIS]() after accepting their terms of use.  The `retroharmonize` project is not affiliated with GESIS.
+
+```{r, eval=FALSE}
+## This is a dummy path. You should use the path where you saved these files.
+gesis_dir <- file.path("C:", "your_data", "gesis_files")
+```
+
+```{r, eval=FALSE}
+## Create full paths to the three selected files
+cap_files <- file.path(gesis_dir, cap_files)
+```
+## Inventory
+
+```{r}
+document_cap_files <- document_surveys(survey_path = cap_files, .f = "read_spss")
+```
+
+```{r printdocument}
+knitr::kable(document_cap_files)
+```
+
+The files are rather large. We have `r sum(document_cap_files$nrow)` of `r sum(document_cap_files$ncol)` variables.  We will only harmonize a few of them.
+
+## Concepts to harmonize
+
+```{r metadatasurveys}
+cap_metadata <- metadata_surveys_create(survey_files = cap_files)
+```
+
+```{r}
+variables_of_interest <- cap_metadata %>%
+  filter ( .data$var_name_orig %in% c("rowid|isocntry") | 
+             grepl(search_term_labels, .data$var_label_orig) |
+             .data$var_name_orig %in% c("w1", "wex", "w3", "w3a", "w4", "w4a")) 
+
+variables_of_interest
+```
+
+

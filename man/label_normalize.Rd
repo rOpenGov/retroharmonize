@@ -60,7 +60,6 @@ Other harmonization functions:
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
-\code{\link{subset_surveys}()},
 \code{\link{suggest_permanent_names}()},
 \code{\link{suggest_var_names}()}
 
@@ -72,7 +71,6 @@ Other harmonization functions:
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
-\code{\link{subset_surveys}()},
 \code{\link{suggest_permanent_names}()},
 \code{\link{suggest_var_names}()}
 }

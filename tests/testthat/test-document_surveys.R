@@ -11,3 +11,5 @@ documented <- document_surveys ( example_surveys )
 test_that("correct attributes are returned", {
   expect_equal(documented$id, c("ZA5913", "ZA6863", "ZA7576"))
 })
+
+documented_files <- document_surveys (survey_paths = file.path(examples_dir, my_rds_files) )

@@ -13,23 +13,25 @@
 #' \code{\link{read_spss}}: read an SPSS file and record metadata for reproducibility\cr 
 #' \code{\link{read_rds}}: read an rds file and record metadata for reproducibility\cr 
 #' \code{\link{read_surveys}}: programmatically read a list of surveys\cr 
-#' \code{\link{subset_save_surveys}}: programmatically read a list of surveys, 
-#' and subset them (pre-harmonize the same variables.)\cr 
 #' \code{\link{pull_survey}}: pull a single survey from a survey list.\cr 
 #' 
-#' @section harmonization functions:
-#' \code{\link{label_normalize}} removes special characters, whitespace, 
-#' and other typical typing errors and helps the uniformization of labels
-#' and variable names.\cr
+#' @section subsetting functions:
+#' \code{\link{subset_surveys}}: remove variables from surveys that cannot be harmonized.
+#' 
+#' @section variable name harmonization functions:
 #' \code{\link{suggest_permanent_names}}: Suggest the use of variable naming conventions.
+#' \code{\link{harmonize_survey_variables}}: Create a list of surveys with harmonized variable names.\cr
+
 #' @section variable label harmonization functions:
 #' Create consistent coding and labelling.\cr 
 #' \code{\link{harmonize_values}}: Harmonize the label list across surveys.\cr
 #' \code{\link{harmonize_survey_values}}: Create a list of surveys with harmonized value labels.\cr
-#' \code{\link{harmonize_survey_variables}}: Create a list of surveys with harmonized variable names.\cr
 #' \code{\link{na_range_to_values}}: Make the \code{na_range} attributes,
 #' as imported from SPSS, consistent with the \code{na_values} attributes.\cr
-#
+#' \code{\link{label_normalize}} removes special characters, whitespace, 
+#' and other typical typing errors and helps the uniformization of labels
+#' and variable names.\cr
+#' 
 #' @section survey harmonization functions:
 #' \code{\link{merge_surveys}}: Create a list of surveys with harmonized names and variable labels.\cr 
 #' \code{\link{crosswalk_surveys}}: Create a list of surveys with harmonized variable names, harmonized 

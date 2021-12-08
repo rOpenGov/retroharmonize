@@ -1,0 +1,45 @@
+---
+title: "documentation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{documentation}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(retroharmonize)
+
+examples_dir <- system.file( "examples", package = "retroharmonize")
+my_rds_files <- dir( examples_dir)[grepl(".rds", 
+                                   dir(examples_dir))]
+```
+
+The `document_surveys()` function works with either a list of surveys in the memory, or a vector of paths to survey files. 
+
+The function has two alternative input parameters. If `survey_list` is the 
+input, it returns  the name of the original source data file, the number of rows and 
+columns, and the size of the object as stored in memory. In case `survey_paths`
+contains the source data files, it will sequentially read those files, and add the file
+size, the last access and the last modified time attributes. 
+
+```{r memory}
+example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+documented_surveys <- document_surveys(survey_list = example_surveys)
+
+attr(documented_surveys, "original_list")
+documented_surveys
+```
+```{r files}
+document_surveys(survey_paths = file.path(examples_dir, my_rds_files), .f = "read_rds")
+```
+
+
+

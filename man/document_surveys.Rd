@@ -5,12 +5,21 @@
 \alias{document_waves}
 \title{Document survey lists}
 \usage{
-document_surveys(survey_list)
+document_surveys(survey_list = NULL, survey_paths = NULL, .f = NULL)
 
 document_waves(waves)
 }
 \arguments{
 \item{survey_list}{A list of \code{\link{survey}} objects.}
+
+\item{survey_paths}{A vector of full file paths to the surveys to subset, defaults to 
+\code{NULL}.}
+
+\item{.f}{A function to import the surveys with.
+Defaults to \code{'read_rds'}. For SPSS files,
+\code{read_spss} is recommended, which is a
+well-parameterized version of \code{\link[haven]{read_spss}} that
+saves some metadata, too. For STATA files use \code{read_dta}.}
 
 \item{waves}{A list of \code{\link{survey}} objects.}
 }
@@ -23,6 +32,12 @@ columns, and the size of the object as stored in memory.
 Document the key attributes surveys in a survey list.
 }
 \details{
+The function has two alternative input parameters. If \code{survey_list} is the 
+input, it returns  the name of the original source data file, the number of rows and 
+columns, and the size of the object as stored in memory. In case \code{survey_paths}
+contains the source data files, it will sequentially read those files, and add the file
+size, the last access and the last modified time attributes.
+
 The earlier form \code{document_waves} is deprecated.  
 Currently called \code{\link{document_surveys}}.
 }
@@ -34,10 +49,13 @@ my_rds_files <- dir( examples_dir)[grepl(".rds",
 
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
  
-documented_surveys <- document_surveys(example_surveys)
+documented_surveys <- document_surveys(survey_list=example_surveys)
 
 attr(documented_surveys, "original_list")
 documented_surveys
+
+document_surveys(survey_paths = file.path(examples_dir, my_rds_files))
+
 }
 \seealso{
 Other documentation functions: 

@@ -1,7 +1,7 @@
 examples_dir <- system.file("examples", package = "retroharmonize")
-survey_list  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
+survey_files  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
+  file.path( examples_dir, survey_files), 
   save_to_rds = FALSE)
 
 subset_survey_list_1 <- subset_surveys(survey_list = example_surveys, 
@@ -15,6 +15,16 @@ test_that("saving and subsetting (not on CRAN)", {
                c("ZA5913_subset_example.rds", "ZA6863_subset_example.rds", "ZA7576_subset_example.rds"))
   expect_equal(vapply(subset_survey_list_1 , ncol, numeric(1)), c(3,3,3))
 })
+
+
+example_metadata <- metadata_surveys_create( survey_files = file.path(examples_dir, survey_files), .f = "read_rds")
+
+example_ctable <- example_metadata %>%
+  filter ( .data$var_name_orig %in% c("rowid", "isocntry", "d60", "wex")) %>%
+  crosswalk_table_create()
+
+crosswalk_table <- example_ctable
+survey_paths <- file.path(examples_dir, survey_files)
 
 testing_subsetting <- function() {
   test_survey <- read_rds (
@@ -38,30 +48,30 @@ testing_subsetting <- function() {
   subset_surveys(crosswalk_table = ctable, 
                  survey_list = test_survey, 
                  subset_name = "tested",
+                 survey_paths = NULL,
                  import_path = NULL,
-                 export_path = tempdir())
+                 export_path = tempdir()
+                 )
 
   file.exists ( file.path(tempdir(), "ZA7576_tested.rds"))
 }
 
 res <- evaluate_promise(testing_subsetting())
 
-
-
 test_that("saving and subsetting", {
   skip_on_cran()
-  expect_true("Saving ZA7576_subset.rds\n" %in% evaluate_promise(testing_subsetting())$messages)
+  expect_true("Saving ZA7576_tested.rds\n" %in% evaluate_promise(testing_subsetting())$messages)
   }
 )
 
 test_that("saving and subsetting (not on CRAN)", {
   skip_on_cran()
-  expect_true(ncol(readRDS ( file.path(tempdir(), "ZA7576_subset.rds"))) == 3)
-  expect_error(subset_save_surveys  ( crosswalk_table = ctable, 
-                                      subset_name = "tested", 
-                                      import_path = NULL, 
-                                      export_path = NULL))
+  expect_true(ncol(readRDS ( file.path(tempdir(), "ZA7576_tested.rds"))) == 3)
+  expect_error(save_surveys  ( crosswalk_table = ctable, 
+                               subset_name = "tested", 
+                               import_path = NULL, 
+                               export_path = NULL))
 })
 
-# evaluate_promise(testing_subsetting())$result
+
 

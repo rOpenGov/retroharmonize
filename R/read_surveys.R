@@ -7,12 +7,12 @@
 #' files. If I file cannot be read, a warning is given, and empty survey is added to the 
 #' the list in the place of this file. 
 #'
-#' @param import_file_names A vector of file names to import.
+#' @param survey_paths A vector of file names to import.
 #' @param .f A function to import the surveys with.
 #' Defaults to \code{'read_rds'}. For SPSS files,
 #' \code{read_spss} is recommended, which is a
 #' well-parameterized version of \code{\link[haven]{read_spss}} that
-#' saves some metadata, too.
+#' saves some metadata, too. For STATA files use \code{read_dta}.
 #' @param save_to_rds Should it save the imported survey to .rds?
 #' Defaults to \code{FALSE}.
 #' @return A list of the surveys.  Each element of the list is a data
@@ -32,7 +32,7 @@
 #' @family import functions
 #' @seealso survey
 
-read_surveys <- function ( import_file_names,
+read_surveys <- function ( survey_paths,
                            .f = 'read_rds',
                            save_to_rds = FALSE ) {
  
@@ -64,7 +64,7 @@ read_surveys <- function ( import_file_names,
       }
     }
     
-    if ( nrow(tried_survey) >0 & save_to_rds == TRUE ) {
+    if ( nrow(tried_survey) > 0 & save_to_rds == TRUE ) {
       rds_filename <- gsub(".sav|.por", ".rds", filename)
       "Saving the survey to rds in the same location."
       saveRDS(tried_survey$result, rds_filename, version=2)
@@ -73,10 +73,12 @@ read_surveys <- function ( import_file_names,
      tried_survey
   }
 
-  import_file_list <- as.list (import_file_names)
+  import_file_list <- as.list (survey_paths)
   
-  tmp <- lapply ( import_file_list , FUN = function(x) safely_read_survey(x, .f)   )
+  return_survey_list <- lapply ( import_file_list, 
+                                 FUN = function(x) safely_read_survey(x, .f)
+                                )
 
-  tmp
+  return_survey_list
 }
 

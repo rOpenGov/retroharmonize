@@ -72,6 +72,7 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
     survey_list = survey_list, 
     crosswalk_table = crosswalk_table)
   
+  
   ## Relabel surveys -------------------------------------------------
   relabel_survey <- function(y, selection) {
     
@@ -128,8 +129,11 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
   }
   
   subset_survey <- function(this_survey) {
+    
+    survey_id <- attr(this_survey, "id")
+    
     tmp <- this_survey %>% 
-      mutate ( id = attr(this_survey, "id")) %>%
+      mutate ( id = survey_id ) %>%
       relocate ( .data$id, .before = everything())
     
     selection <- crosswalk_table %>% 
@@ -160,7 +164,7 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
     
     return_df 
   }
- 
+  
   subsetted <- lapply ( harmonized_survey_vars, function(x) purrr::safely(subset_survey)(x) )
 
   errors <- lapply ( subsetted, function(x) x$error)
@@ -244,7 +248,9 @@ crosswalk_table_create <- function(metadata) {
         val_numeric_orig = NA_real_,
         val_numeric_target  = NA_real_,
         val_label_orig = NA_character_,
-        val_label_target = NA_character_
+        val_label_target = NA_character_, 
+        class_orig = rep(unique(x$class_orig), label_length),
+        class_target = rep(unique(x$class_orig), label_length)
       )
     } else {
       val_labels   <- names(unlist(x$labels))
@@ -286,7 +292,6 @@ crosswalk_table_create <- function(metadata) {
         tmp$var_label_orig   <- NA_character_
         tmp$var_label_target <- NA_character_
       }
-      
       if ( "class_orig" %in% names(x) ) {
         
         tmp <- tmp %>%
@@ -303,7 +308,6 @@ crosswalk_table_create <- function(metadata) {
       }
       tmp
     }
-    
   }
   
   if (nrow(metadata)==1) {

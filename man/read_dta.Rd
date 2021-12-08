@@ -10,9 +10,7 @@ read_dta(file, id = NULL, filename = NULL, doi = NULL, .name_repair = "unique")
 \item{file}{A STATA file.}
 
 \item{id}{An identifier of the tibble, if omitted, defaults to the
-file name.}
-
-\item{filename}{An import file name.}
+file name without its extension.}
 
 \item{doi}{An optional document object identifier.}
 
@@ -45,6 +43,7 @@ read_dta(path)
 \seealso{
 Other import functions: 
 \code{\link{pull_survey}()},
+\code{\link{read_csv}()},
 \code{\link{read_rds}()},
 \code{\link{read_spss}()},
 \code{\link{read_surveys}()}

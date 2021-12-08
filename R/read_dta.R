@@ -12,7 +12,7 @@
 #' \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.
 #' @inheritParams read_rds
 #' @importFrom haven read_dta is.labelled
-#' @importFrom tibble rowid_to_column
+#' @importFrom tibble rowid_to_column as_tibble
 #' @importFrom fs path_ext_remove path_file is_file
 #' @importFrom labelled var_label
 #' @importFrom dplyr bind_cols select_if mutate_all select
@@ -39,18 +39,7 @@ read_dta <- function(file,
                       doi = NULL, 
                       .name_repair = "unique") {
   
-  # to do: with ...
-  #skip = NULL,
-  #col_select = NULL 
-  #n_max =NULL
-  #col_select_input <- col_select
-  
-  assertthat::assert_that(
-    fs::is_file(file),
-    msg =  paste0("file='", file, "' is not a file. ")
-  )
-
-  # how to pass on optional parameters?
+  source_file_info <- valid_file_info(file)
   
   safely_read_haven_dta  <- purrr::safely(.f = haven::read_dta)
 
@@ -151,5 +140,11 @@ read_dta <- function(file,
     labelled::var_label ( return_df[,1] ) <- unlist(original_labels)[i]
   }
   
-  survey (return_df, id=id, filename=filename, doi=doi)
+  return_survey <- survey (return_df, id=id, filename=filename, doi=doi)
+  
+  object_size <- as.numeric(object.size(as_tibble(return_df)))
+  attr(return_survey, "object_size") <- object_size
+  attr(return_survey, "source_file_size") <- source_file_info$size
+  
+  return_survey
 }
