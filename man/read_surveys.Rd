@@ -2,35 +2,40 @@
 % Please edit documentation in R/read_surveys.R
 \name{read_surveys}
 \alias{read_surveys}
-\title{Read Survey Files}
+\alias{read_survey}
+\title{Read survey file(s)}
 \usage{
-read_surveys(survey_paths, .f = "read_rds", save_to_rds = FALSE)
+read_surveys(survey_paths, .f = NULL, export_path = NULL)
+
+read_survey(file_path, .f = NULL, export_path = NULL)
 }
 \arguments{
-\item{survey_paths}{A vector of file names to import.}
+\item{survey_paths}{A vector of (full) file paths that contain the surveys to import.}
 
 \item{.f}{A function to import the surveys with.
-Defaults to \code{'read_rds'}. For SPSS files,
-\code{read_spss} is recommended, which is a
-well-parameterized version of \code{\link[haven]{read_spss}} that
-saves some metadata, too. For STATA files use \code{read_dta}.}
+Defaults to \code{'NULL'}, in this case files with an extension of \code{'.sav'} and \code{'.por'}
+will call case \code{\link{read_spss}}, files with an extension of \code{'.dta'} will 
+call \code{\link{read_dta}}, \code{rds} will call \code{\link{read_rds}} and
+\code{'.csv'} \code{\link{read_csv}}.}
 
-\item{save_to_rds}{Should it save the imported survey to .rds?
-Defaults to \code{FALSE}.}
+\item{export_path}{Defaults to \code{NULL}, in this case the read surveys are imported into a single
+list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each 
+survey an R object with \code{\link{[base]saveRDS}}.}
 }
 \value{
-A list of the surveys.  Each element of the list is a data
+A list of the surveys or a vector of the saved file names.  
+Each element of the list is a data
 frame-like \code{\link{survey}} type object where some metadata, 
 such as the original file name, doi identifier if present, and other
 information is recorded for a reproducible workflow.
 }
 \description{
-Import surveys into a list. Adds filename as a constant to each
-element of the list.
+Import surveys into a list or several \code{.rds} files.
 }
 \details{
-The functions handle exceptions with wrong filenames and not readable 
-files. If I file cannot be read, a warning is given, and empty survey is added to the 
+Use \code{read_survey} for a single survey and \code{read_surveys} for several surveys in
+in a loop. The function handle exceptions with wrong file names and not readable 
+files. If a file cannot be read, a message is printed, and empty survey is added to the 
 the list in the place of this file.
 }
 \examples{

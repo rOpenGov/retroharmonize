@@ -1,21 +1,23 @@
-#' @title Read Survey Files
+#' @title Read survey file(s)
 #'
-#' @description Import surveys into a list. Adds filename as a constant to each
-#' element of the list.
+#' @description Import surveys into a list or several \code{.rds} files. 
 #' 
-#' @details The functions handle exceptions with wrong filenames and not readable 
-#' files. If I file cannot be read, a warning is given, and empty survey is added to the 
+#' @details Use \code{read_survey} for a single survey and \code{read_surveys} for several surveys in
+#' in a loop. The function handle exceptions with wrong file names and not readable 
+#' files. If a file cannot be read, a message is printed, and empty survey is added to the 
 #' the list in the place of this file. 
 #'
-#' @param survey_paths A vector of file names to import.
+#' @param survey_paths A vector of (full) file paths that contain the surveys to import.
 #' @param .f A function to import the surveys with.
-#' Defaults to \code{'read_rds'}. For SPSS files,
-#' \code{read_spss} is recommended, which is a
-#' well-parameterized version of \code{\link[haven]{read_spss}} that
-#' saves some metadata, too. For STATA files use \code{read_dta}.
-#' @param save_to_rds Should it save the imported survey to .rds?
-#' Defaults to \code{FALSE}.
-#' @return A list of the surveys.  Each element of the list is a data
+#' Defaults to \code{'NULL'}, in this case files with an extension of \code{'.sav'} and \code{'.por'}
+#' will call case \code{\link{read_spss}}, files with an extension of \code{'.dta'} will 
+#' call \code{\link{read_dta}}, \code{rds} will call \code{\link{read_rds}} and
+#' \code{'.csv'} \code{\link{read_csv}}.
+#' @param export_path Defaults to \code{NULL}, in this case the read surveys are imported into a single
+#' list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each 
+#' survey an R object with \code{\link{[base]saveRDS}}.
+#' @return A list of the surveys or a vector of the saved file names.  
+#' Each element of the list is a data
 #' frame-like \code{\link{survey}} type object where some metadata, 
 #' such as the original file name, doi identifier if present, and other
 #' information is recorded for a reproducible workflow.
@@ -33,52 +35,91 @@
 #' @seealso survey
 
 read_surveys <- function ( survey_paths,
-                           .f = 'read_rds',
-                           save_to_rds = FALSE ) {
- 
-  safely_read_survey <- function( filename, .f ) {
-    
-    if ( .f == 'read_spss' ) {
-      message ( "Reading: ", fs::path_file(filename))
-      
-      tried_survey <- read_spss(file = filename, user_na = TRUE)
-      
-    } else if ( .f == 'read_rds') {
-      
-      tried_survey <- read_rds(file = filename) 
-      
-    } else if ( .f == 'read_dta') {
-       
-      tried_survey <- read_dta(file = filename)
-       
-      } else {
-     
-      tried_survey <- purrr::safely (.f = .f )(file = filename) 
-      
-      if ( is.null(tried_survey$error)) {
-        tried_survey  <- tried_survey$result
-      } else {
-        warning("Survey ",fs::path_file(filename) , " could not be read and an emtpy survey will be inserted.
-                \nThe following error message was received by haven::read_spss():\n", tried_survey$error)
-        return ( survey( data.frame(), filename = filename, id = "not readable file"))
-      }
-    }
-    
-    if ( nrow(tried_survey) > 0 & save_to_rds == TRUE ) {
-      rds_filename <- gsub(".sav|.por", ".rds", filename)
-      "Saving the survey to rds in the same location."
-      saveRDS(tried_survey$result, rds_filename, version=2)
-    }
- 
-     tried_survey
-  }
-
-  import_file_list <- as.list (survey_paths)
+                           .f = NULL,
+                           export_path = NULL ) {
   
-  return_survey_list <- lapply ( import_file_list, 
-                                 FUN = function(x) safely_read_survey(x, .f)
-                                )
+  
+  import_file_list <- survey_paths
+  
+  return_survey_list <- lapply ( import_file_list,function(x) read_survey(x, .f, export_path))
 
   return_survey_list
 }
 
+#' @rdname read_surveys
+#' @importFrom fs file_exists dir_exists path_ext_remove
+#' @importFrom glue glue
+#' @importFrom assserthat assert_that
+#' @importFrom purrr safely
+
+read_survey <- function(file_path, .f = NULL, export_path = NULL) {
+
+  assert_that(fs::file_exists(file_path), 
+              msg = glue::glue("The file {file_path} does not exist."))
+  
+  if (is.null(.f)) .f <- find_import_function(file_path) ## See definition below
+  
+  if ( .f == "read_rds") {
+    res <- safely(read_rds)(file_path)
+  } else if ( .f == 'read_spss') {
+    res <- safely(read_spss)(file_path)
+  } else if ( .f == 'read_dta') {
+    res <- safely(read_dta)(file_path)
+  } else if ( .f == 'read_csv') {
+    res <- safely(read.csv)(file_path)
+  } 
+  
+  if (is.null(res$error)) {
+    # No problem reading and should be saved --------------------------------------
+    if (!is.null(export_path)) {
+      if ( fs::dir_exists(export_path) ) {
+        # Saving location exists, return file name after saving --------------------
+        new_file_name <- paste0(fs::path_ext_remove(attr(res$result, "filename")), ".rds")
+        saveRDS(res$result,
+                file =  file.path(export_path, new_file_name), 
+                version = 2)
+        return(new_file_name)
+      } else  {
+        # Exception: cannot be exported, returning to  memory -------------------------------
+        warning("Cannot save to ", export_path, ", returning to memory instead.")
+        return(res$result) }
+    }
+    return(res$result)
+    }
+    
+  if ( !is.null(res$error)) {
+      # There was a problem reading -------------------------------------------------
+      # Even though the file exists (checked in the beginning of the function) ------
+      message(res$error)
+      message ("This is an error in read_survey(", file_path, ", ", .f, ")")
+      message("Returning NULL for this file.")
+      return(NULL)
+    }
+  
+}
+
+
+#' @title Find import function by file extension
+#' @description This is an internal utility to select the appropriate importing function.
+#' @return The name of the function that should read \code{file_path} based on the file 
+#' extension.
+#' @importFrom fs path_ext path_ext_remove path_file
+#' @inheritParams read_surveys
+#' @keywords internal
+find_import_function <- function(file_path) {
+  
+  survey_file_ext <- fs::path_ext(file_path)
+  if ( is.null(id)) id <- fs::path_ext_remove(fs::path_file(file_path))
+  
+  if ( survey_file_ext %in% c("sav", "por")) {
+    'read_spss'
+  } else if (survey_file_ext == "rds") {
+    'read_rds'
+  } else if ( survey_file_ext == "dta") {
+    'read_dta'
+  } else if ( survey_file_ext == "csv") { 
+    'read_csv'
+  } else {
+    stop("No adequate importing function was found for ", file_path.)
+  }
+}

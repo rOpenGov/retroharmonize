@@ -89,12 +89,11 @@ document_surveys <- function(survey_list = NULL,
     
     for ( i in seq_along(survey_files)) {
       message ( length(i), "/", i, " ", survey_files[i])
-      tmp_survey <- purrr::safely(read_surveys)( survey_paths[i], .f = .f )
-      if (is.null(tmp_survey$error)) {
-        df_survey <- tmp_survey$result[[1]]
-        tmp$object_size[i] <- object.size(df_survey) 
-        tmp$ncol[i] <- ncol(df_survey)
-        tmp$nrow[i] <- nrow(df_survey)
+      tmp_survey <- read_survey( file_path = survey_paths[i] )
+      if (!is.null(tmp_survey)) {
+        tmp$object_size[i] <- object.size(tmp_survey) 
+        tmp$ncol[i] <- ncol(tmp_survey)
+        tmp$nrow[i] <- nrow(tmp_survey)
       } else {
         next
       }

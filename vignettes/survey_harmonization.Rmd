@@ -18,11 +18,11 @@ knitr::opts_chunk$set(
 library(retroharmonize)
 ```
 
-Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. Ex ante survey harmonization refers to planning and design steps to make sure that not yet answerred questionnaires can be better compared, or data derived from them joined, integrated. Such procedures include the harmonization of the questionnaire, the harmonization of the sample design, and other aspects of carrying out multiple surveys. Ex post or retrospective harmonization refers to procedures to data that has been derived from surveys---i.e., survey that have been carried out. 
+Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. *Ex ante* survey harmonization refers to planning and design steps to make sure that not yet answerred questionnaires can be better compared, or data derived from them joined, integrated. Such procedures include the harmonization of the questionnaire, the harmonization of the sample design, and other aspects of carrying out multiple surveys. *Ex post* or *retrospective harmonization* refers to procedures to data that has been derived from surveys---i.e., survey that have been carried out. 
 
-Naturally, better ex ante harmonization makes eventual data integration or data comparison easier; yet often we can still harmonize retrospectively survey data that has not been carefully pre-harmonized before respondents have answered the questionnaire items.
+Naturally, better *ex ante* harmonization makes eventual data integration or data comparison easier; yet often we can still harmonize retrospectively survey data that has not been carefully pre-harmonized before respondents have answered the questionnaire items.
 
-Our aim with the retroharmonize R package is to provide assistance to a reproducible research workflow in carrying out important computational aspects of retrospective survey harmonization. 
+Our aim with the `retroharmonize` R package is to provide assistance to a reproducible research workflow in carrying out important computational aspects of retrospective survey harmonization. 
 
 Let's start with a very simple example.
 
@@ -53,7 +53,7 @@ The ordering of the survey harmonization workflow is flexible, and it is likely 
 
 The data science aspect of a successful survey harmonization task is the creation of a consistent data frame that contains harmonized information from multiple surveys. It practically means that questionnaire items are mapped into variables with a consistent numerical coding, descriptive metadata (variable and value labels) and a consistent handling of missing and special values. In practice, this is a very laborous tasks, when surveys are conducted in different years, saved in different file formats with a different metadata structure, missing and special values are handled differently, and the metadata contains potentially different natural language descriptions or spelling.
 
-Survey 1 labels the sex of respondents as Male and Female, and has cases that are neither Male or Female, but we do not know why.
+`Survey 1` labels the sex of respondents as `Male` and `Female`, and has cases that are neither `Male` or `Female`, but we do not know why.
 
 ```{r example2}
 survey_2 %>%
@@ -61,7 +61,7 @@ survey_2 %>%
            gender_factor  = as_factor(.data$gender))
 ```
 
-Survey 2 records gender, which contains the same information as sex in Survey 1 (Male and Female), but allows people to identify as Other, and labels cases when people decline to identify with any of these three categories.
+`Survey 2` records gender, which contains the same information as sex in `Survey 1` (`Male` and `Female`), but allows people to identify as `Other`, and labels cases when people decline to identify with any of these three categories.
 
 In practice, you want to end up with the following joined representation of your survey:
 
