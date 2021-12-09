@@ -199,12 +199,12 @@ The top few rows of the first subsetted survey to see if the subsetting took pla
 head(subset_survey_list_1[[1]])
 ```
 
-The names are identical to the original names:
+While `qa10_1` and `qa14_1` refer to trust in the European Parliament, they cannot be joined because they have dissimilar names. These names are not too easy to remember, either. 
 
 ```{r subsetsave14}
 lapply (subset_survey_list_1, names)
 ```
-This is not a very practical, because we cannot join these tables into a single, harmonized dataset. The first step is to harmonize the names of those variables that represent the same concept, in this case, *Trust in the European Parliament*.  The next steps, i.e. the harmonization of the numerical codes of answers and their labels will be discussed in the [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) vignette.
+The next step is to harmonize the names of those variables that represent the same concept, in this case, *Trust in the European Parliament*.  The next steps, i.e. the harmonization of the numerical codes of answers and their labels will be discussed in the [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) vignette.
 
 ## Variable Name Harmonization
 
@@ -239,11 +239,14 @@ While this example easily fits in the memory, when working with several dozens o
 * If you do not specify the `export_path`, a list of surveys will be returned.
 * If you specify the `export_path`, a vector of the saved file names (with full path) will be returned.
 
+The `subset_surveys()` is a versatile function that fits with several workflows. It works in memory or with larger tasks, with sequentially read survey files; it for simple tasks it can use a simple vector for names to keep, or it can use an entire crosswalk table. You can read more about it with `?subset_surveys`.
+
 ```{r subsetsave}
-subset_save_surveys(crosswalk_table = example_crosswalk_table, 
-                    subset_name = "trust_ep",
-                    import_path = examples_dir, 
-                    export_path = tempdir())
+subset_surveys(survey_list = example_surveys, 
+               crosswalk_table = example_crosswalk_table, 
+               subset_name = "trust_ep",
+               import_path = examples_dir, 
+               export_path = tempdir())
 ```
 
 The subsetted surveys are saved with a common name element, `trust_ep` to the export file location, in this case a temporary directory created with `tempdir()`.

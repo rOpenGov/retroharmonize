@@ -45,14 +45,16 @@ testing_subsetting <- function() {
   
   saveRDS(test_survey, temporary_saving_location, version = 2)
   
-  subset_surveys(crosswalk_table = ctable, 
+  file_result <- subset_surveys(crosswalk_table = ctable, 
                  survey_list = test_survey, 
                  subset_name = "tested",
                  survey_paths = NULL,
                  import_path = NULL,
                  export_path = tempdir()
                  )
-
+  
+  
+  file_result == "ZA7576_tested.rds" & 
   file.exists ( file.path(tempdir(), "ZA7576_tested.rds"))
 }
 

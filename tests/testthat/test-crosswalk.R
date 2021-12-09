@@ -10,7 +10,7 @@ documented_surveys <- metadata_surveys_create(example_surveys)
 documented_surveys <- documented_surveys[documented_surveys$var_name_orig %in% c( "rowid", "isocntry", "w1", "qd3_4", "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),]
 crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
 
-freedom_vars <- documented_surveys[grepl("freedom", documented_surveys$var_label_orig),]$var_name_orig
+freedom_vars    <- documented_surveys[grepl("freedom", documented_surveys$var_label_orig),]$var_name_orig
 solidarity_vars <- documented_surveys[grepl("solidarity", documented_surveys$var_label_orig),]$var_name_orig
 
 names(crosswalk_table)
@@ -71,6 +71,29 @@ crosswalked_2 <-  crosswalk_surveys(
   survey_list = example_surveys, 
   crosswalk_table = crosswalk_table, 
   na_values = c("inap" = 99999 ) )
+
+harmonized_survey_files <- harmonize_survey_variables ( 
+  survey_list = example_surveys, 
+  crosswalk_table = crosswalk_table, 
+  export_path = tempdir())
+
+test_that("correct return values for harmonize_survey_variables (files)", {
+  expect_equal (length(harmonized_survey_files ),3) 
+  expect_true (is.character(harmonized_survey_files))
+  expect_true(all(vapply ( file.path(tempdir(),harmonized_survey_files ), fs::file_exists, logical(1))))
+})
+
+harmonized_survey_vars <- harmonize_survey_variables ( 
+  survey_list = example_surveys, 
+  crosswalk_table = crosswalk_table, 
+  export_path = NULL)
+
+test_that("correct return values for harmonize_survey_variables (list)", {
+  expect_equal (length(harmonized_survey_vars),3) 
+  expect_true (is.list(harmonized_survey_vars))
+  expect_equal(unlist(lapply (lapply(harmonized_survey_vars, names ), length)), 
+               c(5,5,5))
+})
 
 
 test_that("crosswalk_surveys_correct_harmonization", {

@@ -88,7 +88,7 @@ subset_surveys <- function ( survey_list,
   }
   
   if ( subset_from_files ) {
-    ## Subsetting from files 
+    ## Subsetting from files ------------------------------------------------------------------
     if (length(files_to_subset) ==0) {
       message ("subset_surveys(): No files to subset.")
       return(NULL)}
@@ -108,7 +108,7 @@ subset_surveys <- function ( survey_list,
           unlist() %>%
           as.character() %>% unique()
         
-        subset_survey_files(
+        subset_survey_file(
           file_path = this_path, 
           subset_vars = subset_vars, 
           id = this_id, 
@@ -117,8 +117,8 @@ subset_surveys <- function ( survey_list,
       }
       
       if (!is.null(export_path)) {
-        lapply (seq_along(files_to_subset), function(x) get_survey(x))
-        return(NULL)
+        saved_file_names <- lapply (seq_along(files_to_subset), function(x) get_survey(x))
+        return(unlist(saved_file_names))
       }
       return_list  <- lapply (seq_along(files_to_subset), function(x) get_survey(x))
     } else {
@@ -127,7 +127,7 @@ subset_surveys <- function ( survey_list,
       get_survey_no_ctable <- function(x) {
         this_path <- files_to_subset[x]
        
-        subset_survey_files(
+        subset_survey_file(
           file_path = this_path, 
           subset_vars = subset_vars, 
           id = this_id, 
@@ -136,15 +136,15 @@ subset_surveys <- function ( survey_list,
         }
       
       if (!is.null(export_path)) {
-        lapply (seq_along(files_to_subset), function(x) get_survey_no_ctable(x))
-        return(NULL)
+        saved_file_names <- lapply (seq_along(files_to_subset), function(x) get_survey_no_ctable(x))
+        return(unlist(saved_file_names))
       }
       return_list <- lapply (seq_along(files_to_subset), function(x) get_survey_no_ctable(x))
     }
      
     
   } else {
-    ### Subsetting from memory, with cross_table ------------------------------
+    ### Subsetting from memory, with cross_table ---------------------------------------------
     
     if (!is.null(crosswalk_table)) {
       
@@ -166,9 +166,10 @@ subset_surveys <- function ( survey_list,
           export_path = export_path
         )
       }
+      
       if (!is.null(export_path)) {
-        lapply (seq_along(s), function(x) get_survey_memory(x))
-        return(NULL)
+        saved_file_names <- lapply (seq_along(s), function(x) get_survey_memory(x))
+        return(unlist(saved_file_names))
       } else {
         return_list <- lapply (seq_along(s), function(x) get_survey_memory(x))
       }
@@ -186,8 +187,8 @@ subset_surveys <- function ( survey_list,
       }
       
       if (!is.null(export_path)) {
-        lapply (seq_along(survey_list), function(x) get_survey_no_ctable_memory(x))
-        return(NULL)
+        saved_file_names <- lapply (seq_along(survey_list), function(x) get_survey_no_ctable_memory(x))
+        return(unlist(saved_file_names))
       } else {
         return_list <- lapply (seq_along(survey_list), function(x) get_survey_no_ctable_memory(x))
       }
@@ -229,11 +230,11 @@ subset_save_surveys  <- function ( crosswalk_table,
 #' @inheritParams subset_surveys
 #' @param file_path A single survey files. 
 #' @keywords internal
-subset_survey_files <- function( file_path, 
-                                 subset_vars, 
-                                 subset_name = 'subset',
-                                 id = NULL, 
-                                 export_path = NULL ) {
+subset_survey_file <- function( file_path, 
+                                subset_vars, 
+                                subset_name = 'subset',
+                                id = NULL, 
+                                export_path = NULL ) {
   
   subset_vars <- unique(c("rowid",subset_vars))
   
@@ -253,7 +254,7 @@ subset_survey_files <- function( file_path,
   }
   subset_survey_memory (this_survey, 
                         subset_vars = subset_vars,
-                        subst_name = subset_name, 
+                        subset_name = subset_name, 
                         export_path = export_path)
 
 }
@@ -281,13 +282,13 @@ subset_survey_memory <- function(this_survey,
   
   attr(subset_survey, "filename") <- this_file_name 
   
-  
   if(!is.null(export_path)) { 
     save_file_name <- paste0(fs::path_ext_remove(fs::path_file(this_file_name)), ".rds")
     message("Saving ", paste0(fs::path_ext_remove(fs::path_file(this_file_name)), ".rds"))
     saveRDS(object = subset_survey_memory (this_survey, subset_vars), 
             file = file.path(export_path, save_file_name), 
             version = 2)
+    save_file_name
   } else {
     subset_survey
   }

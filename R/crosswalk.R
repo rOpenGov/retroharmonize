@@ -52,12 +52,12 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
   # Check if the crosswalk_table can be used
   is.crosswalk_table(crosswalk_table)
   
-  # Remove surveys that are not used in the crosswalk table
+  # Remove surveys that are not used in the crosswalk table ---------------------------------
   available_surveys <- unlist(lapply(survey_list, function(x) attr(x, "id")))
   surveys_to_harmonize <- unique(crosswalk_table$id)
   survey_list[! available_surveys %in% surveys_to_harmonize] <- NULL
   
-  # See if the na_values are given in the crosswalk_table 
+  # See if the na_values are given in the crosswalk_table -----------------------------------
   if (! all(c("na_numeric_target", "na_label_target") %in% names(crosswalk_table))) {
     if (!is.null(na_values)) {
       assert_that(is.character(na_values)|is.numeric(na_values), 
@@ -196,7 +196,7 @@ crosswalk <- function(survey_list, crosswalk_table, na_values = NULL) {
     na_values = na_values )
   
   if ( ! is.null(crosswalked) & length(crosswalked)>1 ) {
-    purrr::reduce ( crosswalked, full_join )
+    suppressMessages(purrr::reduce ( crosswalked, full_join ))
   } else {
     crosswalked
   }
@@ -314,7 +314,7 @@ crosswalk_table_create <- function(metadata) {
     fn_labels(x=metadata[1,])
   } else {
     ctable_list <- lapply ( 1:nrow(metadata), function(x) fn_labels(metadata[x,])  )
-    ctable <- purrr::reduce ( ctable_list, full_join )
+    ctable <- suppressMessages(purrr::reduce ( ctable_list, full_join ))
     ctable
   }
 }

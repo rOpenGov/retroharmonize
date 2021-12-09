@@ -26,6 +26,7 @@ articles:
       - metadata
       - crosswalk
       - harmonize_labels
+      - documentation
   - title: "Use cases"
     desc: >
       Real-life examples with thee major harmonized survey program's 
