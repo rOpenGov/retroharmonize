@@ -2,88 +2,35 @@
 % Please edit documentation in R/metadata_create.R
 \name{metadata_create}
 \alias{metadata_create}
-\alias{metadata_surveys_create}
 \alias{metadata_waves_create}
-\title{Create a metadata table}
+\title{Create a metadata table from several surveys}
 \usage{
-metadata_create(survey)
-
-metadata_surveys_create(
-  survey_list = NULL,
-  survey_files = NULL,
-  .f = "read_spss"
-)
+metadata_create(survey_list = NULL, survey_paths = NULL, .f = NULL)
 
 metadata_waves_create(survey_list)
 }
 \arguments{
-\item{survey}{A survey data frame, or a list of survey data frames, in which case the 
-\code{\link{metadata_surveys_create} will be called as a wrapper.}}
-
-\item{survey_list}{A list containing surveys of class survey. Defaults to \code{NULL}.}
-
-\item{survey_files}{A vector of survey files to read with a full, valid path.
-Defaults to \code{NULL}.}
-
-\item{.f}{The importing function to use, defaults to \code{\link{read_spss}}. 
-It is only used if \code{survey_list = NULL} and \code{survey_files} contain one or more
-existing surveys stored in files.}
-}
-\value{
-A nested data frame with metadata and the range of 
-labels, na_values and the na_range itself.
+\item{inheritParams}{read_surveys}
 }
 \description{
-Create a metadata table from the survey data files.
+Create a metadata table from several surveys
 }
 \details{
-A data frame like tibble object is returned. 
-In case you are working with several surveys, a list of surveys or a vector
-of file names containing the full path to the survey must be called with 
-\code{\link{metadata_surveys_create}}, which is a wrapper around 
-a list of  \code{\link{metadata_create}} calls.
-
-The structure of the returned tibble:
-\describe{
-  \item{filename}{The original file name; if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
-  \item{id}{The ID of the survey, if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
-  \item{var_name_orig}{The original variable name in SPSS.}
-  \item{class_orig}{The original variable class after importing with\code{\link[haven]{read_spss}}.}
-  \item{var_label_orig}{The original variable label in SPSS.}
-  \item{labels}{A list of the value labels.}
-  \item{valid_labels}{A list of the value labels that are not marked as missing values.}
-  \item{na_labels}{A list of the value labels that refer to user-defined missing values.}
-  \item{na_range}{An optional range of a continuous missing range, if present in the vector.}
-  \item{n_labels}{Number of categories or unique levels, which may be different from the sum of missing and category labels.}
-  \item{n_valid_labels}{Number of categories in the non-missing range.}
-  \item{n_na_labels}{Number of categories of the variable, should be the sum of the former two.}
-  \item{na_levels}{A list of the user-defined missing values.}
-}
-
 The form \code{metadata_waves_create} is deprecated.
 }
 \examples{
-metadata_create (
- survey = read_rds (
-          system.file("examples", "ZA7576.rds",
-                      package = "retroharmonize")
-          )
-)
 examples_dir <- system.file( "examples", package = "retroharmonize")
 
 my_rds_files <- dir( examples_dir)[grepl(".rds", 
                                         dir(examples_dir))]
 
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
-metadata_surveys_create (example_surveys)
+metadata_create (example_surveys)
 }
 \seealso{
 Other metadata functions: 
 \code{\link{create_codebook}()},
-\code{\link{crosswalk_table_create}()}
-
-Other metadata functions: 
-\code{\link{create_codebook}()},
-\code{\link{crosswalk_table_create}()}
+\code{\link{crosswalk_table_create}()},
+\code{\link{metadata_survey_create}()}
 }
 \concept{metadata functions}

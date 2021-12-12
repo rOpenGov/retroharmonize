@@ -33,13 +33,12 @@ Other harmonization functions:
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
-\code{\link{label_normalize}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{label_normalize}()}
 
 Other metadata functions: 
 \code{\link{create_codebook}()},
-\code{\link{metadata_create}()}
+\code{\link{metadata_create}()},
+\code{\link{metadata_survey_create}()}
 }
 \concept{harmonization functions}
 \concept{metadata functions}

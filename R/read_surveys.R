@@ -41,7 +41,7 @@ read_surveys <- function ( survey_paths,
   
   import_file_list <- survey_paths
   
-  return_survey_list <- lapply ( import_file_list,function(x) read_survey(x, .f, export_path))
+  return_survey_list <- lapply ( import_file_list, function(x) read_survey(x, .f, export_path))
 
   return_survey_list
 }
@@ -49,7 +49,7 @@ read_surveys <- function ( survey_paths,
 #' @rdname read_surveys
 #' @importFrom fs file_exists dir_exists path_ext_remove
 #' @importFrom glue glue
-#' @importFrom assserthat assert_that
+#' @importFrom assertthat assert_that
 #' @importFrom purrr safely
 
 read_survey <- function(file_path, .f = NULL, export_path = NULL) {
@@ -73,8 +73,12 @@ read_survey <- function(file_path, .f = NULL, export_path = NULL) {
     # No problem reading and should be saved --------------------------------------
     if (!is.null(export_path)) {
       if ( fs::dir_exists(export_path) ) {
+        # Returned survey ----------------------------------------------------------------
+        imported_survey <- res$result
+        source_file_name <- attr(imported_survey, "filename")
+        
         # Saving location exists, return file name after saving --------------------
-        new_file_name <- paste0(fs::path_ext_remove(attr(res$result, "filename")), ".rds")
+        new_file_name <- paste0(fs::path_ext_remove(source_file_name), ".rds")
         saveRDS(res$result,
                 file =  file.path(export_path, new_file_name), 
                 version = 2)
@@ -109,9 +113,8 @@ read_survey <- function(file_path, .f = NULL, export_path = NULL) {
 find_import_function <- function(file_path) {
   
   survey_file_ext <- fs::path_ext(file_path)
-  if ( is.null(id)) id <- fs::path_ext_remove(fs::path_file(file_path))
   
-  if ( survey_file_ext %in% c("sav", "por")) {
+  if ( survey_file_ext %in% c("sav", "por") ) {
     'read_spss'
   } else if (survey_file_ext == "rds") {
     'read_rds'

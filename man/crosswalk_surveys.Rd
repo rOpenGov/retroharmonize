@@ -5,13 +5,17 @@
 \alias{crosswalk}
 \title{Crosswalk surveys}
 \usage{
-crosswalk_surveys(survey_list, crosswalk_table, na_values = NULL)
+crosswalk_surveys(
+  crosswalk_table,
+  survey_list = NULL,
+  survey_path = NULL,
+  import_path = NULL,
+  na_values = NULL
+)
 
 crosswalk(survey_list, crosswalk_table, na_values = NULL)
 }
 \arguments{
-\item{survey_list}{A list of \code{\link{survey}} objects.}
-
 \item{crosswalk_table}{A table created with \code{crosswalk_table_create}, or a 
 data frame with at least the following columns: \code{var_name_orig}, \code{var_name_target},
 for harmonizing the variable names. If \code{val_label_orig}, \code{val_label_target} 
@@ -20,6 +24,9 @@ are present, the value labels will be harmonized, too. If
 variable will be harmonized. If \code{class_target} is present, then the class of the variable 
 will be harmonized to any of \code{factor}, \code{numeric} or \code{character} using 
 \code{\link{as_factor}}, \code{\link{as_numeric}}, or \code{\link{as_character}}.}
+
+\item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
+\code{NULL}, the \code{survey_path} should give full path to the surveys.}
 
 \item{na_values}{A named vector of \code{na_values}, the 
 observations that are defined to be treated as missing in 
@@ -66,8 +73,6 @@ Other harmonization functions:
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
-\code{\link{label_normalize}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{label_normalize}()}
 }
 \concept{harmonization functions}

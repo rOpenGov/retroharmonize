@@ -8,10 +8,9 @@ survey_list <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 
 example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)
+  export_path = NULL)
 
-metadata <- lapply ( X = example_surveys, FUN = metadata_create )
-metadata <- do.call(rbind, metadata)
+metadata <- metadata_create (example_surveys)
 
 suggested <- suggest_var_names(metadata, survey_program = "eurobarometer")
 

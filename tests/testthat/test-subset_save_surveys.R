@@ -2,7 +2,7 @@ examples_dir <- system.file("examples", package = "retroharmonize")
 survey_files  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 example_surveys <- read_surveys(
   file.path( examples_dir, survey_files), 
-  save_to_rds = FALSE)
+  export_path = FALSE)
 
 subset_survey_list_1 <- subset_surveys(survey_list = example_surveys, 
                                        subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
@@ -17,7 +17,8 @@ test_that("saving and subsetting (not on CRAN)", {
 })
 
 
-example_metadata <- metadata_surveys_create( survey_files = file.path(examples_dir, survey_files), .f = "read_rds")
+example_metadata <- metadata_create( survey_paths = file.path(examples_dir, survey_files), 
+                                     .f = "read_rds")
 
 example_ctable <- example_metadata %>%
   filter ( .data$var_name_orig %in% c("rowid", "isocntry", "d60", "wex")) %>%

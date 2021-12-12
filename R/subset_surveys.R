@@ -34,8 +34,9 @@
 #' survey_list <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 #' 
 #' example_surveys <- read_surveys(
-#'   file.path( examples_dir, survey_list), 
-#'   save_to_rds = FALSE)
+#'   file.path( examples_dir, survey_list)
+#'   )
+#'   
 #' subset_surveys(survey_list = example_surveys, 
 #'               subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
 #'               subset_name = "subset_example")

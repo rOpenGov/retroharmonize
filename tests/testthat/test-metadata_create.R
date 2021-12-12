@@ -11,11 +11,11 @@ my_rds_files <- dir( examples_dir)[grepl(".rds",
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
 
 test_that("Only surveys are accepted", {
-  expect_error(metadata_create ( data.frame ( a = 1:2, 
+  expect_error(metadata_survey_create ( data.frame ( a = 1:2, 
                                         b = c("b", "C"))))
   })
 
-example_metadata <- metadata_create (
+example_metadata <- metadata_survey_create (
  survey = test_survey
 )
 
@@ -46,7 +46,7 @@ test_that("Correct values are returned", {
   ), c(8,6,2))
 })
 
-metadata_multiple_surveys <- metadata_surveys_create( example_surveys )
+metadata_multiple_surveys <- metadata_create( example_surveys )
 
 test_that("Correct values are returned from waves", {
   expect_true(metadata_multiple_surveys$var_name_orig[1] == "rowid") 

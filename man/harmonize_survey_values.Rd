@@ -92,8 +92,6 @@ Other harmonization functions:
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
-\code{\link{label_normalize}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{label_normalize}()}
 }
 \concept{harmonization functions}

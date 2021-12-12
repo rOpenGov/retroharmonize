@@ -80,9 +80,7 @@ Other harmonization functions:
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_var_names}()},
-\code{\link{label_normalize}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{label_normalize}()}
 
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
@@ -91,8 +89,6 @@ Other harmonization functions:
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_var_names}()},
-\code{\link{label_normalize}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{label_normalize}()}
 }
 \concept{harmonization functions}

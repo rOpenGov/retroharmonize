@@ -57,7 +57,7 @@ documented_eb_waves <- document_surveys(eb_waves)
 We start by extracting metadata from the survey data files and storing them in a tidy table, where each row contains information about a variable from the survey data file. To keep the size manageable, we keep only a few variables: the row ID, the weighting variable, the country code, and variables that contain "parliament" or "commission" in their labels.
 
 ```{r metadata, eval=FALSE}
-eb_trust_metadata <- metadata_surveys_create (eb_waves)
+eb_trust_metadata <- metadata_create(eb_waves)
 #let's keep the example manageable:
 eb_trust_metadata  <- eb_trust_metadata %>%
   filter ( grepl("parliament|commission|rowid|weight_poststrat|country_id", var_name_orig) )

@@ -9,7 +9,7 @@
 #' and \code{var_name_target} for the new (target) variable name. Optionally you can harmonize
 #' the value labels, the numeric codes, and the special missing labels, too.
 #' 
-#' @param survey_list A list of \code{\link{survey}} objects.
+#' @inheritParams subset_surveys
 #' @param crosswalk_table A table created with \code{crosswalk_table_create}, or a 
 #' data frame with at least the following columns: \code{var_name_orig}, \code{var_name_target},
 #' for harmonizing the variable names. If \code{val_label_orig}, \code{val_label_target} 
@@ -47,7 +47,11 @@
 #' @importFrom dplyr relocate
 #' @export
 
-crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
+crosswalk_surveys <- function(crosswalk_table, 
+                              survey_list = NULL, 
+                              survey_path = NULL,
+                              import_path = NULL,
+                              na_values = NULL ) {
   
   # Check if the crosswalk_table can be used
   is.crosswalk_table(crosswalk_table)
@@ -70,6 +74,8 @@ crosswalk_surveys <- function(survey_list, crosswalk_table, na_values = NULL ) {
   
   harmonized_survey_vars <- harmonize_survey_variables ( 
     survey_list = survey_list, 
+    survey_paths = survey_paths, 
+    import_path = import_path, 
     crosswalk_table = crosswalk_table)
   
   

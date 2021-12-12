@@ -2,11 +2,11 @@ examples_dir <- system.file("examples", package = "retroharmonize")
 survey_list  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)
+  export_path = NULL)
 
 ## Compare with documentation:
 
-documented_surveys <- metadata_surveys_create(example_surveys)
+documented_surveys <- metadata_create(example_surveys)
 documented_surveys <- documented_surveys[documented_surveys$var_name_orig %in% c( "rowid", "isocntry", "w1", "qd3_4", "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),]
 crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
 
@@ -119,6 +119,4 @@ test_that("crosswalk_surveys_correct_harmonization", {
                                na_values = c("inap" = 99999 ) )), 
                expected_total_rows)
 })
-
-new_documentation <- metadata_surveys_create ( crosswalked_2 )
 

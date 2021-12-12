@@ -132,7 +132,7 @@ In this step, we build a comprehensive metadata table that maps information abou
 
 ```{r create-arabb-metadata, eval=FALSE}
 # In the vignette this is pre-loaded.
-arabbarometer_metadata <- metadata_surveys_create(arab_waves)
+arabbarometer_metadata <- metadata_create(arab_waves)
 ```
 
 Let's randomly review some metadata:

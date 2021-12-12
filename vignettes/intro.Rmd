@@ -35,12 +35,20 @@ examples_dir <- system.file("examples", package = "retroharmonize")
 survey_files  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 survey_files
 ```
-The read_survey() function calls the appropriate importing function (based on the file extension of the survey files) and reads the surveys into list (in memory.)
+The read_survey() function calls the appropriate importing function (based on the file extension of the survey files) and reads the surveys into list (in memory.) If you work with many files, and you want to keep working sequentially with survey files, it is a good idea to convert them to R objects. This is how you would do it with large SPSS or STATA files.
+
+```{r eval=FALSE}
+example_surveys <- read_surveys(
+  file.path( examples_dir, survey_files), 
+  export_path = tempdir())
+```
+
+Our example surveys are small and easily fit into the memory.
 
 ```{r}
 example_surveys <- read_surveys(
-  file.path( examples_dir, survey_files), 
-  save_to_rds = FALSE)
+  survey_paths = file.path( examples_dir, survey_files), 
+  export_path = NULL)
 ```
 
 ```{r}
@@ -70,6 +78,7 @@ This will easily fit into the memory, so let us explore a bit further.
 metadata_surveys_create(example_surveys)
 ```
 ## Crosswalk table
+
 
 
 

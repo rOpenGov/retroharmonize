@@ -4,9 +4,7 @@ test_survey <- retroharmonize::read_rds (
   id = "test"
 )
 
-example_metadata <- metadata_create (
-  survey = test_survey
-)
+example_metadata <- metadata_create (survey_list = test_survey)
 
 trust_media_metadata <- example_metadata[27,]
 

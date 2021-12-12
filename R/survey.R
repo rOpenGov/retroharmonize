@@ -41,17 +41,23 @@ validate_survey <- function (object, id, filename, doi ) {
 
 ## Helper function to construct a survey data frame ------------------
 
-#' Survey data frame
+#' @title Create a survey data frame
 #' 
-#' Store the data of a survey in a tibble (data frame) with a unique
-#' survey identifier, import filename, and optional doi.
+#' @description Store the data of a survey in a tibble (data frame) with a unique
+#' survey identifier, import filename, and optional document object identifier.
+#' 
+#' @details Whilst you can create a survey object with this helper function, it is most likely that 
+#' you will receive it with an importing function, i.e. 
+#' \code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or 
+#' their common wrapper \code{\link{read_survey}}.
 #' 
 #' @param object A tibble or data frame that contains the survey data.
-#' @param id A mandatory identifier for the survey
+#' @param id A mandatory identifier for the survey.
 #' @param filename The import file name.
-#' @param doi Optional doi, can be omitted.
+#' @param doi Optional document object identifier (doi), can be omitted.
 #' @return A tibble with \code{id},  \code{filename},  \code{doi} 
 #' metadata information.
+#' @family importing functions
 #' @examples
 #' example_survey <- survey( 
 #'   object =data.frame ( 

@@ -59,9 +59,7 @@ Other harmonization functions:
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
-\code{\link{harmonize_var_names}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{harmonize_var_names}()}
 
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
@@ -70,9 +68,7 @@ Other harmonization functions:
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
-\code{\link{harmonize_var_names}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{harmonize_var_names}()}
 }
 \concept{harmonization functions}
 \concept{variable label harmonization functions}

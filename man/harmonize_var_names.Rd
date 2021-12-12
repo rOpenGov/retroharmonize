@@ -41,10 +41,10 @@ examples_dir <- system.file("examples", package = "retroharmonize")
 survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
 
 example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)
+  file.path( examples_dir, survey_list)
+  )
   
-metadata <- metadata_surveys_create(example_surveys)
+metadata <- metadata_create(example_surveys)
 metadata$var_name_suggested <- label_normalize(metadata$var_name)
 metadata$var_name_suggested[metadata$label_orig == "age_education"] <- "age_education"
 
@@ -61,8 +61,6 @@ Other harmonization functions:
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
-\code{\link{label_normalize}()},
-\code{\link{suggest_permanent_names}()},
-\code{\link{suggest_var_names}()}
+\code{\link{label_normalize}()}
 }
 \concept{harmonization functions}

@@ -1,5 +1,5 @@
 metadata <- metadata_create (
- survey = read_rds (
+ survey_list = read_rds (
           system.file("examples", "ZA7576.rds",
                       package = "retroharmonize")
           ))
@@ -18,7 +18,7 @@ survey_list <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 
 example_surveys <- read_surveys(
   file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)
+  export_path = NULL)
 
 test_survey_codebook <- create_codebook  (survey = example_surveys[[1]])
 

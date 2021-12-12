@@ -1,11 +1,10 @@
-require(dplyr)
-library(vctrs)
+library(dplyr)
 examples_dir <- system.file( "examples", package = "retroharmonize")
 my_rds_files <- dir( examples_dir)[grepl(".rds", 
                                          dir(examples_dir))]
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
 
-metadata <- metadata_surveys_create(example_surveys)
+metadata <- metadata_create(example_surveys)
 
 to_harmonize <- metadata %>%
   filter ( var_name_orig %in% 

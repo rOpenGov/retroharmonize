@@ -31,14 +31,14 @@ contains the source data files, it will sequentially read those files, and add t
 size, the last access and the last modified time attributes. 
 
 ```{r memory}
-example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+example_surveys    <- read_surveys(file.path(examples_dir, my_rds_files))
 documented_surveys <- document_surveys(survey_list = example_surveys)
 
 attr(documented_surveys, "original_list")
 documented_surveys
 ```
 ```{r files}
-document_surveys(survey_paths = file.path(examples_dir, my_rds_files), .f = "read_rds")
+document_surveys(survey_paths = file.path(examples_dir, my_rds_files))
 ```
 
 

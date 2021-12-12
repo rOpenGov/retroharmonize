@@ -5,8 +5,8 @@
 #' @details A data frame like tibble object is returned. 
 #' In case you are working with several surveys, a list of surveys or a vector
 #' of file names containing the full path to the survey must be called with 
-#' \code{\link{metadata_surveys_create}}, which is a wrapper around 
-#' a list of  \code{\link{metadata_create}} calls.
+#' \code{\link{metadata_create}}, which is a wrapper around 
+#' a list of  \code{\link{metadata_survey_create}} calls.
 #' 
 #' The structure of the returned tibble:
 #' \describe{
@@ -25,8 +25,10 @@
 #'   \item{na_levels}{A list of the user-defined missing values.}
 #' }
 #' 
-#' @param survey A survey data frame, or a list of survey data frames, in which case the 
-#' \code{\link{metadata_surveys_create} will be called as a wrapper.}
+#' @param survey A survey data frame. You receive a survey object with any importing function, i.e. 
+#' \code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or 
+#' their common wrapper \code{\link{read_survey}}.
+#' You can construct it with \code{\link{survey}} from a data frame, too. 
 #' @importFrom tibble tibble
 #' @importFrom dplyr left_join mutate case_when group_by
 #' @importFrom tidyr nest unnest
@@ -39,15 +41,15 @@
 #' labels, na_values and the na_range itself.
 #' @examples
 #' metadata_create (
-#'  survey = read_rds (
-#'           system.file("examples", "ZA7576.rds",
-#'                       package = "retroharmonize")
+#'  survey_list = read_rds (
+#'                    system.file("examples", "ZA7576.rds",
+#'                    package = "retroharmonize")
 #'           )
 #' )
 #' @export
 
 
-metadata_create <- function( survey ) {
+metadata_survey_create <- function( survey ) {
   
   if ( "list" %in% class(survey) ) {
     assert_that(all(vapply ( survey, is.survey, logical(1))), 
@@ -106,7 +108,7 @@ metadata_create <- function( survey ) {
   
   to_list_column <- function(.f = "na_values") {
     
-    x <- dplyr::case_when ( 
+    x <- case_when ( 
       .f == "na_labels" ~ sapply ( survey, na_labels), 
       .f == "na_range"  ~ sapply ( survey, labelled::na_range), 
       .f == "valid_range"  ~ sapply ( survey, fn_valid_range),
@@ -139,13 +141,13 @@ metadata_create <- function( survey ) {
   
 
   return_df <- metadata %>%
-    dplyr::left_join ( range_df %>% 
-                         dplyr::group_by ( .data$var_name_orig ) %>%
-                         tidyr::nest() , 
-                       by = "var_name_orig") %>%
+    left_join ( range_df %>% 
+                  group_by ( .data$var_name_orig ) %>%
+                  tidyr::nest() , 
+                by = "var_name_orig") %>%
     tidyr::unnest ( cols = "data" )  %>%
-    dplyr::ungroup() %>%
-    dplyr::mutate ( n_na_labels = as.numeric(.data$n_na_labels), 
+    ungroup() %>%
+    mutate ( n_na_labels = as.numeric(.data$n_na_labels), 
              n_valid_labels = as.numeric(.data$n_valid_labels), 
              n_labels = as.numeric(.data$n_labels)) %>%
     as.data.frame()
@@ -173,12 +175,7 @@ metadata_create <- function( survey ) {
 
 #' @title Create a metadata table from several surveys
 #' @rdname metadata_create
-#' @param survey_list A list containing surveys of class survey. Defaults to \code{NULL}.
-#' @param survey_files A vector of survey files to read with a full, valid path.
-#' Defaults to \code{NULL}.
-#' @param .f The importing function to use, defaults to \code{\link{read_spss}}. 
-#' It is only used if \code{survey_list = NULL} and \code{survey_files} contain one or more
-#' existing surveys stored in files.
+#' @param inheritParams read_surveys
 #' @family metadata functions
 #' @examples
 #' examples_dir <- system.file( "examples", package = "retroharmonize")
@@ -187,39 +184,35 @@ metadata_create <- function( survey ) {
 #'                                         dir(examples_dir))]
 #'
 #' example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
-#' metadata_surveys_create (example_surveys)
+#' metadata_create (example_surveys)
 #' @export
 
-metadata_surveys_create <- function ( survey_list = NULL, 
-                                      survey_files = NULL, 
-                                      .f = 'read_spss') {
+metadata_create <- function ( survey_list = NULL, 
+                              survey_paths = NULL, 
+                              .f = NULL) {
  
   if ( !is.null(survey_list)) {
-    validate_survey_list( survey_list)
-    metadata_list <- lapply ( survey_list, metadata_create )
+    validate_survey_list(survey_list)
+    if (! "list" %in% class(survey_list)) {
+      assert_that(is.survey(survey_list), 
+                  msg = "metadata_create(survey_list, ...) is neither a list nor a survey.")
+      survey_id <-  attr(survey_list, "id")
+      survey_list <- list ( i = survey_list )
+      names(survey_list)[1] <-survey_id
+    }
+    metadata_list <- lapply ( survey_list, metadata_survey_create )
     do.call ( rbind, metadata_list )
-  } else if (is.null(survey_files)) {
-    stop("Error in metadata_surveys_create(): both 'survey_list' and 'survey_files' are NULL.")
+  } else if (is.null(survey_paths)) {
+    stop("Error in metadata_surveys_create(): both 'survey_list' and 'survey_paths' are NULL.")
   } else {
-    validate_survey_files (survey_files)
-    
-    if ( .f == "read_spss" ) {
-      .f = read_spss
-    } else if ( .f == "read_dta") {
-      .f = read_dta
-    } else if ( .f == "read_rds") {
-      .f = read_rds
-    } else {
-      stop("in metadata_surveys_create(..., .f=) must be one of 'read_spss', 'read_dta' or 'read_rds', and not '", .f, "'.")
-    }
-    
+    validate_survey_files (survey_paths)
     read_survey_create_metadata <- function(x, .f) {
-      tmp <- .f (file = x)
+      tmp <- read_survey(x, .f)
       message ("Read: ", x)
-      metadata_create(tmp)
+      metadata_survey_create(tmp)
     }
     
-    metadata_list <- lapply ( X = survey_files, 
+    metadata_list <- lapply ( X = survey_paths, 
                               FUN = function(x) read_survey_create_metadata(x, .f) )
     do.call(rbind, metadata_list)
   }
@@ -244,7 +237,7 @@ metadata_waves_create <- function(survey_list) {
 #' @keywords internal
 metadata_initialize <- function (filename, id ){
   
-  tibble::tibble ( 
+  tibble ( 
     filename = filename, 
     id = id, 
     class_orig = NA_character_,
