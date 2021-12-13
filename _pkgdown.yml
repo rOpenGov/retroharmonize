@@ -35,6 +35,7 @@ articles:
       - eurobarometer
       - afrobarometer
       - arabbarometer
+      - cap
   - title: "Under the hood"
     desc: >
       The s3 class inheritted from *labelled* and *haven*
@@ -64,6 +65,7 @@ reference:
     contents:
       - metadata_create
       - metadata_survey_create
+      - retroharmonize
   - title: "Crosswalk"
     desc: > 
      Laying out the harmonization **crosswalk scheme** (unifying variable names, codes,
@@ -104,6 +106,7 @@ reference:
     contents:
         - collect_na_labels
         - na_range_to_values
+        - harmonize_na_values
   - title: "Documentation functions"
     desc: > 
        These functionality requires a thorough review.

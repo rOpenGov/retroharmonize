@@ -34,7 +34,7 @@ survey_paths <- file.path(examples_dir, survey_files)
 ```
 
 ```{r examplemetadata}
-example_metadata <- metadata_create(survey_files = survey_paths, .f = "read_rds")
+example_metadata <- metadata_create(survey_paths = survey_paths)
 ```
 
 ## Crosswalk Table

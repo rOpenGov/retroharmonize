@@ -58,12 +58,22 @@ release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.3.pdf).
 Survey data harmonization refers to procedures that improve the data
 comparability or the inferential capacity of multiple surveys. The
 *retroharmonize* package support various data processing, documentation,
-file/type conversion aspects of various survey harmonization workflows.
+file/type conversion aspects of various retrosepctive survey
+harmonization workflows (i.e. harmonization tasks related to surveys
+that already have already been conducted, recorded into a coded file.)
 
 From a technical perspective, the aim of the survey harmonization is to
-create a single, tidy, joined table in the form of a data frame that
-contains a row identifier, which is truly unique across all observations
-and the concatenated and harmonized variables.
+create a single, tidy, joined harmonized dataset in the form of a data
+frame that contains a row identifier, which is truly unique across all
+observations and the concatenated and harmonized variables. We do this
+in a way that provides an unambigous mapping of numerical coded and
+labelled data, including special and missing data—in other words,
+disallowing coercion that may lead to logical errors due to
+syntactically correct, but logically inconsistent variable labelling in
+different source files. Taking the harmonization to the level of type
+harmonization allows the use of R’s powerful statistical packages that
+require numeric or factor type input, and a wide range of survey output
+harmonization (harmonized statistics and indicators.
 
 For an extended overview of these problems with illustrations please
 refer to the vignette [Survey

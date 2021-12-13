@@ -30,7 +30,7 @@
 #' their common wrapper \code{\link{read_survey}}.
 #' You can construct it with \code{\link{survey}} from a data frame, too. 
 #' @importFrom tibble tibble
-#' @importFrom dplyr left_join mutate case_when group_by
+#' @importFrom dplyr left_join mutate case_when group_by ungroup
 #' @importFrom tidyr nest unnest
 #' @importFrom labelled na_values na_range val_labels var_label
 #' @importFrom purrr map

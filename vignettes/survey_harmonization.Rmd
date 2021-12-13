@@ -51,7 +51,7 @@ survey_1 %>%
 
 The ordering of the survey harmonization workflow is flexible, and it is likely that even the same researcher would choose a different workflow in the case of smaller, simpler harmonization tasks and more complex harmonization tasks.
 
-The data science aspect of a successful survey harmonization task is the creation of a consistent data frame that contains harmonized information from multiple surveys. It practically means that questionnaire items are mapped into variables with a consistent numerical coding, descriptive metadata (variable and value labels) and a consistent handling of missing and special values. In practice, this is a very laborous tasks, when surveys are conducted in different years, saved in different file formats with a different metadata structure, missing and special values are handled differently, and the metadata contains potentially different natural language descriptions or spelling.
+The data science aspect of a successful survey harmonization task is the creation of a consistent data frame that contains harmonized information from multiple surveys. It practically means that questionnaire items are mapped into variables with a consistent numerical coding, descriptive metadata (variable and value labels) and a consistent handling of missing and special values. This may be very laborous task when surveys are conducted in different years, saved in different file formats with a different metadata structure, missing and special values are handled differently, and the metadata contains potentially different natural language descriptions or spelling.
 
 `Survey 1` labels the sex of respondents as `Male` and `Female`, and has cases that are neither `Male` or `Female`, but we do not know why.
 

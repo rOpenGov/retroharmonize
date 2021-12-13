@@ -35,39 +35,36 @@ cap_files <- file.path(gesis_dir, cap_files)
 
 ## Inventory
 
-```{r}
+```{r, eval=FALSE}
 document_cap_files <- document_surveys(survey_path = cap_files, .f = "read_spss")
 ```
-```{r printdocument}
+```{r printdocument, eval=FALSE}
 knitr::kable(document_cap_files)
 ```
 
-The files are rather large. We have `r sum(document_cap_files$nrow)` of `r sum(document_cap_files$ncol)` variables.  We will only harmonize a few of them.
+The files are rather large. We have `sum(document_cap_files$nrow)` of `sum(document_cap_files$ncol)` variables.  We will only harmonize a few of them.
 
 ## Importing 
 
 It is likely that the surveys will fit into your computer's memory, so you can omit the first step. If you work with many files, and you want to keep working sequentially with survey files, it is a good idea to convert them to R objects.  
 
-```{r}
-
-```
 
 
 ## Concepts to harmonize
 
-```{r metadatasurveys}
-cap_metadata <- metadata_surveys_create(survey_files = cap_files)
+```{r metadatasurveys, eval=FALSE}
+cap_metadata <- metadata_create(survey_files = cap_files)
 ```
 
 
 ### Weights
 
-```{r}
+```{r, eval=FALSE}
 weight_variables <- eb_metadata %>% 
   filter ( .data$var_name_orig %in% c("isocntry", "wex", "wextra", "v47", "v7"))
 ```
 
-```{r}
+```{r, eval=FALSE}
 weigthing_crosswalk_table <- crosswalk_table_create(weight_variables) %>%
   select ( -all_of(c("val_numeric_orig", "val_numeric_target", "val_label_orig", "val_label_target"))) %>%
   mutate ( var_name_target = ifelse (
@@ -78,13 +75,13 @@ weigthing_crosswalk_table <- crosswalk_table_create(weight_variables) %>%
 
 The crosswalk table contains the original (source) variable names that must be converted to the target variable names, i.e. `v7` and `isocntry` to `geo` and `v47`, `wextra`, and `wex` to `wex`.
 
-```{r}
+```{r, eval=FALSE}
 weigthing_crosswalk_table %>% 
   select ( all_of(c("filename", "var_name_orig", "var_name_target")))
 ```
 
 
-```{r}
+```{r, eval=FALSE}
 variables_of_interest <- cap_metadata %>%
   filter ( .data$var_name_orig %in% c("rowid|isocntry") | 
              grepl(search_term_labels, .data$var_label_orig) |
