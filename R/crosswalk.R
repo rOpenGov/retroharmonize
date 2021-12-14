@@ -72,6 +72,7 @@ crosswalk_surveys <- function(crosswalk_table,
     } else { set_na_values <- NULL }
   } 
   
+  ## Harmonize the variable names and remove not harmonized vars -------------------
   harmonized_survey_vars <- harmonize_survey_variables ( 
     survey_list = survey_list, 
     survey_paths = survey_paths, 
@@ -154,13 +155,13 @@ crosswalk_surveys <- function(crosswalk_table,
     }
     
     
-    ## At last harmonnize class if possible
+    ## At last harmonnize class if possible-----------------------------
     
     if ( ! "class_target" %in% names(selection) ) return(tmp)
     
     factor_vars    <- selection$var_name_target[which(selection$class_target == "factor")]
     character_vars <- selection$var_name_target[which(selection$class_target == "character")]
-    numeric_vars   <-selection$var_name_target[which(selection$class_target == "numeric")]
+    numeric_vars   <- selection$var_name_target[which(selection$class_target == "numeric")]
     
     return_df <-  tmp %>%
       mutate ( across (any_of(factor_vars), as_factor), 
@@ -170,7 +171,7 @@ crosswalk_surveys <- function(crosswalk_table,
     
     return_df 
   }
-  
+  x = harmonized_survey_vars[[2]]
   subsetted <- lapply ( harmonized_survey_vars, function(x) purrr::safely(subset_survey)(x) )
 
   errors <- lapply ( subsetted, function(x) x$error)
@@ -352,11 +353,11 @@ is.crosswalk_table <- function(ctable) {
     select (.data$var_name_target ) %>%
     unlist()
   
-  error_msg <- paste(duplicates, sep = ', ')
+  error_msg <- paste(unique(duplicates), collapse = ', ')
   if (length(duplicates) == 0) error_msg <- "" 
   
   assert_that(
     length(duplicates) == 0,
-    msg = glue("The crosstable has duplicate target variables: {error_msg}." )
+    msg = glue("The crosstable '{deparse(substitute(ctable))}' has the following non-unique target variables: {error_msg}." )
   )
 }

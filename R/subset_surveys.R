@@ -155,13 +155,17 @@ subset_surveys <- function ( survey_list,
       s <- which(surveys_in_ctable == available_surveys)
       
       get_survey_memory <- function(x) {
+        
+        this_survey <- survey_list[[x]]
+        
         subset_vars <- crosswalk_table %>%
+          filter ( .data$id == attr(this_survey, "id")) %>%
           select ( .data$var_name_orig ) %>%
           unlist() %>%
           as.character() %>% unique()
         
         subset_survey_memory(
-          this_survey = survey_list[[x]],
+          this_survey = this_survey,
           subset_vars = subset_vars, 
           subset_name = subset_name, 
           export_path = export_path

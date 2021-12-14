@@ -42,16 +42,16 @@ The package is available on [CRAN](https://CRAN.R-project.org):
 install.packages("retroharmonize")
 ```
 
-The development version has new features with the `create_codebook()`
-functions. It can be installed from [GitHub](https://github.com/) with:
+The development version can be installed from
+[GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
 devtools::install_github("rOpenGov/retroharmonize")
 ```
 
-You can download the manual in PDF for the [0.2.3
-release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.3.pdf).
+You can download the manual in PDF for the [0.2.4
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.4.pdf).
 
 ## Survey harmonization
 
@@ -65,21 +65,22 @@ that already have already been conducted, recorded into a coded file.)
 From a technical perspective, the aim of the survey harmonization is to
 create a single, tidy, joined harmonized dataset in the form of a data
 frame that contains a row identifier, which is truly unique across all
-observations and the concatenated and harmonized variables. We do this
-in a way that provides an unambigous mapping of numerical coded and
-labelled data, including special and missing data—in other words,
-disallowing coercion that may lead to logical errors due to
+observations, and which also contains the concatenated and harmonized
+variables. We do this in a way that provides an unambigous mapping of
+numerical coded and labelled data, including special and missing data.
+This way we avoid coercion that may lead to logical errors due to
 syntactically correct, but logically inconsistent variable labelling in
-different source files. Taking the harmonization to the level of type
-harmonization allows the use of R’s powerful statistical packages that
-require numeric or factor type input, and a wide range of survey output
-harmonization (harmonized statistics and indicators.
+across differently coded source files. Taking the harmonization to the
+level of type harmonization to *numeric* and *factor* classes allows the
+use of R’s powerful statistical packages that require numeric or factor
+type input, and a wide range of survey output harmonization (harmonized
+statistics and indicators.
 
 For an extended overview of these problems with illustrations please
 refer to the vignette [Survey
 Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization).
 
-### Importing
+### 1. Importing
 
 Survey data, i.e., data derived from questionnaires or systematic data
 collection, such as inspecting objects in nature, recording prices at
@@ -88,7 +89,7 @@ retaining at least coding, labelling metadata together with the data.
 This must be imported to R so that the appropriate harmonization tasks
 can be carried out with the appropriate R types.
 
-### Harmonization of concepts
+### 2. Harmonization of concepts
 
 After importing data with some descriptive metadata such as numerical
 coding and labelling, we need to create a map of the information that is
@@ -110,20 +111,20 @@ table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html)
 or a *crosswalk scheme* for all the variable name, value label and type
 conversion tasks that we plan to do.
 
-### Harmonization of variable names
+### 3. Harmonization of variable names
 
 Make sure that `survey_1$sex` and `survey_2$gender` can be concatenated
 to a gender vector or `survey_joined$gender`. See more in the [Working
 With A Crosswalk
 Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html).
 
-### Harmonization of variable numerical codes and labels
+### 4. Harmonization of variable numerical codes and labels
 
 For example, *Female=0* in `survey_1$sex` and *female=2* in
 `survey_2$gender` becomes consistently female=0. Missing and *declined*
 values are consistently handled.
 
-### Consistent types
+### 5. Consistent types
 
 To use R’s statistical functions with the concatenated version of
 `survey_1$sex` and `survey_2$gender` they must have the same R type. In
@@ -133,7 +134,7 @@ visualization applications sometimes *character*. See more in the
 Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html)
 vignette.
 
-### Reproducibility & Documentation
+### 6. Reproducibility & Documentation
 
 To review statistical results and model results derived from the
 concatenated variable (or the joined data frame), they must remain
@@ -158,11 +159,25 @@ The creators of `retroharmonize` are not affiliated with either
 Afrobarometer, Arab Barometer, Eurobarometer, or the organizations that
 designs, produces or archives their surveys.
 
-We started building an experimental APIs data is running retroharmonize
-regularly and improving known statistical data sources. See: [Digital
-Music Observatory](https://music.dataobservatory.eu/), [Green Deal Data
-Observatory](https://greendeal.dataobservatory.eu/), [Economy Data
-Observatory](https://economy.dataobservatory.eu/).
+We create a large, harmonized dataset for extensive testing of our
+packages capabilities. The replication data of this special use case can
+be found on
+
+-   [Harmonized Cultural Access & Participation
+    Dataset](https://retroharmonize.dataobservatory.eu/articles/cap.html)
+
+You can find this harmonized dataset on Zenodo in the [Digital Music
+Observatory](https://zenodo.org/communities/music_observatory/) and the
+[Cultural Creative Sectors Industries Data
+Observatory](https://zenodo.org/communities/ccsi/) repositories.
+
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5781672.svg)](https://doi.org/10.5281/zenodo.5781672)
+
+We are building experimental APIs data in the form of automated
+observatories, which are running retroharmonize regularly and improving
+known statistical data sources. See also the [Green Deal Data
+Observatory](https://greendeal.dataobservatory.eu/) and the [Economy
+Data Observatory](https://economy.dataobservatory.eu/).
 
 ## Working with SPSS files
 

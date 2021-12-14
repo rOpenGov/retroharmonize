@@ -22,10 +22,10 @@ harmonize_survey_variables <- function( crosswalk_table,
   is.crosswalk_table(crosswalk_table)  ## validates structure and unambigous naming
   
   subsetted_surveys <-  subset_surveys(crosswalk_table = crosswalk_table, 
-                                    subset_name = subset_name, 
-                                    survey_list = survey_list,
-                                    import_path  = import_path,
-                                    export_path = export_path )
+                                       subset_name = subset_name, 
+                                       survey_list = survey_list,
+                                       import_path = import_path,
+                                       export_path = export_path )
   
   rename_survey_to_memory <- function(x) {
     
@@ -86,3 +86,5 @@ harmonize_survey_variables <- function( crosswalk_table,
     as.character(vapply ( subsetted_surveys, rename_survey_to_file, character(1) ))
   }
 }
+
+
