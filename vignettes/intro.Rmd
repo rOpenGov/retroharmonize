@@ -75,7 +75,7 @@ document_surveys(survey_paths = file.path(examples_dir, survey_files))
 This will easily fit into the memory, so let us explore a bit further.
 
 ```{r metadata}
-metadata_surveys_create(example_surveys)
+metadata_create(example_surveys) %>% head()
 ```
 ## Crosswalk table
 

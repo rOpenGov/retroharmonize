@@ -97,6 +97,8 @@ reference:
     contents:
         - collect_val_labels
         - harmonize_values
+        - harmonize_survey_values
+        - merge_surveys
   - title: "Harmonize missing and special cases"
     desc: > 
       Some variable codes have a special meaning, such as a various labels of 

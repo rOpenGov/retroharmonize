@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(retroharmonize)
 ```
 
-```{r}
+```{r surveyfiles}
 examples_dir <- system.file("examples", package = "retroharmonize")
 survey_files <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 survey_files
@@ -30,7 +30,7 @@ survey_1 <- read_rds(file.path(examples_dir, survey_files[1]))
 ```
 
 ```{r metadatacreate}
-metadata_create(survey_1)
+metadata_create(survey_1) %>% head()
 ```
 
 ## Working With Multiple Surveys
@@ -44,19 +44,19 @@ With smaller data frames representing your surveys, the most efficient way to wo
 Read the surveys into a list object in the memory:
 
 ```{r readtolist}
-example_surveys <- read_surveys (survey_paths, .f = "read_rds")
+example_surveys <- read_surveys(survey_paths, .f = "read_rds")
 ```
 
 Map the metadata contents of the files:
 
 ```{r processlist}
-metadata_surveys_create (survey_list = example_surveys)
+metadata_create(survey_list = example_surveys)
 ```
 
 If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
 
 ```{r createmetadatasurveys}
-example_metadata <- metadata_surveys_create ( survey_files = survey_paths, .f = "read_rds")
+example_metadata <- metadata_create ( survey_paths = survey_paths, .f = "read_rds")
 ```
 ```{r printexample}
 example_metadata
@@ -87,7 +87,7 @@ In the first survey, the variable has two values (coded as 1 and 2, and labelled
 unlist(subset_example_metadata$valid_labels[2])
 unlist(subset_example_metadata$na_labels[2])
 ```
-The metadata created by the `metadata_create()` and its version for multiple surveys, `metadata_surveys_create`, gives a first overview for the harmonization of concepts, the necessary harmonization of variable names and variable labels. In this case:
+The metadata created by the `metadata_create()` and its version for multiple surveys, `metadata_create`, gives a first overview for the harmonization of concepts, the necessary harmonization of variable names and variable labels. In this case:
 
 * Variable name harmonization is required: For a successful join, you must use a common name for
     `qa10_1` and `qa14_1`, for example, `trust_european_parliament`, because the variable refers to the same concept.
