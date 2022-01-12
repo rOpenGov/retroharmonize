@@ -106,20 +106,22 @@ For unit testing, we included in the R package three subsets of published Euroba
 # Availability 
 
 ## Operating system
-Please include minimum version compatibility.
+The retroharmonize R package is tested to run on several different operating systems. [According to Microsoft](https://mran.microsoft.com/releases/3.5.0), R 3.5.0 is tested and guaranteed to run on the following platforms: Windows® 7.0 SP1 or later, Ubuntu 14.04 or later, CentOS / Red Hat Enterprise Linux 6.5 or later, SUSE Linux Enterprise Server 11 or later, Mac OS X El Capitan (10.11) or later macOS versions.
 
 ## Programming language
-Please include minimum version compatibility.
+The retroharmonize R package depends on R version 3.5.0 or higher.
 
 ## Additional system requirements
-E.g. memory, disk space, processor, input devices, output devices.
+[According to Microsoft](https://mran.microsoft.com/releases/3.5.0), minimum system requirements for R 3.5.0 are 64-bit processor with x86-compatible architecture, 250 MB of free disk space and at least 1 GB of RAM. These requirements are met by most computers sold in the last 10 years.
 
-As earlier mentioned, we included some basic resource planning, and the important functions work either in memory or with sequentially used temporary files, and they offer a trade-off between memory and disk space use. 
-
-
+On more modern R versions, the package [is tested to run](https://cloud.r-project.org/web/checks/check_results_retroharmonize.html) on a [wide variety of operating systems and system configurations](https://cloud.r-project.org/web/checks/check_flavors.html), including ARM-based Macs.
 
 ## Dependencies
-E.g. libraries, frameworks, incl. minimum version compatibility.
+The retroharmonize R package depends only on R (version 3.5.0 or greater). The package imports functions from the following packages:
+* R Core packages: methods, stats, utils;
+* tidyverse packages: dplyr (1.0.0 or greater), glue, haven, magrittr, stringr, tibble, tidyr, purrr; 
+* R infrastructure (r-lib) packages: fs, here, pillar, rlang, tidyselect, vctrs; and
+* other R packages: assertthat, labelled, snakecase
 
 The retroharmonize R package is practically a very thorough extension of the R tidyverse packages: it depends on haven (and labelled) for working with coded survey files. It uses dplyr, tidyr (and their common, deep level rlang, vctrs) dependencies for variable manipulation within a single survey (preparation for harmonization) and purrr for functional programming task with several surveys. 
 
@@ -130,17 +132,17 @@ Marta Kolcynska () as a survey harmonization expert contributed to the conceptua
 
 ## Software location:
 Archive (e.g. institutional repository, general repository) (required – please see instructions on journal website for depositing archive copy of software in a suitable repository) 
-Name: The name of the archive
-Persistent identifier: e.g. DOI, handle, PURL, etc.
-Licence: Open license under which the software is licensed
-Publisher: Name of the person who deposited the software
-Version published: The version number of the software archived
-Date published: dd/mm/yy
+Name: CRAN
+Persistent identifier: https://CRAN.R-project.org/package=retroharmonize 
+Licence: GPL-3
+Publisher: Daniel Antal
+Version published: 0.2.0
+Date published: 02/11/21
 Code repository (e.g. SourceForge, GitHub etc.) (required) 
-Name: The name of the code repository
-Identifier: The identifier (or URI) used by the repository 
-Licence: Open license under which the software is licensed
-Date published: dd/mm/yy
+Name: retroharmonize
+Identifier: https://github.com/rOpenGov/retroharmonize
+Licence: GPL-3
+Date published: 15/12/21
 Emulation environment (if appropriate)
 Name: The name of the emulation environment
 Identifier: The identifier (or URI) used by the emulator
