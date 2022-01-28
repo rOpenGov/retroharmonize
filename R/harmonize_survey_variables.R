@@ -79,13 +79,15 @@ harmonize_survey_variables <- function( crosswalk_table,
     if (is.survey(x)) { 
       this_survey <- x 
     } else if (is.character(x)) {
-      this_survey <- read_rds(file.path(export_path, x))
+      #this_survey <- read_rds(file.path(export_path, x))
+     this_survey <- readRDS(file.path(export_path, x))
     } else {
         stop (" rename_survey_file(x) x must be a filename or a survey.")
-      }
+    }
     
     survey_id <- gsub(paste0("_", subset_name), "", attr(this_survey, "id"))
     
+
     new_names <- tibble( var_name_orig = names(this_survey)) %>%
       left_join (
         crosswalk_table %>% 
@@ -101,7 +103,7 @@ harmonize_survey_variables <- function( crosswalk_table,
     
     this_survey <- rlang::set_names(this_survey, nm = new_names )
     saveRDS(this_survey, file = file.path(export_path, x), version = 2 )
-    this_survey
+    x
   }
   
   if ( is.null(export_path) ) {
@@ -109,6 +111,7 @@ harmonize_survey_variables <- function( crosswalk_table,
     lapply ( subsetted_surveys, rename_survey_to_memory )
   } else {
     # Results to file  -----------------------------------
-    as.character(vapply ( subsetted_surveys, rename_survey_to_file, character(1) ))
+    
+    vapply ( subsetted_surveys, rename_survey_to_file, character(1) )
   }
 }
