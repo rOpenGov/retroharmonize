@@ -14,7 +14,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5764361.svg)](https://doi.org/10.5281/zenodo.5764361)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5781724.svg)](https://doi.org/10.5281/zenodo.5781724)
 [![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
 [![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow
@@ -54,6 +54,21 @@ You can download the manual in PDF for the [0.2.4
 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.4.pdf).
 
 ## Survey harmonization
+
+Surveys, i.e., systematic primary observation and data collections are
+important data sources of both social and natural sciences. They are in
+most cases the primary data sources of scientific research. Drawing
+information from several surveys, conducted in different locations or in
+different time can greatly enhance the inferential capacity of the
+surveys, but it requires significant data processing and statistical
+processing work. Our R software package offers a practical and
+comprehensive solution to harmonizing the datasets and their codebooks.
+
+Statistical matching is a related concepts that can take a harmonized
+dataset further, for example, with creating new, statistically better,
+unified weights. For these problems,
+[StatMatch](https://cran.r-project.org/web/packages/StatMatch/index.html)
+is a mature solution in R.
 
 Survey data harmonization refers to procedures that improve the data
 comparability or the inferential capacity of multiple surveys. The
