@@ -1,7 +1,7 @@
 #' @title Harmonize survey variables
 #' 
 #' @description Similar to \code{\link{subset_surveys}}, but will not only remove the 
-#' variables that cannot be harmonized, but renames the remaining variables. 
+#' variables that cannot be harmonized, but also renames the variables that are kept. 
 #' 
 #' @return A list of surveys or save individual rds files on the \code{export_path}.
 #' @importFrom dplyr left_join filter select distinct_all
@@ -9,13 +9,31 @@
 #' @importFrom rlang set_names
 #' @inheritParams subset_surveys
 #' @export
+#' @examples{
+#' examples_dir <- system.file("examples", package = "retroharmonize")
+#' survey_list  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
+#' example_surveys <- read_surveys(
+#'   file.path( examples_dir, survey_list), 
+#'   export_path = NULL)
+#' 
+#' documented_surveys <- metadata_create(example_surveys)
+#' documented_surveys <- documented_surveys[documented_surveys$var_name_orig %in% c( "rowid", "isocntry", "w1", "qd3_4", "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),]
+#' crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
+#' 
+#' freedom_table <- crosswalk_table[which(crosswalk_table$var_name_target %in% c("rowid", "freedom")),]
+#' 
+#' harmonize_survey_variables(crosswalk_table = freedom_table,
+#'                            subset_name = 'freedom',
+#'                            survey_list = example_surveys )
+#' 
+#' }
 
 harmonize_survey_variables <- function( crosswalk_table, 
-                                        subset_name = "subset",
-                                        survey_list = NULL,
+                                        subset_name  = "subset",
+                                        survey_list  = NULL,
                                         survey_paths = NULL,
-                                        import_path = NULL, 
-                                        export_path = NULL ) {
+                                        import_path  = NULL, 
+                                        export_path  = NULL ) {
   
   ## This is a wrapper for subset_save_survey with strict validation of new variable names.
   
@@ -94,5 +112,3 @@ harmonize_survey_variables <- function( crosswalk_table,
     as.character(vapply ( subsetted_surveys, rename_survey_to_file, character(1) ))
   }
 }
-
-x <- subsetted_surveys[[1]]
