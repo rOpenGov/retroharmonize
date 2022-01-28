@@ -39,16 +39,20 @@ harmonize_survey_variables <- function( crosswalk_table,
     
     survey_id <- gsub(paste0("_", subset_name), "", attr(this_survey, "id"))
     
-    new_names <- tibble( var_name_orig = names(x)) %>%
+    new_names <- tibble( var_name_orig = names(this_survey)) %>%
       left_join (
         crosswalk_table %>% 
           filter (.data$id == survey_id) %>% 
           select ( .data$var_name_orig, .data$var_name_target ) %>%
           distinct_all(), 
         by = "var_name_orig",
-      ) %>% select ( .data$var_name_target ) %>% unlist() %>% as.character()
+      ) %>% 
+      mutate ( var_name_target = ifelse (.data$var_name_orig == "rowid", 
+                                         yes = "rowid", 
+                                         no = .data$var_name_target)) %>% 
+      select ( .data$var_name_target ) %>% unlist() %>% as.character()
     
-    rlang::set_names(x, nm = new_names )
+    rlang::set_names(this_survey, nm = new_names )
       
   }
   
@@ -71,11 +75,15 @@ harmonize_survey_variables <- function( crosswalk_table,
           select ( .data$var_name_orig, .data$var_name_target ) %>%
           distinct_all(), 
         by = "var_name_orig",
-      ) %>% select ( .data$var_name_target ) %>% unlist() %>% as.character()
+      ) %>%
+      mutate ( var_name_target = ifelse (.data$var_name_orig == "rowid", 
+                                         yes = "rowid", 
+                                         no = .data$var_name_target)) %>% 
+      select ( .data$var_name_target ) %>% unlist() %>% as.character()
     
     this_survey <- rlang::set_names(this_survey, nm = new_names )
     saveRDS(this_survey, file = file.path(export_path, x), version = 2 )
-    x
+    this_survey
   }
   
   if ( is.null(export_path) ) {
@@ -87,4 +95,4 @@ harmonize_survey_variables <- function( crosswalk_table,
   }
 }
 
-
+x <- subsetted_surveys[[1]]
