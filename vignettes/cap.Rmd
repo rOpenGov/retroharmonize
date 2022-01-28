@@ -14,18 +14,13 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup, eval=TRUE}
+```{r setup, echo=FALSE}
 library(retroharmonize)
 library(dplyr, quietly = TRUE)
 library(here)
 here()
 cap_files <- c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav')
 ```
-
-```{r}
-cap_files
-```
-
 
 * European Commission (2012). Eurobarometer 67.1 (Feb-Mar 2007). GESIS Data Archive, Cologne. ZA4529 Data file Version 3.0.1, [https://doi.org/10.4232/1.10983](https://doi.org/10.4232/1.12959).
 

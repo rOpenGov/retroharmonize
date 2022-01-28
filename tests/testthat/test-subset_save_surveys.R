@@ -2,7 +2,7 @@ examples_dir <- system.file("examples", package = "retroharmonize")
 survey_files  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 example_surveys <- read_surveys(
   file.path( examples_dir, survey_files), 
-  export_path = FALSE)
+  export_path = NULL)
 
 subset_survey_list_1 <- subset_surveys(survey_list = example_surveys, 
                                        subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
