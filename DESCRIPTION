@@ -19,7 +19,13 @@ Authors@R: c(
              family = " Hernangómez Herrero", 
              role = "ctb", 
              comment = c(ORCID = "0000-0001-8457-4658")
-             )
+             ),
+      person(given = "Leo", 
+             family = " Lahti", 
+             role = "ctb", 
+             comment = c(ORCID = "0000-0001-5537-637X")
+             )	     
+	     
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
 Description: Assist in reproducible retrospective (ex-post) harmonization
