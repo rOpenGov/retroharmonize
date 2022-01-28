@@ -36,5 +36,6 @@ not_included
 retroharmonize.Rcheck/
 retroharmonize*.tar.gz
 retroharmonize*.tgz
+^docs
 docs/
 .RDataTmp1

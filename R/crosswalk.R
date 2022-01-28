@@ -73,7 +73,7 @@ crosswalk_surveys <- function(crosswalk_table,
   } 
   
   ## Harmonize the variable names and remove not harmonized vars -------------------
-  harmonized_survey_vars <- harmonize_survey_variables ( 
+  harmonized_survey_vars <- harmonize_survey_variables( 
     survey_list = survey_list, 
     survey_paths = survey_paths, 
     import_path = import_path, 
@@ -138,6 +138,8 @@ crosswalk_surveys <- function(crosswalk_table,
   subset_survey <- function(this_survey) {
     
     survey_id <- attr(this_survey, "id")
+    assertthat::assert_that(length(survey_id)>0, 
+                            msg = "Error in subset_survey(): survey_id has 0 length.")
     
     tmp <- this_survey %>% 
       mutate ( id = survey_id ) %>%
@@ -171,7 +173,7 @@ crosswalk_surveys <- function(crosswalk_table,
     
     return_df 
   }
-  x = harmonized_survey_vars[[2]]
+  x <- this_survey <- harmonized_survey_vars[[2]]
   subsetted <- lapply ( harmonized_survey_vars, function(x) purrr::safely(subset_survey)(x) )
 
   errors <- lapply ( subsetted, function(x) x$error)

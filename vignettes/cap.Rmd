@@ -1,25 +1,31 @@
 ---
-title: "Harmonized Cultural Access & Participation Dataset"
+title: "Creating a Harmonized Cultural Access & Participation Dataset"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Harmonized Cultural Access & Participation Dataset}
+  %\VignetteIndexEntry{Creating a Harmonized Cultural Access & Participation Dataset}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
-## Currently set to eval=FALSE
-
+```{r knitrsetup, include = FALSE}
 knitr::opts_chunk$set(
-  collapse = TRUE, eval=FALSE,
+  collapse = TRUE, eval=TRUE,
   comment = "#>"
 )
 ```
 
-```{r setup}
+```{r setup, eval=TRUE}
 library(retroharmonize)
-cap_files <- c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav', 'ZA6925_v1-0-0.sav')
+library(dplyr, quietly = TRUE)
+library(here)
+here()
+cap_files <- c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav')
 ```
+
+```{r}
+cap_files
+```
+
 
 * European Commission (2012). Eurobarometer 67.1 (Feb-Mar 2007). GESIS Data Archive, Cologne. ZA4529 Data file Version 3.0.1, [https://doi.org/10.4232/1.10983](https://doi.org/10.4232/1.12959).
 
@@ -34,78 +40,123 @@ To replicate this example, you must acquire these files from [GESIS](https://www
 gesis_dir <- file.path("C:", "your_data", "gesis_files")
 ```
 
-```{r, eval=FALSE}
+```{r loadgesisdir, inclue=FALSE}
+here::here()
+source(here::here("not_included", "daniel_env.R"))
+gesis_dir
+```
+
+```{r createpath, eval=TRUE}
+source(here::here("not_included", "daniel_env.R"))
 ## Create full paths to the three selected files
-cap_files <- file.path(gesis_dir, cap_files)
+cap_files <- here::here(gesis_dir, c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav'))
 ```
 
-## Inventory
+## Import and Inventory
 
-```{r, eval=FALSE}
-document_cap_files <- document_surveys(survey_path = cap_files, .f = "read_spss")
+It is likely that the surveys will fit into your computer's memory, so you can omit the first step. If you work with many files, and you want to keep working sequentially with survey files, it is a good idea to convert them to R objects. 
+
+```{r importsurveys}
+cap_surveys <- read_surveys(cap_files)
 ```
-```{r printdocument, eval=FALSE}
-knitr::kable(document_cap_files)
+
+```{r inventory}
+survey_doc <- document_surveys(survey_list = cap_surveys)
+survey_doc
 ```
 
 The files are rather large. We have `sum(document_cap_files$nrow)` of `sum(document_cap_files$ncol)` variables.  We will only harmonize a few of them.
 
-## Importing 
-
-It is likely that the surveys will fit into your computer's memory, so you can omit the first step. If you work with many files, and you want to keep working sequentially with survey files, it is a good idea to convert them to R objects.  
-
-
-
 ## Concepts to harmonize
 
-```{r metadatasurveys, eval=FALSE}
-cap_metadata <- metadata_create(survey_files = cap_files)
+```{r metadatasurveys}
+cap_metadata <- metadata_create(survey_list = cap_surveys)
 ```
 
 ## Harmonization of Variables
 
 ### Weights
 
-```{r, eval=FALSE}
-weight_variables <- eb_metadata %>% 
-  filter ( .data$var_name_orig %in% c("isocntry", "wex", "wextra", "v47", "v7"))
+From the metadata description, we select the post-stratification weight variables and projection weights. 
+
+```{r weightvars}
+weight_variables <- cap_metadata %>% 
+  filter ( .data$var_name_orig %in% c("isocntry", "wex", "wextra", "v47", "v7", "w1") | 
+             .data$var_label_orig %in% c("w_1_weight_result_from_target", 
+                                         "w_3_weight_special_germany",
+                                         "weight_result_from_traget_united_germany", 
+                                         "w_4_weight_special_united_kingdom", 
+                                         "weight_result_from_traget_united_kingdom"))
 ```
 
-```{r, eval=FALSE}
-weigthing_crosswalk_table <- crosswalk_table_create(weight_variables) %>%
+A *schema crosswalk* is a table that shows equivalent elements (or "fields") in more than one structured data source. With `crosswalk_table_create()` we create an empty schema crosswalk, then we fill up its values.  Researchers who feel more comfortable working in a spreadsheet application can create a similar crosswalk table in Excel, Numbers, or OpenOffice, and import the data from a `csv` or any tabular file.
+
+```{r weightcrosswalk}
+## See https://github.com/rOpenGov/retroharmonize/issues/21
+weigthing_crosswalk_table <- crosswalk_table_create(
+  ## Create an empty schema crosswalk for the weight variables 
+  weight_variables
+  ) %>%
+  mutate ( 
+    # Define the new, harmonized variable names
+    var_name_target = case_when (
+      # grepl("weight_result_from_target", .data$val_label_target)  ~ "w1",  [this is the issue]
+      .data$var_name_orig  %in% c("wex", "wextra", "v47")        ~ 'wex',
+      .data$var_name_orig  %in% c("w1", "v8")                    ~ "w1",
+      .data$var_name_orig %in% c("w3a", "v12")                   ~ "w_de",
+      .data$var_name_orig %in% c("w4a", "v10")                   ~ "w_uk",
+      .data$var_name_orig == "rowid"  ~ 'rowid',  # do not forget to keep the unique row IDs
+      TRUE ~ "geo"), 
+    # Define the target R class for working with these variables.
+    class_target = ifelse(.data$var_name_target %in% c("geo", "v47"), "factor", "numeric")
+    ) %>%
   select ( 
     -all_of(c("val_numeric_orig", "val_numeric_target", "val_label_orig", "val_label_target"))
-    ) %>%
-  mutate ( var_name_target = case_when (
-    .data$var_name_target %in% c("wex", "wextra", "v47") ~ 'wex',
-    .data$var_name_orig == "rowid"  ~ 'rowid',  # do not forget to keep the unique row IDs
-    TRUE ~ "geo"), 
-    class_target = ifelse(.data$var_name_target %in% c("geo", "v47"), "factor", "numeric")
-    )
+    ) 
 ```
 
-The crosswalk table contains the original (source) variable names that must be converted to the target variable names, i.e. `v7` and `isocntry` to `geo` and `v47`, `wextra`, and `wex` to `wex`.
+The crosswalk table contains the original (source) variable names that must be converted to the target variable names, i.e. `v7` and `isocntry` to `geo` and `v47`, `wextra` to `wex`. The weights should remain numeric variables, and the `geo` variable should be a categorical factor variable.
 
-```{r, eval=FALSE}
-weigthing_crosswalk_table %>% 
-  select ( all_of(c("filename", "var_name_orig", "var_name_target")))
+```{r harmonizationweigths}
+weigthing_crosswalk_table
 ```
 
 The Eurobarometer surveys contains separate samples for the former West Germany (`DE-W`), East Germany (`DE-E`), Northern Ireland (`GB-NIR`), and Great Britain, i.e. England, Scotland and Wales (`GB-GBN`). For the variable `geo` the appropriate post-stratification weight is the `w1` variable. For the two German subsamples, it is `w_de`, and for the two United Kingdom subsamples it is the `w_uk`.  We create two new variables, the `country_code` and `w`. When the two UK and the two German samples are joined, the appropriate post-stratification weight is `w`.
+
+```{r createweights}
+weight_vars <- crosswalk(survey_list = cap_surveys, 
+                         crosswalk_table =  weigthing_crosswalk_table, 
+                         na_values = NULL)
+```
+
+```{r printweights}
+set.seed(2022)
+weight_vars %>% sample_n(6)
+```
+
+You must use the `w1` weights when you work with the `geo` variable, which has separate values for `GB-GBN`, `GB-NIR`, `DE-E` and `DE-W`. Using the special country weights for the United Kindom and (united) Germany, we create the appropriate weight variable `w` to be used with ISO country codes, i.e. `GB` and `DE`. 
 
 ```{r weightwars}
 weight_vars <- weight_vars %>%
   mutate ( country_code = substr(geo, 1,2),
            w = case_when ( 
-             country_code == "DE" ~  w_de, 
-             country_code == "GB" ~  w_uk, 
+             country_code == "DE" ~  w_de,  # Unified Germany post-stratification weight
+             country_code == "GB" ~  w_uk,  # UK = Great Britain + Northern Ireland 
              TRUE ~ w1 )) %>%
   mutate ( year_survey = case_when(
     .data$id == "ZA4529_v3-0-1" ~ '2007',
-    .data$id == "ZA5688_v6-0-0" ~ '2013',
-    .data$id == "ZA6925_v1-0-0" ~ '2017'
+    .data$id == "ZA5688_v6-0-0" ~ '2013'
   )) %>%
   mutate ( year_survey = as.factor(.data$year_survey))
+```
+
+*Beware that the country codes for the United Kingdom and for Greece follow the ISO standard, i.e. GB and GR, not the Eurostat country codes UK and EL*.
+
+```{r printweigthvars}
+weight_vars <- weight_vars %>% 
+  select (all_of(c("rowid", "country_code", "geo", "w", "w1", "wex", "id"))) 
+set.seed(2022)
+weight_vars %>% sample_n(6)
 ```
 
 
@@ -122,9 +173,9 @@ tudying.  We will recode the still studying answers to 0, and later we will furt
 3. And at last, the special value `No formal education` means that the person did not finish the primary school.  Different countries define differently the minimum mandatory age when a person can leave the school system. We code these answers to 14, which is lower than the lowest age in our sample (15). This is also a special group, so we will mark them with a dummy variable, too.
 
 ```{r demographycrosstable}
-demography_crosstable <- eb_metadata %>%
+demography_crosstable <- cap_metadata %>%
   filter ( .data$var_name_orig == "rowid" | 
-             .data$var_label_orig %in% c("age_exact", "age_education")) %>%
+           .data$var_label_orig %in% c("age_exact", "age_education")) %>%
   crosswalk_table_create() %>%
   mutate ( var_name_target = case_when(
     # Do not leave out the unique row identifiers!
@@ -149,6 +200,28 @@ demography_crosstable <- eb_metadata %>%
     TRUE ~ "numeric"
   ))
 ```
+
+
+```{r}
+demography_crosstable 
+```
+```{r demographyvars}
+demography_vars <- crosswalk(survey_list     = cap_surveys, 
+                             crosswalk_table =  demography_crosstable, 
+                             na_values = NULL) %>%
+  mutate ( is_student = ifelse ( .data$age_education == 0, 1, 0), 
+           age_education = ifelse (.data$age_education ==0, 
+                                   .data$age_exact, 
+                                   .data$age_education))
+```
+
+Now we have three variables, with a student dummy.  You can test yourself if people with `age_educaton`=20 are a homogeneous group, or they should be treated as a still studying group who have already been educated up to 20 years, and a group who had already left eductation at the age of 20. If the two groups are homogeneous, then you will no longer need to use the `is_student` variable.
+
+```{r printdemography}
+set.seed(1235)
+demography_vars %>% sample_n(6) 
+```
+
 
 
 ### Cultural Access & Participation Variables
@@ -260,7 +333,7 @@ harmonized_cap_file <- cap_vars_fct %>%
 The average post-stratification weight must be 1 for `w1`, and for `w_de` and `w_uk` whenever they are not zero values.  The `wex` variable has no naturally defined mean value.
 
 
-```{r weighttest}
+```{r weighttest, eval=FALSE}
 weight_vars %>%
   group_by ( .data$id ) %>%
   mutate ( across(starts_with("w"), function(x) ifelse(x==0, NA, x))) %>% 
@@ -306,7 +379,7 @@ harmonized_cap_file %>%
 ## Exporting
 
 
-```{r savefile}
+```{r savefile, eval=FALSE}
 saveRDS(harmonized_cap_file,  file.path(tempdir(), "harmonized_cap_dataset.rds"))
 write.csv(harmonized_cap_file,  
           file.path(tempdir(), "harmonized_cap_file_20211214_doi_10_5281_zenodo_5781672.csv"), 

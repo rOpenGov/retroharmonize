@@ -28,7 +28,6 @@ survey_files <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 survey_files
 ```
 
-
 ```{r surveypaths}
 survey_paths <- file.path(examples_dir, survey_files)
 ```
@@ -36,15 +35,16 @@ survey_paths <- file.path(examples_dir, survey_files)
 ```{r examplemetadata}
 example_metadata <- metadata_create(survey_paths = survey_paths)
 ```
-
 ## Crosswalk Table
 
 A schema crosswalk, or a crosswalk table is a table that shows equivalent elements (or "fields") in more than one survey. In this example, we will create a crosswalk table of a subset of the tree example surveys. We will use three variables: the unique row identifier, the Trust in the European Parliament concept, and the country code.
 
 By filtering out the other variables, we have the basic information in our metadata table.
 
+```{r loaddplyr, echo=FALSE}
+library(dplyr, quietly = TRUE)
+```
 ```{r subsetmetadata}
-library(dplyr)
 subset_example_metadata <- example_metadata %>%
   filter ( grepl("^unique_identifier_in|trust|country_code", .data$var_label_orig) ) %>%
   filter ( grepl("^unique_identifier_in|european_parliament|country_code", 
@@ -127,6 +127,7 @@ ct %>%
                              "na_label_orig",  "na_label_target")))
              )
 ```
+
 ### A reproducible recoding and relabelling
 
 Let's put the entire process into a tidyverse pipeline with [dplyr](https://dplyr.tidyverse.org/):
@@ -159,6 +160,7 @@ example_crosswalk_table <- ct %>%
 
 example_crosswalk_table
 ```
+
 Needless to say that you do not need to work with *dplyr*. 
 
 Reading the crosswalk table is very simple, for example, the last two (15-16) rows read like this:
@@ -204,6 +206,7 @@ While `qa10_1` and `qa14_1` refer to trust in the European Parliament, they cann
 ```{r subsetsave14}
 lapply (subset_survey_list_1, names)
 ```
+
 The next step is to harmonize the names of those variables that represent the same concept, in this case, *Trust in the European Parliament*.  The next steps, i.e. the harmonization of the numerical codes of answers and their labels will be discussed in the [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) vignette.
 
 ## Variable Name Harmonization
