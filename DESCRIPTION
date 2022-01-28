@@ -2,7 +2,7 @@ Type: Package
 Package: retroharmonize
 Title: Ex Post Survey Data Harmonization
 Version: 0.2.5
-Date: 2022-101-28
+Date: 2022-01-28
 Authors@R: c(
     person("Daniel", "Antal", , "daniel.antal@ceemid.eu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760")),
