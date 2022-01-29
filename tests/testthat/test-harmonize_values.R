@@ -38,7 +38,7 @@ test_that("casting works", {
 h1
 
 
-test_that("attributes work", {
+test_that("harmonize_values() attributes work", {
   expect_equal(attr(h1, "label"), "Do you trust the European Union?")
   expect_equal(attr(h1, "id"), "survey_id")
   expect_equal(attr(h1, "survey_id_labels"),
