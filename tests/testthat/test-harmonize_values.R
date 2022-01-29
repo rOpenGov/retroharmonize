@@ -96,7 +96,7 @@ test_that("recasting works", {
   )
 })
 
-test_that("exception handling works", {
+test_that("harmonize_values() exception handling works", {
   ## tests validate_harmonize_values
   expect_error(expect_warning ((harmonize_values (var_1, 
                                   # list not well defined
