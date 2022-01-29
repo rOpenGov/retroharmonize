@@ -49,8 +49,9 @@
 #' @export
 
 
-metadata_survey_create <- function( survey ) {
+metadata_survey_create <- function(survey) {
   
+  ## Assertions before running the function -----------------------------
   if ( "list" %in% class(survey) ) {
     assert_that(all(vapply ( survey, is.survey, logical(1))), 
                 msg = "Parameter 'survey' is not of s3 class survey or a list of them. See ?is.survey.")
@@ -80,7 +81,7 @@ metadata_survey_create <- function( survey ) {
     return(metadata_initialize(filename = filename, id = paste0(filename, " could not be read.")))
   }
   
-  var_label_orig  <- lapply ( survey, labelled::var_label )
+  var_label_orig  <- lapply (survey, labelled::var_label)
   
   class_orig <- vapply( survey, function(x) class(x)[1], character(1))
   
@@ -103,21 +104,24 @@ metadata_survey_create <- function( survey ) {
   na_labels <- function(x) {
     # labels that refer to na_values
     labs <- labelled::val_labels(x)
-  labs[labs == labelled::na_values(x)]
+    if ( is.null(labs)) return(NA_character_)
+    selected_labs <- labelled::na_values(x)
+    labs[ labs %in% selected_labs ]
   }
   
   to_list_column <- function(.f = "na_values") {
     
+    # We use sapply because the length is to be discovered. 
+    
     x <- case_when ( 
-      .f == "na_labels" ~ sapply ( survey, na_labels), 
-      .f == "na_range"  ~ sapply ( survey, labelled::na_range), 
-      .f == "valid_range"  ~ sapply ( survey, fn_valid_range),
-      .f == "labels" ~ sapply ( survey, labelled::val_labels))
+      .f == "na_labels" ~ sapply (survey, na_labels),  # internal function above
+      .f == "na_range"  ~ sapply (survey, labelled::na_range), 
+      .f == "valid_range"  ~ sapply (survey, fn_valid_range),    # internal function above
+      .f == "labels" ~ sapply (survey, labelled::val_labels)
+      )
     
     x[sapply(x, is.null)] <- NA_character_
     names(x) <- names(survey)
-    #df <- purrr::map(x, list)
-    #names(df) <- rep(.f, length(df))
     x
   }
   
@@ -191,7 +195,7 @@ metadata_create <- function ( survey_list = NULL,
                               survey_paths = NULL, 
                               .f = NULL) {
  
-  if ( !is.null(survey_list)) {
+  if ( !is.null(survey_list) ) {
     validate_survey_list(survey_list)
     if (! "list" %in% class(survey_list)) {
       assert_that(is.survey(survey_list), 
