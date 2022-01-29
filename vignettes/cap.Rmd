@@ -1,10 +1,9 @@
 ---
-title: "Creating a Harmonized Cultural Access & Participation Dataset"
+title: "Creating a Harmonized Cultural Access & Participation Dataset for Music"
+author: "Daniel Antal"
 output: rmarkdown::html_vignette
-vignette: >
-  %\VignetteIndexEntry{Creating a Harmonized Cultural Access & Participation Dataset}
-  %\VignetteEngine{knitr::rmarkdown}
-  %\VignetteEncoding{UTF-8}
+vignette: |
+  %\VignetteIndexEntry{Creating a Harmonized Cultural Access & Participation Dataset} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
 ---
 
 ```{r knitrsetup, include = FALSE}
@@ -12,23 +11,27 @@ knitr::opts_chunk$set(
   collapse = TRUE, eval=TRUE,
   comment = "#>"
 )
+retroharmonize::here()
 ```
 
-```{r setup, echo=FALSE}
+```{r setup, message=FALSE, warning=FALSE}
 library(retroharmonize)
 library(dplyr, quietly = TRUE)
-library(here)
-here()
 cap_files <- c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav')
 ```
+
+We are going to create a harmonized dataset from two Cultural Access & Participation datasets, which each contain harmonized surveys from a 2007 and 2013.  We will further harmonize them into a single, longitudional file.
 
 * European Commission (2012). Eurobarometer 67.1 (Feb-Mar 2007). GESIS Data Archive, Cologne. ZA4529 Data file Version 3.0.1, [https://doi.org/10.4232/1.10983](https://doi.org/10.4232/1.12959).
 
 * European Commission, Brussels (2016). Eurobarometer 79.2 (2013). GESIS Data Archive, Cologne. ZA5688 Data file Version 6.0.0, [https://doi.org/10.4232/1.12577](https://doi.org/10.4232/1.12577).
 
-* European Commission and European Parliament, Brussels (2018). Eurobarometer 88.1 (2017). GESIS Data Archive, Cologne. ZA6925 Data file Version 1.0.0, [https://doi.org/10.4232/1.12959](https://doi.org/10.4232/1.12959).
-
 To replicate this example, you must acquire these files from [GESIS](https://www.gesis.org/home) after accepting their terms of use.  The `retroharmonize` project is not affiliated with GESIS.
+
+This vignette article shows you how to replicate our dataset. The results can be found and referenced as:
+* Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5917742](https://doi.org/10.5281/zenodo.5917742)
+
+* Daniel Antal. (2022). Creating a Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [10.5281/zenodo.5917714](https://doi.org/10.5281/zenodo.5917714)
 
 ```{r, eval=FALSE}
 ## This is a dummy path. You should use the path where you saved these files.
@@ -36,15 +39,12 @@ gesis_dir <- file.path("C:", "your_data", "gesis_files")
 ```
 
 ```{r loadgesisdir, inclue=FALSE}
-here::here()
-source(here::here("not_included", "daniel_env.R"))
-gesis_dir
+source(retroharmonize::here("not_included", "daniel_env.R"))
 ```
 
 ```{r createpath, eval=TRUE}
-source(here::here("not_included", "daniel_env.R"))
 ## Create full paths to the three selected files
-cap_files <- here::here(gesis_dir, c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav'))
+cap_files <- retroharmonize::here(gesis_dir, c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav'))
 ```
 
 ## Import and Inventory
@@ -154,7 +154,6 @@ set.seed(2022)
 weight_vars %>% sample_n(6)
 ```
 
-
 ### Demography
 
 We will use two important demography variables: the age of the respondent, and the age of school leaving of the respondent.  This latter, `age_education` variable is an important, *ex ante* harmonized variable in Eurobarometer. Because each European country has different education systems, furthermore, because education systems are not the same across different demographic groups (for example, people schooled before the World War II often went to very different schools), a more precise education level would require a very complicated mapping with education-specific knowledge.
@@ -197,8 +196,9 @@ demography_crosstable <- cap_metadata %>%
 ```
 
 
-```{r}
-demography_crosstable 
+```{r demography_crosstable}
+set.seed(123456)
+demography_crosstable %>% sample_n(5)
 ```
 ```{r demographyvars}
 demography_vars <- crosswalk(survey_list     = cap_surveys, 
@@ -217,8 +217,6 @@ set.seed(1235)
 demography_vars %>% sample_n(6) 
 ```
 
-
-
 ### Cultural Access & Participation Variables
 
 Our variables of interest are visiting frequencies to concerts and public libraries.  In the Eurobarometer CAP surveys, the answers have 
@@ -229,60 +227,95 @@ Our variables of interest are visiting frequencies to concerts and public librar
 4.	`More than 5 times` will be `more_than_5` and have the numeric value of 6.
 5.	The special case of `DK` will be coded as `declined` (to anwer) and the *Inap...* lables to `inap`.  These are special codes in Eurobarometer meaning that the item is inappropriate, i.e. due to some filtering, this particular question was not asked from the respondant. While respondents who consciously decline an answer usually form a rather homogenous category of their own, the ianppropriate answers are truly missing answers.  Their numeric representation will be both `NA` (f.e. they should be omitted from a numeric average.)
 
+For code readability, we show the following data pipeline in sections, but you could of course create this code in a single expression---or create the resulting table in a spreadsheet application, if you are not aiming for full reproducibility in your research.
 
-```{r capvarscrosstable, eval=FALSE}
-search_term_labels <- c("rowid|cultural_activities_public_library|cultural_activities_museums_galleries|cultural_activities_concert|cultural_activities_freq_concert|	
-cultural_activities_freq_public_library|cultural_activities_freq_library_or_archive|cultural_activities_freq_museum_gallery")
+1. Let's create a search term for the metadata inventory:
 
-cap_vars_crosstable <- eb_metadata %>%
+```{r capvarscrosstable1}
+search_term_labels <- c("rowid|cultural_activities_public_library|artistic_activities_sung|cultural_activities_concert|cultural_activities_freq_concert|artistic_activities_played_music_instr|artistic_activities_played_music_instrument
+")
+```
+
+2. Create an empty schema crosswalk table:
+
+```{r capvarscrosstable2}
+cap_vars_crosstable <- cap_metadata %>%
   filter ( .data$var_name_orig == "rowid" | 
              grepl(search_term_labels, .data$var_label_orig) ) %>%
-  crosswalk_table_create () %>%
+  crosswalk_table_create ()
+```
+
+3. Set the target variable names for the harmonization of the variables (columns) of the final, tidy, unified dataset.
+
+```{r capvarscrosstable3}
+cap_vars_crosstable <- cap_vars_crosstable %>%
   mutate ( var_name_target = case_when(
     .data$var_name_orig == "rowid" ~ "rowid", 
-    grepl("concert", .data$var_label_orig) ~ "visit_concert", 
-    grepl("library", .data$var_label_orig) ~ "visit_library", 
-    grepl("museum", .data$var_label_orig)  ~ "visit_museum", 
+    grepl("concert", .data$var_label_orig)       ~ "visit_concert", 
+    grepl("sung", .data$var_label_orig)          ~ "activity_sung", 
+    grepl("played_music", .data$var_label_orig)  ~ "activity_played_music", 
     TRUE ~ .data$var_label_orig 
-  )) %>%
+  ))
+```
+
+4. Define the special (missing value) labels. It is important to convert any data with such labels as the R special `NA_real_` value when you give a numeric representation to your data:
+
+```{r capvarscrosstable4}
+cap_vars_crosstable <- cap_vars_crosstable %>%
   mutate ( na_label_target = case_when(
     .data$na_label_orig %in% c("DK", "Refusal") ~ "declined",
     grepl("^Inap", .data$na_label_orig)         ~ "inap",
     .data$val_label_orig == "DK"                ~ "declined",
     TRUE ~ .data$na_label_target
-  )) %>%
-  mutate ( val_label_target = case_when (
-    grepl("^more", tolower(.data$val_label_orig)) ~ "more_than_5", 
-    grepl("never|^not|none", tolower(.data$val_label_orig))  ~ "never",
-    tolower(.data$val_label_orig) == "1-2 times" ~ "1_2_times", 
-    tolower(.data$val_label_orig) == "3-5 times" ~ "3_5_times",
-    !is.na(.data$na_label_target) ~  .data$na_label_target,
-    # do not forget the rowid, it should not be labelled
-    .data$var_name_target == "rowid" ~ NA_character_,
-    TRUE ~ "coding_error"
-  )) %>%
+  )) %>% 
   mutate ( na_numeric_target = case_when (
     .data$na_label_target == "declined" ~ 99999,
     .data$na_label_target == "inap"     ~ 99998,
     TRUE ~ NA_real_
-  )) %>%
+  )) 
+```
+
+5. Define the labels in the normal value range. These will be the factor levels in a categorical representation of your data:
+
+```{r capvarscrosstable5}
+cap_vars_crosstable <- cap_vars_crosstable %>%
+  mutate ( val_label_target = case_when (
+    tolower(.data$val_label_orig) == "mentioned"             ~ "mentioned",
+    tolower(.data$val_label_orig) == "not mentioned"         ~ "not_mentioned",
+    tolower(.data$val_label_orig) == "1-2 times"             ~ "1_2_times", 
+    tolower(.data$val_label_orig) == "3-5 times"             ~ "3_5_times",
+    grepl("^more", tolower(.data$val_label_orig))            ~ "more_than_5", 
+    grepl("never|^not\\s\\in|none", tolower(.data$val_label_orig))  ~ "never",
+    !is.na(.data$na_label_target) ~  .data$na_label_target,
+    # do not forget the rowid, it should not be labelled
+    .data$var_name_target == "rowid" ~ NA_character_,
+    TRUE ~ "coding_error"   # If this appears in your scheme crosswalk table, you have a problem.
+  )) 
+```
+
+6. Define the numeric representation of your labels. These will be the factor levels in a numeric representation of your data:
+
+```{r capvarscrosstable6}
+cap_vars_crosstable <- cap_vars_crosstable %>%
   mutate ( val_numeric_target = case_when (
-    .data$val_label_target == "never"        ~ 0,
-    .data$val_label_target == "1_2_times"   ~ 1.5,
-    .data$val_label_target == "3_5_times"   ~ 3.5,
-    .data$val_label_target == "more_than_5" ~ 6,
+    .data$val_label_target == "never"         ~ 0,
+    .data$val_label_target == "1_2_times"     ~ 1.5,
+    .data$val_label_target == "3_5_times"     ~ 3.5,
+    .data$val_label_target == "more_than_5"   ~ 6,
+    .data$val_label_target == "mentioned"     ~ 1,
+    .data$val_label_target == "not_mentioned" ~ 0,
     TRUE ~ .data$na_numeric_target
   ))
 
 ```
 
-We create two version of the crosswalk table. One will rename the vist_ variables to fct_visit, and give them a factor representation.
+We create two versions of the crosswalk table. One will rename the `visit_concert` variable to `fct_visit`, and give them the categorical representation. The `crosswalk()` function will use the retroharmonize `as_factor` method instead of base R's `as.factor` to properly treat missing values.
 
-```{r capfct, eval=FALSE}
+```{r capfct}
 cap_vars_crosstable_fct <- cap_vars_crosstable %>%
   mutate ( var_name_target = ifelse(
-           test = grepl("^visit", .data$var_name_target), 
-           yes  = gsub("visit", "fct_visit", .data$var_name_target), 
+           test = grepl("^visit|^artistic", .data$var_name_target), 
+           yes  = paste0("fct_", .data$var_name_target), 
            no   = .data$var_name_target), 
            class_target = ifelse(
              test  = .data$var_name_target == 'rowid', 
@@ -292,12 +325,12 @@ cap_vars_crosstable_fct <- cap_vars_crosstable %>%
 
 cap_vars_fct <- crosswalk(
   crosswalk_table = cap_vars_crosstable_fct,  
-  survey_list = cap)
+  survey_list = cap_surveys)
 ```
 
-The other will give these variable a numeric representation. 
+The other will give these variable a numeric representation. The `crosswalk()` function will use the retroharmonize `as_numeric` method instead of base R's `as.numeric` to avoid unexpected coerction in the case of labelled missing cases.
 
-```{r capnum, eval=FALSE}
+```{r capnum}
 cap_vars_crosstable_num <- cap_vars_crosstable %>%
    mutate( class_target = ifelse(
       test  = .data$var_name_target == 'rowid', 
@@ -307,12 +340,14 @@ cap_vars_crosstable_num <- cap_vars_crosstable %>%
 
 cap_vars_num <- crosswalk(
   crosswalk_table = cap_vars_crosstable_num,  
-  survey_list = cap)
+  survey_list = cap_surveys)
 ```
 
 ## Join the harmonized CAP dataset
 
-```{r joinharmoinzed, eval=FALSE}
+Using [dplyr::left_join](https://dplyr.tidyverse.org/reference/mutate-joins.html) we join together by the survey `id` and the observation `rowid` the categorical and numeric representations of the CAP surveys, then add the demography variables, then add the weights.
+
+```{r joinharmoinzed}
 harmonized_cap_file <- cap_vars_fct %>%
   left_join ( cap_vars_num,    by = c("id", "rowid") ) %>%
   left_join ( demography_vars, by = c("id", "rowid") ) %>%
@@ -322,11 +357,11 @@ harmonized_cap_file <- cap_vars_fct %>%
 
 ## Unit testing and corrections
 
+The following simple logical tests should give an indication if our results are as expected.
 
 ### Weights
 
-The average post-stratification weight must be 1 for `w1`, and for `w_de` and `w_uk` whenever they are not zero values.  The `wex` variable has no naturally defined mean value.
-
+The average post-stratification weight must be 1 for `w` and `w1`.  The `wex` variable has no naturally defined mean value. 
 
 ```{r weighttest, eval=FALSE}
 weight_vars %>%
@@ -335,54 +370,51 @@ weight_vars %>%
   dplyr::summarise( across(starts_with('w'), mean, na.rm=TRUE))
 ```
 
+The post-stratification weights have a very small deviation from zero.  Use these values when you calculate weighted averages.  The projection weight should be used when you calculate sums.
 
 ### Missing labels
 
-All concert visits labelled as `declined` and `inap` must be coded to a numeric `NA` value.  Furthermore, there must not be other `NA` values than cases in the `ZA6925_v1-0-0` survey, where this question was not asked. For consistency, these observations should be also coded as `inap` in the factor representation.
+All concert visits labelled as `declined` and `inap` must be coded to a numeric `NA` value.  Furthermore, there must not be other `NA` values than cases in the `ZA6925_v1-0-0` survey, where this question was not asked. For consistency, these observations should be also coded as `inap` in the factor representation. We use [dplyr](https://dplyr.tidyverse.org/index.html) for the final data wrangling, but of course, you can do this in [DT](https://cran.r-project.org/web/packages/DT/index.html) or base R if you prefer.
 
-In case of the `visit_library` variable all missing values should have a factor representation of `declined` or `inap`.
-
-```{r correctmissings, eval=FALSE}
+```{r correctmissings}
 harmonized_cap_file %>% 
   select ( starts_with(c("id", "fct", "visit")) ) %>%
-  select ( -contains("museum"), -contains("library") ) %>%
   filter ( is.na(.data$visit_concert) ) %>%
   distinct_all()
-
-harmonized_cap_file %>% 
-  select ( starts_with(c("id", "fct", "visit")) ) %>%
-  select ( -contains("museum"), -contains("concert") ) %>%
-  filter ( is.na(.data$visit_library) ) %>%
-  distinct_all()
 ```
-```{r isvisit, eval=FALSE}
+
+### Create a visiting binary variable
+
+We create `is_visit_concert`, which takes the value of 1 if the person visited at least one concert in the previous 12 months, and 0 otherwise, retaining the missing values from declined answers.
+
+```{r isvisit}
 harmonized_cap_file <- harmonized_cap_file %>%
-  mutate ( fct_visit_museum = ifelse(.data$id == "harmonized_cap_file", "inap", .data$fct_visit_museum)) %>%
-  mutate ( is_visit_concert = ifelse(.data$visit_concert == 0, 0, 1), 
-           is_visit_library = ifelse(.data$visit_library == 0, 0, 1), 
-           is_visit_museum  = ifelse(.data$visit_museum  == 0, 0, 1)) 
+  mutate ( is_visit_concert = ifelse(.data$visit_concert > 1, 1, .data$visit_concert)) 
 ```
 
+And checking if it is indeed smaller than the original (estimated) visiting frequency value.
 
-```{r, eval=FALSE}
+```{r checkisvisit}
 harmonized_cap_file %>% 
   group_by ( .data$id) %>%
   dplyr::summarise ( across(starts_with("visit"),     mean, na.rm=TRUE), 
                      across(starts_with("is_visit"),  mean, na.rm=TRUE), 
                      .groups = "keep")
 ```
+
 ## Exporting
+
+You can find this harmonized dataset on Zenodo in the [Digital Music Observatory](https://zenodo.org/communities/music_observatory/) and the [Cultural Creative Sectors Industries Data Observatory](https://zenodo.org/communities/ccsi/) repositories. It was exported with the following code:
 
 
 ```{r savefile, eval=FALSE}
 saveRDS(harmonized_cap_file,  file.path(tempdir(), "harmonized_cap_dataset.rds"))
 write.csv(harmonized_cap_file,  
-          file.path(tempdir(), "harmonized_cap_file_20211214_doi_10_5281_zenodo_5781672.csv"), 
+          file.path(tempdir(), "harmonized_cap_file_20220129_doi_10_5281_zenodo_5917742.csv"), 
           row.names = FALSE)
 ```
 
-You can find this harmonized dataset on Zenodo in the [Digital Music Observatory](https://zenodo.org/communities/music_observatory/) and the [Cultural Creative Sectors Industries Data Observatory](https://zenodo.org/communities/ccsi/) repositories. 
+Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5917742](https://doi.org/10.5281/zenodo.5917742)
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5781672.svg)](https://doi.org/10.5281/zenodo.5781672)
+Daniel Antal. (2022). Creating a Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [10.5281/zenodo.5917714](https://doi.org/10.5281/zenodo.5917714)
 
-Daniel Antal. (2021). Harmonized Cultural Access & Participation Dataset (Version 20211214) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5781672](https://zenodo.org/record/5781672#.Ybkewb3MLIV)
