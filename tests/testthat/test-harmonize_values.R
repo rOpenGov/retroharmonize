@@ -55,7 +55,7 @@ test_that("harmonize_values() attributes work", {
 
 attributes(h1)
 
-test_that("recoding works", {
+test_that("armonize_values() recoding works", {
   expect_equal(vctrs::vec_data(h1), c(1,0,1,1,0,99997,99999))
 })
 
