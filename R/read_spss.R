@@ -140,12 +140,9 @@ read_spss <- function(file,
 
   return_df <- return_df  %>%
     select ( all_of(all_vars) )
-  
-  names ( return_df )
-  
+    
   labelling_orig <- names  ( label_orig )
   labelling_orig[as.numeric(which(  vapply ( label_orig, is.null, logical(1)))) ] <- ""
-  labelling_orig 
   
   original_labels <- c(
     list ( rowid = "Unique ID"), 
@@ -155,7 +152,7 @@ read_spss <- function(file,
 
   for ( i in seq_along(return_df ) ) {
     ## only labellled classes will have a label
-    labelled::var_label ( return_df[,1] ) <- unlist(original_labels)[i]
+    labelled::var_label ( return_df[, i] ) <- unlist(original_labels)[i]
   }
   
   return_survey <- survey (return_df, id=id, filename=filename, doi=doi)
