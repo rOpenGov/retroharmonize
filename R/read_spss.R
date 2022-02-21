@@ -145,9 +145,7 @@ read_spss <- function(file,
   labelling_orig[as.numeric(which(  vapply ( label_orig, is.null, logical(1)))) ] <- ""
   
   original_labels <- c(
-    list ( rowid = "Unique ID"), 
     lapply ( label_orig, function(x) ifelse(is.null(x), "", x))
-    
   )  
 
   for ( i in seq_along(return_df ) ) {
