@@ -95,11 +95,11 @@ read_spss <- function(file,
   
   tmp$rowid <- paste0(id, "_", tmp$rowid)
   
+  
+  labelled::var_label ( 
+    tmp$rowid ) <- "Unique ID"
  
   label_orig <- lapply ( tmp, labelled::var_label  )
- 
-  labelled::var_label ( 
-    tmp$rowid ) <- paste0("Unique identifier in ", id)
 
   converted <- tmp [ ! vapply ( tmp, function(x) is.null(attr(x, "labels")), logical(1)) ]
   converted <- converted  [ ! vapply ( converted , function(x) length(attr(x, "labels"))>0, logical(1)) ]
@@ -141,15 +141,12 @@ read_spss <- function(file,
   return_df <- return_df  %>%
     select ( all_of(all_vars) )
     
-  labelling_orig <- names  ( label_orig )
-  labelling_orig[as.numeric(which(  vapply ( label_orig, is.null, logical(1)))) ] <- ""
-  
   original_labels <- c(
     lapply ( label_orig, function(x) ifelse(is.null(x), "", x))
   )  
 
   for ( i in seq_along(return_df ) ) {
-    ## only labellled classes will have a label
+    ## only labelled classes will have a label
     labelled::var_label ( return_df[, i] ) <- unlist(original_labels)[i]
   }
   
