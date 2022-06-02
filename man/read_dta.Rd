@@ -4,7 +4,7 @@
 \alias{read_dta}
 \title{Read Stata DTA files (`.dta`) files}
 \usage{
-read_dta(file, id = NULL, filename = NULL, doi = NULL, .name_repair = "unique")
+read_dta(file, id = NULL, doi = NULL, .name_repair = "unique")
 }
 \arguments{
 \item{file}{A STATA file.}
