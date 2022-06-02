@@ -60,7 +60,7 @@ Survey data harmonization refers to procedures that improve the data comparabili
 
 From a technical perspective, the aim of the survey harmonization is to create a single, tidy, joined harmonized dataset in the form of a data frame that contains a row identifier, which is truly unique across all observations, and which also contains the concatenated and harmonized variables. We do this in a way that provides an unambigous mapping of numerical coded and labelled data, including special and missing data. This way we avoid coercion that may lead to logical errors due to syntactically correct, but logically inconsistent variable labelling in across differently coded source files. Taking the harmonization to the level of type harmonization to *numeric* and *factor* classes allows the use of R's powerful statistical packages that require numeric or factor type input, and a wide range of survey output harmonization (harmonized statistics and indicators.  
 
-For an extended overview of these problems with illustrations please refer to the vignette [Survey Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization).
+For an extended overview of these problems with illustrations please refer to the vignette [Survey Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html).
 
 ### 1. Importing
 
