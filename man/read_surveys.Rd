@@ -20,7 +20,7 @@ call \code{\link{read_dta}}, \code{rds} will call \code{\link{read_rds}} and
 
 \item{export_path}{Defaults to \code{NULL}, in this case the read surveys are imported into a single
 list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each 
-survey an R object with \code{\link{[base]saveRDS}}.}
+survey an R object with \code{base::\link[base:readRDS]{saveRDS}}.}
 }
 \value{
 A list of the surveys or a vector of the saved file names.  
