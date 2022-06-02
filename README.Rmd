@@ -22,7 +22,7 @@ knitr::opts_chunk$set(
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5781724.svg)](https://doi.org/10.5281/zenodo.5781724)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6607356.svg)](https://doi.org/10.5281/zenodo.6607356)
 [![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
 [![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
@@ -48,7 +48,7 @@ The development version can be installed from [GitHub](https://github.com/) with
 devtools::install_github("rOpenGov/retroharmonize")
 ```
 
-You can download the manual in PDF for the  [0.2.4 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.4.pdf).
+You can download the manual in PDF for the  [0.2.4 release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.4.pdf) but it is significantly different from 0.2.5.
 
 ## Survey harmonization
 

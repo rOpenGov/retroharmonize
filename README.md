@@ -10,11 +10,11 @@
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
-[![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
+[![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5781724.svg)](https://doi.org/10.5281/zenodo.5781724)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6607356.svg)](https://doi.org/10.5281/zenodo.6607356)
 [![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
 [![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 [![Follow
@@ -51,7 +51,8 @@ devtools::install_github("rOpenGov/retroharmonize")
 ```
 
 You can download the manual in PDF for the [0.2.4
-release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.4.pdf).
+release](https://retroharmonize.dataobservatory.eu/retroharmonize_0.2.4.pdf)
+but it is significantly different from 0.2.5.
 
 ## Survey harmonization
 
@@ -93,7 +94,7 @@ statistics and indicators.
 
 For an extended overview of these problems with illustrations please
 refer to the vignette [Survey
-Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization).
+Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html).
 
 ### 1. Importing
 
@@ -201,7 +202,7 @@ Unfortunately, joining data with different labelling is not possible.
 When you do not need to preserve the history of complex harmonization
 problems, codebook, etc, then you do not necessary need to look under
 the hoods of our S3 classes. The new `labelled_spss_survey()` class is
-an inherited extension of [haven’s labelled\_spss
+an inherited extension of [haven’s labelled_spss
 class](https://haven.tidyverse.org/reference/labelled_spss.html). It not
 only preserves variable and value labels and the user-defined missing
 range, but also gives an identifier, for example, the filename or the
@@ -209,7 +210,7 @@ wave number, to the vector. Additionally, it enables the preservation—
 as metadata attributes—the original variable names, labels, and value
 codes and labels, from the source data. This way, the harmonized data
 also contain the pre-harmonization record. The vignette [Working With
-The labelled\_spss\_survey
+The labelled_spss_survey
 Class](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html)
 provides more information about the `labelled_spss_survey()` class.
 
@@ -256,7 +257,7 @@ citation("retroharmonize")
 #> 
 #> To cite package 'retroharmonize' in publications use:
 #> 
-#>   Daniel Antal (2021). retroharmonize: Ex Post Survey Data
+#>   Daniel Antal (2022). retroharmonize: Ex Post Survey Data
 #>   Harmonization. https://retroharmonize.dataobservatory.eu/,
 #>   https://github.com/rOpenGov/retroharmonize.
 #> 
@@ -265,7 +266,7 @@ citation("retroharmonize")
 #>   @Manual{,
 #>     title = {retroharmonize: Ex Post Survey Data Harmonization},
 #>     author = {Daniel Antal},
-#>     year = {2021},
+#>     year = {2022},
 #>     note = {https://retroharmonize.dataobservatory.eu/,
 #> https://github.com/rOpenGov/retroharmonize},
 #>   }
