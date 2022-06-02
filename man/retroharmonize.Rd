@@ -29,7 +29,6 @@ and make them usable in a programmatic context.\cr
 
 \section{variable name harmonization functions}{
 
-\code{\link{suggest_permanent_names}}: Suggest the use of variable naming conventions.
 \code{\link{harmonize_survey_variables}}: Create a list of surveys with harmonized variable names.\cr
 }
 
@@ -56,8 +55,8 @@ value labels and harmonize R classes.\cr
 
 \section{metadata functions}{
 
-\code{\link{metadata_create}}: Createa metadata dataa from from one \code{\link{survey}}.\cr 
-\code{\link{metadata_surveys_create}}: Create a joined metadata data frame from more than one survey.\cr 
+\code{\link{metadata_create}}: Createa metadata dataa from one or more \code{\link{survey}}.\cr 
+\code{\link{metadata_survey_create}}: Create a joined metadata data frame from one survey.\cr 
 \code{\link{create_codebook}} and \code{\link{codebook_waves_create}}
 \code{\link{crosswalk_table_create}}: Create an initial crosswalk table from a metadata data frame.\cr
 }

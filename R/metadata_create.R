@@ -48,7 +48,6 @@
 #' )
 #' @export
 
-
 metadata_survey_create <- function(survey) {
   
   ## Assertions before running the function -----------------------------

@@ -15,7 +15,7 @@
 #' \code{'.csv'} \code{\link{read_csv}}.
 #' @param export_path Defaults to \code{NULL}, in this case the read surveys are imported into a single
 #' list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each 
-#' survey an R object with \code{\link{[base]saveRDS}}.
+#' survey an R object with \code{base::\link[base:readRDS]{saveRDS}}.
 #' @return A list of the surveys or a vector of the saved file names.  
 #' Each element of the list is a data
 #' frame-like \code{\link{survey}} type object where some metadata, 
