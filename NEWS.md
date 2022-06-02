@@ -54,6 +54,5 @@ retroharmonize 0.1.6-0.1.12 are making the package ready for CRAN release.
 * retroharmonize 0.1.1-0.1.5 are not intended for release, they contain numerous development stages of a new package.
 
 # retroharmonize 0.1.0
-
 * Added a `NEWS.md` file to track changes to the package.
 * Class definition and description.
