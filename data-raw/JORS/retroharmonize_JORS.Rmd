@@ -38,7 +38,7 @@ A short (ca. 100 word) summary of the software being described: what problem the
 Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys conducted in different periods of time, or in different geographical locations, potentially using different languages.  The retroharmonize package support various data processing, documentation, file/type conversion aspects of various survey harmonization workflows.
 
 ## Keywords
-keyword 1; keyword 2; etc.
+survey data; survey harmonization; open data
 Keywords should make it easy to identify who and what the software will be useful for.
 
 ## Introduction
@@ -173,23 +173,21 @@ Please add any relevant acknowledgements to anyone else who supported the projec
 There was no funding available for the development of this software. 
 
 ## Competing interests 
-If any of the authors have any competing interests then these must be declared. The authors’ initials should be used to denote differing competing interests. For example: “BH has minority shares in [company name], which part funded the research grant for this project. All other authors have no competing interests."
-If there are no competing interests, please add the statement:
 “The authors declare that they have no competing interests.” 
 
-## References 
-Please enter references in the Harvard style and include a DOI where available, citing them in the text with a number in square brackets, e.g.
+<!-- ## References  -->
+<!-- Please enter references in the Harvard style and include a DOI where available, citing them in the text with a number in square brackets, e.g. -->
 
-[1] 	Piwowar, H A 2011 Who Shares? Who Doesn't? Factors Associated with Openly Archiving Raw Research Data. PLoS ONE 6(7): e18657. DOI: http://dx.doi.org/10.1371/journal.pone.0018657.
+<!-- [1] 	Piwowar, H A 2011 Who Shares? Who Doesn't? Factors Associated with Openly Archiving Raw Research Data. PLoS ONE 6(7): e18657. DOI: http://dx.doi.org/10.1371/journal.pone.0018657. -->
+
+<!-- ## Copyright Notice -->
+<!-- Authors who publish with this journal agree to the following terms: -->
+
+<!-- Authors retain copyright and grant the journal right of first publication with the work simultaneously licensed under a Creative Commons Attribution License that allows others to share the work with an acknowledgement of the work's authorship and initial publication in this journal. -->
+
+<!-- Authors are able to enter into separate, additional contractual arrangements for the non-exclusive distribution of the journal's published version of the work (e.g., post it to an institutional repository or publish it in a book), with an acknowledgement of its initial publication in this journal. -->
+
+<!-- By submitting this paper you agree to the terms of this Copyright Notice, which will apply to this submission if and when it is published by this journal. -->
 
 
-
-
-## Copyright Notice
-Authors who publish with this journal agree to the following terms:
-
-Authors retain copyright and grant the journal right of first publication with the work simultaneously licensed under a Creative Commons Attribution License that allows others to share the work with an acknowledgement of the work's authorship and initial publication in this journal.
-
-Authors are able to enter into separate, additional contractual arrangements for the non-exclusive distribution of the journal's published version of the work (e.g., post it to an institutional repository or publish it in a book), with an acknowledgement of its initial publication in this journal.
-
-By submitting this paper you agree to the terms of this Copyright Notice, which will apply to this submission if and when it is published by this journal.
+## References

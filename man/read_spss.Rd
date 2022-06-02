@@ -4,14 +4,7 @@
 \alias{read_spss}
 \title{Read SPSS (`.sav`, `.zsav`, `.por`) files. Write `.sav` and `.zsav` files.}
 \usage{
-read_spss(
-  file,
-  user_na = TRUE,
-  id = NULL,
-  filename = NULL,
-  doi = NULL,
-  .name_repair = "unique"
-)
+read_spss(file, user_na = TRUE, id = NULL, doi = NULL, .name_repair = "unique")
 }
 \arguments{
 \item{file}{An SPSS file.}
@@ -28,7 +21,7 @@ file name without its extension.}
 \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.}
 }
 \value{
-A tibble.
+A tibble:
 
   Variable labels are stored in the "label" attribute of each variable.
   It is not printed on the console, but the RStudio viewer will show it.

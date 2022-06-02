@@ -1,3 +1,7 @@
+# retroharmonize 0.2.5
+* New article [Creating a Harmonized Cultural Access & Participation Dataset for Music](https://retroharmonize.dataobservatory.eu/articles/cap.html)
+* Unified function interface and parameter names.
+
 # retroharmonize 0.2.3
 * New long form documentation.
 * `metadata_surveys_create()` will take now either a list of surveys, or file names of saved surveys.

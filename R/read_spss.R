@@ -23,7 +23,8 @@
 #' @importFrom labelled var_label
 #' @importFrom dplyr bind_cols select_if mutate_all select all_of
 #' @importFrom purrr safely
-#' @return A tibble.
+#' @importFrom utils object.size
+#' @return A tibble:
 #'
 #'   Variable labels are stored in the "label" attribute of each variable.
 #'   It is not printed on the console, but the RStudio viewer will show it.
@@ -45,7 +46,6 @@
 read_spss <- function(file, 
                       user_na = TRUE,
                       id = NULL, 
-                      filename = NULL, 
                       doi = NULL, 
                       .name_repair = "unique") {
   

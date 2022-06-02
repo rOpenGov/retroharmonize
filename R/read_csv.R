@@ -15,6 +15,7 @@
 #' @importFrom utils read.csv
 #' @importFrom tibble as_tibble
 #' @importFrom purrr safely
+#' @importFrom utils object.size
 #' @family import functions
 #' @examples
 #' path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
@@ -26,7 +27,6 @@
 
 read_csv <- function(file,
                      id = NULL, 
-                     filename = NULL, 
                      doi = NULL, 
                      header = FALSE, 
                      sep = "", quote = "\"'",

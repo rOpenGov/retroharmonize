@@ -108,6 +108,7 @@ read_survey <- function(file_path, .f = NULL, export_path = NULL) {
 #' @return The name of the function that should read \code{file_path} based on the file 
 #' extension.
 #' @importFrom fs path_ext path_ext_remove path_file
+#' @importFrom glue glue
 #' @inheritParams read_surveys
 #' @keywords internal
 find_import_function <- function(file_path) {
@@ -123,6 +124,6 @@ find_import_function <- function(file_path) {
   } else if ( survey_file_ext == "csv") { 
     'read_csv'
   } else {
-    stop("No adequate importing function was found for ", file_path.)
+    stop(glue("No adequate importing function was found for {file_path}."))
   }
 }

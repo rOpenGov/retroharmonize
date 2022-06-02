@@ -32,12 +32,13 @@
 #'  
 #' documented <- document_surveys(example_surveys)
 #' 
-#' attr(documented_surveys, "original_list")
-#' documented_surveys
+#' attr(documented, "original_list")
+#' documented
 #' 
 #' document_surveys(survey_paths = file.path(examples_dir, my_rds_files))
 #' 
 #' @export
+#' @importFrom utils object.size
 
 document_surveys <- function(survey_list = NULL, 
                              survey_paths = NULL, 
@@ -59,7 +60,7 @@ document_surveys <- function(survey_list = NULL,
       filename =  vapply ( survey_list, function(x) attr(x, "filename"), character(1)), 
       ncol = vapply (survey_list, ncol, integer(1)), 
       nrow =  vapply ( survey_list, nrow, integer(1)),
-      object_size =  vapply ( survey_list, object.size, double(1))
+      object_size =  vapply ( survey_list, utils::object.size, double(1))
     )
     
     attr(return_df, "original_list")  <- deparse(substitute(survey_list))

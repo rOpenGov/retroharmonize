@@ -173,7 +173,7 @@ Reading the crosswalk table is very simple, for example, the last two (15-16) ro
 
 From a technical perspecitve, the aim of the survey harmonization is to create a single, tidy, joined table. For making joining possible (and to reduce memory use), a first processing step is to remove irrelevant variables that will not be harmonized. 
 
-There are several ways how the subsetting can be made.  With smaller tasks all the surveys can be stored in memory and the subsequent processing made fast in memory. With many surveys, we provide a slower but memory-saving way of importing and subsetting consequtive surveys from files. 
+There are several ways how the subsetting can be made.  With smaller tasks all the surveys can be stored in memory and the subsequent processing made fast in memory. With many surveys, we provide a slower but memory-saving way of importing and subsetting consecutive surveys from files. 
 
 Recall from  the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/metadata.html) that you can read files into a list of surveys: 
 
@@ -263,7 +263,7 @@ readRDS(file.path(tempdir(), "ZA5913_trust_ep.rds")) %>%
 
 Having a subsetted list of surveys with harmonized variable names is usually not yet an output that is ready for statistical analysis.  In the next step, the numerical codes, the variable labels need to be made consistent, with a special attention given to special values, particularly to missing values.
 
-At last, if the statistical analysis will take place in R, a converstion to basic R classes is necessary to rely on the vast arsenal of R’s statistical packages.  This means that the survey data must be brought to a consistent numeric or a consistent factor format (and in some cases, for visualization, to a character format).
+At last, if the statistical analysis will take place in R, a conversion to basic R classes is necessary to rely on the vast arsenal of R’s statistical packages. This means that the survey data must be brought to a consistent numeric or a consistent factor format (and in some cases, for visualization, to a character format).
 
 We created a special s3 class (see `?labelled_spss_survey`), which retains the metadata about coding and special values, and created three methods that take into consideration the retained metadata. For example, if 999 is the code for declined answers, then the base are `as.numeric()` will coerce observations (survey responses) with a value `999` to a numerical value of `999`, but the `as_numeric()` method will give a `NA_real_` representation to this observation.  Averaging numerical, coded values will give a logically wrong result with the basic as.numeric, but a correct with the `as_numeric()` method.
 

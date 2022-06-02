@@ -10,6 +10,7 @@
 #' @importFrom fs path_ext_remove path_file is_file
 #' @importFrom labelled var_label
 #' @importFrom purrr safely
+#' @importFrom utils object.size
 #' @return A tibble, data frame variant with survey attributes.
 #' @family import functions
 #' @examples
@@ -22,7 +23,6 @@
 
 read_rds <- function(file,
                      id = NULL, 
-                     filename = NULL, 
                      doi = NULL) {
   
   source_file_info <- valid_file_info(file)

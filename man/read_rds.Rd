@@ -4,7 +4,7 @@
 \alias{read_rds}
 \title{Read rds file}
 \usage{
-read_rds(file, id = NULL, filename = NULL, doi = NULL)
+read_rds(file, id = NULL, doi = NULL)
 }
 \arguments{
 \item{file}{A path to a file to import.}

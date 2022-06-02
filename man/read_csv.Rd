@@ -7,7 +7,6 @@
 read_csv(
   file,
   id = NULL,
-  filename = NULL,
   doi = NULL,
   header = FALSE,
   sep = "",

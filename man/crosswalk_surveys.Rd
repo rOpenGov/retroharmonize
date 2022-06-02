@@ -8,7 +8,7 @@
 crosswalk_surveys(
   crosswalk_table,
   survey_list = NULL,
-  survey_path = NULL,
+  survey_paths = NULL,
   import_path = NULL,
   na_values = NULL
 )
@@ -27,6 +27,8 @@ will be harmonized to any of \code{factor}, \code{numeric} or \code{character} u
 
 \item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
 \code{NULL}, the \code{survey_path} should give full path to the surveys.}
+
+\item{survey_paths}{A vector of full file paths to the surveys to subset.}
 
 \item{na_values}{A named vector of \code{na_values}, the 
 observations that are defined to be treated as missing in 

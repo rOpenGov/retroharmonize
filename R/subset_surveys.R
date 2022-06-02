@@ -27,6 +27,7 @@
 #' @param subset_vars The names of the variables that should be kept from all surveys in the list that contains the
 #' wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.
 #' @importFrom dplyr select any_of
+#' @importFrom utils object.size
 #' @family subsetting function
 #' @return A list of surveys or save individual rds files on the \code{export_path}.
 #' @examples
@@ -82,6 +83,7 @@ subset_surveys <- function ( survey_list,
     files_to_subset <- dir(import_path)[dir(import_path) %in% fs::path_file(crosswalk_table$filename)]
     files_to_subset <- file.path(import_path, files_to_subset)
   }
+  
   if ( !is.null(export_path)) {
     assert_that(fs::dir_exists(export_path) == TRUE, 
                 msg = " in subset_surveys: the 'export_path' is not a valid path to a directory.")
@@ -127,7 +129,10 @@ subset_surveys <- function ( survey_list,
       
       get_survey_no_ctable <- function(x) {
         this_path <- files_to_subset[x]
-       
+        
+        ### issue 
+        this_id <- NULL
+        
         subset_survey_file(
           file_path = this_path, 
           subset_vars = subset_vars, 
@@ -208,7 +213,7 @@ subset_surveys <- function ( survey_list,
 #' @export
 subset_waves <- function( waves, subset_vars = NULL) {
   .Deprecated(new = "subset_surveys", msg = "subset_waves is deprecated, use subset_surveys instead.")
-  subset_surveys ( survey_list = waves, subset_vars = subset_subset_vars )  
+  subset_surveys ( survey_list = waves, subset_vars = subset_vars )  
 }
 
 

@@ -2,8 +2,10 @@
 title: "Creating a Harmonized Cultural Access & Participation Dataset for Music"
 author: "Daniel Antal"
 output: rmarkdown::html_vignette
-vignette: |
-  %\VignetteIndexEntry{Creating a Harmonized Cultural Access & Participation Dataset} %\VignetteEncoding{UTF-8} %\VignetteEngine{knitr::rmarkdown}
+vignette: >
+  %\VignetteIndexEntry{Creating a Harmonized Cultural Access & Participation Dataset}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
 ---
 
 ```{r knitrsetup, include = FALSE}
@@ -29,7 +31,7 @@ We are going to create a harmonized dataset from two Cultural Access & Participa
 To replicate this example, you must acquire these files from [GESIS](https://www.gesis.org/home) after accepting their terms of use.  The `retroharmonize` project is not affiliated with GESIS.
 
 This vignette article shows you how to replicate our dataset. The results can be found and referenced as:
-* Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5917742](https://doi.org/10.5281/zenodo.5917742)
+* Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220002) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5917742](10.5281/zenodo.6606867)
 
 * Daniel Antal. (2022). Creating a Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [10.5281/zenodo.5917714](https://doi.org/10.5281/zenodo.5917714)
 
@@ -59,9 +61,6 @@ The Eurobarometer master questionnaire is made in English and French, however, t
 - [ZA5688_q_hu.pdf Hungary (Questionnaire) 157.52 KB](https://access.gesis.org/dbk/52206)---the Hungarian questionnaire.
 
 The coding of the survey items are the same in all subsamples.  The SPSS files follows the labelling of the Basic questionnaire, in some cases, with typos, and missing up English and French spelling. The not-normalized labelling makes working with several files challenging.
-
-
-
 
 ## Import and Inventory
 
@@ -108,7 +107,7 @@ weight_variables <- cap_metadata %>%
                                          "weight_result_from_traget_united_kingdom"))
 ```
 
-A *schema crosswalk* is a table that shows equivalent elements (or "fields") in more than one structured data source. With `crosswalk_table_create()` we first create an empty schema crosswalk, then we fill up the empthy schema with values.  Researchers who feel more comfortable working in a spreadsheet application can create a similar crosswalk table in Excel, Numbers, or OpenOffice, and import the data from a `csv` or any tabular file.
+A *schema crosswalk* is a table that shows equivalent elements (or "fields") in more than one structured data source. With `crosswalk_table_create()` we first create an empty schema crosswalk, then we fill up the empty schema with values.  Researchers who feel more comfortable working in a spreadsheet application can create a similar crosswalk table in Excel, Numbers, or OpenOffice, and import the data from a `csv` or any tabular file.
 
 ```{r weightcrosswalk}
 ## See https://github.com/rOpenGov/retroharmonize/issues/21
@@ -241,7 +240,7 @@ Now we have three variables including the `is_student` dummy:
 summary(demography_vars)
 ```
 
-You can test yourself if people with `age_educaton`=20 are a homogeneous group, or they should be treated as a still studying group who have already been educated up to 20 years, and a group who had already left eductation at the age of 20. If the two groups are homogeneous, then you will no longer need to use the `is_student` variable.
+You can test yourself if people with `age_educaton`=20 are a homogeneous group, or they should be treated as a still studying group who have already been educated up to 20 years, and a group who had already left education at the age of 20. If the two groups are homogeneous, then you will no longer need to use the `is_student` variable.
 
 ```{r printdemography}
 set.seed(1235)
@@ -264,7 +263,7 @@ Our variables of interest are visiting frequencies to concerts and public librar
 2.	`1-2 times` will be coded to the programatically easier to use `1_2_times`, and it will get a numeric value of `1.5`.  Later, we will try to establish a better numeric value, now it is important that all responses labelled as `1-2 times` should have the same numeric code.
 3.	`3-5 times` will be coded to the numeric value of `3.5` and `3_5_times`.
 4.	`More than 5 times` will be `more_than_5` and have the numeric value of `6`.
-5.	The special case of `DK` will be coded as `declined` (to anwer) and the *Inap...* lables to `inap`.  These are special codes in Eurobarometer meaning that the item is inappropriate, i.e. due to some filtering, this particular question was not asked from the respondant. While respondents who consciously decline an answer usually form a rather homogenous category of their own, the ianppropriate answers are truly missing answers.  Their numeric representation will be both `NA` (f.e. they should be omitted from a numeric average.)
+5.	The special case of `DK` will be coded as `declined` (to anwer) and the *Inap...* labels to `inap`.  These are special codes in Eurobarometer meaning that the item is inappropriate, i.e. due to some filtering, this particular question was not asked from the respondent. While respondents who consciously decline an answer usually form a rather homogenous category of their own, the inappropriate answers are truly missing answers.  Their numeric representation will be both `NA` (f.e. they should be omitted from a numeric average.)
 
 For code readability, we show the following data pipeline in sections, but you could of course create this code in a single expression---or create the resulting table in a spreadsheet application, if you are not aiming for full reproducibility in your research.
 
@@ -378,7 +377,7 @@ set.seed(2022)
 cap_vars_fct %>% sample_n(6)
 ```
 
-The other will give these variable a numeric representation. The `crosswalk()` function will use the retroharmonize `as_numeric` method instead of base R's `as.numeric` to avoid unexpected coerction in the case of labelled missing cases.
+The other will give these variable a numeric representation. The `crosswalk()` function will use the retroharmonize `as_numeric` method instead of base R's `as.numeric` to avoid unexpected coercion in the case of labelled missing cases.
 
 ```{r capnum}
 cap_vars_crosstable_num <- cap_vars_crosstable %>%
@@ -467,7 +466,7 @@ write.csv(harmonized_cap_file,
           row.names = FALSE)
 ```
 
-Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5917742](https://doi.org/10.5281/zenodo.5917742)
+Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220002) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5917742](10.5281/zenodo.6606867)
 
 Daniel Antal. (2022). Creating a Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [10.5281/zenodo.5917714](https://doi.org/10.5281/zenodo.5917714)
 

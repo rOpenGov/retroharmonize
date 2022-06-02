@@ -1,3 +1,58 @@
+#' @title Create a metadata table from several surveys
+#' @rdname metadata_create
+#' @param inheritParams read_surveys
+#' @family metadata functions
+#' @examples
+#' examples_dir <- system.file( "examples", package = "retroharmonize")
+#'
+#' my_rds_files <- dir( examples_dir)[grepl(".rds", 
+#'                                         dir(examples_dir))]
+#'
+#' example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
+#' metadata_create (example_surveys)
+#' @export
+
+metadata_create <- function ( survey_list = NULL, 
+                              survey_paths = NULL, 
+                              .f = NULL) {
+  
+  if ( !is.null(survey_list) ) {
+    validate_survey_list(survey_list)
+    if (! "list" %in% class(survey_list)) {
+      assert_that(is.survey(survey_list), 
+                  msg = "metadata_create(survey_list, ...) is neither a list nor a survey.")
+      survey_id <-  attr(survey_list, "id")
+      survey_list <- list ( i = survey_list )
+      names(survey_list)[1] <-survey_id
+    }
+    metadata_list <- lapply ( survey_list, metadata_survey_create )
+    do.call ( rbind, metadata_list )
+  } else if (is.null(survey_paths)) {
+    stop("Error in metadata_surveys_create(): both 'survey_list' and 'survey_paths' are NULL.")
+  } else {
+    validate_survey_files (survey_paths)
+    read_survey_create_metadata <- function(x, .f) {
+      tmp <- read_survey(x, .f)
+      message ("Read: ", x)
+      metadata_survey_create(tmp)
+    }
+    
+    metadata_list <- lapply ( X = survey_paths, 
+                              FUN = function(x) read_survey_create_metadata(x, .f) )
+    do.call(rbind, metadata_list)
+  }
+}
+
+#' @rdname metadata_create
+#' @details The form \code{metadata_waves_create} is deprecated.
+
+metadata_waves_create <- function(survey_list) {
+  .Deprecated(new = "metadata_surveys_create",
+              msg = "metadata_waves_create() is deprecated, use create_surveys_metadata() instead", 
+              old = "merge_waves")
+  metadata_survey_create(survey_list)
+}
+
 #' @title Create a metadata table
 #' 
 #' @description Create a metadata table from the survey data files.
@@ -54,21 +109,20 @@ metadata_survey_create <- function(survey) {
   if ( "list" %in% class(survey) ) {
     assert_that(all(vapply ( survey, is.survey, logical(1))), 
                 msg = "Parameter 'survey' is not of s3 class survey or a list of them. See ?is.survey.")
-    metadata_df <- metadata_surveys_create(survey_list = survey)
+    metadata_df <- metadata_create(survey_list = survey)
     return(metadata_df)
   } else if ( 
     # Accidentally the file names were supplied.
     # This will validate if the surveys are indeed existing files.
     is.character(survey) ) {
-    warning("The parameter 'survey' is not a single survey but a character vector. Try to understand them as a file names. See ?metadata_surveys_create.")
-    metadata_df <- metadata_surveys_create(survey_files = survey)
+    warning("The parameter 'survey' is not a single survey but a character vector. Try to understand them as a file names. See ?metadata_create.")
+    metadata_df <- metadata_create(survey_list = survey)
     return(metadata_df)
   } else {
     assert_that(is.survey(survey), 
                 msg = "Parameter 'survey' must be of s3 class survey. See ?is.survey.")
   }
 
-  
   filename <- attr(survey, "filename")
   
   if (is.null(filename)) filename <- "unknown"
@@ -176,60 +230,6 @@ metadata_survey_create <- function(survey) {
     select ( -.data$label_type )
 }
 
-#' @title Create a metadata table from several surveys
-#' @rdname metadata_create
-#' @param inheritParams read_surveys
-#' @family metadata functions
-#' @examples
-#' examples_dir <- system.file( "examples", package = "retroharmonize")
-#'
-#' my_rds_files <- dir( examples_dir)[grepl(".rds", 
-#'                                         dir(examples_dir))]
-#'
-#' example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
-#' metadata_create (example_surveys)
-#' @export
-
-metadata_create <- function ( survey_list = NULL, 
-                              survey_paths = NULL, 
-                              .f = NULL) {
- 
-  if ( !is.null(survey_list) ) {
-    validate_survey_list(survey_list)
-    if (! "list" %in% class(survey_list)) {
-      assert_that(is.survey(survey_list), 
-                  msg = "metadata_create(survey_list, ...) is neither a list nor a survey.")
-      survey_id <-  attr(survey_list, "id")
-      survey_list <- list ( i = survey_list )
-      names(survey_list)[1] <-survey_id
-    }
-    metadata_list <- lapply ( survey_list, metadata_survey_create )
-    do.call ( rbind, metadata_list )
-  } else if (is.null(survey_paths)) {
-    stop("Error in metadata_surveys_create(): both 'survey_list' and 'survey_paths' are NULL.")
-  } else {
-    validate_survey_files (survey_paths)
-    read_survey_create_metadata <- function(x, .f) {
-      tmp <- read_survey(x, .f)
-      message ("Read: ", x)
-      metadata_survey_create(tmp)
-    }
-    
-    metadata_list <- lapply ( X = survey_paths, 
-                              FUN = function(x) read_survey_create_metadata(x, .f) )
-    do.call(rbind, metadata_list)
-  }
-}
-
-#' @rdname metadata_create
-#' @details The form \code{metadata_waves_create} is deprecated.
-
-metadata_waves_create <- function(survey_list) {
-  .Deprecated(new = "metadata_surveys_create",
-              msg = "metadata_waves_create() is deprecated, use create_surveys_metadata() instead", 
-              old = "merge_waves")
-  metadata_surveys_create(survey_list)
-  }
 
 #' @title Initialize a metadata data frame
 #'

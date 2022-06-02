@@ -35,7 +35,6 @@
  
 read_dta <- function(file, 
                       id = NULL, 
-                      filename = NULL, 
                       doi = NULL, 
                       .name_repair = "unique") {
   

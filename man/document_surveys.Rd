@@ -51,8 +51,8 @@ example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
  
 documented <- document_surveys(example_surveys)
 
-attr(documented_surveys, "original_list")
-documented_surveys
+attr(documented, "original_list")
+documented
 
 document_surveys(survey_paths = file.path(examples_dir, my_rds_files))
 

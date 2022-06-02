@@ -48,10 +48,10 @@
 #' @export
 
 crosswalk_surveys <- function(crosswalk_table, 
-                              survey_list = NULL, 
-                              survey_path = NULL,
-                              import_path = NULL,
-                              na_values = NULL ) {
+                              survey_list  = NULL, 
+                              survey_paths = NULL,
+                              import_path  = NULL,
+                              na_values    = NULL ) {
   
   # Check if the crosswalk_table can be used
   is.crosswalk_table(crosswalk_table)
@@ -351,7 +351,7 @@ is.crosswalk_table <- function(ctable) {
     distinct_all() %>%
     group_by ( across(c("var_name_target", "id"))) %>%
     tally() %>%
-    filter ( n>1) %>%
+    filter ( .data$n>1) %>%
     select (.data$var_name_target ) %>%
     unlist()
   
