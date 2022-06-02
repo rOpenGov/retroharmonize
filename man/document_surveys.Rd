@@ -49,7 +49,7 @@ my_rds_files <- dir( examples_dir)[grepl(".rds",
 
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
  
-documented_surveys <- document_surveys(survey_list=example_surveys)
+documented <- document_surveys(example_surveys)
 
 attr(documented_surveys, "original_list")
 documented_surveys
