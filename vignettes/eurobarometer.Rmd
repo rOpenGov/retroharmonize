@@ -43,7 +43,7 @@ eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
 ```{r import-here, echo=FALSE}
 working_dir  <- here::here("working")
 eurobarometer_waves <- file.path(working_dir, dir(working_dir))
-eb_waves <- read_surveys(eurobarometer_waves, .f='read_rds')
+eb_waves            <- read_surveys(eurobarometer_waves, .f='read_rds')
 ```
 
 We can review if the main descriptive metadata is correctly present with `document_surveys()`.

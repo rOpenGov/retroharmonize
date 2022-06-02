@@ -222,6 +222,7 @@ subset_waves <- function( waves, subset_vars = NULL) {
 subset_save_surveys  <- function ( crosswalk_table, 
                                    subset_name = "subset",
                                    survey_list = NULL,
+                                   subset_vars = NULL,
                                    survey_paths = NULL,
                                    import_path = NULL, 
                                    export_path = NULL) {
