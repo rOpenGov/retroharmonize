@@ -43,9 +43,9 @@ document_surveys <- function(survey_list = NULL,
                              survey_paths = NULL, 
                              .f = NULL ) {
   
-  if ( !is.null(survey_list)) {
+  if ( !is.null(survey_list) ) {
     validate_survey_list(survey_list)
-  } else if ( !is.null(survey_paths)) {
+  } else if ( !is.null(survey_paths) ) {
     validate_survey_files(survey_paths)
   } else {
     stop(" in document_surveys() - both 'survey_list' and 'survey_path' is NULL.")
