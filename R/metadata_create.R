@@ -131,7 +131,8 @@ metadata_survey_create <- function(survey) {
   
   if( ncol(survey) == 0) {
     # Special case when file could not be read and survey is empty
-    return(metadata_initialize(filename = filename, id = paste0(filename, " could not be read.")))
+    return(metadata_initialize(filename = filename, 
+                               id = paste0(filename, " could not be read.")))
   }
   
   var_label_orig  <- lapply (survey, labelled::var_label)
@@ -165,7 +166,7 @@ metadata_survey_create <- function(survey) {
   to_list_column <- function(.f = "na_values") {
     
     # We use sapply because the length is to be discovered. 
-    
+
     x <- case_when ( 
       .f == "na_labels" ~ sapply (survey, na_labels),  # internal function above
       .f == "na_range"  ~ sapply (survey, labelled::na_range), 
@@ -178,29 +179,48 @@ metadata_survey_create <- function(survey) {
     x
   }
   
+  
   range_df  <- tibble::tibble (
     var_name_orig = names(survey),
-    labels = to_list_column(.f = "labels"),
-    valid_labels = to_list_column(.f = "valid_range"),
-    na_labels = to_list_column(.f = "na_labels"),
-    na_range = to_list_column (.f = "na_range")
-    )
+    labels = rep(NA_character_, length(names(survey))),
+    valid_labels = rep(NA_character_, length(names(survey))),
+    na_labels = rep(NA_character_, length(names(survey))),
+    na_range = rep(NA_character_, length(names(survey))),
+    n_labels = rep(0, length(names(survey))), 
+    n_valid_labels = rep(0, length(names(survey))), 
+    n_na_labels = rep(0, length(names(survey))), 
+  )
   
-  label_length <- function(x) {
+  if(
+    any(vapply(lapply(survey, class), function(x) any(grepl("labelled", x)), logical(1)))
+    ) {
+    range_df  <- tibble::tibble (
+      var_name_orig = names(survey),
+      labels = to_list_column(.f = "labels"),
+      valid_labels = to_list_column(.f = "valid_range"),
+      na_labels = to_list_column(.f = "na_labels"),
+      na_range = to_list_column (.f = "na_range")
+    ) 
+    label_length <- function(x) {
+      
+      ifelse ( is.na(x[[1]])[1] | length(x[[1]]) ==0,
+               0, length(x[[1]]) )
+    }
     
-    ifelse ( is.na(x[[1]])[1] | length(x[[1]]) ==0,
-             0, length(x[[1]]) )
-  }
-  
-  range_df$n_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$labels[x]), numeric(1))
-  range_df$n_valid_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$valid_labels[x]), numeric(1))
-  range_df$n_na_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$na_labels[x]), numeric(1))
-  
+    range_df$n_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$labels[x]), numeric(1))
+    range_df$n_valid_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$valid_labels[x]), numeric(1))
+    range_df$n_na_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$na_labels[x]), numeric(1))
+    
+  } else {
+    ## Special case when there are no labelled variables present
+      return(metadata %>% left_join ( range_df, 
+                                      by = "var_name_orig" ) %>% as.data.frame())
+    }
 
   return_df <- metadata %>%
-    left_join ( range_df %>% 
-                  group_by ( .data$var_name_orig ) %>%
-                  tidyr::nest() , 
+    left_join (  range_df %>% 
+                   group_by ( .data$var_name_orig ) %>%
+                   tidyr::nest(), 
                 by = "var_name_orig") %>%
     tidyr::unnest ( cols = "data" )  %>%
     ungroup() %>%

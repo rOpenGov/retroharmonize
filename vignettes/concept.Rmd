@@ -1,0 +1,207 @@
+---
+title: "Harmonizing Concepts, Questions, and Variables"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Harmonizing Concepts, Questions, and Variables}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup, message=FALSE}
+library(retroharmonize)
+library(dplyr)
+```
+
+The first step of retrospective harmonization is finding the relevant concepts, operationalized in questions that need to be harmonized among two or more surveys.
+
+## Concept
+
+
+## Quesitons
+
+```{r surveyfiles}
+examples_dir <- system.file("examples", package = "retroharmonize")
+survey_files <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
+survey_files
+```
+
+```{r surveypaths}
+survey_paths <- file.path(examples_dir, survey_files)
+```
+
+With smaller data frames representing your surveys, the most efficient way to work with the information is to read them into a list of surveys. 
+
+Read the surveys into a list object in the memory:
+
+```{r readtolist}
+example_surveys <- read_surveys(survey_paths, .f = "read_rds")
+```
+
+
+If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
+
+```{r createmetadatasurveys, eval=FALSE}
+#not evaluated
+example_metadata <- metadata_create ( survey_paths = survey_paths, .f = "read_rds")
+```
+
+Let's work in the memory now. Map the metadata contents of the files:
+
+```{r processlist}
+set.seed(2022)
+metadata_create(survey_list = example_surveys) %>%
+  dplyr::sample_n(12)
+```
+The current retroharmonize uses the metadata_create() function to restore the encoded metadata into a tidy table that can be the start of further steps.  This function should be revised after much use, and brought to a simpler format, and renamed, preferably choosing a DDI Glossary term. (Ingest?  Or just mapping?  Should not contain any tidyverse verbs.)
+C2: The selected variables from the metadata table (which needs a better word) we subset the surveys either in memory or, in case of many files, sequentially from file.  This the subset_survey() function. It will need a thorough upgrade to correctly retain the attributes of the datacube-inheritted new survey class, but it functions well.
+
+This stage should be harmonized with the [DDI Codebook](https://ddialliance.org/training/getting-started-new-content/create-a-codebook). One problem appears to me is that DDI calls a “codebook” differently than we do.  DDI uses the term codebook on the level of file (survey), and we use it on the level of individual observations. 
+
+> Codebook: A document that provides information on the structure, contents, and layout of a data file. Source: [DDI Glossary](https://ddialliance.org/taxonomy/term/165).
+
+Here is a DDI Codebook example in [PDF](https://ddialliance.org/sites/default/files/National%20Household%20Survey,%202011%20%5bCanada%5d%20Public%20Use%20Microdata%20File%20(PUMF)-%20Individuals%20File.pdf).
+
+Because normally we want to use standardized codes, and we started to harmonize with the SDMX statistical metadata standard, a good resolution seems to be to differentiate between a Codebook (DDI term) and a Codelist (SDMX term, but I am sure it has a more general RDF definition.)
+
+We roughly have a DDI Codebook regarding the concepts and question items, but the number of Valid and Invalid responses were not collected at ingestion:
+
+```{r}
+set.seed(12)
+example_metadata %>% 
+  select ( Filename = .data$filename,
+           Name = .data$var_name_orig, 
+           Label = .data$var_label_orig, 
+           Type =  .data$class_orig, 
+           Format = .data$labels) %>%
+  mutate ( Valid = NA_real_, 
+           Invalid = NA_real_, 
+           Question = NA_character_) %>%
+  sample_n(12)
+```
+
+The DDI Codebook is however, a lot more, because it contains survey-level metadata that we did not use in retroharmonize so far. We assumed that the user (researcher) did a comparison of sampling methods, collection modes, etc, which are all part of the DDI Codebook standard.
+
+It would be very easy to write a codebook_create() function that would create a partial DDI codebook as a component of a future DDI Codebook function codebook_create_ddi() and keep working with this.
+
+However, we have a problem, the current, released retroharmonize has a more complex `create_codebook()` function. This should be depracted.
+
+```{r}
+set.seed(12)
+my_codebook <- create_codebook (
+ survey = read_rds (
+          system.file("examples", "ZA7576.rds",
+                      package = "retroharmonize")
+          )
+)
+
+sample_n(my_codebook, 12)
+```
+
+
+## Reproducible research tasks
+
+The tasks that we do with this information is variable name and variable label harmonization.
+
+```{r}
+metadata <- metadata_create(example_surveys)
+metadata$var_name_suggested <- label_normalize(metadata$var_name)
+metadata$var_name_suggested[metadata$label_orig == "age_education"] <- "age_education"
+
+harmonized_example_surveys <- harmonize_var_names(survey_list = example_surveys, 
+                                                  metadata    = metadata )
+
+lapply(harmonized_example_surveys, names)
+```
+There is, however, an important extra step, what the DDI codebook calls Type and Format matching.  This is software/computer language dependent, but our codebook could easily accommodate this with containing the generic DDI Codebook
+
+```{r, results='asis', message=FALSE}
+data.frame ( 
+  Type = rep("discrete", 3),
+  Format = c("numeric-1.0", "numeric-2.0", "numeric-6.0"),
+  r_type = rep("integer",3), 
+  range = c("0..9", "10..99", "100000..999999" )
+  ) %>% knitr::kable()
+```
+
+These variables can be mapped either to our [labelled_spss_survey](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html) class or Adrian Dusa's [declared](https://github.com/dusadrian/declared).
+
+Considerations:
+- The *labelled_spss_survey* or *declared* is necessary because R does not have a missing case identifier that can distinguish declined answers or answers that were not collected.
+- There must be a clear coercion (without "lazy" and ambigous coercion) to at least R integer, numeric, character or factor classes for further use in R's statistical functions or visualization functions.
+- Integers can easily be coerced into characters, but this is not necessarily a good idea, because some functions anyway want a numeric input, and characters require a lot more space to be stored in memory or in a file. 
+
+```{r}
+as.integer(1982)
+as.character(as.integer(1982))
+```
+we can assume that we only use integer representation for coded questionnaire items, but we still may have open text responses or observation identifiers that are character vectors.  It is likely that the use of character-represented identifiers is a better idea in later stages. So we must work with a class that can be converted (coerced) into both integer (numeric) and character formats. 
+
+The choice has profound consequences for variable label harmonization and the harmonization of codelists, but not at the level of concepts, questions and codebooks.
+
+```{r, results='asis', message=FALSE}
+data.frame ( 
+  Type = rep("discrete", 3),
+  Format = c("numeric-1.0", "numeric-2.0", "numeric-6.0"),
+  r_type = rep("declared",3), 
+  range = c("Male|Female|DK", "10..99", "100000..999999" )
+  ) %>% knitr::kable()
+```
+
+## Question Banks
+
+Question banks contain information about questions asked about the same concepts in different surveys.
+
+"Using DDI as a foundation for a question bank enables you to reuse metadata and to find identical and similar questions and or response sets across surveys for purposes of data comparison, harmonization, or new questionnaire development." 
+
+[Create a Question Bank](https://ddialliance.org/training/getting-started/create-a-question-bank)
+
+**Social Science Variables Database**: (located at ICPSR) 
+Search over 4 million variables. 
+Also able to compare questions across studies and series.
+<http://www.icpsr.umich.edu/icpsrweb/ICPSR/ssvd/index.jsp>
+
+**UK Data Service Variable and Question Bank**:
+Search hundreds of surveys.
+<http://discover.ukdataservice.ac.uk/variables>
+
+**Survey Data Netherlands**:
+Over 36,000 questions to search. 
+<http://surveydata.nl>
+
+Obviously we should facilitate the use of existing question banks, and create question banks that interoperable with existing ones.
+
+Let’s take a look at concerts in the Eurobarometer series.
+<https://www.icpsr.umich.edu/web/ICPSR/series/26/variables?q=concert>
+Here is the variable that we use in our use case:
+<https://www.icpsr.umich.edu/web/ICPSR/studies/35505/datasets/0001/variables/QB1_4?archive=icpsr>
+
+A short caveat:  the questionnaire item may or may not be copyright protected.  The reuse of the questionnaire requires further research.
+
+Here we have Values (1…5) and their labels (Not in the last 12 months, 1-2 times, etc)
+
+- We must clarify with Eurobarometer, Afrobarometer, etc, if we can reuse their questions in question banks, and are researchers to use it in harmonized surveys?
+
+The question bank information already contains information for the next step, the harmonization of value labels and codelists not covered in this vignette.
+
+## Literature review
+
+- Standard view in the literature on concept and question harmonization. Any difference with ex ante and ex post harmonization?
+- Comparison of the DDI Constructs: Concept, Question --- correctly representing this in our function descriptions and vignettes.
+
+## Coding tasks {#concept=coding}
+
+We should follow the [rOpenSci Packages: Development, Maintenance, and Peer Review](https://devguide.ropensci.org/) for future changes.  In designing and deprecating functions, the relevant parts are 
+
+- [1.3.1 Function and argument naming](https://devguide.ropensci.org/building.html#function-and-argument-naming)
+- [15 Package evolution - changing stuff in your package](https://devguide.ropensci.org/evolution.html)
+
+1. `create_codebook()` will be deprecated, luckily, it does not meet the rOpenSci object_verb suggestion.
+2. `codebook_create()` will create a DDI-Codebook compatible, partial codebook, only covering tasks that are relevant for retroharmonize. The core of the codebook will be compatible with DDI-Codebook, but further information about the R specific implementation of the codebook will be added.
+3. `codebook_export_ddi()` will add further data (whatever we have but do not use) to make a more complete, but not necessarily complete DDI Codebook object.  [Not a high priority now.]

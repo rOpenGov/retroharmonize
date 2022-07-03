@@ -18,6 +18,15 @@ intro:
   - title: "Get Started"
 
 articles:
+  - title: "Conceptual"
+    desc: >
+     We try to bulid a correspondance with the DDI and SDMX standards, the exiting 
+     literature and our own practice.
+    contents:
+      - concept
+      - codelist
+      - crosswalk
+      - harmonize_labels
   - title: "Tutorials"
     desc: >
       An overview of the harmonization workflow and support for 
@@ -27,9 +36,8 @@ articles:
     contents: 
       - survey_harmonization
       - metadata
-      - crosswalk
-      - harmonize_labels
       - documentation
+      - retroharmonize
   - title: "Use cases"
     desc: >
       Real-life examples with thee major harmonized survey program's 
@@ -69,20 +77,12 @@ reference:
       - metadata_create
       - metadata_survey_create
       - retroharmonize
-  - title: "Crosswalk"
-    desc: > 
-     Laying out the harmonization **crosswalk scheme** (unifying variable names, codes,
-     labels.) See the vignette [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) for examples and further clarification.
-    contents:
-      - crosswalk_table_create
-      - crosswalk
-  - title: "Subsetting"
+  - title: "Codebooks"
     desc: >
-     Remove variables that **cannot be harmonized** in your workflow either in 
-     memory (faster for smaller tasks) or sequentially from files.
-     See the vignette [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) for examples and further clarification.
-    contents:
-       - subset_surveys
+     The new functions will follow the DDI and SDMX terminology. 
+     See vignette [Harmonizing Concepts, Questions, and Variables](https://retroharmonize.dataobservatory.eu/articles/concept.html) 
+    contents: 
+      - codebook_create
   - title: "Harmonize variable names"
     desc: > 
      Before joining variables containing responses about the same concept, make
@@ -92,6 +92,13 @@ reference:
        - harmonize_var_names
        - var_label_normalize
        - harmonize_survey_variables
+  - title: "Codelists"
+    desc: >
+     The new functions will follow the DDI and SDMX terminology. The old terminology uses
+     variable harmonization (below).
+          See vignette [Value Labels and Codelists](https://retroharmonize.dataobservatory.eu/articles/codelist.html) 
+    contents: 
+      - codelist_create
   - title: "Harmonize numerical codes and labels"
     desc: > 
      To merge variables from different surveys into a single variable, you must make sure that 
@@ -112,6 +119,20 @@ reference:
         - collect_na_labels
         - na_range_to_values
         - harmonize_na_values
+  - title: "Crosswalk"
+    desc: > 
+     Laying out the harmonization **crosswalk scheme** (unifying variable names, codes,
+     labels.) See the vignette [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) for examples and further clarification.
+    contents:
+      - crosswalk_table_create
+      - crosswalk
+  - title: "Subsetting"
+    desc: >
+     Remove variables that **cannot be harmonized** in your workflow either in 
+     memory (faster for smaller tasks) or sequentially from files.
+     See the vignette [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) for examples and further clarification.
+    contents:
+       - subset_surveys
   - title: "Documentation functions"
     desc: > 
        These functionality requires a thorough review.
@@ -135,6 +156,3 @@ reference:
         - as_factor
         - as_numeric
         - as_character
-     
-
-

@@ -350,7 +350,6 @@ cap_vars_crosstable <- cap_vars_crosstable %>%
     .data$val_label_target == "not_mentioned" ~ 0,
     TRUE ~ .data$na_numeric_target
   ))
-
 ```
 
 At last, we create two versions of the crosswalk table. 
@@ -360,7 +359,7 @@ One will rename the `visit_concert` variable to `fct_visit`, and give them the c
 ```{r capfct}
 cap_vars_crosstable_fct <- cap_vars_crosstable %>%
   mutate ( var_name_target = ifelse(
-           test = grepl("^visit|^artistic", .data$var_name_target), 
+           test = grepl("^visit|^artistic|^cultural|^activity", .data$var_name_target), 
            yes  = paste0("fct_", .data$var_name_target), 
            no   = .data$var_name_target), 
            class_target = ifelse(
@@ -400,7 +399,8 @@ cap_vars_crosstable_num %>% sample_n(6)
 Using [dplyr::left_join](https://dplyr.tidyverse.org/reference/mutate-joins.html) we join together by the survey `id` and the observation `rowid` the categorical and numeric representations of the CAP surveys, then add the demography variables, then add the weights.
 
 ```{r joinharmoinzed}
-harmonized_cap_file <- cap_vars_fct %>%
+names(cap_vars_fct)
+harmonized_cap_file <- cap_vars_fct %>% 
   left_join ( cap_vars_num,    by = c("id", "rowid") ) %>%
   left_join ( demography_vars, by = c("id", "rowid") ) %>%
   left_join ( weight_vars,     by = c("id", "rowid") )
@@ -458,15 +458,14 @@ harmonized_cap_file %>%
 
 You can find this harmonized dataset on Zenodo in the [Digital Music Observatory](https://zenodo.org/communities/music_observatory/) and the [Cultural Creative Sectors Industries Data Observatory](https://zenodo.org/communities/ccsi/) repositories. It was exported with the following code:
 
-
 ```{r savefile, eval=FALSE}
 saveRDS(harmonized_cap_file,  file.path(tempdir(), "harmonized_cap_dataset.rds"))
 write.csv(harmonized_cap_file,  
-          file.path(tempdir(), "harmonized_cap_file_20220129_doi_10_5281_zenodo_5917742.csv"), 
+          file.path(tempdir(), "harmonized_cap_file_20220603_doi_10_5281_zenodo_6611645.csv"), 
           row.names = FALSE)
 ```
 
-Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220002) [Data set]. Zenodo. [https://doi.org/10.5281/zenodo.5917742](10.5281/zenodo.6606867)
+* Daniel Antal. (2022). Harmonized Cultural Access & Participation Dataset for Music (Version 20220603) [Data set]. Zenodo. [10.5281/zenodo.6611645](https://doi.org/10.5281/zenodo.6611645)
 
-Daniel Antal. (2022). Creating a Harmonized Cultural Access & Participation Dataset for Music (Version 20220129) [Data set]. Zenodo. [10.5281/zenodo.5917714](https://doi.org/10.5281/zenodo.5917714)
+* Daniel Antal. (2022). Creating Harmonized Cultural Access & Participation Dataset for Music (Version 20220603) [Documentation]. Zenodo. [10.5281/zenodo.6611640](https://doi.org/10.5281/zenodo.6611640)
 

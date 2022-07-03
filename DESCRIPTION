@@ -1,8 +1,8 @@
 Type: Package
 Package: retroharmonize
 Title: Ex Post Survey Data Harmonization
-Version: 0.2.5
-Date: 2022-06-02
+Version: 0.2.5.001
+Date: 2022-07-03
 Authors@R: c(
     person("Daniel", "Antal", , "daniel.antal@ceemid.eu", role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760")),
@@ -69,6 +69,6 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.1.2
+RoxygenNote: 7.2.0
 X-schema.org-isPartOf: http://ropengov.org/
 X-schema.org-keywords: ropengov

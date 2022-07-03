@@ -1,6 +1,10 @@
 #' @title Harmonize the values and labels of labelled vectors
-#' 
-#' 
+#' @description Create a labelled vector with harmonized numeric coding and 
+#' value labels.
+#' @details Create a labelled vector that contains in its metadata attributes
+#' the original labelling, the original numeric coding and the current
+#' labelling, with the numerical values representing the harmonized
+#' coding.
 #' @param x A labelled vector
 #' @param harmonize_label A character vector of 1L containing the new,
 #' harmonize variable label. Defaults to \code{NULL}, in which case 

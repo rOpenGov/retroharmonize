@@ -32,6 +32,16 @@ and make them usable in a programmatic context.\cr
 \code{\link{harmonize_survey_variables}}: Create a list of surveys with harmonized variable names.\cr
 }
 
+\section{codebook functions}{
+
+\code{\link{codebook_create}}: A not yet working function.
+}
+
+\section{codelist functions}{
+
+\code{\link{codelist_create}}: A not yet working function.
+}
+
 \section{variable label harmonization functions}{
 
 Create consistent coding and labelling.\cr 

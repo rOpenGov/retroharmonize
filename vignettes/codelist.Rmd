@@ -1,0 +1,107 @@
+---
+title: "Value Labels and Codelists"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Value Labels and Codelists}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+DDI uses the term codebook on the level of file (survey), and we use it on the level of individual observations. Because normally we want to use standardized codes, and we started to harmonize with the SDMX statistical metadata standard, a good resolution seems to be to differentiate between a Codebook (DDI term) and a Codelist (SDMX term, but I am sure it has a more general RDF definition.)
+
+```{r setup, message=FALSE}
+library(retroharmonize)
+library(dplyr)
+library(knitr)
+```
+
+The idea of value label or codelist harmonization is that for example the Marital (Civil) status variable's codes are always `8="Single liv w partner: childr this/prev union"`. To recall [Harmonizing Concepts, Questions and Variables](https://retroharmonize.dataobservatory.eu/articles/concept.html)., the variable harmonization makes sure that each survey has a `marital status` variable.
+
+DDI leaves it to the Question Banks to harmonize the questionnaire items, and unfortunately this is a very bad idea. Eurobarometer, for example, consistently uses obsolete region codes and labels. (See below for example `FR23`=`Haute Normandie`). This creates a lot of tasks for retroharmonize even in nominally ex ante harmonized survey programs like Eurobaromter or Afrobarometer. 
+
+```{r}
+set.seed(12)
+my_codebook <- create_codebook (
+ survey = read_rds (
+          system.file("examples", "ZA7576.rds",
+                      package = "retroharmonize")
+          )
+)
+
+sample_n(my_codebook, 12) %>%
+  select ( .data$filename, 
+           # Rename variables to DDI Codebook names
+           Name = .data$var_name_orig, 
+           Label = .data$var_label_orig, 
+           .data$val_code_orig, .data$val_label_orig ) %>%
+  kable()
+```
+
+It is beyond the scope of the retroharmonize package to faciliate the use of correct variable codes, however, this is so desirable that we started new, CRAN-released packages. It would be desirable if the regions are coded and labeled in a way that they can be matched with regional data or placed on a map. While `BE21`=`Antwerpen` had been rather stable in the last decades, the `FR23`=`Haute Normandie` not, because France had a major regional reform in 2015. (Our regions package only deals with this particular problem.)
+
+## Use standard codelists
+
+The use of standard codelists facilitates data interoperability and the production of publication-ready statistical products. The [statcodelists](https://statcodelists.dataobservatory.eu/) package contains the SDMX [published as an ISO International Standard (ISO 17369)] codelist standards used by major statistical agencies. 
+
+```{r}
+library(statcodelists)
+CL_SEX
+```
+We can generate further codes for non-binary people, using the [SDMX Content-Oriented Guidelines (COG)](https://sdmx.org/?page_id=4345) for the creation of generic and new codelist items.
+
+The problem witht the SDMX Codelists is that they are designed for already aggregated statistical data, and they character codelist `id` variables. Survey software and question banks use integer ids for the same answer options.
+
+For example, the [D10 (GENDER)](https://www.icpsr.umich.edu/web/ICPSR/studies/35083/datasets/0001/variables/D10?archive=icpsr) variable of Eurobarometer uses the following coding:
+
+```{r, message=FALSE}
+data.frame ( 
+  Value = c(1,2), 
+  Label = c("Male", "Female"))
+```
+
+Furthermore, Eurobarometer often uses characters in the Labels that should be prohibitted because most programming languages or software use them with a particular meaning. A particularly bad habit is the use of ; or , (which can be used as column delimiters in files), the $ sign which is an anchor in regex and a selector in R.
+
+The current retroharmonize normalizes such characters early on, and this should change. It is not desirable that final, harmonized codelists use special characters, but for a faithful representation of the pre-existing data we should keep them.
+
+```{r}
+data.frame(
+  Value  = c(1,2,11), 
+  Label = c("(Re-)Married: without children", "(Re-)Married: children this marriage", 
+            "Divorced/Separated: without children"),
+  Normalized = c("Married or Remarried without children", 
+                 "Married or Remarried with children this marriage", 
+                 "Divorced or Separated without children")
+) %>% kable()
+```
+
+## Harmonize Labels 
+
+The actual harmonization has many potential solutions in retroharmonize. See: 
+[Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html).
+
+One suggested workflow is the use of [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html)
+
+## Conceptual, Literature and Documentation tasks
+
+- Literature review on codelist harmonization.  While DDI does not seem to be focusing on it (maybe wrong), statistical agencies use standarized codelists, and I am sure they are standardizing the labels early on, on the questionnaire. Examples: EU-SILC (Panni), Eurobarometer, Afrobarometer, Arab Barometer (Daniel)
+
+- What is the state of play in DDI about value label harmonization? Review particularly [Document and Manage Longitudinal Data](https://ddialliance.org/training/getting-started-new-content/document-and-manage-longitudinal-data)
+
+- General literature?
+
+
+## Coding tasks {#codelist-coding}
+
+1. We should encourage the use of our pre-existing codelist software, i.e. [regions](https://regions.dataobservatory.eu/) and [statcodelists](https://statcodelists.dataobservatory.eu/) with a new vignette and mentions in the documentation.
+2. `create_codebook()` will be deprecated, luckily, it does not meet the rOpenSci object_verb suggestion. `codebook_create()` will create a DDI-Codebook compatible, partial codebook on survey level. 
+3. `codelist_create()` should be a new function that creates a codelist which considers  [SDMX Content-Oriented Guidelines (COG)](https://sdmx.org/?page_id=4345) and any guidance from DDI on Quesion banks, and the DDI Question Construct. The empty function is now in the `codelist.R` file, develop the documentation and the code there.
+4. `crosswalk_table_create()` should be modified in a way that it builds on `create_codebook()` and `codelist_create()` components.  Currently, it does both. 
+
+

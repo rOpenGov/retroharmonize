@@ -50,7 +50,14 @@ labelling, with the numerical values representing the harmonized
 coding.
 }
 \description{
-Harmonize the values and labels of labelled vectors
+Create a labelled vector with harmonized numeric coding and 
+value labels.
+}
+\details{
+Create a labelled vector that contains in its metadata attributes
+the original labelling, the original numeric coding and the current
+labelling, with the numerical values representing the harmonized
+coding.
 }
 \examples{
 var1 <- labelled::labelled_spss(

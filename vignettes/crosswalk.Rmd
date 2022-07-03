@@ -14,8 +14,9 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r setup}
+```{r setup, message=FALSE}
 library(retroharmonize)
+library(dplyr)
 ```
 
 Let's read in the package's small examples, and create a metadata table from them. These steps were explained in the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/metadata.html).
@@ -41,9 +42,6 @@ A schema crosswalk, or a crosswalk table is a table that shows equivalent elemen
 
 By filtering out the other variables, we have the basic information in our metadata table.
 
-```{r loaddplyr, echo=FALSE}
-library(dplyr, quietly = TRUE)
-```
 ```{r subsetmetadata}
 subset_example_metadata <- example_metadata %>%
   filter ( grepl("^unique_identifier_in|trust|country_code", .data$var_label_orig) ) %>%

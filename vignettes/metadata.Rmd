@@ -16,6 +16,7 @@ knitr::opts_chunk$set(
 
 ```{r setup}
 library(retroharmonize)
+library(dplyr)
 ```
 
 ```{r surveyfiles}
@@ -28,6 +29,8 @@ survey_files
 ```{r readfiles}
 survey_1 <- read_rds(file.path(examples_dir, survey_files[1]))
 ```
+
+This function should be renamed and slightly rewritten, it does too many things.  
 
 ```{r metadatacreate}
 metadata_create(survey_1) %>% head()
@@ -50,7 +53,9 @@ example_surveys <- read_surveys(survey_paths, .f = "read_rds")
 Map the metadata contents of the files:
 
 ```{r processlist}
-metadata_create(survey_list = example_surveys)
+set.seed(2022)
+metadata_create(survey_list = example_surveys) %>%
+  sample_n(12)
 ```
 
 If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
@@ -59,7 +64,9 @@ If you may ran out of memory, you can work with files.  The advantage of keeping
 example_metadata <- metadata_create ( survey_paths = survey_paths, .f = "read_rds")
 ```
 ```{r printexample}
-example_metadata
+set.seed(2022)
+example_metadata %>%
+  sample_n(12)
 ```
 A quick glance at some metadata:
 
