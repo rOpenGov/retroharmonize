@@ -3,7 +3,7 @@ title: "Creating a Harmonized Cultural Access & Participation Dataset for Music"
 author: "Daniel Antal"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{Creating a Harmonized Cultural Access & Participation Dataset}
+  %\VignetteIndexEntry{Creating a Harmonized Cultural Access & Participation Dataset for Music}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
@@ -154,7 +154,7 @@ set.seed(2022)
 weight_vars %>% sample_n(6)
 ```
 
-You must use the `w1` weights when you work with the `geo` variable---when you work with the separate subsamples for `GB-GBN`, `GB-NIR`, `DE-E` and `DE-W`. In a unified dataset, however, we must create an approproripate weight common weight. We create the appropriate weight variable `w` to be used with ISO country codes, i.e. `GB` and `DE`. 
+You must use the `w1` weights when you work with the `geo` variable---when you work with the separate subsamples for `GB-GBN`, `GB-NIR`, `DE-E` and `DE-W`. In a unified dataset, however, we must create an appropriate weight common weight. We create the appropriate weight variable `w` to be used with ISO country codes, i.e. `GB` and `DE`. 
 
 ```{r weightwars}
 weight_vars <- weight_vars %>%
@@ -263,7 +263,7 @@ Our variables of interest are visiting frequencies to concerts and public librar
 2.	`1-2 times` will be coded to the programatically easier to use `1_2_times`, and it will get a numeric value of `1.5`.  Later, we will try to establish a better numeric value, now it is important that all responses labelled as `1-2 times` should have the same numeric code.
 3.	`3-5 times` will be coded to the numeric value of `3.5` and `3_5_times`.
 4.	`More than 5 times` will be `more_than_5` and have the numeric value of `6`.
-5.	The special case of `DK` will be coded as `declined` (to anwer) and the *Inap...* labels to `inap`.  These are special codes in Eurobarometer meaning that the item is inappropriate, i.e. due to some filtering, this particular question was not asked from the respondent. While respondents who consciously decline an answer usually form a rather homogenous category of their own, the inappropriate answers are truly missing answers.  Their numeric representation will be both `NA` (f.e. they should be omitted from a numeric average.)
+5.	The special case of `DK` will be coded as `declined` (to answer) and the *Inap...* labels to `inap`.  These are special codes in Eurobarometer meaning that the item is inappropriate, i.e. due to some filtering, this particular question was not asked from the respondent. While respondents who consciously decline an answer usually form a rather homogenous category of their own, the inappropriate answers are truly missing answers.  Their numeric representation will be both `NA` (f.e. they should be omitted from a numeric average.)
 
 For code readability, we show the following data pipeline in sections, but you could of course create this code in a single expression---or create the resulting table in a spreadsheet application, if you are not aiming for full reproducibility in your research.
 

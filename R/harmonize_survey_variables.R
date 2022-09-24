@@ -42,7 +42,7 @@ harmonize_survey_variables <- function( crosswalk_table,
   
   ## This is a wrapper for subset_save_survey with strict validation of new variable names.
   
-  is.crosswalk_table(crosswalk_table)  ## validates structure and unambigous naming
+  is.crosswalk_table(crosswalk_table)  ## validates structure and unambiguous naming
   
   subsetted_surveys <-  subset_surveys(crosswalk_table = crosswalk_table, 
                                        subset_name = subset_name, 

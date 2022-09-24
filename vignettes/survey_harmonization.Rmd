@@ -18,7 +18,7 @@ knitr::opts_chunk$set(
 library(retroharmonize)
 ```
 
-Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. *Ex ante* survey harmonization refers to planning and design steps to make sure that not yet answerred questionnaires can be better compared, or data derived from them joined, integrated. Such procedures include the harmonization of the questionnaire, the harmonization of the sample design, and other aspects of carrying out multiple surveys. *Ex post* or *retrospective harmonization* refers to procedures to data that has been derived from surveys---i.e., survey that have been carried out. 
+Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. *Ex ante* survey harmonization refers to planning and design steps to make sure that not yet answered questionnaires can be better compared, or data derived from them joined, integrated. Such procedures include the harmonization of the questionnaire, the harmonization of the sample design, and other aspects of carrying out multiple surveys. *Ex post* or *retrospective harmonization* refers to procedures to data that has been derived from surveys---i.e., survey that have been carried out. 
 
 Naturally, better *ex ante* harmonization makes eventual data integration or data comparison easier; yet often we can still harmonize retrospectively survey data that has not been carefully pre-harmonized before respondents have answered the questionnaire items.
 
@@ -141,7 +141,7 @@ Apart from the simple, descriptive variable of the survey identification, non of
 ```{r}
 summary(survey_var_harmonized)
 ```
-The variable labels must be harmonized for a successful factor representation.  The numerical coding must be harmonized, and the missing cases must be consistently handled to acheive any useful numerical representation. 
+The variable labels must be harmonized for a successful factor representation.  The numerical coding must be harmonized, and the missing cases must be consistently handled to achieve any useful numerical representation. 
 
 ```{r}
 survey_joined %>%

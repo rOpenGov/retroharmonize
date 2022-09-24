@@ -3,8 +3,7 @@
 
 # retroharmonize <a href='https://retroharmonize.dataobservatory.eu/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
-<!-- badges: start -->
-
+![retroharmonize](man/figures/logo20.png) <!-- badges: start -->
 [![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
 [![Project Status: Active. The project has reached a stable, usable
 state and is being actively
@@ -74,7 +73,7 @@ is a mature solution in R.
 Survey data harmonization refers to procedures that improve the data
 comparability or the inferential capacity of multiple surveys. The
 *retroharmonize* package support various data processing, documentation,
-file/type conversion aspects of various retrosepctive survey
+file/type conversion aspects of various retrospective survey
 harmonization workflows (i.e. harmonization tasks related to surveys
 that already have already been conducted, recorded into a coded file.)
 
@@ -82,7 +81,7 @@ From a technical perspective, the aim of the survey harmonization is to
 create a single, tidy, joined harmonized dataset in the form of a data
 frame that contains a row identifier, which is truly unique across all
 observations, and which also contains the concatenated and harmonized
-variables. We do this in a way that provides an unambigous mapping of
+variables. We do this in a way that provides an unambiguous mapping of
 numerical coded and labelled data, including special and missing data.
 This way we avoid coercion that may lead to logical errors due to
 syntactically correct, but logically inconsistent variable labelling in
@@ -257,9 +256,9 @@ citation("retroharmonize")
 #> 
 #> To cite package 'retroharmonize' in publications use:
 #> 
-#>   Daniel Antal (2022). retroharmonize: Ex Post Survey Data
-#>   Harmonization. https://retroharmonize.dataobservatory.eu/,
-#>   https://github.com/rOpenGov/retroharmonize.
+#>   Antal D (2022). _retroharmonize: Ex Post Survey Data Harmonization_.
+#>   R package version 0.2.5.002,
+#>   <https://retroharmonize.dataobservatory.eu/>.
 #> 
 #> A BibTeX entry for LaTeX users is
 #> 
@@ -267,8 +266,8 @@ citation("retroharmonize")
 #>     title = {retroharmonize: Ex Post Survey Data Harmonization},
 #>     author = {Daniel Antal},
 #>     year = {2022},
-#>     note = {https://retroharmonize.dataobservatory.eu/,
-#> https://github.com/rOpenGov/retroharmonize},
+#>     note = {R package version 0.2.5.002},
+#>     url = {https://retroharmonize.dataobservatory.eu/},
 #>   }
 ```
 

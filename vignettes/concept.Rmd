@@ -24,7 +24,7 @@ The first step of retrospective harmonization is finding the relevant concepts, 
 ## Concept
 
 
-## Quesitons
+## Questions
 
 ```{r surveyfiles}
 examples_dir <- system.file("examples", package = "retroharmonize")
@@ -47,9 +47,9 @@ example_surveys <- read_surveys(survey_paths, .f = "read_rds")
 
 If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
 
-```{r createmetadatasurveys, eval=FALSE}
+```{r createmetadatasurveys}
 #not evaluated
-example_metadata <- metadata_create ( survey_paths = survey_paths, .f = "read_rds")
+example_metadata <- metadata_create (survey_paths = survey_paths, .f = "read_rds")
 ```
 
 Let's work in the memory now. Map the metadata contents of the files:
@@ -134,7 +134,7 @@ These variables can be mapped either to our [labelled_spss_survey](https://retro
 
 Considerations:
 - The *labelled_spss_survey* or *declared* is necessary because R does not have a missing case identifier that can distinguish declined answers or answers that were not collected.
-- There must be a clear coercion (without "lazy" and ambigous coercion) to at least R integer, numeric, character or factor classes for further use in R's statistical functions or visualization functions.
+- There must be a clear coercion (without "lazy" and ambiguous coercion) to at least R integer, numeric, character or factor classes for further use in R's statistical functions or visualization functions.
 - Integers can easily be coerced into characters, but this is not necessarily a good idea, because some functions anyway want a numeric input, and characters require a lot more space to be stored in memory or in a file. 
 
 ```{r}

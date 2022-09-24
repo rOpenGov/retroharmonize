@@ -21,7 +21,7 @@ library(dplyr)
 
 Let's read in the package's small examples, and create a metadata table from them. These steps were explained in the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/metadata.html).
 
-From a technical perspecitve, the aim of the survey harmonization is to create a single, tidy, joined table in the form of a data frame that contains a row identifier, which is truly unique across all observations and the concatenated and harmonized variables.
+From a technical perspective, the aim of the survey harmonization is to create a single, tidy, joined table in the form of a data frame that contains a row identifier, which is truly unique across all observations and the concatenated and harmonized variables.
 
 ```{r surveyfiles}
 examples_dir <- system.file("examples", package = "retroharmonize")
@@ -89,7 +89,7 @@ For code and label harmonization, the crosswalk table should optionally contain 
 * The `crosswalk_table_create()` will create identical source and target columns for labeling (and type setting.) 
 * You can save this table into `.csv` or `.xls` and edit it in a spreadsheet application if you want. If you do not change the default values (`source`=`target`) then the harmonization in those aspects will not take place. 
 
-In this example, for full reproducability, we do not work in a spreadsheet program like Excel or Numbers or OpenOffice but we create programatically an unambigous coding. To be on the safe side, the special missing value is placed far away from the normal values. 
+In this example, for full reproducability, we do not work in a spreadsheet program like Excel or Numbers or OpenOffice but we create programatically an unambiguous coding. To be on the safe side, the special missing value is placed far away from the normal values. 
 
 ```{r vallabels}
 ct %>%
@@ -169,7 +169,7 @@ Reading the crosswalk table is very simple, for example, the last two (15-16) ro
 
 ### Subsetting
 
-From a technical perspecitve, the aim of the survey harmonization is to create a single, tidy, joined table. For making joining possible (and to reduce memory use), a first processing step is to remove irrelevant variables that will not be harmonized. 
+From a technical perspective, the aim of the survey harmonization is to create a single, tidy, joined table. For making joining possible (and to reduce memory use), a first processing step is to remove irrelevant variables that will not be harmonized. 
 
 There are several ways how the subsetting can be made.  With smaller tasks all the surveys can be stored in memory and the subsequent processing made fast in memory. With many surveys, we provide a slower but memory-saving way of importing and subsetting consecutive surveys from files. 
 

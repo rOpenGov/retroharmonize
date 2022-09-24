@@ -4,7 +4,7 @@ output: github_document
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
 
-```{r, include = FALSE}
+```{r setupfigures, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>",
@@ -15,6 +15,7 @@ knitr::opts_chunk$set(
 
 # retroharmonize <a href='https://retroharmonize.dataobservatory.eu/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
+![retroharmonize](man/figures/logo20.png)
 <!-- badges: start -->
 [![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
 [![Project Status: Active. The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -56,9 +57,9 @@ Surveys, i.e., systematic primary observation and data collections are important
 
 Statistical matching is a related concepts that can take a harmonized dataset further, for example, with creating new, statistically better, unified weights.  For these problems, [StatMatch](https://cran.r-project.org/web/packages/StatMatch/index.html) is a mature solution in R.
 
-Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. The *retroharmonize* package support various data processing, documentation, file/type conversion aspects of various retrosepctive survey harmonization workflows (i.e. harmonization tasks related to surveys that already have already been conducted, recorded into a coded file.)
+Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. The *retroharmonize* package support various data processing, documentation, file/type conversion aspects of various retrospective survey harmonization workflows (i.e. harmonization tasks related to surveys that already have already been conducted, recorded into a coded file.)
 
-From a technical perspective, the aim of the survey harmonization is to create a single, tidy, joined harmonized dataset in the form of a data frame that contains a row identifier, which is truly unique across all observations, and which also contains the concatenated and harmonized variables. We do this in a way that provides an unambigous mapping of numerical coded and labelled data, including special and missing data. This way we avoid coercion that may lead to logical errors due to syntactically correct, but logically inconsistent variable labelling in across differently coded source files. Taking the harmonization to the level of type harmonization to *numeric* and *factor* classes allows the use of R's powerful statistical packages that require numeric or factor type input, and a wide range of survey output harmonization (harmonized statistics and indicators.  
+From a technical perspective, the aim of the survey harmonization is to create a single, tidy, joined harmonized dataset in the form of a data frame that contains a row identifier, which is truly unique across all observations, and which also contains the concatenated and harmonized variables. We do this in a way that provides an unambiguous mapping of numerical coded and labelled data, including special and missing data. This way we avoid coercion that may lead to logical errors due to syntactically correct, but logically inconsistent variable labelling in across differently coded source files. Taking the harmonization to the level of type harmonization to *numeric* and *factor* classes allows the use of R's powerful statistical packages that require numeric or factor type input, and a wide range of survey output harmonization (harmonized statistics and indicators.  
 
 For an extended overview of these problems with illustrations please refer to the vignette [Survey Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html).
 
