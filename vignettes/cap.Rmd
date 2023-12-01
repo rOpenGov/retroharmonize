@@ -99,12 +99,10 @@ From the metadata description, we select the post-stratification weight variable
 
 ```{r weightvars}
 weight_variables <- cap_metadata %>% 
-  filter ( .data$var_name_orig %in% c("isocntry", "wex", "wextra", "v47", "v7", "w1") | 
-             .data$var_label_orig %in% c("w_1_weight_result_from_target", 
-                                         "w_3_weight_special_germany",
-                                         "weight_result_from_traget_united_germany", 
-                                         "w_4_weight_special_united_kingdom", 
-                                         "weight_result_from_traget_united_kingdom"))
+  filter ( 
+    var_name_orig %in% c("isocntry", "wex", "wextra", "v47", "v7", "w1") |   var_label_orig %in% c("w_1_weight_result_from_target", 
+                          "w_3_weight_special_germany",                                            "weight_result_from_traget_united_germany",                              "w_4_weight_special_united_kingdom",                                     "weight_result_from_traget_united_kingdom")
+    )
 ```
 
 A *schema crosswalk* is a table that shows equivalent elements (or "fields") in more than one structured data source. With `crosswalk_table_create()` we first create an empty schema crosswalk, then we fill up the empty schema with values.  Researchers who feel more comfortable working in a spreadsheet application can create a similar crosswalk table in Excel, Numbers, or OpenOffice, and import the data from a `csv` or any tabular file.
@@ -119,14 +117,16 @@ weigthing_crosswalk_table <- crosswalk_table_create(
     # Define the new, harmonized variable names
     var_name_target = case_when (
       # grepl("weight_result_from_target", .data$val_label_target)  ~ "w1",  [this is the issue]
-      .data$var_name_orig  %in% c("wex", "wextra", "v47")        ~ 'wex',
-      .data$var_name_orig  %in% c("w1", "v8")                    ~ "w1",
-      .data$var_name_orig %in% c("w3a", "v12")                   ~ "w_de",
-      .data$var_name_orig %in% c("w4a", "v10")                   ~ "w_uk",
-      .data$var_name_orig == "rowid"  ~ 'rowid',  # do not forget to keep the unique row IDs
+      var_name_orig  %in% c("wex", "wextra", "v47")        ~ 'wex',
+      var_name_orig  %in% c("w1", "v8")                    ~ "w1",
+      var_name_orig %in% c("w3a", "v12")                   ~ "w_de",
+      var_name_orig %in% c("w4a", "v10")                   ~ "w_uk",
+      var_name_orig == "rowid"  ~ 'rowid',  # do not forget to keep the unique row IDs
       TRUE ~ "geo"), 
     # Define the target R class for working with these variables.
-    class_target = ifelse(.data$var_name_target %in% c("geo", "v47"), "factor", "numeric")
+    class_target = ifelse(var_name_target %in% c("geo", "v47"), 
+                          yes = "factor", 
+                          no  = "numeric")
     ) %>%
   select ( 
     -all_of(c("val_numeric_orig", "val_numeric_target", "val_label_orig", "val_label_target"))
@@ -164,8 +164,8 @@ weight_vars <- weight_vars %>%
             country_code == "GB" ~  w_uk,  # UK = Great Britain + Northern Ireland 
             TRUE ~ w1 )) %>%
   mutate (year_survey = case_when(
-    .data$id == "ZA4529_v3-0-1" ~ '2007',
-    .data$id == "ZA5688_v6-0-0" ~ '2013'
+    id == "ZA4529_v3-0-1" ~ '2007',
+    id == "ZA5688_v6-0-0" ~ '2013'
   )) %>%
   mutate (year_survey = as.factor(.data$year_survey))
 ```
@@ -174,7 +174,8 @@ weight_vars <- weight_vars %>%
 
 ```{r printweigthvars}
 weight_vars <- weight_vars %>% 
-  select ( all_of(c("rowid", "country_code", "geo", "w", "w1", "wex", "id")) ) 
+  select ( all_of(c("rowid", "country_code", "geo", 
+                    "w", "w1", "wex", "id")) ) 
 set.seed(2022)
 weight_vars %>% sample_n(6)
 ```
