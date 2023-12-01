@@ -5,8 +5,10 @@ cat_line <- function(...) {
   # identical to haven:::cat_line
   cat(paste0(..., "\n", collapse = ""))
 }
+
 #' @keywords  internal
 is.labelled_spss <- function (x) inherits(x, "haven_labelled_spss")
+
 #' @keywords  internal
 is.labelled <- function (x) inherits(x, "haven_labelled")
 

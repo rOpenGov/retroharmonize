@@ -18,6 +18,7 @@
 #' \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.
 #' @inheritParams read_rds
 #' @importFrom haven read_spss read_sav write_sav is.labelled
+#' @importFrom assertthat assert_that
 #' @importFrom tibble rowid_to_column as_tibble
 #' @importFrom fs path_ext_remove path_file is_file
 #' @importFrom labelled var_label
@@ -58,7 +59,7 @@ read_spss <- function(file,
   
   source_file_info <- valid_file_info(file)
   
-  safely_read_haven_spss <- purrr::safely(.f = haven::read_spss)
+  safely_read_haven_spss <- safely(.f = haven::read_spss)
 
   tmp <- safely_read_haven_spss (file = file, 
                                  user_na = user_na, 
@@ -78,13 +79,13 @@ read_spss <- function(file,
   
   all_vars <- names(tmp)
   
-  assertthat::assert_that(length(all_vars)>0, 
-                          msg = "The SPSS file has no names.")
+  assert_that(length(all_vars)>0, 
+              msg = "The SPSS file has no names.")
   
-  filename <- fs::path_file(file)
+  filename <- path_file(file)
   
   if ( is.null(id) ) {
-    id <- fs::path_ext_remove ( filename )
+    id <- path_ext_remove(filename)
   }
   
   if ( is.null(doi)) {
@@ -161,7 +162,7 @@ read_spss <- function(file,
   return_survey <- survey (return_df, id=id, filename=filename, doi=doi)
   
   object_size <- as.numeric(object.size(as_tibble(return_df)))
-  attr(return_survey, "object_size") <- object_size
+  attr(return_survey, "object_size")      <- object_size
   attr(return_survey, "source_file_size") <- source_file_info$size
   
   return_survey

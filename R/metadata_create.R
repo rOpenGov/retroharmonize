@@ -90,7 +90,6 @@ metadata_waves_create <- function(survey_list) {
 #' @importFrom labelled na_values na_range val_labels var_label
 #' @importFrom purrr map
 #' @importFrom assertthat assert_that
-#' @importFrom rlang .data
 #' @family metadata functions
 #' @return A nested data frame with metadata and the range of 
 #' labels, na_values and the na_range itself.
@@ -219,14 +218,14 @@ metadata_survey_create <- function(survey) {
 
   return_df <- metadata %>%
     left_join (  range_df %>% 
-                   group_by ( .data$var_name_orig ) %>%
+                   group_by ( var_name_orig ) %>%
                    tidyr::nest(), 
                 by = "var_name_orig") %>%
     tidyr::unnest ( cols = "data" )  %>%
     ungroup() %>%
-    mutate ( n_na_labels = as.numeric(.data$n_na_labels), 
-             n_valid_labels = as.numeric(.data$n_valid_labels), 
-             n_labels = as.numeric(.data$n_labels)) %>%
+    mutate ( n_na_labels = as.numeric(n_na_labels), 
+             n_valid_labels = as.numeric(n_valid_labels), 
+             n_labels = as.numeric(n_labels)) %>%
     as.data.frame()
   
   change_label_to_empty <- function() {
@@ -247,7 +246,7 @@ metadata_survey_create <- function(survey) {
                                 no =  return_df$na_labels )
   
   return_df %>%
-    select ( -.data$label_type )
+    select ( -label_type )
 }
 
 

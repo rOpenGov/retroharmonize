@@ -83,32 +83,32 @@ create_codebook <- function ( metadata = NULL,
   if ( n_labelled_numeric  > 0 ) {
     # These area cases when the labels are of class numeric
     valid_labelled_numeric <-  metadata_labelled_numeric %>%
-      filter ( grepl( "labelled", .data$class_orig )) %>%
+      filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels")))   %>%
-      unnest_longer( .data$valid_labels) %>%
+      unnest_longer( valid_labels) %>%
       rlang::set_names ( c("entry", "id", "filename", "var_name_orig","var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the valid observation range
         label_range = "valid", 
-        val_code_orig = as.character(.data$val_code_orig))  
+        val_code_orig = as.character(val_code_orig))  
     
     na_labelled_numeric <-  metadata[num_labels ,] %>%
-      filter ( grepl( "labelled", .data$class_orig )) %>%
+      filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels"))) %>%
-      unnest_longer( .data$na_labels) %>%
+      unnest_longer( na_labels) %>%
       purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the missing observation range
         label_range = "missing") %>%
-      filter ( !is.na(.data$val_code_orig) ) %>%
-      mutate ( val_code_orig = as.character(.data$val_code_orig) )
+      filter ( !is.na(val_code_orig) ) %>%
+      mutate ( val_code_orig = as.character(val_code_orig) )
     
     
     num_labels <- valid_labelled_numeric  %>% 
       dplyr::bind_rows (
         na_labelled_numeric 
       ) %>%
-      dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
+      dplyr::arrange( entry, val_code_orig ) %>%
       left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
                                                  "n_labels", "n_valid_labels", "n_na_labels", 
                                                  user_vars))), 
@@ -126,34 +126,34 @@ create_codebook <- function ( metadata = NULL,
   if ( n_labelled_character > 0) {
     # These area cases when the na_labels are of class character
     valid_labelled_character  <-   metadata_labelled_character %>%
-      filter ( grepl( "labelled", .data$class_orig )) %>%
+      filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels")))   %>%
-      unnest_longer( .data$valid_labels) %>%
+      unnest_longer( valid_labels) %>%
       rlang::set_names ( c("entry", "id", "filename", "var_name_orig","var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the valid observation range
         label_range = "valid")  %>%
-      mutate ( val_code_orig = as.character(.data$val_code_orig) )
+      mutate ( val_code_orig = as.character(val_code_orig) )
     
     
     na_labelled_character <-  metadata[char_labels ,] %>%
-      filter ( grepl( "labelled", .data$class_orig )) %>%
+      filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels"))) %>%
-      unnest_longer( .data$na_labels) %>%
+      unnest_longer( na_labels) %>%
       purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_label_orig",  
                            "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the missing observation range
         label_range = "missing") %>%
-      filter ( !is.na(.data$val_code_orig)) %>%
-      mutate ( val_code_orig = as.character(.data$val_code_orig) )
+      filter ( !is.na(val_code_orig)) %>%
+      mutate ( val_code_orig = as.character(val_code_orig) )
     
     
     char_labels <- valid_labelled_character %>% 
       dplyr::bind_rows (
         na_labelled_character 
       ) %>%
-      dplyr::arrange( .data$entry, .data$val_code_orig ) %>%
+      dplyr::arrange( entry, val_code_orig ) %>%
       left_join ( metadata %>% select ( any_of(c("entry", "id", "filename", "na_range", 
                                                  "n_labels", "n_valid_labels", "n_na_labels", 
                                                  user_vars))), 
@@ -178,14 +178,14 @@ create_codebook <- function ( metadata = NULL,
       left_join ( user_data[0,], by = "entry" )
   } else if ( n_labelled_character == 0 ) {
     num_labels %>%
-      dplyr::arrange (.data$entry)
+      dplyr::arrange (entry)
   } else if ( n_labelled_numeric == 0  ) {
     char_labels %>%
-      dplyr::arrange (.data$entry)
+      dplyr::arrange (entry)
   } else {
    num_labels %>%
       bind_rows ( char_labels) %>%
-      dplyr::arrange (.data$entry)
+      dplyr::arrange (entry)
   }
 }
 

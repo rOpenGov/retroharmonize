@@ -39,8 +39,8 @@
 #'   )
 #'   
 #' subset_surveys(survey_list = example_surveys, 
-#'               subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
-#'               subset_name = "subset_example")
+#'                subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
+#'                subset_name = "subset_example")
 #' @export
 
 subset_surveys <- function ( survey_list, 
@@ -64,7 +64,10 @@ subset_surveys <- function ( survey_list,
   }    else {
     subset_from_files <- TRUE
   }
-  if ( !is.null(survey_paths) )   validate_survey_files(survey_paths)
+  if ( !is.null(survey_paths) ) {
+    validate_survey_files(survey_paths) 
+  }
+  
   if ( !is.null(crosswalk_table)) { 
     is.crosswalk_table(crosswalk_table) 
     if (!is.null(survey_paths)) {
@@ -102,12 +105,14 @@ subset_surveys <- function ( survey_list,
         this_path <- files_to_subset[x]
         
         this_id <- crosswalk_table %>% filter (
-          .data$filename == fs::path_file(this_path)
-        ) %>% distinct(.data$id) %>% unlist() %>% as.character()
+          filename == fs::path_file(this_path)
+        ) %>% distinct(id) %>% 
+          unlist() %>%
+          as.character()
         
         subset_vars <- crosswalk_table %>%
-          filter ( .data$id == this_id ) %>%
-          select ( .data$var_name_orig ) %>%
+          filter ( id == this_id ) %>%
+          select ( var_name_orig ) %>%
           unlist() %>%
           as.character() %>% unique()
         
@@ -164,8 +169,8 @@ subset_surveys <- function ( survey_list,
         this_survey <- survey_list[[x]]
         
         subset_vars <- crosswalk_table %>%
-          filter ( .data$id == attr(this_survey, "id")) %>%
-          select ( .data$var_name_orig ) %>%
+          filter ( id == attr(this_survey, "id")) %>%
+          select ( var_name_orig ) %>%
           unlist() %>%
           as.character() %>% unique()
         

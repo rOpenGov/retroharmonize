@@ -65,15 +65,15 @@ harmonize_survey_variables <- function( crosswalk_table,
     new_names <- tibble( var_name_orig = names(this_survey)) %>%
       left_join (
         crosswalk_table %>% 
-          filter (.data$id == survey_id) %>% 
-          select ( .data$var_name_orig, .data$var_name_target ) %>%
+          filter (id == survey_id) %>% 
+          select ( var_name_orig, var_name_target ) %>%
           distinct_all(), 
         by = "var_name_orig",
       ) %>% 
-      mutate ( var_name_target = ifelse (.data$var_name_orig == "rowid", 
+      mutate ( var_name_target = ifelse (var_name_orig == "rowid", 
                                          yes = "rowid", 
-                                         no = .data$var_name_target)) %>% 
-      select ( .data$var_name_target ) %>% unlist() %>% as.character()
+                                         no = var_name_target)) %>% 
+      select ( var_name_target ) %>% unlist() %>% as.character()
     
     rlang::set_names(this_survey, nm = new_names )
       
@@ -96,15 +96,15 @@ harmonize_survey_variables <- function( crosswalk_table,
     new_names <- tibble( var_name_orig = names(this_survey)) %>%
       left_join (
         crosswalk_table %>% 
-          filter (.data$id == survey_id) %>% 
-          select ( .data$var_name_orig, .data$var_name_target ) %>%
+          filter (id == survey_id) %>% 
+          select ( var_name_orig, var_name_target ) %>%
           distinct_all(), 
         by = "var_name_orig",
       ) %>%
-      mutate ( var_name_target = ifelse (.data$var_name_orig == "rowid", 
+      mutate ( var_name_target = ifelse (var_name_orig == "rowid", 
                                          yes = "rowid", 
-                                         no = .data$var_name_target)) %>% 
-      select ( .data$var_name_target ) %>% unlist() %>% as.character()
+                                         no = var_name_target)) %>% 
+      select ( var_name_target ) %>% unlist() %>% as.character()
     
     this_survey <- rlang::set_names(this_survey, nm = new_names )
     saveRDS(this_survey, file = file.path(export_path, x), version = 2 )
