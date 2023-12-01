@@ -1,7 +1,6 @@
 #' @keywords  internal
 validate_survey_list <- function(survey_list) { 
   
-  
   assert_that(!is.null(survey_list), 
               msg = "The parameter 'survey_list' is NULL.")
 
@@ -52,15 +51,17 @@ validate_survey_list <- function(survey_list) {
     duplicate_ids <- ids[duplicated (ids )]
     duplicate_filenames <- filenames[duplicated (filenames)]
     
-    assert_that(length(duplicate_ids)==0, 
-                msg = paste0(
-                  paste(duplicate_ids), 
-                  " are not unique."
-                ))
+    duplicate_msg <- paste0(
+      paste(duplicate_ids, collapse = ", "), 
+      " are not unique."
+    )
+ 
+    
+    assert_that(length(duplicate_ids)==0, msg = duplicate_msg)
     
     assert_that(length(duplicate_filenames)==0, 
                 msg = paste0(
-                  paste(duplicate_filenames), 
+                  paste(duplicate_filenames, collapse = ", "), 
                   " are not unique."
                 ))
   }
