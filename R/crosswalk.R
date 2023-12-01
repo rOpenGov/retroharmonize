@@ -25,7 +25,6 @@
 #' data frames, where the variable names, and optionally the variable labels, and the missing 
 #' value range is harmonized (the same names, labels, codes are used.)
 #' @importFrom dplyr filter select mutate distinct_all relocate across everything
-#' @importFrom rlang .data
 #' @importFrom assertthat assert_that
 #' @family harmonization functions
 #' @examples 
@@ -90,7 +89,7 @@ crosswalk_surveys <- function(crosswalk_table,
                 msg = "selection must have rows")
     
     select_to_harmonize <- selection %>%
-      filter ( !is.na(.data$val_label_orig) )
+      filter ( !is.na(val_label_orig) )
     
     vars_to_harmonize <- unique(select_to_harmonize$var_name_target) 
     
@@ -102,7 +101,7 @@ crosswalk_surveys <- function(crosswalk_table,
     for ( this_var in vars_to_harmonize ) {
  
       correspondence_table <- select_to_harmonize %>%
-        filter ( .data$var_name_target == this_var ) 
+        filter ( var_name_target == this_var ) 
       
       assert_that(is.numeric(correspondence_table$val_numeric_target), 
                   msg = "Error in relabel_survey: 'val_numeric_target' must be a numeric vector")
@@ -138,15 +137,15 @@ crosswalk_surveys <- function(crosswalk_table,
   subset_survey <- function(this_survey) {
     
     survey_id <- attr(this_survey, "id")
-    assertthat::assert_that(length(survey_id)>0, 
-                            msg = "Error in subset_survey(): survey_id has 0 length.")
+    assert_that(length(survey_id)>0, 
+                msg = "Error in subset_survey(): survey_id has 0 length.")
     
     tmp <- this_survey %>% 
       mutate ( id = survey_id ) %>%
-      relocate ( .data$id, .before = everything())
+      relocate ( id, .before = everything())
     
     selection <- crosswalk_table %>% 
-      filter ( .data$id == survey_id ) %>%
+      filter ( id == survey_id ) %>%
       distinct_all()
 
     
@@ -322,8 +321,8 @@ crosswalk_table_create <- function(metadata) {
   if (nrow(metadata)==1) {
     fn_labels(x=metadata[1,])
   } else {
-    ctable_list <- lapply ( 1:nrow(metadata), function(x) fn_labels(metadata[x,])  )
-    ctable <- suppressMessages(purrr::reduce ( ctable_list, full_join ))
+    ctable_list <- lapply (1:nrow(metadata), function(x) fn_labels(metadata[x,]))
+    ctable <- suppressMessages(purrr::reduce(ctable_list, full_join))
     ctable
   }
 }
@@ -332,7 +331,6 @@ crosswalk_table_create <- function(metadata) {
 #' @rdname crosswalk_table_create 
 #' @param ctable A table to validate if it is a crosswalk table.
 #' @importFrom dplyr tally group_by across filter
-#' @importFrom rlang .data
 #' @family metadata functions
 #' @export
 
@@ -351,8 +349,8 @@ is.crosswalk_table <- function(ctable) {
     distinct_all() %>%
     group_by ( across(c("var_name_target", "id"))) %>%
     tally() %>%
-    filter ( .data$n>1) %>%
-    select (.data$var_name_target ) %>%
+    filter ( n>1) %>%
+    select (var_name_target ) %>%
     unlist()
   
   error_msg <- paste(unique(duplicates), collapse = ', ')

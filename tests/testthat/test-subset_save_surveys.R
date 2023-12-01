@@ -70,10 +70,10 @@ test_that("saving and subsetting", {
 test_that("saving and subsetting (not on CRAN)", {
   skip_on_cran()
   expect_true(ncol(readRDS ( file.path(tempdir(), "ZA7576_tested.rds"))) == 3)
-  expect_error(save_surveys  ( crosswalk_table = ctable, 
-                               subset_name = "tested", 
-                               import_path = NULL, 
-                               export_path = NULL))
+  expect_error(save_surveys( crosswalk_table = ctable, 
+                             subset_name = "tested", 
+                             import_path = NULL, 
+                             export_path = NULL))
 })
 
 

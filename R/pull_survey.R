@@ -1,6 +1,6 @@
-#' Pull a survey from a survey list
+#' @title Pull a survey from a survey list
 #' 
-#' Pull a survey by survey code or id.
+#' @description Pull a survey by survey code or id.
 #' 
 #' @param survey_list A list of surveys
 #' @param id The id of the requested survey. If \code{NULL} use 

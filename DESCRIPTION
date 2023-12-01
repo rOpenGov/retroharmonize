@@ -1,25 +1,19 @@
 Type: Package
 Package: retroharmonize
 Title: Ex Post Survey Data Harmonization
-Version: 0.2.5.002
-Date: 2022-09-24
+Version: 0.2.5.003
+Date: 2023-12-01
 Authors@R: c(
-    person("Daniel", "Antal", , "daniel.antal@ceemid.eu", role = c("aut", "cre"),
+    person(given = "Daniel", 
+           family = "Antal", 
+           email = "daniel.antal@dataobservatory.eu",
+           role = c("aut", "cre"),
            comment = c(ORCID = "0000-0001-7513-6760")),
       person(given = "Marta",
-           family = "Kolczynska",
-           role = c("ctb"),
-           email = "mkolczynska@gmail.com",
-           comment = c(ORCID = "0000-0003-4981-0437")), 
-      person(given = "Pyry",
-             family = "Kantanen", 
-             role = "ctb", 
-             comment = c(ORCID = "0000-0003-2853-2765")),
-      person(given = "Leo", 
-             family = " Lahti", 
-             role = "ctb", 
-             comment = c(ORCID = "0000-0001-5537-637X")
-             )
+             family = "Kolczynska",
+             role = c("ctb"),
+             email = "mkolczynska@gmail.com",
+             comment = c(ORCID = "0000-0003-4981-0437"))
       )
 Maintainer: Daniel Antal <daniel.antal@ceemid.eu>
 Description: Assist in reproducible retrospective (ex-post) harmonization
@@ -69,6 +63,6 @@ Config/testthat/edition: 3
 Encoding: UTF-8
 Language: en-US
 LazyData: true
-RoxygenNote: 7.2.1
+RoxygenNote: 7.2.3
 X-schema.org-isPartOf: http://ropengov.org/
 X-schema.org-keywords: ropengov

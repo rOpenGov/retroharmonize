@@ -72,8 +72,8 @@ document_survey_item <- function(x) {
   tbl_length <- nrow(coding)
   
   list (
-    code_table = dplyr::bind_cols(coding, labelling) %>%
-      mutate ( missing = ifelse (.data$values %in% attr(x, "na_values"), 
+    code_table = bind_cols(coding, labelling) %>%
+      mutate ( missing = ifelse (values %in% attr(x, "na_values"), 
                                  TRUE, FALSE)), 
     history_var_name = c(
       c("name" = original_x_name ), 

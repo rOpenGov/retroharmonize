@@ -78,7 +78,7 @@ example_surveys <- read_surveys(
   )
   
 subset_surveys(survey_list = example_surveys, 
-              subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
-              subset_name = "subset_example")
+               subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
+               subset_name = "subset_example")
 }
 \concept{subsetting function}

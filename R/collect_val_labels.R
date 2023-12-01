@@ -1,4 +1,4 @@
-#' Collect labels from metadata file
+#' @title Collect labels from metadata file
 #' 
 #' @param metadata A metadata data frame created by 
 #' \code{\link{metadata_create}}.

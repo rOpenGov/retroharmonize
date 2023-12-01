@@ -23,6 +23,7 @@
 #' information is recorded for a reproducible workflow.
 #' @importFrom purrr safely
 #' @importFrom fs path_file
+#' @importFrom assertthat assert_that
 #' @examples
 #' file1 <- system.file(
 #'     "examples", "ZA7576.rds", package = "retroharmonize")
@@ -38,11 +39,24 @@ read_surveys <- function ( survey_paths,
                            .f = NULL,
                            export_path = NULL ) {
   
+  import_file_vector <- survey_paths
+  existing_files <- which(file.exists(import_file_vector))
+  not_existing_files <- which(! file.exists(import_file_vector))
   
-  import_file_list <- survey_paths
+  if ( length(existing_files)==0) {
+    stop ("None of the files on read_surveys(survey_paths=...) exist.")
+  }
   
-  return_survey_list <- lapply ( import_file_list, function(x) read_survey(x, .f, export_path))
-
+  if (length(not_existing_files)>0) {
+    missing_files <- paste(import_file_vector[not_existing_files], collapse = ";\n")
+    warning("Some files on 'survey_pahts' do not exist:\n", missing_files)
+  }
+  
+  import_file_vector <- import_file_vector[existing_files]
+  
+  return_survey_list <- lapply ( import_file_vector, 
+                                 function(x) read_survey(x, .f, export_path)
+                                 )
   return_survey_list
 }
 
