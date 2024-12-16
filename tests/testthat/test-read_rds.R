@@ -13,7 +13,8 @@ test_that("attributes work", {
 read_write_test <- function() {
   temp_save_location <- tempdir()
   write.csv(test_read, file.path(temp_save_location, "test.csv"), row.names = F)
-  is.survey(read_csv (file = file.path(temp_save_location, "test.csv")))
+  reread <- read_csv(file = file.path(temp_save_location, "test.csv"))
+  is.survey()
 }
 
 test_that("read_csv", {

@@ -50,14 +50,12 @@ validate_survey_list <- function(survey_list) {
     
     duplicate_ids <- ids[duplicated (ids )]
     duplicate_filenames <- filenames[duplicated (filenames)]
-    
-    duplicate_msg <- paste0(
-      paste(duplicate_ids, collapse = ", "), 
-      " are not unique."
-    )
- 
-    
-    assert_that(length(duplicate_ids)==0, msg = duplicate_msg)
+
+    assert_that(length(duplicate_ids)==0, 
+                msg = paste0(
+                  paste(duplicate_ids, collapse = ", "), 
+                  " are not unique."
+                ))
     
     assert_that(length(duplicate_filenames)==0, 
                 msg = paste0(
