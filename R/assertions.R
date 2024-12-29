@@ -80,18 +80,6 @@ validate_survey_files <- function(survey_files) {
   TRUE
 }
 
-#' @importFrom assertthat assert_that
-#' @importFrom fs is_file
-#' @keywords  internal
-valid_file_info <- function(file) {
-  assertthat::assert_that(
-    fs::is_file(file),
-    msg =  paste0("file='", file, "' is not a file. ")
-  )
-  
-  file.info(file)
-}
-
 #' @title Validate harmonize_labels parameter
 #' Check if "from", "to", and "numeric_values" are of equal lengths.
 #' @importFrom dplyr select
