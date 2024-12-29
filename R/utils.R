@@ -1,5 +1,12 @@
 ## Internal functions not to be exported ----------------------
 
+HelloWorld <- function(...) {
+  arguments <- list(...)
+  arguments
+}
+
+HelloWorld( a = "s", b = "x")
+
 #' @keywords  internal
 cat_line <- function(...) {
   # identical to haven:::cat_line

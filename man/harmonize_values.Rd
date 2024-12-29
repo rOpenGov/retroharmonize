@@ -41,7 +41,7 @@ it uses the latest name of the object \code{x}.}
 \item{remove}{Defaults to \code{NULL}.  A character or regex that will be removed from all
 old value labels, like \code{"\\("|\\)} for ( and ).}
 
-\item{perl}{Use perl-like regex? Defaults to {FALSE}.}
+\item{perl}{Use perl-like regex? Defaults to \code{FALSE}.}
 }
 \value{
 A labelled vector that contains in its metadata attributes
