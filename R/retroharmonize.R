@@ -69,4 +69,4 @@
 #' @import vctrs
 #' @import rlang
 #' @name retroharmonize
-NULL
+"_PACKAGE"

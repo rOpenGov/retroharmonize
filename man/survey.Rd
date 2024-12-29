@@ -51,4 +51,8 @@ example_survey <- survey(
   filename = "no_file"
 )
 }
+\seealso{
+Other importing functions: 
+\code{\link{is.survey_df}()}
+}
 \concept{importing functions}

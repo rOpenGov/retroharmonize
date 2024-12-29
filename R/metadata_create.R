@@ -125,7 +125,8 @@ metadata_survey_create <- function(survey) {
   filename <- attr(survey, "filename")
   
   if (is.null(filename)) filename <- "unknown"
-  id <- attr(survey, "id")
+  
+  id <- ifelse(is.null(attr(survey, "id")), attr(survey, "identifier"), attr(survey, "id"))
   if (is.null(id)) id <- "missing"
   
   if( ncol(survey) == 0) {
@@ -138,7 +139,7 @@ metadata_survey_create <- function(survey) {
   
   class_orig <- vapply( survey, function(x) class(x)[1], character(1))
   
-  metadata <- tibble::tibble (
+  metadata <- tibble (
     filename = filename, 
     id = id,
     var_name_orig = names(survey), 
@@ -249,7 +250,7 @@ metadata_survey_create <- function(survey) {
     select ( -label_type )
 }
 
-
+# -----------------------------------------------------------------------
 #' @title Initialize a metadata data frame
 #'
 #' @inheritParams metadata_create

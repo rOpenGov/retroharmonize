@@ -4,13 +4,24 @@
 \alias{read_spss}
 \title{Read SPSS (`.sav`, `.zsav`, `.por`) files. Write `.sav` and `.zsav` files.}
 \usage{
-read_spss(file, user_na = TRUE, id = NULL, doi = NULL, .name_repair = "unique")
+read_spss(
+  file,
+  user_na = TRUE,
+  dataset_bibentry = NULL,
+  id = NULL,
+  doi = NULL,
+  .name_repair = "unique"
+)
 }
 \arguments{
 \item{file}{An SPSS file.}
 
 \item{user_na}{Should user-defined na_values be imported? Defaults
 to \code{TRUE}.}
+
+\item{dataset_bibentry}{A bibliographic entry created with 
+\code{dataset::\link[dataset:dublincore]{dublincore}} or 
+\code{dataset::\link[dataset:datacite]{datacite}}.}
 
 \item{id}{An identifier of the tibble, if omitted, defaults to the
 file name without its extension.}

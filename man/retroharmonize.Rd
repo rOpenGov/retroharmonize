@@ -94,3 +94,20 @@ questionnaire item.
 vectors to labelled_spss_survey vectors.\cr
 }
 
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://retroharmonize.dataobservatory.eu/}
+  \item Report bugs at \url{https://github.com/rOpenGov/retroharmonize/issues/}
+}
+
+}
+\author{
+\strong{Maintainer}: Daniel Antal \email{daniel.antal@dataobservatory.eu} (\href{https://orcid.org/0000-0001-7513-6760}{ORCID})
+
+Other contributors:
+\itemize{
+  \item Marta Kolczynska \email{mkolczynska@gmail.com} (\href{https://orcid.org/0000-0003-4981-0437}{ORCID}) [contributor]
+}
+
+}

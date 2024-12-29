@@ -1,7 +1,6 @@
 #' @keywords  internal
 validate_survey_list <- function(survey_list) { 
   
-  
   assert_that(!is.null(survey_list), 
               msg = "The parameter 'survey_list' is NULL.")
 
@@ -51,16 +50,16 @@ validate_survey_list <- function(survey_list) {
     
     duplicate_ids <- ids[duplicated (ids )]
     duplicate_filenames <- filenames[duplicated (filenames)]
-    
+
     assert_that(length(duplicate_ids)==0, 
                 msg = paste0(
-                  paste(duplicate_ids), 
+                  paste(duplicate_ids, collapse = ", "), 
                   " are not unique."
                 ))
     
     assert_that(length(duplicate_filenames)==0, 
                 msg = paste0(
-                  paste(duplicate_filenames), 
+                  paste(duplicate_filenames, collapse = ", "), 
                   " are not unique."
                 ))
   }
@@ -79,18 +78,6 @@ validate_survey_files <- function(survey_files) {
   }
   
   TRUE
-}
-
-#' @importFrom assertthat assert_that
-#' @importFrom fs is_file
-#' @keywords  internal
-valid_file_info <- function(file) {
-  assertthat::assert_that(
-    fs::is_file(file),
-    msg =  paste0("file='", file, "' is not a file. ")
-  )
-  
-  file.info(file)
 }
 
 #' @title Validate harmonize_labels parameter

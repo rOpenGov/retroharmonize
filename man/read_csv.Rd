@@ -4,24 +4,7 @@
 \alias{read_csv}
 \title{Read csv file}
 \usage{
-read_csv(
-  file,
-  id = NULL,
-  doi = NULL,
-  header = FALSE,
-  sep = "",
-  quote = "\\"'",
-  dec = ".",
-  numerals = c("allow.loss", "warn.loss", "no.loss"),
-  na.strings = "NA",
-  skip = 0,
-  check.names = TRUE,
-  strip.white = FALSE,
-  blank.lines.skip = TRUE,
-  stringsAsFactors = FALSE,
-  fileEncoding = "",
-  encoding = "unknown"
-)
+read_csv(file, id = NULL, doi = NULL, dataset_bibentry = NULL, ...)
 }
 \arguments{
 \item{file}{A path to a file to import.}
@@ -30,6 +13,13 @@ read_csv(
 file name without its extension.}
 
 \item{doi}{An optional document object identifier.}
+
+\item{dataset_bibentry}{A bibliographic entry created with 
+\code{dataset::\link[dataset:dublincore]{dublincore}} or 
+\code{dataset::\link[dataset:datacite]{datacite}}.}
+
+\item{...}{Further optional parameters to pass on to 
+\code{utils::\link[utils:read.csv]{read.csv}}.}
 }
 \value{
 A tibble, data frame variant with survey attributes.
@@ -38,11 +28,23 @@ A tibble, data frame variant with survey attributes.
 Import a survey from a csv file.
 }
 \examples{
+# Create a temporary CSV file:
 path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
 read_survey <- read_rds(path)
-attr(read_survey, "id")
-attr(read_survey, "filename")
-attr(read_survey, "doi") 
+test_csv_file <- tempfile()
+write.csv(x = read_survey, file = test_csv_file, row.names = F)
+
+# Create a Bibentry:
+survey_bibentry <- dublincore(
+          title = "Test Survey", 
+          creator = person("Jane", "Doe", role = "cre")
+          )
+
+# Read the CSV file:           
+re_read <- read_csv(
+           file=test_csv_file,
+           dataset_bibentry = survey_bibentry,
+           id = "ZA7576", doi = "test_doi")
 }
 \seealso{
 Other import functions: 

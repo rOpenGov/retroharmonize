@@ -1,5 +1,6 @@
+# retroharmonize 0.2.6
+
 # retroharmonize 0.2.5
-* New article [Creating a Harmonized Cultural Access & Participation Dataset for Music](https://retroharmonize.dataobservatory.eu/articles/cap.html)
 * Unified function interface and parameter names.
 * This development version has a few known [issues](https://github.com/rOpenGov/retroharmonize/issues).
 

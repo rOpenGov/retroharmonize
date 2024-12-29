@@ -4,10 +4,14 @@
 \alias{read_rds}
 \title{Read rds file}
 \usage{
-read_rds(file, id = NULL, doi = NULL)
+read_rds(file, dataset_bibentry = NULL, id = NULL, doi = NULL)
 }
 \arguments{
 \item{file}{A path to a file to import.}
+
+\item{dataset_bibentry}{A bibliographic entry created with 
+\code{dataset::\link[dataset:dublincore]{dublincore}} or 
+\code{dataset::\link[dataset:datacite]{datacite}}.}
 
 \item{id}{An identifier of the tibble, if omitted, defaults to the
 file name without its extension.}

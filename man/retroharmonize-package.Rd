@@ -2,7 +2,6 @@
 % Please edit documentation in R/retroharmonize-package.R
 \docType{package}
 \name{retroharmonize-package}
-\alias{retroharmonize}
 \alias{retroharmonize-package}
 \title{retroharmonize: Ex Post Survey Data Harmonization}
 \description{

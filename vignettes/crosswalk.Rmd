@@ -44,9 +44,9 @@ By filtering out the other variables, we have the basic information in our metad
 
 ```{r subsetmetadata}
 subset_example_metadata <- example_metadata %>%
-  filter ( grepl("^unique_identifier_in|trust|country_code", .data$var_label_orig) ) %>%
+  filter ( grepl("^unique_identifier_in|trust|country_code", var_label_orig) ) %>%
   filter ( grepl("^unique_identifier_in|european_parliament|country_code", 
-                 .data$var_label_orig)) %>%
+                 var_label_orig)) %>%
   filter ( var_name_orig != "uniqid") 
 
 subset_example_metadata

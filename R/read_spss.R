@@ -14,6 +14,9 @@
 #' @param file An SPSS file.
 #' @param user_na Should user-defined na_values be imported? Defaults
 #' to \code{TRUE}.
+#' @param dataset_bibentry A bibliographic entry created with 
+#' \code{dataset::\link[dataset:dublincore]{dublincore}} or 
+#' \code{dataset::\link[dataset:datacite]{datacite}}.
 #' @param .name_repair Defaults to \code{"unique"} See 
 #' \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.
 #' @inheritParams read_rds
@@ -46,6 +49,7 @@
  
 read_spss <- function(file, 
                       user_na = TRUE,
+                      dataset_bibentry = NULL,
                       id = NULL, 
                       doi = NULL, 
                       .name_repair = "unique") {
@@ -159,11 +163,22 @@ read_spss <- function(file,
     labelled::var_label ( return_df[,1] ) <- unlist(original_labels)[i]
   }
   
-  return_survey <- survey (return_df, id=id, filename=filename, doi=doi)
+  return_survey <- survey_df(return_df, 
+                             dataset_bibentry = dataset_bibentry, 
+                             filename=filename, identifier=doi)
   
   object_size <- as.numeric(object.size(as_tibble(return_df)))
   attr(return_survey, "object_size")      <- object_size
   attr(return_survey, "source_file_size") <- source_file_info$size
+
+  
+  if (dataset::dataset_title(return_survey)=="Untitled Dataset") {
+    dataset::dataset_title(return_survey, overwrite=TRUE) <- "Untitled Survey" 
+  }
+  
+  ## For backward compatibility
+  attr(return_survey, "id") <- id
+  attr(return_survey, "doi") <- doi
   
   return_survey
 }

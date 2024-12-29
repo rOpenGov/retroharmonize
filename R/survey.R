@@ -4,7 +4,7 @@ new_survey <- function ( object = tibble::tibble(),
                          filename = character(1), 
                          doi = character(1)) { 
   
- validate_survey (object, id, filename, doi)
+ validate_survey (object=object, id=id, filename=filename, doi=doi)
 
  structure(object, 
            id = id, 
@@ -74,12 +74,19 @@ survey <- function ( object = data.frame(),
                      doi = character()
                      ) { 
   new_survey (object, id, filename, doi)
-  }
+}
+
+
 
 #' @rdname survey
 #' @export
 is.survey <- function (object) {
-  inherits(object, "survey")
+  inherits(object, "survey") | inherits(object, "survey_df")
+}
+
+#' @rdname survey_df
+is.survey_df <- function (object) {
+  inherits(object, "survey") | inherits(object, "survey_df")
 }
 
 #' @rdname survey

@@ -6,11 +6,15 @@
 #' @param id An identifier of the tibble, if omitted, defaults to the
 #' file name without its extension.
 #' @param doi An optional document object identifier.
+#' @param dataset_bibentry A bibliographic entry created with 
+#' \code{dataset::\link[dataset:dublincore]{dublincore}} or 
+#' \code{dataset::\link[dataset:datacite]{datacite}}.
 #' @importFrom tibble rowid_to_column as_tibble
 #' @importFrom fs path_ext_remove path_file is_file
 #' @importFrom labelled var_label
 #' @importFrom purrr safely
 #' @importFrom utils object.size
+#' @importFrom dataset dataset_df is.dataset_df
 #' @return A tibble, data frame variant with survey attributes.
 #' @family import functions
 #' @examples
@@ -22,6 +26,7 @@
 #' @export
 
 read_rds <- function(file,
+                     dataset_bibentry = NULL,
                      id = NULL, 
                      doi = NULL) {
   
@@ -47,25 +52,27 @@ read_rds <- function(file,
   
   source_file_info <- valid_file_info(file)
   
-  if ( ! "rowid" %in% names(tmp) ) {
-    tmp <- tibble::rowid_to_column(tmp)
-  }
+  #if ( ! "rowid" %in% names(tmp) ) {
+  #  tmp <- tibble::rowid_to_column(tmp)
+  #}
+  
+  tmp_df <- dataset_df(tmp, identifier = doi, dataset_bibentry = dataset_bibentry )
   
   if ( is.null(doi)) {
-    if ( "doi" %in% names(tmp) ) {
-      doi <- tmp$doi[1]
+    if ( "doi" %in% names(tmp_df) ) {
+      doi <- tmp_df$doi[1]
     } else {
       doi <- ""
     }
   }
   
-  tmp$rowid <- paste0(id, "_", gsub(id, "", tmp$rowid))
+  tmp_df$rowid <- paste0(id, "_", gsub(id, "", tmp_df$rowid))
   labelled::var_label ( 
-    tmp$rowid ) <- paste0("Unique identifier in ", id)
+    tmp_df$rowid ) <- paste0("Unique identifier in ", id)
   
-  return_survey <- survey (tmp, id=id, filename=filename, doi=doi)
+  return_survey <- survey (tmp_df, id=id, filename=filename, doi=doi)
   
-  object_size <- as.numeric(object.size(as_tibble(tmp)))
+  object_size <- as.numeric(object.size(as_tibble(tmp_df)))
   attr(return_survey, "object_size") <- object_size
   attr(return_survey, "source_file_size") <- source_file_info$size
   
