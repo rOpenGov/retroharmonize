@@ -1,14 +1,16 @@
+> x1 <- labelled_spss_survey(x = 1:10, labels = c(Good = 1, Bad = 8), na_values = c(
++   9, 10), id = "survey1")
 > pillar::pillar(x1)
 <pillar>
 <retroh_int>
-    1 [Good]
-    2       
-    3       
-    4       
-    5       
-    6       
-    7       
-    8 [Bad] 
-    9 (NA)  
-   10 (NA)  
+ 1 [Good]   
+ 2          
+ 3          
+ 4          
+ 5          
+ 6          
+ 7          
+ 8 [Bad]    
+ 9 (NA)     
+10 (NA)     
 
