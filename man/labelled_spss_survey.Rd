@@ -3,7 +3,15 @@
 \name{labelled_spss_survey}
 \alias{labelled_spss_survey}
 \alias{as_character}
+\alias{levels.retroharmonize_labelled_spss_survey}
+\alias{names<-.retroharmonize_labelled_spss_survey}
+\alias{format.retroharmonize_labelled_spss_survey}
 \alias{is.labelled_spss_survey}
+\alias{median.retroharmonize_labelled_spss_survey}
+\alias{quantile.retroharmonize_labelled_spss_survey}
+\alias{weighted.mean.retroharmonize_labelled_spss_survey}
+\alias{mean.retroharmonize_labelled_spss_survey}
+\alias{sum.retroharmonize_labelled_spss_survey}
 \alias{as_numeric}
 \title{Labelled vectors for multiple SPSS surveys}
 \usage{
@@ -19,7 +27,23 @@ labelled_spss_survey(
 
 as_character(x)
 
+\method{levels}{retroharmonize_labelled_spss_survey}(x)
+
+\method{names}{retroharmonize_labelled_spss_survey}(x) <- value
+
+\method{format}{retroharmonize_labelled_spss_survey}(x, ..., digits = getOption("digits"))
+
 is.labelled_spss_survey(x)
+
+\method{median}{retroharmonize_labelled_spss_survey}(x, na.rm = TRUE, ...)
+
+\method{quantile}{retroharmonize_labelled_spss_survey}(x, probs, ...)
+
+\method{weighted.mean}{retroharmonize_labelled_spss_survey}(x, w, ...)
+
+\method{mean}{retroharmonize_labelled_spss_survey}(x, ...)
+
+\method{sum}{retroharmonize_labelled_spss_survey}(x, ...)
 
 as_numeric(x)
 }

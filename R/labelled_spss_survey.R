@@ -207,6 +207,7 @@ obj_print_header.retroharmonize_labelled_spss_survey <- function(x, ...) {
   invisible(x)
 }
 
+#' @export
 obj_print_footer.retroharmonize_labelled_spss_survey <- function(x, ...) {
   print_attributes(x)
   invisible(x)
@@ -276,16 +277,20 @@ as_factor <- function(x, levels = "default", ordered = FALSE) {
   tmp
 }
 
-#' @export
+#' @rdname labelled_spss_survey
+#' @exportS3Method
 levels.retroharmonize_labelled_spss_survey <- function(x) {
   NULL
 }
 
-`names<-.retroharmonize_labelled_spss_survey` <- function(x, value) {
+#' @rdname labelled_spss_survey
+#' @export
+"names<-.retroharmonize_labelled_spss_survey" <- function(x, value) {
   attr(x, "names") <- value
   x
 }
 
+#' @rdname labelled_spss_survey
 #' @importFrom haven format_tagged_na
 #' @export
 format.retroharmonize_labelled_spss_survey <- function(x, ..., digits = getOption("digits")) {
@@ -345,7 +350,9 @@ vec_convert_na <- function(x) {
            vctrs::vec_data(x))
 }
 
+#' @rdname labelled_spss_survey
 #' @importFrom stats median
+#' @export
 median.retroharmonize_labelled_spss_survey <- function(x, na.rm = TRUE, ...) {
   if (is.character(x)) {
     abort("Can't compute median of labelled_spss_survey<character>")
@@ -354,6 +361,7 @@ median.retroharmonize_labelled_spss_survey <- function(x, na.rm = TRUE, ...) {
   median(vec_convert_na(x), na.rm = TRUE, ...)
 }
 
+#' @rdname labelled_spss_survey
 #' @importFrom stats quantile
 #' @export
 quantile.retroharmonize_labelled_spss_survey <- function(x, probs, ...) {
@@ -363,7 +371,9 @@ quantile.retroharmonize_labelled_spss_survey <- function(x, probs, ...) {
   quantile(vec_convert_na(x), probs, na.rm = TRUE, ...)
 }
 
+#' @rdname labelled_spss_survey
 #' @importFrom stats weighted.mean
+#' @exportS3Method
 weighted.mean.retroharmonize_labelled_spss_survey <- function(x, w, ...) {
   if (is.character(x)) {
     abort("Can't compute median of labelled_spss_survey<character>")
@@ -376,6 +386,8 @@ weighted.mean.retroharmonize_labelled_spss_survey <- function(x, w, ...) {
   weighted.mean(vec_convert_na(x), w, na.rm = TRUE, ...)
 }
 
+#' @rdname labelled_spss_survey
+#' @exportS3Method
 mean.retroharmonize_labelled_spss_survey <- function(x, ...) {
   if (is.character(x)) {
     abort("Can't compute mean of labelled_spss_survey<character>")
@@ -384,7 +396,8 @@ mean.retroharmonize_labelled_spss_survey <- function(x, ...) {
   mean(vec_convert_na(x), ...)
 }
 
-
+#' @rdname labelled_spss_survey
+#' @exportS3Method
 sum.retroharmonize_labelled_spss_survey <- function(x, ...) {
   if (is.character(x)) {
     abort("Can't compute sum of labelled_spss_survey<character>")
