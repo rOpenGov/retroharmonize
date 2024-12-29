@@ -100,11 +100,11 @@ read_spss <- function(file,
   
   tmp$rowid <- paste0(id, "_", tmp$rowid)
   
+  
+  labelled::var_label ( 
+    tmp$rowid ) <- "Unique ID"
  
   label_orig <- lapply ( tmp, labelled::var_label  )
- 
-  labelled::var_label ( 
-    tmp$rowid ) <- paste0("Unique identifier in ", id)
 
   converted <- tmp [ ! vapply ( tmp, function(x) is.null(attr(x, "labels")), logical(1)) ]
   converted <- converted  [ ! vapply ( converted , function(x) length(attr(x, "labels"))>0, logical(1)) ]
@@ -145,22 +145,14 @@ read_spss <- function(file,
 
   return_df <- return_df  %>%
     select ( all_of(all_vars) )
-  
-  names ( return_df )
-  
-  labelling_orig <- names  ( label_orig )
-  labelling_orig[as.numeric(which(  vapply ( label_orig, is.null, logical(1)))) ] <- ""
-  labelling_orig 
-  
-  original_labels <- c(
-    list ( rowid = "Unique ID"), 
-    lapply ( label_orig, function(x) ifelse(is.null(x), "", x))
     
+  original_labels <- c(
+    lapply ( label_orig, function(x) ifelse(is.null(x), "", x))
   )  
 
   for ( i in seq_along(return_df ) ) {
-    ## only labellled classes will have a label
-    labelled::var_label ( return_df[,1] ) <- unlist(original_labels)[i]
+    ## only labelled classes will have a label
+    labelled::var_label ( return_df[, i] ) <- unlist(original_labels)[i]
   }
   
   return_survey <- survey_df(return_df, 
