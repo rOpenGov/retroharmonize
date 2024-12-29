@@ -160,16 +160,16 @@ We start with the variable harmonization process.
 
 ```{r harmonize-elections-metadata}
 to_harmonize_elections <- arabbarometer_metadata %>%
-  filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
-           grepl("how would you evaluate the last parliamentary", .data$label_orig)) %>%
-  mutate(var_label = var_label_normalize(.data$label_orig)) %>%
+  filter( var_name_orig %in% c("rowid", "country","date", "wt")|
+           grepl("how would you evaluate the last parliamentary", label_orig)) %>%
+  mutate(var_label = var_label_normalize(label_orig)) %>%
   mutate(var_label = case_when(
-    .data$var_name_orig == "country" ~ "Country",
-    .data$var_name_orig == "rowid"   ~ "Unique ID AB English", # in pdf Unique ID AB English
-    .data$var_name_orig == "date"    ~ "Date_of_interview",
-    .data$var_name_orig == "wt"      ~ "Weight",
+    var_name_orig == "country" ~ "Country",
+    var_name_orig == "rowid"   ~ "Unique ID AB English", # in pdf Unique ID AB English
+    var_name_orig == "date"    ~ "Date_of_interview",
+    var_name_orig == "wt"      ~ "Weight",
     TRUE ~ " Evaluation in the last parliamentary elections")) %>%
-  mutate ( var_name = var_label_normalize(.data$var_label) )
+  mutate ( var_name = var_label_normalize(var_label) )
 
 set.seed(2021) # Let's see the same random example:
 sample_n(to_harmonize_elections%>% 
@@ -179,7 +179,7 @@ sample_n(to_harmonize_elections%>%
 ```{r country-labels-example, include=FALSE}
 country_labels <- collect_val_labels (
     to_harmonize_elections %>% 
-                      filter (.data$var_name == "country")
+                      filter (var_name == "country")
     ) 
 
 algeria_labels <- paste0(
@@ -204,16 +204,16 @@ merged_ab_elections <- merge_surveys(
 
 ```{r to_harmonize_economy, include=FALSE, eval=FALSE}
 to_harmonize_economy <- arabbarometer_metadata %>%
-  filter( .data$var_name_orig %in% c("rowid", "country","date", "wt")|
-           grepl("current economic situation", .data$label_orig)) %>%
-  mutate(var_label = var_label_normalize(.data$label_orig)) %>%
+  filter( var_name_orig %in% c("rowid", "country","date", "wt")|
+           grepl("current economic situation", label_orig)) %>%
+  mutate(var_label = var_label_normalize(label_orig)) %>%
   mutate(var_label = case_when(
-    .data$var_name_orig == "country" ~ "Country",
-    .data$var_name_orig == "rowid"   ~ "Unique ID AB English", # in pdf Unique ID AB English
-    .data$var_name_orig == "date"    ~ "Date_of_interview",
-    .data$var_name_orig == "wt"      ~ "Weight",
+    var_name_orig == "country" ~ "Country",
+    var_name_orig == "rowid"   ~ "Unique ID AB English", # in pdf Unique ID AB English
+    var_name_orig == "date"    ~ "Date_of_interview",
+    var_name_orig == "wt"      ~ "Weight",
     TRUE ~ "evaluation_economic_situation")) %>%
-  mutate (var_name = var_label_normalize(.data$var_label) )
+  mutate (var_name = var_label_normalize(var_label) )
 ```
 
 ```{r merged_ab_economic-to-save, include=FALSE, eval=FALSE}
@@ -299,7 +299,7 @@ Arabbarometer's SPSS files use various missing value categories, we must careful
 collect_val_labels(
   to_harmonize_elections %>% 
      filter(grepl("evaluation_in_the_last_parliamentary_elections", 
-                  .data$var_name))
+                  var_name))
   )
 ```
 
@@ -346,7 +346,7 @@ The problem is that the numeric codes are not only used for the evaluation quest
 ```{r harmonize-evaluations, eval=TRUE}
 harmonized_evaluations <- harmonize_survey_values( 
   survey_list = lapply ( ab_elections, function(x) x %>% 
-                     select (-.data$country)), 
+                     select (-country)), 
   .f =harmonize_arabb_eval )
 ```
 
@@ -354,7 +354,7 @@ There is a bit of a work with the country variable, too, but this variable has n
 
 ```{r country-label-problems}
 country_labels <- collect_val_labels (to_harmonize_elections %>% 
-                      filter (.data$var_name == "country")) 
+                      filter (var_name == "country")) 
 
 country_labels[grepl("lgeria|orocco|oman" , country_labels)]
 ```
@@ -370,10 +370,10 @@ normalize_country_names <- function(x) {
 ```{r harmonize-countries}
 harmonize_countries <- lapply (
   X = ab_elections, function(x) { x %>% 
-      select ( -.data$evaluation_in_the_last_parliamentary_elections) }
+      select ( -evaluation_in_the_last_parliamentary_elections) }
                                 )
 harmonized_countries <- lapply ( harmonize_countries, function(x) x %>%
-                mutate ( country = normalize_country_names(.data$country)) %>%
+                mutate ( country = normalize_country_names(country)) %>%
                 select (-any_of("date_of_interview")))
 
 harmonized_countries <- do.call (rbind, harmonized_countries)
@@ -393,12 +393,12 @@ We see a missing weight, and we will impute 1 for this particular value, so that
 ```{r harmonized_ab_dataset}
 harmonized_ab_dataset <- harmonized_countries  %>%
   left_join(harmonized_evaluations, by = c("unique_id_ab_english", "weight") ) %>%
-  rename ( eval_parl = .data$evaluation_in_the_last_parliamentary_elections) %>%
+  rename ( eval_parl = evaluation_in_the_last_parliamentary_elections) %>%
   mutate ( 
-    wave = as_factor(gsub(".*(\\b[A-Z0-9]+).*", "\\1", .data$unique_id_ab_english)),
-    weight     = ifelse(is.na(.data$weight), 1, .data$weight), 
-    eval_parl = as_factor(.data$eval_parl), 
-    country   = as_factor(.data$country)) 
+    wave = as_factor(gsub(".*(\\b[A-Z0-9]+).*", "\\1", unique_id_ab_english)),
+    weight     = ifelse(is.na(weight), 1, weight), 
+    eval_parl = as_factor(eval_parl), 
+    country   = as_factor(country)) 
 
 summary(harmonized_ab_dataset)
 ```
@@ -412,7 +412,7 @@ Due to the categorical format of the question of MENA parliamentary election eva
 ```{r categorical-valuation-summary, message=FALSE}
 categorical_summary <- harmonized_ab_dataset %>%
   select ( -all_of(c("unique_id_ab_english")) )  %>%
-  group_by ( .data$country, .data$wave, .data$eval_parl ) %>%
+  group_by ( country, wave, eval_parl ) %>%
   summarize (n        = n(),
              weighted = round(n*weight, 0)
              ) %>%
@@ -433,11 +433,11 @@ The output as shown in the table above indicates the number of valuations given 
 ```{r numeric-valuation-summary, messsage=FALSE}
 numeric_summary <- harmonized_ab_dataset %>%
   select ( -all_of(c("unique_id_ab_english")) )  %>%
-  mutate ( eval_parl = as_numeric(.data$eval_parl)) %>%
-  group_by ( .data$country, .data$wave ) %>%
+  mutate ( eval_parl = as_numeric(eval_parl)) %>%
+  group_by ( country, wave ) %>%
   summarize (
-    mean   = weighted.mean(.data$eval_parl, w = .data$weight),
-    median = median(.data$eval_parl)
+    mean   = weighted.mean(eval_parl, w = weight),
+    median = median(eval_parl)
   ) %>%
   ungroup() 
 ```
@@ -455,11 +455,11 @@ library(ggplot2)
 chart_caption <- paste0(copyright_text, " Daniel Antal, Ahmed Shaibani, retroharmonize.dataobservatory.eu/articles/arabbarometer.html")
 summary_to_chart <- regional_parl_elections_by_wave  %>%
   mutate ( wave = case_when ( 
-    .data$wave == "ABIII" ~ "Arab Barometer Wave 3 (2012/14)", 
-    .data$wave == "ABIV" ~ "Arab Barometer Wave 4 (2016/17)", 
-    .data$wave == "ABII" ~ "Arab Barometer Wave 2 (2010/11)"), 
-    frequency =as.numeric(gsub("\\%", "", .data$freq)),
-    valuation = as_factor(snakecase::to_sentence_case(as_character(.data$valuation))) )
+    wave == "ABIII" ~ "Arab Barometer Wave 3 (2012/14)", 
+    wave == "ABIV" ~ "Arab Barometer Wave 4 (2016/17)", 
+    wave == "ABII" ~ "Arab Barometer Wave 2 (2010/11)"), 
+    frequency =as.numeric(gsub("\\%", "", freq)),
+    valuation = as_factor(snakecase::to_sentence_case(as_character(valuation))) )
 
 valuation_palette <- c("#E88500", "#FAE000", "#BAC615", "#3EA135", "grey50", "grey70", "grey90")
 names(valuation_palette) <- levels ( summary_to_chart$valuation)
@@ -499,8 +499,8 @@ regional_parl_elections_by_country <- harmonized_ab_dataset %>%
   pivot_longer ( starts_with("eval"), 
                  names_to  = "indicator", 
                  values_to = "valuation") %>%
-  filter ( !is.na(.data$valuation)) %>%
-      group_by(.data$wave,.data$valuation, .data$country) %>%
+  filter ( !is.na(valuation)) %>%
+      group_by(wave,valuation, country) %>%
   summarize(n=n())%>%
   mutate(freq= paste0(round(100 * n/sum(n), 0), "%")) %>%
   ungroup() %>%
@@ -509,15 +509,15 @@ regional_parl_elections_by_country <- harmonized_ab_dataset %>%
 
 ```{r regional_parl_elections_by_country-plot, include=FALSE, eval=FALSE}
 summary_to_country_chart <- regional_parl_elections_by_country  %>%
-  filter ( .data$wave != "ABI" ) %>%
+  filter ( wave != "ABI" ) %>%
    mutate ( wave = case_when ( 
-    .data$wave == "ABIII" ~ "Wave 3 (2012/14)", 
-    .data$wave == "ABIV" ~ "Wave 4 (2016/17)", 
-    .data$wave == "ABII" ~ "Wave 2 (2010/11)"), 
-    frequency =as.numeric(gsub("\\%", "", .data$freq)),
-    valuation = as_factor(snakecase::to_sentence_case(as_character(.data$valuation))) 
+    wave == "ABIII" ~ "Wave 3 (2012/14)", 
+    wave == "ABIV" ~ "Wave 4 (2016/17)", 
+    wave == "ABII" ~ "Wave 2 (2010/11)"), 
+    frequency =as.numeric(gsub("\\%", "", freq)),
+    valuation = as_factor(snakecase::to_sentence_case(as_character(valuation))) 
     ) %>%
-  mutate ( frequency = ifelse (is.na(.data$frequency), 0, .data$frequency))
+  mutate ( frequency = ifelse (is.na(frequency), 0, frequency))
 
 create_country_chart <- function(dat, title = "Comparison of Arab Barometer Election Valuations", 
                                  subtitle = "Breakup by Country and Survey Wave") {
@@ -565,7 +565,7 @@ knitr::include_graphics(
 ```{r arabb-comparison-select-country-chart, include=FALSE, eval=FALSE}
 create_country_chart(
   summary_to_country_chart %>%
-    filter ( ! .data$country %in% c("Kuwait", "Libya", "Iraq", "Yemen", "Morocco", "Sudan")), 
+    filter ( ! country %in% c("Kuwait", "Libya", "Iraq", "Yemen", "Morocco", "Sudan")), 
   subtitle = "Select Countries (Present In All Three Waves)")
 ```
 
@@ -583,9 +583,9 @@ The used datafiles and the metadata tables, and harmonized tables are too large 
 
 ```{r save-basic-types}
 harmonized_ab_data <- harmonized_ab_dataset %>% 
-  rename ( id = .data$unique_id_ab_english ) %>%
-  mutate (eval_parl_num = as_numeric(.data$eval_parl), 
-          eval_parl_cat = as_factor(.data$eval_parl)) %>%
+  rename ( id = unique_id_ab_english ) %>%
+  mutate (eval_parl_num = as_numeric(eval_parl), 
+          eval_parl_cat = as_factor(eval_parl)) %>%
   select (all_of(c("id", "country", "eval_parl_num", "eval_parl_cat", "wave")))
 ```
 

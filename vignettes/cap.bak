@@ -41,12 +41,12 @@ gesis_dir <- file.path("C:", "your_data", "gesis_files")
 ```
 
 ```{r loadgesisdir, inclue=FALSE}
-source(retroharmonize::here("not_included", "daniel_env.R"))
+source(here("not_included", "daniel_env.R"))
 ```
 
 ```{r createpath, eval=TRUE}
 ## Create full paths to the three selected files
-cap_files <- retroharmonize::here(gesis_dir, c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav'))
+cap_files <- here(gesis_dir, c('ZA4529_v3-0-1.sav', 'ZA5688_v6-0-0.sav'))
 ```
 
 In this example, we will create the following harmonized variables in a single harmonized data table:
@@ -116,7 +116,7 @@ weigthing_crosswalk_table <- crosswalk_table_create(
   mutate ( 
     # Define the new, harmonized variable names
     var_name_target = case_when (
-      # grepl("weight_result_from_target", .data$val_label_target)  ~ "w1",  [this is the issue]
+      # grepl("weight_result_from_target", val_label_target)  ~ "w1",  [this is the issue]
       var_name_orig  %in% c("wex", "wextra", "v47")        ~ 'wex',
       var_name_orig  %in% c("w1", "v8")                    ~ "w1",
       var_name_orig %in% c("w3a", "v12")                   ~ "w_de",
@@ -167,7 +167,7 @@ weight_vars <- weight_vars %>%
     id == "ZA4529_v3-0-1" ~ '2007',
     id == "ZA5688_v6-0-0" ~ '2013'
   )) %>%
-  mutate (year_survey = as.factor(.data$year_survey))
+  mutate (year_survey = as.factor(year_survey))
 ```
 
 *Beware that the country codes for the United Kingdom and for Greece follow the ISO standard, i.e. GB and GR, not the Eurostat country codes UK and EL*.
@@ -193,29 +193,29 @@ The `age_education` variable has three specially coded values:
 
 ```{r demographycrosstable}
 demography_crosstable <- cap_metadata %>%
-  filter ( .data$var_name_orig == "rowid" | 
-           .data$var_label_orig %in% c("age_exact", "age_education")) %>%
+  filter ( var_name_orig == "rowid" | 
+           var_label_orig %in% c("age_exact", "age_education")) %>%
   crosswalk_table_create() %>%
   mutate ( var_name_target = case_when(
     # Do not leave out the unique row identifiers!
-    .data$var_name_orig == "rowid" ~ "rowid", 
-    TRUE ~ .data$var_label_orig 
+    var_name_orig == "rowid" ~ "rowid", 
+    TRUE ~ var_label_orig 
   )) %>%
   mutate ( na_label_target = case_when(
-    .data$na_label_orig %in% c("DK", "Refusal") ~ "Declined",
-    TRUE ~ .data$na_label_target
+    na_label_orig %in% c("DK", "Refusal") ~ "Declined",
+    TRUE ~ na_label_target
   )) %>%
   mutate ( val_numeric_target = case_when(
-    .data$val_label_orig == "No full-time education" ~ 14,
-    .data$val_label_orig == "Still studying"         ~ 0,
-    TRUE ~ .data$val_numeric_target
+    val_label_orig == "No full-time education" ~ 14,
+    val_label_orig == "Still studying"         ~ 0,
+    TRUE ~ val_numeric_target
   )) %>%
   mutate ( na_numeric_target = case_when (
-    .data$na_label_target == "Declined" ~ 99999,
+    na_label_target == "Declined" ~ 99999,
     TRUE ~ NA_real_
   )) %>%
   mutate ( class_target = case_when (
-    .data$var_name_target == "rowid" ~ 'character', 
+    var_name_target == "rowid" ~ 'character', 
     TRUE ~ "numeric"
   ))
 ```
@@ -229,10 +229,10 @@ demography_crosstable %>% sample_n(5)
 demography_vars <- crosswalk(survey_list     = cap_surveys, 
                              crosswalk_table =  demography_crosstable, 
                              na_values = NULL) %>%
-  mutate ( is_student    = ifelse ( .data$age_education == 0, 1, 0), 
-           age_education = ifelse (.data$age_education ==0, 
-                                   .data$age_exact, 
-                                   .data$age_education))
+  mutate ( is_student    = ifelse ( age_education == 0, 1, 0), 
+           age_education = ifelse (age_education ==0, 
+                                   age_exact, 
+                                   age_education))
 ```
 
 Now we have three variables including the `is_student` dummy:  
@@ -279,8 +279,8 @@ search_term_labels <- c("rowid|cultural_activities_public_library|artistic_activ
 
 ```{r capvarscrosstable2}
 cap_vars_crosstable <- cap_metadata %>%
-  filter ( .data$var_name_orig == "rowid" | 
-             grepl(search_term_labels, .data$var_label_orig) ) %>%
+  filter ( var_name_orig == "rowid" | 
+             grepl(search_term_labels, var_label_orig) ) %>%
   crosswalk_table_create ()
 
 set.seed(6)
@@ -295,11 +295,11 @@ _The following steps can be made in a spreadsheet application, too, here we fill
 ```{r capvarscrosstable3}
 cap_vars_crosstable <- cap_vars_crosstable %>%
   mutate ( var_name_target = case_when(
-    .data$var_name_orig == "rowid" ~ "rowid", 
-    grepl("concert", .data$var_label_orig)       ~ "visit_concert", 
-    grepl("sung", .data$var_label_orig)          ~ "activity_sung", 
-    grepl("played_music", .data$var_label_orig)  ~ "activity_played_music", 
-    TRUE ~ .data$var_label_orig 
+    var_name_orig == "rowid" ~ "rowid", 
+    grepl("concert", var_label_orig)       ~ "visit_concert", 
+    grepl("sung", var_label_orig)          ~ "activity_sung", 
+    grepl("played_music", var_label_orig)  ~ "activity_played_music", 
+    TRUE ~ var_label_orig 
   ))
 ```
 
@@ -308,14 +308,14 @@ cap_vars_crosstable <- cap_vars_crosstable %>%
 ```{r capvarscrosstable4}
 cap_vars_crosstable <- cap_vars_crosstable %>%
   mutate ( na_label_target = case_when(
-    .data$na_label_orig %in% c("DK", "Refusal") ~ "declined",
-    grepl("^Inap", .data$na_label_orig)         ~ "inap",
-    .data$val_label_orig == "DK"                ~ "declined",
-    TRUE ~ .data$na_label_target
+    na_label_orig %in% c("DK", "Refusal") ~ "declined",
+    grepl("^Inap", na_label_orig)         ~ "inap",
+    val_label_orig == "DK"                ~ "declined",
+    TRUE ~ na_label_target
   )) %>% 
   mutate ( na_numeric_target = case_when (
-    .data$na_label_target == "declined" ~ 99999,
-    .data$na_label_target == "inap"     ~ 99998,
+    na_label_target == "declined" ~ 99999,
+    na_label_target == "inap"     ~ 99998,
     TRUE ~ NA_real_
   )) 
 ```
@@ -325,15 +325,15 @@ cap_vars_crosstable <- cap_vars_crosstable %>%
 ```{r capvarscrosstable5}
 cap_vars_crosstable <- cap_vars_crosstable %>%
   mutate ( val_label_target = case_when (
-    tolower(.data$val_label_orig) == "mentioned"             ~ "mentioned",
-    tolower(.data$val_label_orig) == "not mentioned"         ~ "not_mentioned",
-    tolower(.data$val_label_orig) == "1-2 times"             ~ "1_2_times", 
-    tolower(.data$val_label_orig) == "3-5 times"             ~ "3_5_times",
-    grepl("^more", tolower(.data$val_label_orig))            ~ "more_than_5", 
-    grepl("never|^not\\s\\in|none", tolower(.data$val_label_orig))  ~ "never",
-    !is.na(.data$na_label_target) ~  .data$na_label_target,
+    tolower(val_label_orig) == "mentioned"             ~ "mentioned",
+    tolower(val_label_orig) == "not mentioned"         ~ "not_mentioned",
+    tolower(val_label_orig) == "1-2 times"             ~ "1_2_times", 
+    tolower(val_label_orig) == "3-5 times"             ~ "3_5_times",
+    grepl("^more", tolower(val_label_orig))            ~ "more_than_5", 
+    grepl("never|^not\\s\\in|none", tolower(val_label_orig))  ~ "never",
+    !is.na(na_label_target) ~  na_label_target,
     # do not forget the rowid, it should not be labelled
-    .data$var_name_target == "rowid" ~ NA_character_,
+    var_name_target == "rowid" ~ NA_character_,
     TRUE ~ "coding_error"   # If this appears in your scheme crosswalk table, you have a problem.
   )) 
 ```
@@ -343,13 +343,13 @@ cap_vars_crosstable <- cap_vars_crosstable %>%
 ```{r capvarscrosstable6}
 cap_vars_crosstable <- cap_vars_crosstable %>%
   mutate ( val_numeric_target = case_when (
-    .data$val_label_target == "never"         ~ 0,
-    .data$val_label_target == "1_2_times"     ~ 1.5,
-    .data$val_label_target == "3_5_times"     ~ 3.5,
-    .data$val_label_target == "more_than_5"   ~ 6,
-    .data$val_label_target == "mentioned"     ~ 1,
-    .data$val_label_target == "not_mentioned" ~ 0,
-    TRUE ~ .data$na_numeric_target
+    val_label_target == "never"         ~ 0,
+    val_label_target == "1_2_times"     ~ 1.5,
+    val_label_target == "3_5_times"     ~ 3.5,
+    val_label_target == "more_than_5"   ~ 6,
+    val_label_target == "mentioned"     ~ 1,
+    val_label_target == "not_mentioned" ~ 0,
+    TRUE ~ na_numeric_target
   ))
 ```
 
@@ -360,11 +360,11 @@ One will rename the `visit_concert` variable to `fct_visit`, and give them the c
 ```{r capfct}
 cap_vars_crosstable_fct <- cap_vars_crosstable %>%
   mutate ( var_name_target = ifelse(
-           test = grepl("^visit|^artistic|^cultural|^activity", .data$var_name_target), 
-           yes  = paste0("fct_", .data$var_name_target), 
-           no   = .data$var_name_target), 
+           test = grepl("^visit|^artistic|^cultural|^activity", var_name_target), 
+           yes  = paste0("fct_", var_name_target), 
+           no   = var_name_target), 
            class_target = ifelse(
-             test  = .data$var_name_target == 'rowid', 
+             test  = var_name_target == 'rowid', 
              yes = "character", # the rowid remains a character
              no  = "factor" )
            )
@@ -382,7 +382,7 @@ The other will give these variable a numeric representation. The `crosswalk()` f
 ```{r capnum}
 cap_vars_crosstable_num <- cap_vars_crosstable %>%
    mutate( class_target = ifelse(
-      test  = .data$var_name_target == 'rowid', 
+      test  = var_name_target == 'rowid', 
       yes = "character",  # the rowid remains a character
       no = "numeric" )
   )
@@ -418,7 +418,7 @@ The average post-stratification weight must be 1 for `w` and `w1`.  The `wex` va
 
 ```{r weighttest, eval=FALSE}
 weight_vars %>%
-  group_by ( .data$id ) %>%
+  group_by ( id ) %>%
   mutate ( across(starts_with("w"), function(x) ifelse(x==0, NA, x))) %>% 
   dplyr::summarise( across(starts_with('w'), mean, na.rm=TRUE))
 ```
@@ -432,7 +432,7 @@ All concert visits labelled as `declined` and `inap` must be coded to a numeric 
 ```{r correctmissings}
 harmonized_cap_file %>% 
   select ( starts_with(c("id", "fct", "visit")) ) %>%
-  filter ( is.na(.data$visit_concert) ) %>%
+  filter ( is.na(visit_concert) ) %>%
   distinct_all()
 ```
 
@@ -442,14 +442,14 @@ We create `is_visit_concert`, which takes the value of 1 if the person visited a
 
 ```{r isvisit}
 harmonized_cap_file <- harmonized_cap_file %>%
-  mutate ( is_visit_concert = ifelse(.data$visit_concert > 1, 1, .data$visit_concert)) 
+  mutate ( is_visit_concert = ifelse(visit_concert > 1, 1, visit_concert)) 
 ```
 
 And checking if it is indeed smaller than the original (estimated) visiting frequency value.
 
 ```{r checkisvisit}
 harmonized_cap_file %>% 
-  group_by ( .data$id) %>%
+  group_by ( id) %>%
   dplyr::summarise ( across(starts_with("visit"),     mean, na.rm=TRUE), 
                      across(starts_with("is_visit"),  mean, na.rm=TRUE), 
                      .groups = "keep")

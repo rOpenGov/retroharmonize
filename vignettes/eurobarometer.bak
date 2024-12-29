@@ -17,7 +17,7 @@ load(file = system.file(
   "eurob", "eurob_vignette.rda", package = "retroharmonize"))
 ```
 
-The goal in this case study is to analyze trust in the national and European parliaments, and in the European Commission, in Europe, with data from the Eurobarometer. 
+The goal in this case study is to analyse trust in the national and European parliaments, and in the European Commission, in Europe, with data from the Eurobarometer. 
 
 The [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) is a biannual survey conducted by the European Commission with the goal of monitoring the public opinion of populations of EU member states and -- occasionally -- also in candidate countries. Each EB wave is devoted to a particular topic, but most waves ask some "trend questions", i.e. questions that are repeated frequently in the same form. Trust in institutions is among such trend questions.
 
