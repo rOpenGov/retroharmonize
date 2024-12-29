@@ -2,11 +2,15 @@
 #' 
 #' @description Import a survey from a csv file.
 #' 
-#' @inheritParams read.csv
 #' @param file A path to a file to import.
+#' @param dataset_bibentry A bibliographic entry created with 
+#' \code{dataset::\link[dataset:dublincore]{dublincore}} or 
+#' \code{dataset::\link[dataset:datacite]{datacite}}.
 #' @param id An identifier of the tibble, if omitted, defaults to the
 #' file name without its extension.
 #' @param doi An optional document object identifier.
+#' @param ... Further optional parameters to pass on to 
+#' \code{utils::\link[utils:read.csv]{read.csv}}.
 #' @importFrom tibble rowid_to_column
 #' @return A tibble, data frame variant with survey attributes.
 #' @importFrom fs path_ext_remove path_file is_file
@@ -16,48 +20,48 @@
 #' @importFrom tibble as_tibble
 #' @importFrom purrr safely
 #' @importFrom utils object.size
+#' @importFrom labelled to_labelled `var_label<-`
+#' @importFrom dataset dataset_df is.dataset_df
 #' @family import functions
 #' @examples
+#' # Create a temporary CSV file:
 #' path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
 #' read_survey <- read_rds(path)
-#' attr(read_survey, "id")
-#' attr(read_survey, "filename")
-#' attr(read_survey, "doi") 
+#' test_csv_file <- tempfile()
+#' write.csv(x = read_survey, file = test_csv_file, row.names = F)
+#' 
+#' # Create a Bibentry:
+#' survey_bibentry <- dublincore(
+#'           title = "Test Survey", 
+#'           creator = person("Jane", "Doe", role = "cre")
+#'           )
+#'
+#' # Read the CSV file:           
+#' re_read <- read_csv(
+#'            file=test_csv_file,
+#'            dataset_bibentry = survey_bibentry,
+#'            id = "ZA7576", doi = "test_doi")
 #' @export
 
 read_csv <- function(file,
                      id = NULL, 
                      doi = NULL, 
-                     header = FALSE, 
-                     sep = "", quote = "\"'",
-                     dec = ".",
-                     numerals = c("allow.loss", "warn.loss", "no.loss"),
-                     na.strings = "NA", 
-                     skip = 0, check.names = TRUE, 
-                     strip.white = FALSE, 
-                     blank.lines.skip = TRUE,
-                     stringsAsFactors = FALSE,
-                     fileEncoding = "", encoding = "unknown") {
+                     dataset_bibentry = NULL,
+                     ...) {
   
-  filename <- fs::path_file(file)
+  # filename <- fs::path_file(file)
+  
+  filename <- file 
+  source_file_info <- valid_file_info(file)
   
   if ( is.null(id) ) {
     id <- fs::path_ext_remove ( filename )
   }
   
-  safely_readcsv <- purrr::safely (read.csv)
+  safely_readcsv <- purrr::safely(read.csv)
   
-  
-  tmp <- safely_readcsv(file = file,
-                        na.strings = na.strings, 
-                        dec = dec, 
-                        skip = skip, 
-                        strip.white = strip.white,
-                        blank.lines.skip = blank.lines.skip,
-                        numerals = numerals,
-                        stringsAsFactors = stringsAsFactors, 
-                        fileEncoding = fileEncoding, 
-                        encoding = encoding)  
+  tmp <- safely_readcsv(file=file)
+  tmp <- safely_readcsv(file=file, ...)
 
   if ( ! is.null(tmp$error) ) {
     warning ( tmp$error, "\nReturning an empty survey." )
@@ -68,12 +72,23 @@ read_csv <- function(file,
     tmp  <- tmp$result
   }
   
-  source_file_info <- valid_file_info(file)
-  
-  if ( ! "rowid" %in% names(tmp) ) {
-    tmp <- tibble::rowid_to_column(tmp)
+  if(any(names(tmp)=="X")) {
+    tmp <- tmp %>% select (-X)
   }
   
+  chr_vars <- vapply(1:ncol(tmp), function(x) inherits(tmp[,x], "character"), logical(1))
+  chr_unique_n <- vapply(which(chr_vars), function(x) length(unique(tmp[x, ])), integer(1))
+  to_fct_vars <- which(chr_vars)[which(chr_unique_n>1)]
+  
+ 
+  for (i in to_fct_vars) {
+    #tmp[, i] <- labelled::to_labelled(as.factor(tmp[, i])) 
+    tmp[, i]  <- dataset::defined(as.factor(tmp[, i])) 
+  }
+  
+  tmp_df <- dataset_df(tmp, identifier = doi, dataset_bibentry = dataset_bibentry )
+  
+ 
   if ( is.null(doi)) {
     if ( "doi" %in% names(tmp) ) {
       doi <- tmp$doi[1]
@@ -82,15 +97,24 @@ read_csv <- function(file,
     }
   }
   
-  tmp$rowid <- paste0(id, "_", gsub(id, "", tmp$rowid))
-  labelled::var_label ( 
-    tmp$rowid ) <- paste0("Unique identifier in ", id)
+  tmp_df$rowid <- paste0(id, "_", gsub(id, "", tmp$rowid))
   
-  return_survey <- survey (tmp, id=id, filename=filename, doi=doi)
+  var_label(tmp_df$rowid) <- paste0("Unique identifier in ", id)
+  
+  return_survey <- survey_df(tmp, dataset_bibentry = dataset_bibentry, id=id, filename=filename)
   
   object_size <- as.numeric(object.size(as_tibble(tmp)))
   attr(return_survey, "object_size") <- object_size
   attr(return_survey, "source_file_size") <- source_file_info$size
+  
+  if (dataset::dataset_title(return_survey)=="Untitled Dataset") {
+    dataset::dataset_title(return_survey, overwrite=TRUE) <- "Untitled Survey" 
+  }
+  
+  ## For backward compatibility
+  attr(return_survey, "id") <- id
+  attr(return_survey, "doi") <- doi
+  
   
   return_survey
 }

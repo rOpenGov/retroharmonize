@@ -16,7 +16,10 @@
 #' @param export_path Defaults to \code{NULL}, in this case the read surveys are imported into a single
 #' list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each 
 #' survey an R object with \code{base::\link[base:readRDS]{saveRDS}}.
-#' @return A list of the surveys or a vector of the saved file names.  
+#' @param ids The identifiers of the individual surveys.
+#' @param dois The DOIs of the individual surveys.
+#' @param ... Parameters to pass on to the function \code{.f}. 
+#' @return A list of the surveys or a vector of the saved file names. See
 #' Each element of the list is a data
 #' frame-like \code{\link{survey}} type object where some metadata, 
 #' such as the original file name, doi identifier if present, and other
@@ -30,14 +33,19 @@
 #' file2 <- system.file(
 #'     "examples", "ZA5913.rds", package = "retroharmonize")
 #'
-#' read_surveys (c(file1,file2), .f = 'read_rds' )
+#' read_surveys( c(file1,file2), .f = 'read_rds' )
 #' @export
 #' @family import functions
 #' @seealso survey
 
 read_surveys <- function ( survey_paths,
                            .f = NULL,
-                           export_path = NULL ) {
+                           export_path = NULL, 
+                           ids = NULL, 
+                           dois = NULL,
+                           ... ) {
+  
+  arguments <- list(...)
   
   import_file_vector <- survey_paths
   existing_files <- which(file.exists(import_file_vector))
@@ -54,9 +62,25 @@ read_surveys <- function ( survey_paths,
   
   import_file_vector <- import_file_vector[existing_files]
   
-  return_survey_list <- lapply ( import_file_vector, 
-                                 function(x) read_survey(x, .f, export_path)
-                                 )
+  if (!is.null(ids)) {
+    ids <- ids[existing_files]
+  } else { ids <- rep(NULL, length(import_file_vector)) }
+  
+  if (!is.null(dois)) {
+    dois <- dois[existing_files]
+  } else { dois <- rep(NULL, length(import_file_vector)) }
+  
+
+  return_survey_list <- lapply (
+    1:length(import_file_vector), 
+    function(x) read_survey(file_path = import_file_vector[x], 
+                            .f = .f, 
+                            export_path = export_path, 
+                            doi = dois[x], 
+                            id = ids[x], 
+                            ... = ... )
+  )
+
   return_survey_list
 }
 
@@ -65,9 +89,16 @@ read_surveys <- function ( survey_paths,
 #' @importFrom glue glue
 #' @importFrom assertthat assert_that
 #' @importFrom purrr safely
+#' @keywords internal
+read_survey <- function(file_path, 
+                        .f = NULL, 
+                        export_path = NULL, 
+                        doi = NULL, 
+                        id = NULL,
+                        ... ) {
 
-read_survey <- function(file_path, .f = NULL, export_path = NULL) {
-
+  arguments <- list(...)
+ 
   assert_that(fs::file_exists(file_path), 
               msg = glue::glue("The file {file_path} does not exist."))
   
@@ -80,7 +111,7 @@ read_survey <- function(file_path, .f = NULL, export_path = NULL) {
   } else if ( .f == 'read_dta') {
     res <- safely(read_dta)(file_path)
   } else if ( .f == 'read_csv') {
-    res <- safely(read.csv)(file_path)
+    res <- safely(read_csv)(file=file_path, doi=doi, id=id,  ...)
   } 
   
   if (is.null(res$error)) {

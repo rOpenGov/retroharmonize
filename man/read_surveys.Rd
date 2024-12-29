@@ -5,9 +5,23 @@
 \alias{read_survey}
 \title{Read survey file(s)}
 \usage{
-read_surveys(survey_paths, .f = NULL, export_path = NULL)
+read_surveys(
+  survey_paths,
+  .f = NULL,
+  export_path = NULL,
+  ids = NULL,
+  dois = NULL,
+  ...
+)
 
-read_survey(file_path, .f = NULL, export_path = NULL)
+read_survey(
+  file_path,
+  .f = NULL,
+  export_path = NULL,
+  doi = NULL,
+  id = NULL,
+  ...
+)
 }
 \arguments{
 \item{survey_paths}{A vector of (full) file paths that contain the surveys to import.}
@@ -21,9 +35,15 @@ call \code{\link{read_dta}}, \code{rds} will call \code{\link{read_rds}} and
 \item{export_path}{Defaults to \code{NULL}, in this case the read surveys are imported into a single
 list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each 
 survey an R object with \code{base::\link[base:readRDS]{saveRDS}}.}
+
+\item{ids}{The identifiers of the individual surveys.}
+
+\item{dois}{The DOIs of the individual surveys.}
+
+\item{...}{Parameters to pass on to the function \code{.f}.}
 }
 \value{
-A list of the surveys or a vector of the saved file names.  
+A list of the surveys or a vector of the saved file names. See
 Each element of the list is a data
 frame-like \code{\link{survey}} type object where some metadata, 
 such as the original file name, doi identifier if present, and other
@@ -44,7 +64,7 @@ file1 <- system.file(
 file2 <- system.file(
     "examples", "ZA5913.rds", package = "retroharmonize")
 
-read_surveys (c(file1,file2), .f = 'read_rds' )
+read_surveys( c(file1,file2), .f = 'read_rds' )
 }
 \seealso{
 survey
@@ -57,3 +77,4 @@ Other import functions:
 \code{\link{read_spss}()}
 }
 \concept{import functions}
+\keyword{internal}
