@@ -22,3 +22,4 @@ survey level.
 codebook_create()
 }
 \concept{codebook functions}
+\keyword{internal}

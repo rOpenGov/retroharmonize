@@ -9,6 +9,7 @@
 #' # This is a new function candidate and is not written yet.
 #' codebook_create()
 
+#' @keywords internal 
 codebook_create <- function() {
-  NULL
+  cat("Not written yet")
 }

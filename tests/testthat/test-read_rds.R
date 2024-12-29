@@ -1,5 +1,3 @@
-
-
 test_that("attributes work", {
   examples_dir <- system.file( "examples", package = "retroharmonize")
   test_read <- read_rds ( file.path(examples_dir, "ZA7576.rds"),

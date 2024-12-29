@@ -1,3 +1,5 @@
+> x1 <- labelled_spss_survey(x = 1:10, labels = c(Good = 1, Bad = 8), na_values = c(
++   9, 10), id = "survey1")
 > pillar::pillar(x1)
 <pillar>
 <retroh_int>

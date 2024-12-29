@@ -3,9 +3,11 @@ examples_dir <- system.file( "examples", package = "retroharmonize")
 test_csv_file <- tempfile()
 
 test_that("read_csv works", {
-  test_read <- read_rds ( file.path(examples_dir, "ZA7576.rds"),
-                          id = "ZA7576", 
-                          doi = "test_doi")
+  examples_dir <- system.file( "examples", package = "retroharmonize")
+  test_csv_file <- tempfile()
+  test_read <- read_rds(file.path(examples_dir, "ZA7576.rds"),
+                        id = "ZA7576", 
+                        doi = "test_doi")
   write.csv(x = test_read, file = test_csv_file, row.names = F)
   re_read <- read_csv(test_csv_file, id = "ZA7576", doi = "test_doi")
   expect_equal(attr(re_read, "doi"), "test_doi")
@@ -14,6 +16,12 @@ test_that("read_csv works", {
 })
 
 test_that("read_survey(...) passes on ...", {
+  examples_dir <- system.file( "examples", package = "retroharmonize")
+  test_csv_file <- tempfile()
+  test_read <- read_rds(file.path(examples_dir, "ZA7576.rds"),
+                        id = "ZA7576", 
+                        doi = "test_doi")
+  write.csv(x = test_read, file = test_csv_file, row.names = F)
   re_read_2 <- read_survey(file_path = test_csv_file, 
                            .f = "read_csv",
                            id = "ZA7576", 
@@ -25,6 +33,12 @@ test_that("read_survey(...) passes on ...", {
 
 
 test_that("read_surveys(...) passes on ...", {
+  examples_dir <- system.file( "examples", package = "retroharmonize")
+  test_csv_file <- tempfile()
+  test_read <- read_rds(file.path(examples_dir, "ZA7576.rds"),
+                        id = "ZA7576", 
+                        doi = "test_doi")
+  write.csv(x = test_read, file = test_csv_file, row.names = F)
   re_read_3 <- read_surveys(survey_paths = test_csv_file, 
                             .f = "read_csv",
                             ids = "ZA7576", 
