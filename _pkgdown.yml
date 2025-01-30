@@ -5,7 +5,7 @@ template:
 
 home:
   title: Reproducible survey harmonization
-  
+
 authors:
   Daniel Antal:
     href: https://reprex.nl/authors/daniel_antal/
@@ -13,14 +13,14 @@ authors:
     href: https://reprex.nl/
     html: <img src="https://reprex.nl/authors/admin/avatar_hud66277e7f64fbf44513e7a4881e2a94f_35557_270x270_fill_lanczos_center_2.png"
       height="24" />
-      
+
 intro:
   - title: "Get Started"
 
 articles:
   - title: "Conceptual"
     desc: >
-     We try to bulid a correspondance with the DDI and SDMX standards, the exiting 
+     We try to bulid a correspondance with the DDI and SDMX standards, the exiting
      literature and our own practice.
     contents:
       - concept
@@ -29,28 +29,25 @@ articles:
       - harmonize_labels
   - title: "Tutorials"
     desc: >
-      An overview of the harmonization workflow and support for 
+      An overview of the harmonization workflow and support for
       **mapping concepts**, creating a **crosswalk scheme** of the harmonization,
       carrying out variable name, numerical code, labeling and type setting
       harmonization.
-    contents: 
+    contents:
       - survey_harmonization
       - metadata
       - documentation
       - retroharmonize
   - title: "Use cases"
     desc: >
-      Real-life examples with thee major harmonized survey program's 
+      Real-life examples with thee major harmonized survey program's
       data.
-    contents: 
-      - eurobarometer
+    contents:
       - afrobarometer
-      - arabbarometer
-      - cap
   - title: "Under the hood"
     desc: >
       The s3 class inheritted from *labelled* and *haven*
-    contents: 
+    contents:
       - labelled_spss_survey
 
 reference:
@@ -68,25 +65,25 @@ reference:
       - pull_survey
   - title: "Harmonizing concepts with metadata"
     desc: >
-     After importing data with some **descriptive metadata** such as **numerical coding** and **labelling**, 
+     After importing data with some **descriptive metadata** such as **numerical coding** and **labelling**,
      we need to create a map of the information that is in our R session to prepare a harmonization
-     plan. We must find information related to sufficiently similar concepts that can be 
-     harmonized to be successfully joined into a single variable, and eventually a table of similar 
-     variables must be joined. 
+     plan. We must find information related to sufficiently similar concepts that can be
+     harmonized to be successfully joined into a single variable, and eventually a table of similar
+     variables must be joined.
     contents:
       - metadata_create
       - metadata_survey_create
       - retroharmonize
   - title: "Codebooks"
     desc: >
-     The new functions will follow the DDI and SDMX terminology. 
-     See vignette [Harmonizing Concepts, Questions, and Variables](https://retroharmonize.dataobservatory.eu/articles/concept.html) 
-    contents: 
+     The new functions will follow the DDI and SDMX terminology.
+     See vignette [Harmonizing Concepts, Questions, and Variables](https://retroharmonize.dataobservatory.eu/articles/concept.html)
+    contents:
       - codebook_create
   - title: "Harmonize variable names"
-    desc: > 
+    desc: >
      Before joining variables containing responses about the same concept, make
-     sure that they have **identical names** in the re-processed surveys. 
+     sure that they have **identical names** in the re-processed surveys.
      See the vignette [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) for examples and further clarification.
     contents:
        - harmonize_var_names
@@ -96,13 +93,13 @@ reference:
     desc: >
      The new functions will follow the DDI and SDMX terminology. The old terminology uses
      variable harmonization (below).
-          See vignette [Value Labels and Codelists](https://retroharmonize.dataobservatory.eu/articles/codelist.html) 
-    contents: 
+          See vignette [Value Labels and Codelists](https://retroharmonize.dataobservatory.eu/articles/codelist.html)
+    contents:
       - codelist_create
   - title: "Harmonize numerical codes and labels"
-    desc: > 
-     To merge variables from different surveys into a single variable, you must make sure that 
-     the numerical codes and labels, for example *0='no'* and *1='yes'* are processed identically. 
+    desc: >
+     To merge variables from different surveys into a single variable, you must make sure that
+     the numerical codes and labels, for example *0='no'* and *1='yes'* are processed identically.
      See the vignette [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) for examples and further clarification.
     contents:
         - collect_val_labels
@@ -110,9 +107,9 @@ reference:
         - harmonize_survey_values
         - merge_surveys
   - title: "Harmonize missing and special cases"
-    desc: > 
-      Some variable codes have a special meaning, such as a various labels of 
-      **missing values** which need to be converted differently to numeric, factor or 
+    desc: >
+      Some variable codes have a special meaning, such as a various labels of
+      **missing values** which need to be converted differently to numeric, factor or
       character representation.
       See the vignette [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) for examples and further clarification.
     contents:
@@ -120,7 +117,7 @@ reference:
         - na_range_to_values
         - harmonize_na_values
   - title: "Crosswalk"
-    desc: > 
+    desc: >
      Laying out the harmonization **crosswalk scheme** (unifying variable names, codes,
      labels.) See the vignette [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) for examples and further clarification.
     contents:
@@ -128,31 +125,33 @@ reference:
       - crosswalk
   - title: "Subsetting"
     desc: >
-     Remove variables that **cannot be harmonized** in your workflow either in 
+     Remove variables that **cannot be harmonized** in your workflow either in
      memory (faster for smaller tasks) or sequentially from files.
      See the vignette [Working with a Crosswalk Table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) for examples and further clarification.
     contents:
        - subset_surveys
   - title: "Documentation functions"
-    desc: > 
+    desc: >
        These functionality requires a thorough review.
     contents:
         - document_survey_item
         - document_surveys
         - create_codebook
   - title: "Type conversion"
-    desc: > 
+    desc: >
       Consistently treat labels, missing value ranges, missing value labels imported
-      from SPSS, STATA or other source to use R language statistical functions, which 
-      mainly work with the base class of **numeric** or **factor**. For data visualization, the 
-      base class **character** may be preferred. 
+      from SPSS, STATA or other source to use R language statistical functions, which
+      mainly work with the base class of **numeric** or **factor**. For data visualization, the
+      base class **character** may be preferred.
       See vignette [The labelled_spss_survey class](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html)
       for further information.
     contents:
         - survey
+        - is.survey_df
         - labelled_spss_survey
         - as_labelled_spss_survey
         - concatenate
         - as_factor
         - as_numeric
         - as_character
+
