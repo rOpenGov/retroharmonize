@@ -86,6 +86,7 @@ create_codebook <- function ( metadata = NULL,
       filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels")))   %>%
       unnest_longer( valid_labels) %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels", "valid_labels_id"))) %>%
       rlang::set_names ( c("entry", "id", "filename", "var_name_orig","var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the valid observation range
@@ -96,6 +97,7 @@ create_codebook <- function ( metadata = NULL,
       filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels"))) %>%
       unnest_longer( na_labels) %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels", "na_labels_id"))) %>%
       purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the missing observation range
@@ -129,6 +131,7 @@ create_codebook <- function ( metadata = NULL,
       filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels")))   %>%
       unnest_longer( valid_labels) %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig", "valid_labels", "valid_labels_id")))   %>%
       rlang::set_names ( c("entry", "id", "filename", "var_name_orig","var_label_orig",  "val_code_orig", "val_label_orig")) %>%
       mutate ( 
         # This is the valid observation range
@@ -140,6 +143,7 @@ create_codebook <- function ( metadata = NULL,
       filter ( grepl( "labelled", class_orig )) %>%
       select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels"))) %>%
       unnest_longer( na_labels) %>%
+      select ( all_of(c("entry", "id", "filename", "var_name_orig", "var_label_orig",  "na_labels", "na_labels_id"))) %>%
       purrr::set_names ( c("entry", "id", "filename", "var_name_orig", "var_label_orig",  
                            "val_code_orig", "val_label_orig")) %>%
       mutate ( 
