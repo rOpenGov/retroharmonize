@@ -41,5 +41,5 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          args: 'c("--as-cran")'
+          args: "--as-cran --no-manual"
           upload-snapshots: true
