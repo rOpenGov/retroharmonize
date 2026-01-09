@@ -1,18 +1,25 @@
-## Test environments
-* local win install,
-* rhub  
+This update was triggered by new automated checks and stricter validation 
+introduced after the previous CRAN release (notably around S3 method 
+documentation, example execution, namespace imports, and vctrs/cli 
+interactions).
 
-## R CMD check results
-This release is primarily a maintenance and compatibility update.
-The refactoring was triggered by new automated checks introduced after 
-the previous CRAN release (checks that did not exist at the time of 
-the 2023 submission). These newer checks exposed several issues
-related to: stricter namespace validation, S3 method documentation completeness,
-handling of non-standard evaluation in dplyr pipelines,
-example robustness under --run-donttest, vctrs type stability.
+The package codebase was already functional, but recent CRAN and R-hub 
+checks exposed a number of issues that were not flagged in earlier (2023) 
+environments.
 
-No breaking API changes. All public functions retain their existing 
-interfaces. Deprecated aliases remain available with clear warnings.
+In this release we:
+- corrected and completed S3 method documentation and Rd usage sections,
+- fixed examples and \donttest{} blocks to run cleanly under --run-donttest,
+- removed unused imports and clarified implicit dependencies,
+- added targeted unit tests to cover previously untested harmonization and import paths,
+- addressed NOTES related to non-standard evaluation and vctrs-based methods.
+
+The functionality of the package is unchanged; this update focuses on
+robustness, documentation completeness, and compatibility with current
+CRAN policies.
+
+All checks pass locally, via GitHub Actions, and 
+on R-hub (Linux, Windows, macOS).
 
 There are two NOTES:
 

@@ -103,10 +103,22 @@ read_csv <- function(file,
     }
   }
   
+  if (!"rowid" %in% names(tmp)) {
+    stop("CSV file does not contain a 'rowid' column.")
+  }
+  
   if (is.null(id)) {
-    tmp_df$rowid <- paste0("survey_", tmp$rowid)
+    rowid_chr <- as.character(tmp$rowid)
+    tmp_df$rowid <- paste0(
+      id, "_",
+      gsub(id, "", rowid_chr, fixed = TRUE)
+    )
   } else { 
-    tmp_df$rowid <- paste0(id, "_", gsub(id, '', tmp$rowid))
+    rowid_chr <- as.character(tmp$rowid)
+    tmp_df$rowid <- paste0(
+      id, "_",
+      gsub(id, "", rowid_chr, fixed = TRUE)
+    )
   }
 
   var_label(tmp_df$rowid) <- paste0("Unique identifier in ", id)
