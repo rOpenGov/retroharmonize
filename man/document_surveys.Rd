@@ -12,7 +12,7 @@ document_waves(waves)
 \arguments{
 \item{survey_list}{A list of \code{\link{survey}} objects.}
 
-\item{survey_paths}{A vector of full file paths to the surveys to subset, defaults to 
+\item{survey_paths}{A vector of full file paths to the surveys to subset, defaults to
 \code{NULL}.}
 
 \item{.f}{A function to import the surveys with.
@@ -24,31 +24,33 @@ saves some metadata, too. For STATA files use \code{read_dta}.}
 \item{waves}{A list of \code{\link{survey}} objects.}
 }
 \value{
-Returns a data frame with the key attributes of the surveys 
-in a survey list: the name of the data file, the number of rows and 
+Returns a data frame with the key attributes of the surveys
+in a survey list: the name of the data file, the number of rows and
 columns, and the size of the object as stored in memory.
 }
 \description{
 Document the key attributes surveys in a survey list.
 }
 \details{
-The function has two alternative input parameters. If \code{survey_list} is the 
-input, it returns  the name of the original source data file, the number of rows and 
+The function has two alternative input parameters. If \code{survey_list} is the
+input, it returns  the name of the original source data file, the number of rows and
 columns, and the size of the object as stored in memory. In case \code{survey_paths}
 contains the source data files, it will sequentially read those files, and add the file
 size, the last access and the last modified time attributes.
 
-The earlier form \code{document_waves} is deprecated.  
+The earlier form \code{document_waves} is deprecated.
 Currently called \code{\link{document_surveys}}.
 }
 \examples{
-examples_dir <- system.file( "examples", package = "retroharmonize")
-                        
-my_rds_files <- dir( examples_dir)[grepl(".rds", 
-                                   dir(examples_dir))]
+examples_dir <- system.file("examples", package = "retroharmonize")
+
+my_rds_files <- dir(examples_dir)[grepl(
+  ".rds",
+  dir(examples_dir)
+)]
 
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
- 
+
 documented <- document_surveys(example_surveys)
 
 attr(documented, "original_list")

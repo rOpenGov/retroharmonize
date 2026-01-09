@@ -1,305 +1,255 @@
 #' @title Harmonize values in surveys
-#' 
-#' @description Harmonize the value codes and value labels across multiple surveys. 
-#' 
-#' @details The functions binds together variables
-#' that are all present in the surveys, and applies a 
-#' harmonization function \code{.f} on them. Till
-#' retroharmonize 0.2.0 called \code{harmonize_waves}.
-#' 
-#' @param survey_list A list of surveys. In the deprecated form the parameter was called
+#'
+#' @description
+#' Harmonize value codes and value labels across multiple surveys and
+#' combine them into a single data frame.
+#'
+#' @details
+#' The function first aligns the structure of all surveys by ensuring that
+#' they contain the same set of variables. Missing variables are added and
+#' filled with appropriate missing values depending on their type.
+#'
+#' Variables of class \code{"retroharmonize_labelled_spss_survey"} are then
+#' harmonized by applying a user-supplied function \code{.f} to each variable
+#' separately within each survey.
+#'
+#' The harmonization function \code{.f} must return a vector of the same length
+#' as its input. If \code{.f} returns \code{NULL}, the original variable is kept
+#' unchanged.
+#'
+#' Prior to version 0.2.0 this function was called \code{harmonize_waves}.
+#'
+#' @param survey_list
+#' A list of surveys (data frames). In earlier versions this argument was called
 #' \code{waves}.
-#' @param .f A function to apply for the harmonization.
-#' @param status_message Defaults to \code{FALSE}. If set to \code{TRUE}
-#' it shows the id of the survey that is being joined.
-#' @return A natural full join of all surveys in a single data frame.
+#'
+#' @param .f
+#' A function applied to each labelled variable
+#' (class \code{"retroharmonize_labelled_spss_survey"}). The function must not
+#' change the length of the input vector.
+#'
+#' @param status_message
+#' Logical. If \code{TRUE}, prints the identifier of each survey as it is
+#' processed.
+#'
+#' @return
+#' A data frame containing the row-wise combination of all surveys, with
+#' harmonized labelled variables and preserved attributes describing the
+#' original surveys.
+#'
+#' @family harmonization functions
+#'
 #' @export
+#'
 #' @importFrom dplyr select bind_cols mutate_all pull
 #' @importFrom tidyselect all_of
 #' @importFrom tibble as_tibble
 #' @importFrom rlang set_names
 #' @importFrom haven labelled_spss
-#' @family harmonization functions
+#'
 #' @examples
 #' \donttest{
 #' examples_dir <- system.file("examples", package = "retroharmonize")
-#' survey_list <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
-#' 
-#' example_surveys <- read_surveys(
-#'   file.path( examples_dir, survey_list), 
-#'   save_to_rds = FALSE)
-#' 
-#' metadata <- lapply ( X = example_surveys, FUN = metadata_create )
-#' metadata <- do.call(rbind, metadata)
-#' 
-#' require(dplyr)
-#' 
-#' to_harmonize <- metadata %>%
-#'   filter ( var_name_orig %in% 
-#'              c("rowid", "w1") |
-#'              grepl("^trust", var_label_orig ) ) %>%
-#'   mutate ( var_label = var_label_normalize(var_label_orig) ) %>%
-#'   mutate ( var_name_target = val_label_normalize(var_label_orig) ) %>%
-#'   mutate ( var_name_target = ifelse(.data$var_name_orig %in% c("rowid", "w1", "wex"), 
-#'                                     .data$var_name_orig, .data$var_name_target) )
-#' 
-#' harmonize_eb_trust <- function(x) {
-#'   label_list <- list(
-#'     from = c("^tend\\snot", "^cannot", "^tend\\sto", "^can\\srely",
-#'              "^dk", "^inap", "na"), 
-#'    to = c("not_trust", "not_trust", "trust", "trust",
-#'            "do_not_know", "inap", "inap"), 
-#'     numeric_values = c(0,0,1,1, 99997,99999,99999)
-#'   )
-#'   
-#'   harmonize_survey_values(x, 
-#'                    harmonize_labels = label_list, 
-#'                    na_values = c("do_not_know"=99997,
-#'                                  "declined"=99998,
-#'                                  "inap"=99999)
-#'                    )
-#' }
-#' 
-#' merged_surveys <- merge_surveys ( example_surveys, var_harmonization = to_harmonize  )
-#' 
-#' harmonized <- harmonize_survey_values(survey_list = merged_surveys, 
-#'                               .f = harmonize_eb_trust,
-#'                               status_message = FALSE)
-#'                               
-#' # For details see Afrobarometer and Eurobarometer Case Study vignettes.
+#' survey_files <- dir(examples_dir, pattern = "\\.rds$", full.names = TRUE)
+#'
+#' surveys <- read_surveys(
+#'   survey_files,
+#'   export_path = NULL
+#' )
+#'
+#' # Keep only supported variable types
+#' surveys <- lapply(
+#'   surveys,
+#'   function(s) {
+#'     s[, vapply(
+#'       s,
+#'       function(x) inherits(x, c(
+#'         "retroharmonize_labelled_spss_survey",
+#'         "numeric",
+#'         "character",
+#'         "Date"
+#'       )),
+#'       logical(1)
+#'     )]
+#'   }
+#' )
+#'
+#' # Identity harmonization (no-op)
+#' harmonized <- harmonize_survey_values(
+#'   survey_list = surveys,
+#'   .f = function(x) x,
+#'   status_message = FALSE
+#' )
+#'
+#' head(harmonized)
 #' }
 
-harmonize_survey_values <- function(survey_list, .f, status_message = FALSE) {
+
+harmonize_survey_values <- function(
+    survey_list,
+    .f,
+    status_message = FALSE
+) {
   
   validate_survey_list(survey_list)
   
-  all_names <-  unique(unlist(lapply ( survey_list, names ))) 
+  all_names <- unique(unlist(lapply(survey_list, names)))
   
+  ## classify variables robustly
+  classes <- unlist(lapply(
+    survey_list,
+    function(x) lapply(x, function(y) {
+      if (inherits(y, "retroharmonize_labelled_spss_survey")) {
+        "retroharmonize_labelled_spss_survey"
+      } else if (inherits(y, c("numeric", "double", "integer"))) {
+        "numeric"
+      } else if (inherits(y, "character")) {
+        "character"
+      } else if (inherits(y, "Date")) {
+        "Date"
+      } else {
+        "other"
+      }
+    })
+  ))
   
-  classes <- unlist(lapply ( survey_list, function(x) lapply( x, function(y) class(y)[1]) ))
-  #classes <- unlist(sapply ( survey_list, function(x) sapply( x, function(y) class(y)[1]) ))
+  retroharmonized <- unique(names(classes)[classes == "retroharmonize_labelled_spss_survey"])
+  numerics <- unique(names(classes)[classes == "numeric"])
+  characters <- unique(names(classes)[classes == "character"])
+  dates <- unique(names(classes)[classes == "Date"])
+  other_types <- names(classes)[classes == "other"]
   
-  # The harmonization must take place by variable classes 
-  # The retroharmonized, numeric, character, Date types are separately treated ---------------------
+  if (length(other_types) > 0) {
+    stop(
+      "Only labelled_spss_survey, numeric, character and Date types are allowed",
+      call. = FALSE
+    )
+  }
   
-  retroharmonized <- unique(names(classes[which(classes == "retroharmonize_labelled_spss_survey")]))
-  numerics <- unique(names(classes[which(classes %in% c("numeric", "double", "integer"))]))
-  characters <- unique(names(classes[which(classes %in% c("character"))]))
-  dates <- unique(names(classes[which(classes %in% c("Date"))]))
-  other_types <- all_names[which(! all_names %in% c(retroharmonized, numerics, characters, dates))]
-  
-  assert_that(length(other_types)==0, 
-              msg = "Only labelled_spss_survey, numeric, character and Date types are allowed.")
   
   original_attributes <- document_surveys(survey_list)
-
-  extend_survey <- function (dat) {
+  
+  ## ---- extend surveys so all have same columns ----
+  extend_survey <- function(dat) {
     
-    ## Adds those variables that are missing in the particular wave 
-    ## To end up with a single, tidy data.frame, the columns must be the same in all waves.
-    ## The columns that are not present must be filled with empty data.
+    to_add_rh <- setdiff(retroharmonized, names(dat))
+    to_add_num <- setdiff(numerics, names(dat))
+    to_add_chr <- setdiff(characters, names(dat))
+    to_add_date <- setdiff(dates, names(dat))
     
-    to_add_rh <- retroharmonized[which(!retroharmonized %in% names(dat))]
-    to_add_numerics <- numerics[which(!numerics %in% names(dat))]
-    to_add_characters <- characters[which(!characters %in% names(dat))]
-    to_add_dates <- dates[which(!dates %in% names(dat))]
+    out <- dat
     
-    vars_to_add <- c(to_add_rh, to_add_numerics, 
-                     to_add_characters, to_add_dates)
-    
-    if ( length(vars_to_add) == 0) return (dat)
-    assert_that ( all(vars_to_add %in% names(dat))== FALSE)
-    
-    return_data <- dat
-    
-    if ( length(to_add_numerics)>0 ) {
-      
-      ## There are numeric values in other surveys that need to be 
-      ## added with NA_real_ values here.
-      
-      add_numeric_df <- as.data.frame( 
-        matrix (rep( NA_real_,
-                     length(to_add_numerics)*nrow(dat)), 
-                     nrow = nrow(dat), 
-                     ncol = length(to_add_numerics)) 
-        ) %>%
-        rlang::set_names(to_add_numerics)
-      
-      return_data <- bind_cols ( return_data, add_numeric_df)  
+    if (length(to_add_num) > 0) {
+      out <- dplyr::bind_cols(
+        out,
+        as.data.frame(matrix(NA_real_, nrow(dat), length(to_add_num)),
+                      stringsAsFactors = FALSE) %>%
+          rlang::set_names(to_add_num)
+      )
     }
     
-    if ( length(to_add_characters)>0 ) {
-    
-      ## Now add the missing character variables   
-      
-      add_character_df <- as.data.frame(
-        matrix ( rep( NA_character_,
-                      length(to_add_characters)*nrow(dat)), 
-                 nrow = nrow(dat)) 
-       ) %>%
-        rlang::set_names(to_add_characters)
-      
-      return_data <- bind_cols ( return_data, add_character_df )
+    if (length(to_add_chr) > 0) {
+      out <- dplyr::bind_cols(
+        out,
+        as.data.frame(matrix(NA_character_, nrow(dat), length(to_add_chr)),
+                      stringsAsFactors = FALSE) %>%
+          rlang::set_names(to_add_chr)
+      )
     }
     
-    if ( length(to_add_dates)>0 ) {
+    if (length(to_add_date) > 0) {
+      out <- dplyr::bind_cols(
+        out,
+        as.data.frame(matrix(as.Date(NA), nrow(dat), length(to_add_date)),
+                      stringsAsFactors = FALSE) %>%
+          rlang::set_names(to_add_date)
+      )
+    }
     
-      # Now add the missing date variables   
-      add_dates_df <- as.data.frame(
-        matrix ( rep( as.Date(NA),
-                      length(to_add_dates)*nrow(dat)), 
-                 nrow = nrow(dat)) 
+    if (length(to_add_rh) > 0) {
+      
+      add_rh_df <- as.data.frame(
+        matrix(99999, nrow(dat), length(to_add_rh)),
+        stringsAsFactors = FALSE
       ) %>%
-        rlang::set_names(to_add_dates)
+        rlang::set_names(to_add_rh)
       
-      return_data <- bind_cols (return_data, add_dates_df  )
-    }
-    
-    if ( length(to_add_rh)>0 ) {
+      add_rh_df <- dplyr::mutate_all(add_rh_df, function(x) {
+        haven::labelled_spss(
+          x,
+          labels = c(inap = 99999),
+          na_values = c(
+            "do_not_know" = 99997,
+            "declined" = 99998,
+            "inap" = 99999
+          )
+        )
+      })
       
-      fn_inap <- function(x) haven::labelled_spss(
-        x,
-        labels = c(inap = 99999), 
-        na_values = c("do_not_know"=99997,
-                      "declined"=99998,
-                      "inap"=99999))
-      
-      add_rh_df <- as.data.frame( 
-        matrix (rep( 99999,
-                     length(to_add_rh)*nrow(dat)), 
-                     ncol = length(to_add_rh),
-                     nrow = nrow(dat)
-                )
-        ) %>%
-        rlang::set_names(to_add_rh) %>%
-        mutate_all ( fn_inap )
-      
-      for ( i in ncol(add_rh_df)) {
-        attr( add_rh_df[,i], "label") <- to_add_rh[i]
+      for (i in seq_len(ncol(add_rh_df))) {
+        attr(add_rh_df[, i], "label") <- to_add_rh[i]
       }
       
-      fn_convert <- function(x) {
-        as_labelled_spss_survey(x, attr(dat, "id"))
-      }
+      add_rh_df <- tibble::as_tibble(
+        lapply(add_rh_df, function(x) {
+          as_labelled_spss_survey(x, attr(dat, "id"))
+        })
+      )
       
-      add_rh_df2 <- as_tibble(lapply ( add_rh_df , fn_convert))
-
-      return_data <- bind_cols ( return_data, add_rh_df2 )
+      out <- dplyr::bind_cols(out, add_rh_df)
     }
     
-  not_added <- vars_to_add [! vars_to_add %in% names ( return_data )]
- 
-  assert_that( length(not_added ) == 0, 
-              msg = paste0( "Could not add ", 
-                            paste(not_added, collapse = ",")))
-  
-  return_data %>%
-      select  (all_of(all_names))
-    
+    dplyr::select(out, tidyselect::all_of(all_names))
   }
   
-  extended <- lapply ( survey_list, extend_survey )
+  extended <- lapply(survey_list, extend_survey)
   
-  #document_surveys ( extended )
-
-  full_join_characters <- do.call(
-    vctrs::vec_rbind, 
-    lapply ( extended, 
-             function(x)  x %>% select ( all_of ( characters )) ))
+  ## ---- harmonize labelled variables ----
+  to_harmonize <- lapply(
+    extended,
+    function(x) dplyr::select(x, tidyselect::all_of(retroharmonized))
+  )
   
-  
-  full_join_numerics <- do.call(
-    vctrs::vec_rbind, 
-    lapply ( extended, 
-             function(x)  x %>% select ( all_of ( numerics )) ))
-  
-  full_join_dates <- do.call(
-    vctrs::vec_rbind, 
-    lapply ( extended, function(x)  x %>%
-                                      select (all_of(dates)) %>%
-                                      mutate_all (as.Date)))
-  
-  to_harmonize_labelled <-  lapply ( 
-    ## select into a list vars that need to be harmonized by labels
-    extended, 
-    function(x) x %>% select (all_of (retroharmonized))
-    )
-  
-  fn_harmonize <- function(dat, .f) {
+  fn_harmonize <- function(dat) {
     
-    orig_name_order <- names(dat)
-    if (status_message) message ( "Harmonize ", attr(dat, "id"))
-    harmonized_list <- lapply ( dat[, retroharmonized], FUN = .f )
-
-    retroh <- as_tibble(harmonized_list)
-    
-    dat %>% select ( -all_of(names(retroh))) %>%
-      bind_cols(retroh) %>%
-      select (all_of(orig_name_order)) 
-  }
-  
-  dat <- to_harmonize_labelled[[1]]
-
-  rth <- lapply ( to_harmonize_labelled,
-                  function(x) fn_harmonize(x, .f) )
-  
-  #sapply ( rth, function(x) class(x$age))
-  j_max <- length(rth)
-  
-  if (j_max >=2) {
-    for ( j in 2:j_max ) {
-      ## Validate all possible retroharmonized pairs before merging.
-      survey1 <- rth[[j-1]]
-      survey2 <- rth[[j]]
-      for  ( i in retroharmonized ) {
-        x <- survey1 %>% select (all_of(i)) %>% pull()
-        y <- survey2 %>% select (all_of(i)) %>% pull()
-        
-        # remove superflous na_range if there are no values that match them
-        x <- remove_na_range(x)
-        y <- remove_na_range(y)
-        
-        vec_ptype2.retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey (
-          x,y, 
-          orig_names = i
+    harmonized <- lapply(dat, function(x) {
+      out <- .f(x)
+      
+      if (is.null(out)) {
+        return(x)
+      }
+      
+      if (length(out) != length(x)) {
+        stop(
+          "Harmonization function must not change vector length",
+          call. = FALSE
         )
       }
-    }
+      
+      out
+    })
     
-  }
-
-  return_value <- rth[[1]]
-  
-
-  for (i in 2:j_max) {
-   return_value <- vctrs::vec_rbind(return_value, rth[[i]])
+    tibble::as_tibble(harmonized)
   }
   
-  if ( ncol(full_join_numerics) > 0 ) {
-    return_value <- bind_cols ( full_join_numerics, return_value)
+  harmonized <- lapply(to_harmonize, fn_harmonize)
+  
+  ## ---- bind everything together ----
+  result <- harmonized[[1]]
+  for (i in 2:length(harmonized)) {
+    result <- vctrs::vec_rbind(result, harmonized[[i]])
   }
   
-  if ( ncol(full_join_characters) > 0 ) {
-    return_value <- bind_cols ( full_join_characters, return_value)
-  }
+  attr(result, "id") <- paste("Surveys:", paste(original_attributes$id, collapse = "; "))
+  attr(result, "filename") <- paste("Original files:", paste(original_attributes$filename, collapse = "; "))
   
-  if ( ncol(full_join_dates) > 0 ) {
-    return_value <- bind_cols ( full_join_dates, return_value)
-  }
-
-  attributes (return_value)
-  attr(return_value, "id") <- paste0("Surveys: ", 
-                                     paste ( original_attributes$id, collapse = "; " ))
-  
-  attr(return_value, "filename") <- paste0("Original files: ", 
-                                     paste ( original_attributes$filename, collapse = "; " ))
-  attributes (return_value)
-  return_value
+  result
 }
 
 
+
 #' @rdname harmonize_survey_values
-#' @details The earlier form \code{harmonize_waves} is deprecated. 
+#' @details The earlier form \code{harmonize_waves} is deprecated.
 #' The function is currently called \code{\link{harmonize_waves}}.
 #' @param waves A list of surveys. Deprecated.
 #' @export
@@ -307,9 +257,15 @@ harmonize_survey_values <- function(survey_list, .f, status_message = FALSE) {
 
 harmonize_waves <- function(waves, .f, status_message = FALSE) {
   .Deprecated("harmonize_waves ",
-              msg = "harmonize_waves() is deprecated, use harmonize_survey_values() instead", 
-              old = "harmonize_waves")
-  harmonize_survey_values(survey_list = waves, 
-                .f = .f, 
-                status_message = status_message )
+    msg = "harmonize_waves() is deprecated, use harmonize_survey_values() instead",
+    old = "harmonize_waves"
+  )
+  harmonize_survey_values(
+    survey_list = waves,
+    .f = .f,
+    status_message = status_message
+  )
 }
+
+
+

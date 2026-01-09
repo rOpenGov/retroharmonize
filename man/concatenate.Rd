@@ -21,15 +21,15 @@ Concatenate haven_labelled_spss vectors
 }
 \examples{
 v1 <- labelled::labelled(
-c(3,4,4,3,8, 9),
-c(YES = 3, NO = 4, `WRONG LABEL` = 8, REFUSED = 9)
+  c(3, 4, 4, 3, 8, 9),
+  c(YES = 3, NO = 4, `WRONG LABEL` = 8, REFUSED = 9)
 )
 v2 <- labelled::labelled(
-  c(4,3,3,9),
+  c(4, 3, 3, 9),
   c(YES = 3, NO = 4, `WRONG LABEL` = 8, REFUSED = 9)
 )
 s1 <- haven::labelled_spss(
-  x = unclass(v1),         # remove labels from earlier defined
+  x = unclass(v1), # remove labels from earlier defined
   labels = labelled::val_labels(v1), # use the labels from earlier defined
   na_values = NULL,
   na_range = 8:9,
@@ -37,12 +37,12 @@ s1 <- haven::labelled_spss(
 )
 
 s2 <- haven::labelled_spss(
-  x = unclass(v2),         # remove labels from earlier defined
+  x = unclass(v2), # remove labels from earlier defined
   labels = labelled::val_labels(v2), # use the labels from earlier defined
   na_values = NULL,
   na_range = 8:9,
   label = "Variable Example"
 )
-concatenate (s1,s2)
+concatenate(s1, s2)
 }
 \concept{joining functions}

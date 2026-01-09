@@ -16,37 +16,44 @@ val_label_normalize(x)
 \item{x}{A character vector of labels to be normalized.}
 }
 \value{
-Returns a suggested, normalized label without special characters. The 
-\code{var_label_normalize} and \code{val_label_normalize} returns them in 
+Returns a suggested, normalized label without special characters. The
+\code{var_label_normalize} and \code{val_label_normalize} returns them in
 \code{snake_case} for programmatic use.
 }
 \description{
-\code{label_normalize} removes special characters, whitespace, 
+\code{label_normalize} removes special characters, whitespace,
 and other typical typing errors.
 }
 \details{
-\code{var_label_normalize} and \code{val_label_normalize} removes possible 
+\code{var_label_normalize} and \code{val_label_normalize} removes possible
 chunks from question identifiers.
 
-The functions \code{var_label_normalize} and 
-\code{val_label_normalize} may 
+The functions \code{var_label_normalize} and
+\code{val_label_normalize} may
 be differently implemented for various survey series.
 }
 \examples{
-label_normalize (
-c("Don't know", " TRUST", "DO NOT  TRUST", 
-  "inap in Q.3", "Not 100\%", "TRUST < 50\%", 
-  "TRUST >=90\%", "Verify & Check", "TRUST 99\%+"))
- 
- var_label_normalize ( 
-      c("Q1_Do you trust the national government?", 
-        " Do you trust the European Commission")
-        )
+label_normalize(
+  c(
+    "Don't know", " TRUST", "DO NOT  TRUST",
+    "inap in Q.3", "Not 100\%", "TRUST < 50\%",
+    "TRUST >=90\%", "Verify & Check", "TRUST 99\%+"
+  )
+)
 
-  val_label_normalize ( 
-      c("Q1_Do you trust the national government?", 
-        " Do you trust the European Commission")
-        )
+var_label_normalize(
+  c(
+    "Q1_Do you trust the national government?",
+    " Do you trust the European Commission"
+  )
+)
+
+val_label_normalize(
+  c(
+    "Q1_Do you trust the national government?",
+    " Do you trust the European Commission"
+  )
+)
 }
 \seealso{
 Other variable label harmonization functions: 
@@ -55,20 +62,20 @@ Other variable label harmonization functions:
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
 \code{\link{crosswalk_surveys}()},
-\code{\link{crosswalk_table_create}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
-\code{\link{harmonize_var_names}()}
+\code{\link{harmonize_var_names}()},
+\code{\link{is.crosswalk_table}()}
 
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
 \code{\link{crosswalk_surveys}()},
-\code{\link{crosswalk_table_create}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
-\code{\link{harmonize_var_names}()}
+\code{\link{harmonize_var_names}()},
+\code{\link{is.crosswalk_table}()}
 }
 \concept{harmonization functions}
 \concept{variable label harmonization functions}

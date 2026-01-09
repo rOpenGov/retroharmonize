@@ -4,14 +4,14 @@
 \alias{here}
 \title{Here}
 \description{
-A utility to make sure the system files of the package and other 
-files are always found, regardless if they are in an example or 
+A utility to make sure the system files of the package and other
+files are always found, regardless if they are in an example or
 vignette context.
 }
 \details{
 See \code{here::\link[here:here]{here}} for details.
 }
 \examples{
-dir (here( "inst", "examples"))
+dir(here("inst", "examples"))
 }
 \keyword{internal}

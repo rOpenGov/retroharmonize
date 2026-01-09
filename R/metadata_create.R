@@ -1,44 +1,50 @@
 #' @title Create a metadata table from several surveys
 #' @rdname metadata_create
-#' @param inheritParams read_surveys
+#' @param survey_paths Optional character vector of file paths to surveys.
+#' @param survey_list A list containing surveys of class survey.
+#' @param .f A function to import the surveys with.
 #' @family metadata functions
 #' @examples
-#' examples_dir <- system.file( "examples", package = "retroharmonize")
+#' examples_dir <- system.file("examples", package = "retroharmonize")
 #'
-#' my_rds_files <- dir( examples_dir)[grepl(".rds", 
-#'                                         dir(examples_dir))]
+#' my_rds_files <- dir(examples_dir)[grepl(
+#'   ".rds",
+#'   dir(examples_dir)
+#' )]
 #'
 #' example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
-#' metadata_create (example_surveys)
+#' metadata_create(example_surveys)
 #' @export
 
-metadata_create <- function ( survey_list = NULL, 
-                              survey_paths = NULL, 
-                              .f = NULL) {
-  
-  if ( !is.null(survey_list) ) {
+metadata_create <- function(survey_list = NULL,
+                            survey_paths = NULL,
+                            .f = NULL) {
+  if (!is.null(survey_list)) {
     validate_survey_list(survey_list)
-    if (! "list" %in% class(survey_list)) {
-      assert_that(is.survey(survey_list), 
-                  msg = "metadata_create(survey_list, ...) is neither a list nor a survey.")
-      survey_id <-  attr(survey_list, "id")
-      survey_list <- list ( i = survey_list )
-      names(survey_list)[1] <-survey_id
+    if (!"list" %in% class(survey_list)) {
+      assert_that(is.survey(survey_list),
+        msg = "metadata_create(survey_list, ...) is neither a list nor a survey."
+      )
+      survey_id <- attr(survey_list, "id")
+      survey_list <- list(i = survey_list)
+      names(survey_list)[1] <- survey_id
     }
-    metadata_list <- lapply ( survey_list, metadata_survey_create )
-    do.call ( rbind, metadata_list )
+    metadata_list <- lapply(survey_list, metadata_survey_create)
+    do.call(rbind, metadata_list)
   } else if (is.null(survey_paths)) {
     stop("Error in metadata_surveys_create(): both 'survey_list' and 'survey_paths' are NULL.")
   } else {
-    validate_survey_files (survey_paths)
+    validate_survey_files(survey_paths)
     read_survey_create_metadata <- function(x, .f) {
       tmp <- read_survey(x, .f)
-      message ("Read: ", x)
+      message("Read: ", x)
       metadata_survey_create(tmp)
     }
-    
-    metadata_list <- lapply ( X = survey_paths, 
-                              FUN = function(x) read_survey_create_metadata(x, .f) )
+
+    metadata_list <- lapply(
+      X = survey_paths,
+      FUN = function(x) read_survey_create_metadata(x, .f)
+    )
     do.call(rbind, metadata_list)
   }
 }
@@ -47,22 +53,24 @@ metadata_create <- function ( survey_list = NULL,
 #' @details The form \code{metadata_waves_create} is deprecated.
 
 metadata_waves_create <- function(survey_list) {
-  .Deprecated(new = "metadata_surveys_create",
-              msg = "metadata_waves_create() is deprecated, use create_surveys_metadata() instead", 
-              old = "merge_waves")
+  .Deprecated(
+    new = "metadata_surveys_create",
+    msg = "metadata_waves_create() is deprecated, use create_surveys_metadata() instead",
+    old = "merge_waves"
+  )
   metadata_survey_create(survey_list)
 }
 
 #' @title Create a metadata table
-#' 
+#'
 #' @description Create a metadata table from the survey data files.
-#' 
-#' @details A data frame like tibble object is returned. 
+#'
+#' @details A data frame like tibble object is returned.
 #' In case you are working with several surveys, a list of surveys or a vector
-#' of file names containing the full path to the survey must be called with 
-#' \code{\link{metadata_create}}, which is a wrapper around 
-#' a list of  \code{\link{metadata_survey_create}} calls.
-#' 
+#' of file names containing the full path to the survey must be called with
+#' [metadata_create()], which is a wrapper around
+#' a list of  [metadata_survey_create()] calls.
+#'
 #' The structure of the returned tibble:
 #' \describe{
 #'   \item{filename}{The original file name; if present; \code{missing}, if a non-\code{\link{survey}} data frame is used as input \code{survey}.}
@@ -79,11 +87,11 @@ metadata_waves_create <- function(survey_list) {
 #'   \item{n_na_labels}{Number of categories of the variable, should be the sum of the former two.}
 #'   \item{na_levels}{A list of the user-defined missing values.}
 #' }
-#' 
-#' @param survey A survey data frame. You receive a survey object with any importing function, i.e. 
-#' \code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or 
+#'
+#' @param survey A survey data frame. You receive a survey object with any importing function, i.e.
+#' \code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or
 #' their common wrapper \code{\link{read_survey}}.
-#' You can construct it with \code{\link{survey}} from a data frame, too. 
+#' You can construct it with \code{\link{survey}} from a data frame, too.
 #' @importFrom tibble tibble
 #' @importFrom dplyr left_join mutate case_when group_by ungroup
 #' @importFrom tidyr nest unnest
@@ -91,189 +99,200 @@ metadata_waves_create <- function(survey_list) {
 #' @importFrom purrr map
 #' @importFrom assertthat assert_that
 #' @family metadata functions
-#' @return A nested data frame with metadata and the range of 
+#' @return A nested data frame with metadata and the range of
 #' labels, na_values and the na_range itself.
 #' @examples
-#' metadata_create (
-#'  survey_list = read_rds (
-#'                    system.file("examples", "ZA7576.rds",
-#'                    package = "retroharmonize")
-#'           )
+#' metadata_create(
+#'   survey_list = read_rds(
+#'     system.file("examples", "ZA7576.rds",
+#'       package = "retroharmonize"
+#'     )
+#'   )
 #' )
 #' @export
 
 metadata_survey_create <- function(survey) {
-  
   ## Assertions before running the function -----------------------------
-  if ( "list" %in% class(survey) ) {
-    assert_that(all(vapply ( survey, is.survey, logical(1))), 
-                msg = "Parameter 'survey' is not of s3 class survey or a list of them. See ?is.survey.")
+  if ("list" %in% class(survey)) {
+    assert_that(all(vapply(survey, is.survey, logical(1))),
+      msg = "Parameter 'survey' is not of s3 class survey or a list of them. See ?is.survey."
+    )
     metadata_df <- metadata_create(survey_list = survey)
     return(metadata_df)
-  } else if ( 
+  } else if (
     # Accidentally the file names were supplied.
     # This will validate if the surveys are indeed existing files.
-    is.character(survey) ) {
+    is.character(survey)) {
     warning("The parameter 'survey' is not a single survey but a character vector. Try to understand them as a file names. See ?metadata_create.")
     metadata_df <- metadata_create(survey_list = survey)
     return(metadata_df)
   } else {
-    assert_that(is.survey(survey), 
-                msg = "Parameter 'survey' must be of s3 class survey. See ?is.survey.")
+    assert_that(is.survey(survey),
+      msg = "Parameter 'survey' must be of s3 class survey. See ?is.survey."
+    )
   }
 
   filename <- attr(survey, "filename")
-  
+
   if (is.null(filename)) filename <- "unknown"
-  
+
   id <- ifelse(is.null(attr(survey, "id")), attr(survey, "identifier"), attr(survey, "id"))
   if (is.null(id)) id <- "missing"
-  
-  if( ncol(survey) == 0) {
+
+  if (ncol(survey) == 0) {
     # Special case when file could not be read and survey is empty
-    return(metadata_initialize(filename = filename, 
-                               id = paste0(filename, " could not be read.")))
+    return(metadata_initialize(
+      filename = filename,
+      id = paste0(filename, " could not be read.")
+    ))
   }
-  
-  var_label_orig  <- lapply (survey, labelled::var_label)
-  
-  class_orig <- vapply( survey, function(x) class(x)[1], character(1))
-  
-  metadata <- tibble (
-    filename = filename, 
+
+  var_label_orig <- lapply(survey, labelled::var_label)
+
+  class_orig <- vapply(survey, function(x) class(x)[1], character(1))
+
+  metadata <- tibble(
+    filename = filename,
     id = id,
-    var_name_orig = names(survey), 
-    class_orig =  class_orig, 
-    var_label_orig = ifelse ( vapply(var_label_orig, is.null, logical(1)), 
-                          "", 
-                          unlist(var_label_orig)) %>%
+    var_name_orig = names(survey),
+    class_orig = class_orig,
+    var_label_orig = ifelse(vapply(var_label_orig, is.null, logical(1)),
+      "",
+      unlist(var_label_orig)
+    ) %>%
       as.character() %>%
       var_label_normalize()
   )
- 
+
   fn_valid_range <- function(x) {
     labelled::val_labels(x)[!labelled::val_labels(x) %in% labelled::na_values(x)]
   }
-  
+
   na_labels <- function(x) {
     # labels that refer to na_values
     labs <- labelled::val_labels(x)
-    if ( is.null(labs)) return(NA_character_)
+    if (is.null(labs)) {
+      return(NA_character_)
+    }
     selected_labs <- labelled::na_values(x)
-    labs[ labs %in% selected_labs ]
+    labs[labs %in% selected_labs]
   }
-  
-  to_list_column <- function(.f = "na_values") {
-    
-    # We use sapply because the length is to be discovered. 
 
-    x <- case_when ( 
-      .f == "na_labels" ~ sapply (survey, na_labels),  # internal function above
-      .f == "na_range"  ~ sapply (survey, labelled::na_range), 
-      .f == "valid_range"  ~ sapply (survey, fn_valid_range),    # internal function above
-      .f == "labels" ~ sapply (survey, labelled::val_labels)
-      )
-    
+  to_list_column <- function(.f = "na_values") {
+    # We use sapply because the length is to be discovered.
+
+    x <- case_when(
+      .f == "na_labels" ~ sapply(survey, na_labels), # internal function above
+      .f == "na_range" ~ sapply(survey, labelled::na_range),
+      .f == "valid_range" ~ sapply(survey, fn_valid_range), # internal function above
+      .f == "labels" ~ sapply(survey, labelled::val_labels)
+    )
+
     x[sapply(x, is.null)] <- NA_character_
     names(x) <- names(survey)
     x
   }
-  
-  
-  range_df  <- tibble::tibble (
+
+
+  range_df <- tibble::tibble(
     var_name_orig = names(survey),
     labels = rep(NA_character_, length(names(survey))),
     valid_labels = rep(NA_character_, length(names(survey))),
     na_labels = rep(NA_character_, length(names(survey))),
     na_range = rep(NA_character_, length(names(survey))),
-    n_labels = rep(0, length(names(survey))), 
-    n_valid_labels = rep(0, length(names(survey))), 
-    n_na_labels = rep(0, length(names(survey))), 
+    n_labels = rep(0, length(names(survey))),
+    n_valid_labels = rep(0, length(names(survey))),
+    n_na_labels = rep(0, length(names(survey))),
   )
-  
-  if(
+
+  if (
     any(vapply(lapply(survey, class), function(x) any(grepl("labelled", x)), logical(1)))
-    ) {
-    range_df  <- tibble::tibble (
+  ) {
+    range_df <- tibble::tibble(
       var_name_orig = names(survey),
       labels = to_list_column(.f = "labels"),
       valid_labels = to_list_column(.f = "valid_range"),
       na_labels = to_list_column(.f = "na_labels"),
-      na_range = to_list_column (.f = "na_range")
-    ) 
+      na_range = to_list_column(.f = "na_range")
+    )
     label_length <- function(x) {
-      
-      ifelse ( is.na(x[[1]])[1] | length(x[[1]]) ==0,
-               0, length(x[[1]]) )
+      ifelse(is.na(x[[1]])[1] | length(x[[1]]) == 0,
+        0, length(x[[1]])
+      )
     }
-    
+
     range_df$n_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$labels[x]), numeric(1))
     range_df$n_valid_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$valid_labels[x]), numeric(1))
     range_df$n_na_labels <- vapply(1:nrow(range_df), function(x) label_length(range_df$na_labels[x]), numeric(1))
-    
   } else {
     ## Special case when there are no labelled variables present
-      return(metadata %>% left_join ( range_df, 
-                                      by = "var_name_orig" ) %>% as.data.frame())
-    }
+    return(metadata %>% left_join(range_df,
+      by = "var_name_orig"
+    ) %>% as.data.frame())
+  }
 
   return_df <- metadata %>%
-    left_join (  range_df %>% 
-                   group_by ( var_name_orig ) %>%
-                   tidyr::nest(), 
-                by = "var_name_orig") %>%
-    tidyr::unnest ( cols = "data" )  %>%
+    left_join(
+      range_df %>%
+        group_by(var_name_orig) %>%
+        tidyr::nest(),
+      by = "var_name_orig"
+    ) %>%
+    tidyr::unnest(cols = "data") %>%
     ungroup() %>%
-    mutate ( n_na_labels = as.numeric(n_na_labels), 
-             n_valid_labels = as.numeric(n_valid_labels), 
-             n_labels = as.numeric(n_labels)) %>%
+    mutate(
+      n_na_labels = as.numeric(n_na_labels),
+      n_valid_labels = as.numeric(n_valid_labels),
+      n_labels = as.numeric(n_labels)
+    ) %>%
     as.data.frame()
-  
+
   change_label_to_empty <- function() {
-    "none" = NA_real_
+    "none" <- NA_real_
   }
-  ## Avoid the accidental creation of empty CHARACTER lists, because they do not bind with 
-  ## numeric lists. 
-  
+  ## Avoid the accidental creation of empty CHARACTER lists, because they do not bind with
+  ## numeric lists.
+
   return_df$label_type <- vapply(return_df$labels, function(x) class(x)[1], character(1))
-  return_dflabels <- ifelse (return_df$label_type == "character" & return_df$n_labels ==0 , 
-                             yes = change_label_to_empty(), 
-                             no =  return_df$labels )
-  return_df$valid_labels <- ifelse (return_df$label_type == "character" & return_df$n_labels ==0 , 
-                                   yes = change_label_to_empty(), 
-                                   no =  return_df$valid_labels )
-  return_df$na_labels <- ifelse (return_df$label_type == "character" & return_df$n_labels == 0 , 
-                                yes = change_label_to_empty(), 
-                                no =  return_df$na_labels )
-  
+  return_dflabels <- ifelse(return_df$label_type == "character" & return_df$n_labels == 0,
+    yes = change_label_to_empty(),
+    no = return_df$labels
+  )
+  return_df$valid_labels <- ifelse(return_df$label_type == "character" & return_df$n_labels == 0,
+    yes = change_label_to_empty(),
+    no = return_df$valid_labels
+  )
+  return_df$na_labels <- ifelse(return_df$label_type == "character" & return_df$n_labels == 0,
+    yes = change_label_to_empty(),
+    no = return_df$na_labels
+  )
+
   return_df %>%
-    select ( -label_type )
+    select(-label_type)
 }
 
 # -----------------------------------------------------------------------
 #' @title Initialize a metadata data frame
 #'
-#' @inheritParams metadata_create
 #' @importFrom tibble tibble
-#' @return A nested data frame with metadata and the range of 
+#' @param filename A file name
+#' @param id An id.
+#' @return A nested data frame with metadata and the range of
 #' labels, na_values and the na_range itself.
 #' @keywords internal
-metadata_initialize <- function (filename, id ){
-  
-  tibble ( 
-    filename = filename, 
-    id = id, 
+metadata_initialize <- function(filename, id) {
+  tibble(
+    filename = filename,
+    id = id,
     class_orig = NA_character_,
-    var_name_orig = NA_character_, 
-    var_label_orig   = NA_character_, 
-    labels       = NA_character_, 
+    var_name_orig = NA_character_,
+    var_label_orig = NA_character_,
+    labels = NA_character_,
     valid_labels = list("none" = NA_real_),
     na_labels = list("none" = NA_real_),
     na_range = list("none" = NA_real_),
     n_labels = 0,
     n_valid_labels = 0,
-    n_na_labels = 0 )  
-  
+    n_na_labels = 0
+  )
 }
-
-

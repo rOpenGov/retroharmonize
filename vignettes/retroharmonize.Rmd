@@ -32,29 +32,31 @@ You can find the package illustration files with system.file().
 
 ```{r systemfiles}
 examples_dir <- system.file("examples", package = "retroharmonize")
-survey_files  <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
+survey_files <- dir(examples_dir)[grepl("\\.rds", dir(examples_dir))]
 survey_files
 ```
 The read_survey() function calls the appropriate importing function (based on the file extension of the survey files) and reads the surveys into list (in memory.) If you work with many files, and you want to keep working sequentially with survey files, it is a good idea to convert them to R objects. This is how you would do it with large SPSS or STATA files.
 
 ```{r eval=FALSE}
 example_surveys <- read_surveys(
-  file.path( examples_dir, survey_files), 
-  export_path = tempdir())
+  file.path(examples_dir, survey_files),
+  export_path = tempdir()
+)
 ```
 
 Our example surveys are small and easily fit into the memory.
 
 ```{r}
 example_surveys <- read_surveys(
-  survey_paths = file.path( examples_dir, survey_files), 
-  export_path = NULL)
+  survey_paths = file.path(examples_dir, survey_files),
+  export_path = NULL
+)
 ```
 
 ```{r}
 ZA5913_survey <- example_surveys[[1]]
 # A small subset of this survey
-head(ZA5913_survey[, c(1,4,5,34)])
+head(ZA5913_survey[, c(1, 4, 5, 34)])
 ```
 
 If you look at the metadata attributes of the ZA5913_survey, you find more information than in the case of a data.frame or its modernized version, the tibble. Crucially, it records the source file and creates a unique table identifier. A further addition is that the first column of the data.frame is a truly unique observation identifier, rowid.  The rowid is not only unique in this survey, but it is unique in all surveys that you import in one workflow. For example, if the original surveys were just simply using an integer id, like uniqid 1....1000, you will run into problems after joining several surveys. 

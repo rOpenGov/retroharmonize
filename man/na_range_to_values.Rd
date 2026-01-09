@@ -2,47 +2,41 @@
 % Please edit documentation in R/na_range_to_values.R
 \name{na_range_to_values}
 \alias{na_range_to_values}
-\alias{is.na_range_to_values}
-\title{Harmonize user-defined missing value ranges}
+\title{Harmonize SPSS-style missing value ranges}
 \usage{
 na_range_to_values(x)
-
-is.na_range_to_values(x)
 }
 \arguments{
-\item{x}{A labelled_spss or labelled_spss_survey vector}
+\item{x}{A labelled vector created with
+[haven::labelled_spss()] or
+`retroharmonize_labelled_spss_survey`.}
 }
 \value{
-A \code{x} with harmonized \code{na_values} and 
-\code{na_range} attributes.
-If \code{min(na_values)} or \code{max(na_values)} than the left- and 
-right-hand value of \code{na_range}, it gives a warning and adjusts
-the original \code{na_range}.
+The input vector with harmonized `na_values` and `na_range`
+attributes. If no harmonization is needed, `x` is returned
+unchanged.
 }
 \description{
-Harmonize the \code{na_values} attribute with 
-\code{na_range}, if the latter is present.
+Ensure consistency between SPSS-style missing value ranges
+(`na_range`) and explicit missing values (`na_values`)
+for labelled survey vectors.
 }
 \details{
-\code{na_range_to_values()} tests if the function needs to be 
-called for \code{na_values} harmonization. The \code{na_range}
-is often missing and less likely to cause logical problems 
-when joining survey answers.
+When both attributes are present, this function:
+\itemize{
+  \item adjusts the missing range if it conflicts with existing missing values,
+  \item derives missing values from the range when necessary,
+  \item leaves non-SPSS-labelled vectors unchanged.
 }
-\examples{
-var1 <- labelled::labelled_spss(
-  x = c(1,0,1,1,0,8,9), 
-  labels = c("TRUST" = 1, 
-             "NOT TRUST" = 0, 
-             "DON'T KNOW" = 8, 
-             "INAP. HERE" = 9), 
-na_range = c(8,12))
-  
-na_range_to_values(var1)
-as_numeric(na_range_to_values(var1))
-as_character(na_range_to_values(var1))
+
+This harmonization is important before joining, binding, or
+summarizing survey data.
 }
 \seealso{
+[labelled::na_range()],
+[labelled::na_values()],
+[as_numeric()]
+
 Other variable label harmonization functions: 
 \code{\link{label_normalize}()}
 }

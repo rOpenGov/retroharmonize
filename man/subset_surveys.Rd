@@ -4,7 +4,7 @@
 \alias{subset_surveys}
 \alias{subset_waves}
 \alias{subset_save_surveys}
-\title{Subset surveys}
+\title{Subset and optionally harmonize surveys}
 \usage{
 subset_surveys(
   survey_list,
@@ -30,55 +30,82 @@ subset_save_surveys(
 )
 }
 \arguments{
-\item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
-\code{NULL}, the \code{survey_path} should give full path to the surveys.}
+\item{survey_list}{A list of survey objects created by
+[read_surveys()]. If `NULL`, surveys are read from disk.}
 
-\item{survey_paths}{A vector of full file paths to the surveys to subset.}
+\item{survey_paths}{A character vector of full file paths to survey files.
+Used when `survey_list` is `NULL`.}
 
-\item{rowid}{The unique row (observation) identifier in the files. Defaults to 
-\code{"rowid"}, which is the default of the importing functions in this package.}
+\item{rowid}{Name of the unique observation identifier column.
+Defaults to `"rowid"`.}
 
-\item{subset_name}{An identifier for the survey subset.}
+\item{subset_name}{Character string appended to filenames of
+subsetted surveys. Defaults to `"subset"`.}
 
-\item{subset_vars}{The names of the variables that should be kept from all surveys in the list that contains the
-wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.}
+\item{subset_vars}{Character vector of variable names to retain.
+If `NULL`, all variables are retained.}
 
-\item{crosswalk_table}{A crosswalk table created by \code{\link{crosswalk_table_create}} or a manually created 
-crosstable including at least
-\code{filename}, \code{var_name_orig}, \code{var_name_target} and optionally 
- \code{var_label_orig} and \code{var_label_target}. This parameter is optional and 
- defaults to \code{NULL}.}
+\item{crosswalk_table}{Optional crosswalk table created with
+[crosswalk_table_create()]. If supplied, variables are selected
+per survey based on `var_name_orig`, and variable names may be
+harmonized using `var_name_target`.}
 
-\item{waves}{A list of surveys imported with \code{\link{read_surveys}}.}
+\item{import_path}{Optional directory containing survey files.
+Used to resolve filenames when subsetting from disk.}
+
+\item{export_path}{Optional directory where subsetted surveys
+are saved as `.rds` files. If `NULL`, surveys are returned in memory.}
+
+\item{waves}{A list of surveys imported with [read_surveys()].}
 }
 \value{
-A list of surveys or save individual rds files on the \code{export_path}.
+Either:
+* a list of subsetted survey objects (if `export_path = NULL`), or
+* a character vector of filenames written to `export_path`.
 }
 \description{
-This is a wrapper function for various procedures to reduce the size of surveys
-by removing variables that are not harmonized.
+Subset one or more surveys by retaining a specified set of variables.
+Subsetting can be performed either on surveys already loaded in memory
+or directly from survey files on disk.
+
+If a crosswalk table is supplied, variables are selected based on the
+variables listed for each survey in the crosswalk, and variable names
+can optionally be harmonized using `var_name_target`.
+
+This function replaces the deprecated helpers
+[subset_waves()] and [subset_save_surveys()].
 }
 \details{
-This function allows several workflows. 
-Subsetting can be based on a vector of variable names
-given by \code{survey_path}, or on the basis of a \code{crosstable}. 
-The \code{\link{subset_save_surveys}} can be called directly. 
+The function supports multiple workflows:
 
-\code{subset_surveys} will also harmonize the variable names if the \code{var_name_target} is 
-optionally defined in the \code{crosswalk_table} input.  
-\code{harmonize_survey_variables} is a wrapper and will require that the new (target) variable names are
-present in a valid \code{crosstable}.
+* **In-memory subsetting** using `survey_list`
+* **File-based subsetting** using `survey_paths` or `import_path`
+* **Crosswalk-driven subsetting**, where variables are selected
+  per survey using a crosswalk table created by
+  [crosswalk_table_create()]
+
+If `export_path` is provided, subsetted surveys are written to disk
+as `.rds` files. Otherwise, subsetted surveys are returned in memory.
 }
 \examples{
 examples_dir <- system.file("examples", package = "retroharmonize")
-survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
+survey_files <- dir(examples_dir, pattern = "\\\\.rds$")
 
-example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list)
-  )
-  
-subset_surveys(survey_list = example_surveys, 
-               subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
-               subset_name = "subset_example")
+surveys <- read_surveys(
+  file.path(examples_dir, survey_files),
+  export_path = NULL
+)
+
+subset_surveys(
+  survey_list = surveys,
+  subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"),
+  subset_name = "example_subset"
+)
+
 }
-\concept{subsetting function}
+\seealso{
+[crosswalk_table_create()],
+[harmonize_survey_variables()],
+[read_surveys()]
+}
+\concept{subsetting functions}

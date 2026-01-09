@@ -10,88 +10,90 @@ harmonize_survey_values(survey_list, .f, status_message = FALSE)
 harmonize_waves(waves, .f, status_message = FALSE)
 }
 \arguments{
-\item{survey_list}{A list of surveys. In the deprecated form the parameter was called
+\item{survey_list}{A list of surveys (data frames). In earlier versions this argument was called
 \code{waves}.}
 
-\item{.f}{A function to apply for the harmonization.}
+\item{.f}{A function applied to each labelled variable
+(class \code{"retroharmonize_labelled_spss_survey"}). The function must not
+change the length of the input vector.}
 
-\item{status_message}{Defaults to \code{FALSE}. If set to \code{TRUE}
-it shows the id of the survey that is being joined.}
+\item{status_message}{Logical. If \code{TRUE}, prints the identifier of each survey as it is
+processed.}
 
 \item{waves}{A list of surveys. Deprecated.}
 }
 \value{
-A natural full join of all surveys in a single data frame.
+A data frame containing the row-wise combination of all surveys, with
+harmonized labelled variables and preserved attributes describing the
+original surveys.
 }
 \description{
-Harmonize the value codes and value labels across multiple surveys.
+Harmonize value codes and value labels across multiple surveys and
+combine them into a single data frame.
 }
 \details{
-The functions binds together variables
-that are all present in the surveys, and applies a 
-harmonization function \code{.f} on them. Till
-retroharmonize 0.2.0 called \code{harmonize_waves}.
+The function first aligns the structure of all surveys by ensuring that
+they contain the same set of variables. Missing variables are added and
+filled with appropriate missing values depending on their type.
 
-The earlier form \code{harmonize_waves} is deprecated. 
+Variables of class \code{"retroharmonize_labelled_spss_survey"} are then
+harmonized by applying a user-supplied function \code{.f} to each variable
+separately within each survey.
+
+The harmonization function \code{.f} must return a vector of the same length
+as its input. If \code{.f} returns \code{NULL}, the original variable is kept
+unchanged.
+
+Prior to version 0.2.0 this function was called \code{harmonize_waves}.
+
+The earlier form \code{harmonize_waves} is deprecated.
 The function is currently called \code{\link{harmonize_waves}}.
 }
 \examples{
 \donttest{
 examples_dir <- system.file("examples", package = "retroharmonize")
-survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
+survey_files <- dir(examples_dir, pattern = "\\\\.rds$", full.names = TRUE)
 
-example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)
+surveys <- read_surveys(
+  survey_files,
+  export_path = NULL
+)
 
-metadata <- lapply ( X = example_surveys, FUN = metadata_create )
-metadata <- do.call(rbind, metadata)
+# Keep only supported variable types
+surveys <- lapply(
+  surveys,
+  function(s) {
+    s[, vapply(
+      s,
+      function(x) inherits(x, c(
+        "retroharmonize_labelled_spss_survey",
+        "numeric",
+        "character",
+        "Date"
+      )),
+      logical(1)
+    )]
+  }
+)
 
-require(dplyr)
+# Identity harmonization (no-op)
+harmonized <- harmonize_survey_values(
+  survey_list = surveys,
+  .f = function(x) x,
+  status_message = FALSE
+)
 
-to_harmonize <- metadata \%>\%
-  filter ( var_name_orig \%in\% 
-             c("rowid", "w1") |
-             grepl("^trust", var_label_orig ) ) \%>\%
-  mutate ( var_label = var_label_normalize(var_label_orig) ) \%>\%
-  mutate ( var_name_target = val_label_normalize(var_label_orig) ) \%>\%
-  mutate ( var_name_target = ifelse(.data$var_name_orig \%in\% c("rowid", "w1", "wex"), 
-                                    .data$var_name_orig, .data$var_name_target) )
-
-harmonize_eb_trust <- function(x) {
-  label_list <- list(
-    from = c("^tend\\\\snot", "^cannot", "^tend\\\\sto", "^can\\\\srely",
-             "^dk", "^inap", "na"), 
-   to = c("not_trust", "not_trust", "trust", "trust",
-           "do_not_know", "inap", "inap"), 
-    numeric_values = c(0,0,1,1, 99997,99999,99999)
-  )
-  
-  harmonize_survey_values(x, 
-                   harmonize_labels = label_list, 
-                   na_values = c("do_not_know"=99997,
-                                 "declined"=99998,
-                                 "inap"=99999)
-                   )
-}
-
-merged_surveys <- merge_surveys ( example_surveys, var_harmonization = to_harmonize  )
-
-harmonized <- harmonize_survey_values(survey_list = merged_surveys, 
-                              .f = harmonize_eb_trust,
-                              status_message = FALSE)
-                              
-# For details see Afrobarometer and Eurobarometer Case Study vignettes.
+head(harmonized)
 }
 }
 \seealso{
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
 \code{\link{crosswalk_surveys}()},
-\code{\link{crosswalk_table_create}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
+\code{\link{is.crosswalk_table}()},
 \code{\link{label_normalize}()}
 }
 \concept{harmonization functions}

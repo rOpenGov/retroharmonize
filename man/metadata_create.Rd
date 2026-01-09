@@ -10,7 +10,11 @@ metadata_create(survey_list = NULL, survey_paths = NULL, .f = NULL)
 metadata_waves_create(survey_list)
 }
 \arguments{
-\item{inheritParams}{read_surveys}
+\item{survey_list}{A list containing surveys of class survey.}
+
+\item{survey_paths}{Optional character vector of file paths to surveys.}
+
+\item{.f}{A function to import the surveys with.}
 }
 \description{
 Create a metadata table from several surveys
@@ -19,18 +23,20 @@ Create a metadata table from several surveys
 The form \code{metadata_waves_create} is deprecated.
 }
 \examples{
-examples_dir <- system.file( "examples", package = "retroharmonize")
+examples_dir <- system.file("examples", package = "retroharmonize")
 
-my_rds_files <- dir( examples_dir)[grepl(".rds", 
-                                        dir(examples_dir))]
+my_rds_files <- dir(examples_dir)[grepl(
+  ".rds",
+  dir(examples_dir)
+)]
 
 example_surveys <- read_surveys(file.path(examples_dir, my_rds_files))
-metadata_create (example_surveys)
+metadata_create(example_surveys)
 }
 \seealso{
 Other metadata functions: 
 \code{\link{create_codebook}()},
-\code{\link{crosswalk_table_create}()},
+\code{\link{is.crosswalk_table}()},
 \code{\link{metadata_survey_create}()}
 }
 \concept{metadata functions}

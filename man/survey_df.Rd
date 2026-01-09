@@ -4,63 +4,76 @@
 \alias{is.survey_df}
 \alias{survey_df}
 \alias{print.survey_df}
-\title{Create a survey data frame}
+\title{Create a survey object}
 \usage{
-is.survey_df(object)
+is.survey_df(x)
 
 survey_df(
   x,
+  title = NULL,
+  creator = person("Unknown", "Creator"),
   dataset_bibentry = NULL,
   dataset_subject = NULL,
   identifier,
   filename
 )
 
-is.survey_df(object)
+is.survey_df(x)
 
 \method{print}{survey_df}(x, ...)
 }
 \arguments{
-\item{x}{A tibble or data frame that contains the survey data.}
+\item{x}{A data frame or tibble containing the survey data.}
 
-\item{dataset_bibentry}{A list of bibliographic references and descriptive metadata
-about the dataset as a whole created with 
-\code{\link[dataset:datacite]{dataset::datacite}} or
-\code{\link[dataset:dublincore]{dataset::dublincore}}.}
+\item{title}{Optional title for the survey. Defaults to `"Untitled Survey"`.}
 
-\item{dataset_subject}{The subject of the dataset; it can be a simple 
-character string, or a more complex object created with 
-\code{\link[dataset:subject]{dataset::subject}}.}
+\item{creator}{A [utils::person()] object describing the dataset creator.
+Defaults to `person("Unknown", "Creator")`.}
 
-\item{filename}{The import file name.}
+\item{dataset_bibentry}{Optional dataset-level bibliographic metadata.
+If `NULL`, a minimal DataCite entry is created automatically using
+`title`, `creator`, and `dataset_subject`.}
 
-\item{id}{A mandatory identifier for the survey.}
+\item{dataset_subject}{Dataset subject metadata.
+If `NULL`, defaults to the Library of Congress Subject Heading
+\href{https://id.loc.gov/authorities/subjects/sh85130875}{Surveys}.}
+
+\item{identifier}{A character scalar identifying the survey.}
+
+\item{filename}{A character scalar giving the source filename, or `NULL`
+if unknown.}
+
+\item{...}{potentially further arguments for methods.}
 }
 \value{
-A \code{\link{dataset::dataset_df}} object with with \code{id}, and   
-\code{filename} metadata information.
+An object of class `"survey_df"`, which is a data frame with additional
+survey-level metadata stored as attributes and dataset-level metadata
+stored using the `dataset` package.
 }
 \description{
-Store the data of a survey in a tibble (data frame) with a unique
-survey identifier, import filename, and optional document object identifier.
+Construct a survey object from a data frame or tibble by attaching
+survey-level metadata such as an identifier, source filename, and
+basic dataset-level descriptive metadata.
 }
 \details{
-Whilst you can create a survey object with this helper function, 
-it is most likely that you will receive it with an importing function, i.e. 
-\code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, 
-\code{\link{read_csv}} or 
-their common wrapper \code{\link{read_survey}}.
+This function is primarily intended for use by import helpers such as
+[read_rds()], [read_spss()], [read_dta()], and [read_csv()].
+Most users will not need to call it directly.
 }
 \examples{
-example_survey <- survey( 
-  x = data.frame ( 
+survey_df(
+  x = data.frame(
     rowid = 1:6,
-    observations = runif(6)), 
-  id = 'example', 
+    observations = runif(6)
+  ),
+  identifier = "example",
   filename = "no_file"
 )
+
 }
 \seealso{
+[read_survey()] for importing survey data from external files.
+
 Other importing functions: 
 \code{\link{survey}()}
 }

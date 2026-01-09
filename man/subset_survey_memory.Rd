@@ -12,10 +12,14 @@ subset_survey_memory(
 )
 }
 \arguments{
-\item{subset_vars}{The names of the variables that should be kept from all surveys in the list that contains the
-wave of surveys. Defaults to \code{NULL} in which case it returns all variables without subsetting.}
+\item{subset_vars}{Character vector of variable names to retain.
+If `NULL`, all variables are retained.}
 
-\item{subset_name}{An identifier for the survey subset.}
+\item{subset_name}{Character string appended to filenames of
+subsetted surveys. Defaults to `"subset"`.}
+
+\item{export_path}{Optional directory where subsetted surveys
+are saved as `.rds` files. If `NULL`, surveys are returned in memory.}
 }
 \description{
 Subset surveys in memory

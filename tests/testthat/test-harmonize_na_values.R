@@ -1,14 +1,14 @@
 test_locally <- function() {
-  
-  examples_dir <- system.file( "examples", package = "retroharmonize")
-  
-  test_read <- read_rds ( 
+  examples_dir <- system.file("examples", package = "retroharmonize")
+
+  test_read <- read_rds(
     file.path(examples_dir, "ZA7576.rds"),
-    id = "ZA7576", 
-    doi = "test_doi")
-  
-  tested <- harmonize_na_values( df = test_read)
-  
+    id = "ZA7576",
+    doi = "test_doi"
+  )
+
+  tested <- harmonize_na_values(df = test_read)
+
   inherits(tested, "survey")
 }
 

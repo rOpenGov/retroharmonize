@@ -7,7 +7,7 @@
 find_import_function(file_path)
 }
 \value{
-The name of the function that should read \code{file_path} based on the file 
+The name of the function that should read \code{file_path} based on the file
 extension.
 }
 \description{

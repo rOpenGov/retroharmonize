@@ -6,12 +6,7 @@
 \alias{summary.survey}
 \title{Create a survey data frame}
 \usage{
-survey(
-  object = data.frame(),
-  id = character(),
-  filename = character(),
-  doi = character()
-)
+survey(object = data.frame(), id = "survey_id", filename = NULL, doi = NULL)
 
 is.survey(object)
 
@@ -29,7 +24,7 @@ is.survey(object)
 \item{...}{Arguments passed to summary method.}
 }
 \value{
-A tibble with \code{id},  \code{filename},  \code{doi} 
+A tibble with \code{id},  \code{filename},  \code{doi}
 metadata information.
 }
 \description{
@@ -37,17 +32,18 @@ Store the data of a survey in a tibble (data frame) with a unique
 survey identifier, import filename, and optional document object identifier.
 }
 \details{
-Whilst you can create a survey object with this helper function, it is most likely that 
-you will receive it with an importing function, i.e. 
-\code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or 
+Whilst you can create a survey object with this helper function, it is most likely that
+you will receive it with an importing function, i.e.
+\code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or
 their common wrapper \code{\link{read_survey}}.
 }
 \examples{
-example_survey <- survey( 
-  object =data.frame ( 
+example_survey <- survey(
+  object = data.frame(
     rowid = 1:6,
-    observations = runif(6)), 
-  id = 'example', 
+    observations = runif(6)
+  ),
+  id = "example",
   filename = "no_file"
 )
 }

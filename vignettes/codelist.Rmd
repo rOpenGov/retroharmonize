@@ -7,7 +7,7 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-```{r, include = FALSE}
+```{r setupvignette, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
@@ -18,6 +18,7 @@ DDI uses the term codebook on the level of file (survey), and we use it on the l
 
 ```{r setup, message=FALSE}
 library(retroharmonize)
+library(statcodelists)
 library(dplyr)
 library(knitr)
 ```
@@ -26,21 +27,23 @@ The idea of value label or codelist harmonization is that for example the Marita
 
 DDI leaves it to the Question Banks to harmonize the questionnaire items, and unfortunately this is a very bad idea. Eurobarometer, for example, consistently uses obsolete region codes and labels. (See below for example `FR23`=`Haute Normandie`). This creates a lot of tasks for retroharmonize even in nominally ex ante harmonized survey programs like Eurobarometer or Afrobarometer. 
 
-```{r}
+```{r createcodebook}
 set.seed(12)
-my_codebook <- create_codebook (
- survey = read_rds (
-          system.file("examples", "ZA7576.rds",
-                      package = "retroharmonize")
-          )
+my_codebook <- create_codebook(
+  survey = read_rds(
+    system.file("examples", "ZA7576.rds",
+      package = "retroharmonize"
+    )
+  )
 )
 
 sample_n(my_codebook, 12) %>%
-  select ( .data$filename, 
-           # Rename variables to DDI Codebook names
-           Name = .data$var_name_orig, 
-           Label = .data$var_label_orig, 
-           .data$val_code_orig, .data$val_label_orig ) %>%
+  select(.data$filename,
+    # Rename variables to DDI Codebook names
+    Name = .data$var_name_orig,
+    Label = .data$var_label_orig,
+    .data$val_code_orig, .data$val_label_orig
+  ) %>%
   kable()
 ```
 
@@ -50,7 +53,7 @@ It is beyond the scope of the retroharmonize package to faciliate the use of cor
 
 The use of standard codelists facilitates data interoperability and the production of publication-ready statistical products. The [statcodelists](https://statcodelists.dataobservatory.eu/) package contains the SDMX [published as an ISO International Standard (ISO 17369)] codelist standards used by major statistical agencies. 
 
-```{r}
+```{r statcodelists}
 library(statcodelists)
 CL_SEX
 ```
@@ -60,10 +63,11 @@ The problem with the SDMX Codelists is that they are designed for already aggreg
 
 For example, the [D10 (GENDER)](https://www.icpsr.umich.edu/web/ICPSR/studies/35083/datasets/0001/variables/D10?archive=icpsr) variable of Eurobarometer uses the following coding:
 
-```{r, message=FALSE}
-data.frame ( 
-  Value = c(1,2), 
-  Label = c("Male", "Female"))
+```{r sexexample, message=FALSE}
+data.frame(
+  Value = c(1, 2),
+  Label = c("Male", "Female")
+)
 ```
 
 Furthermore, Eurobarometer often uses characters in the Labels that should be prohibited
@@ -71,14 +75,19 @@ Furthermore, Eurobarometer often uses characters in the Labels that should be pr
 
 The current retroharmonize normalizes such characters early on, and this should change. It is not desirable that final, harmonized codelists use special characters, but for a faithful representation of the pre-existing data we should keep them.
 
-```{r}
+```{r marriagestatusexample}
 data.frame(
-  Value  = c(1,2,11), 
-  Label = c("(Re-)Married: without children", "(Re-)Married: children this marriage", 
-            "Divorced/Separated: without children"),
-  Normalized = c("Married or Remarried without children", 
-                 "Married or Remarried with children this marriage", 
-                 "Divorced or Separated without children")
+  Value = c(1, 2, 11),
+  Label = c(
+    "(Re-)Married: without children", 
+    "(Re-)Married: children this marriage",
+    "Divorced/Separated: without children"
+  ),
+  Normalized = c(
+    "Married or Remarried without children",
+    "Married or Remarried with children this marriage",
+    "Divorced or Separated without children"
+  )
 ) %>% kable()
 ```
 

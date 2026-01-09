@@ -79,7 +79,7 @@ reference:
      The new functions will follow the DDI and SDMX terminology.
      See vignette [Harmonizing Concepts, Questions, and Variables](https://retroharmonize.dataobservatory.eu/articles/concept.html)
     contents:
-      - codebook_create
+      - create_codebook
   - title: "Harmonize variable names"
     desc: >
      Before joining variables containing responses about the same concept, make
@@ -89,13 +89,6 @@ reference:
        - harmonize_var_names
        - var_label_normalize
        - harmonize_survey_variables
-  - title: "Codelists"
-    desc: >
-     The new functions will follow the DDI and SDMX terminology. The old terminology uses
-     variable harmonization (below).
-          See vignette [Value Labels and Codelists](https://retroharmonize.dataobservatory.eu/articles/codelist.html)
-    contents:
-      - codelist_create
   - title: "Harmonize numerical codes and labels"
     desc: >
      To merge variables from different surveys into a single variable, you must make sure that

@@ -28,12 +28,12 @@ read_survey(
 
 \item{.f}{A function to import the surveys with.
 Defaults to \code{'NULL'}, in this case files with an extension of \code{'.sav'} and \code{'.por'}
-will call case \code{\link{read_spss}}, files with an extension of \code{'.dta'} will 
+will call case \code{\link{read_spss}}, files with an extension of \code{'.dta'} will
 call \code{\link{read_dta}}, \code{rds} will call \code{\link{read_rds}} and
 \code{'.csv'} \code{\link{read_csv}}.}
 
 \item{export_path}{Defaults to \code{NULL}, in this case the read surveys are imported into a single
-list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each 
+list of surveys in memory. If \code{export_path} is a valid directory, it will instead save each
 survey an R object with \code{base::\link[base:readRDS]{saveRDS}}.}
 
 \item{ids}{The identifiers of the individual surveys.}
@@ -45,7 +45,7 @@ survey an R object with \code{base::\link[base:readRDS]{saveRDS}}.}
 \value{
 A list of the surveys or a vector of the saved file names. See
 Each element of the list is a data
-frame-like \code{\link{survey}} type object where some metadata, 
+frame-like \code{\link{survey}} type object where some metadata,
 such as the original file name, doi identifier if present, and other
 information is recorded for a reproducible workflow.
 }
@@ -54,22 +54,27 @@ Import surveys into a list or several \code{.rds} files.
 }
 \details{
 Use \code{read_survey} for a single survey and \code{read_surveys} for several surveys in
-in a loop. The function handle exceptions with wrong file names and not readable 
-files. If a file cannot be read, a message is printed, and empty survey is added to the 
+in a loop. The function handle exceptions with wrong file names and not readable
+files. If a file cannot be read, a message is printed, and empty survey is added to the
 the list in the place of this file.
 }
 \examples{
 file1 <- system.file(
-    "examples", "ZA7576.rds", package = "retroharmonize")
+  "examples", "ZA7576.rds",
+  package = "retroharmonize"
+)
 file2 <- system.file(
-    "examples", "ZA5913.rds", package = "retroharmonize")
+  "examples", "ZA5913.rds",
+  package = "retroharmonize"
+)
 
-read_surveys( c(file1,file2), .f = 'read_rds' )
+read_surveys(c(file1, file2), .f = "read_rds")
 }
 \seealso{
 survey
 
 Other import functions: 
+\code{\link{harmonize_survey_variables}()},
 \code{\link{pull_survey}()},
 \code{\link{read_csv}()},
 \code{\link{read_dta}()},

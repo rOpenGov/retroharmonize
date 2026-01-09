@@ -9,8 +9,8 @@ read_rds(file, dataset_bibentry = NULL, id = NULL, doi = NULL)
 \arguments{
 \item{file}{A path to a file to import.}
 
-\item{dataset_bibentry}{A bibliographic entry created with 
-\code{dataset::\link[dataset:dublincore]{dublincore}} or 
+\item{dataset_bibentry}{A bibliographic entry created with
+\code{dataset::\link[dataset:dublincore]{dublincore}} or
 \code{dataset::\link[dataset:datacite]{datacite}}.}
 
 \item{id}{An identifier of the tibble, if omitted, defaults to the
@@ -25,14 +25,15 @@ A tibble, data frame variant with survey attributes.
 Import a survey from an rds file.
 }
 \examples{
-path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
+path <- system.file("examples", "ZA7576.rds", package = "retroharmonize")
 read_survey <- read_rds(path)
 attr(read_survey, "id")
 attr(read_survey, "filename")
-attr(read_survey, "doi") 
+attr(read_survey, "doi")
 }
 \seealso{
 Other import functions: 
+\code{\link{harmonize_survey_variables}()},
 \code{\link{pull_survey}()},
 \code{\link{read_csv}()},
 \code{\link{read_dta}()},

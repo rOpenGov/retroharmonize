@@ -6,8 +6,13 @@
 \usage{
 metadata_initialize(filename, id)
 }
+\arguments{
+\item{filename}{A file name}
+
+\item{id}{An id.}
+}
 \value{
-A nested data frame with metadata and the range of 
+A nested data frame with metadata and the range of
 labels, na_values and the na_range itself.
 }
 \description{

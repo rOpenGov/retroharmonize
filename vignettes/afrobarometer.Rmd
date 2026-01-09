@@ -33,8 +33,9 @@ library(retroharmonize)
 library(dplyr)
 library(tidyr)
 load(file = system.file(
-  "afrob", "afrob_vignette.rda", 
-  package = "retroharmonize"))
+  "afrob", "afrob_vignette.rda",
+  package = "retroharmonize"
+))
 ```
 
 The goal of this case study is to explore the variation in trust in various state institutions among African societies, as well as changes in trust over time.
@@ -64,10 +65,10 @@ library(tidyr)
 
 ```{r import, eval=FALSE}
 ### use here your own directory
-ab <- dir ( afrobarometer_dir, pattern = "sav$" )
+ab <- dir(afrobarometer_dir, pattern = "sav$")
 afrobarometer_rounds <- file.path(afrobarometer_dir, ab)
 
-ab_waves <- read_surveys(afrobarometer_rounds, .f='read_spss')
+ab_waves <- read_surveys(afrobarometer_rounds, .f = "read_spss")
 ```
 
 Let's give a bit more meaningful identifiers than the file names:
@@ -90,7 +91,7 @@ print(documented_ab_waves)
 Create a metadata table, or a data map, that contains information about the variable names and labels, and where each row correspnds to one variable in the survey data file. We do this with the function `metadata_survey_create()`, which extracts the metadata from the survery data files, normalizes variable labels, identifies ranges of substantive responses and missing value codes. Its wrapper, `metadata_create()`, loops the function on a list of surveys, or on a set of files containing surveys.
 
 ```{r create-metadata, eval=FALSE}
-ab_metadata <- metadata_create ( survey_list = ab_waves )
+ab_metadata <- metadata_create(survey_list = ab_waves)
 ```
 
 ## Working with metadata
@@ -104,43 +105,49 @@ For these variables, we create normalized variable names (`var_name`) and labels
 ```{r, selection, eval=FALSE}
 library(dplyr)
 to_harmonize <- ab_metadata %>%
-  filter ( var_name_orig %in% 
-             c("rowid", "DATEINTR", "COUNTRY", "REGION", "withinwt") |
-             grepl("trust ", label_orig ) ) %>%
-  mutate ( var_label = var_label_normalize(label_orig)) %>%
-  mutate ( var_label = case_when ( 
-    grepl("^unique identifier", var_label) ~ "unique_id", 
-    TRUE ~ var_label)) %>%
-  mutate ( var_name = val_label_normalize(var_label))
+  filter(var_name_orig %in%
+    c("rowid", "DATEINTR", "COUNTRY", "REGION", "withinwt") |
+    grepl("trust ", label_orig)) %>%
+  mutate(var_label = var_label_normalize(label_orig)) %>%
+  mutate(var_label = case_when(
+    grepl("^unique identifier", var_label) ~ "unique_id",
+    TRUE ~ var_label
+  )) %>%
+  mutate(var_name = val_label_normalize(var_label))
 ```
 
 To further reduce the size of the analysis, we only choose a few variables based on the normalized variable names (`var_name`).
 
 ```{r}
 to_harmonize <- to_harmonize %>%
-  filter ( 
-    grepl ( "president|parliament|religious|traditional|unique_id|weight|country|date_of_int", var_name)
-    )
+  filter(
+    grepl("president|parliament|religious|traditional|unique_id|weight|country|date_of_int", var_name)
+  )
 ```
 
 The resulting table with information about the variables selected for harmonization looks as follows:
 
 ```{r}
 head(to_harmonize %>%
-       select ( all_of(c("id", "var_name", "var_label"))), 10)
+  select(all_of(c("id", "var_name", "var_label"))), 10)
 ```
 
 The `merge_surveys()` function harmonizes the variable names, the variable labels and survey identifiers and returns a list of surveys (of class `survey()`.) The parameter `var_harmonization` must be a list or a data frame that contains at least the original file name (`filename`), original variable names (`var_name_orig`), the new variable names (`var_name`) and their labels (`var_label`), so that the program knows which variables to take from what files and how to call and label them after transformation.
 
 
 ```{r merge, eval=FALSE}
-merged_ab <- merge_surveys ( survey_list = ab_waves, 
-                             var_harmonization = to_harmonize )
+merged_ab <- merge_surveys(
+  survey_list = ab_waves,
+  var_harmonization = to_harmonize
+)
 
 # country will be a character variable, and doesn't need a label
-merged_ab <- lapply ( merged_ab, 
-         FUN = function(x) x  %>%
-           mutate( country = as_character(country)))
+merged_ab <- lapply(merged_ab,
+  FUN = function(x) {
+    x %>%
+      mutate(country = as_character(country))
+  }
+)
 ```
 
 Review the most important metadata with `document_surveys()`:
@@ -159,7 +166,7 @@ In the Afrobarometer trust is measured with four-point ordinal rating scales. Su
 To review the harmonization on a single survey use `pull_survey()`. Here we select Afrobarometer Round 6.
 
 ```{r check, eval=FALSE}
-R6 <- pull_survey ( merged_ab, id = "Afrobarometer_R6" )
+R6 <- pull_survey(merged_ab, id = "Afrobarometer_R6")
 ```
 ```{r pulled-attributes}
 attributes(R6$trust_president[1:20])
@@ -174,14 +181,14 @@ document_survey_item(R6$trust_president)
 Afrobarometer's SPSS files do not mark the missing values, so we have to be careful. The set of labels that are identified as missing:
 
 ```{r}
-collect_na_labels( to_harmonize )
+collect_na_labels(to_harmonize)
 ```
 
 The set of valid category labels and missing value labels are as follows:
   
 ```{r}
-collect_val_labels (to_harmonize %>%
-                      filter ( grepl( "trust", var_name) ))
+collect_val_labels(to_harmonize %>%
+  filter(grepl("trust", var_name)))
 ```
 
 We create a harmonization function from the `harmonize_values()` prototype function. In fact, this is just a re-setting the default values of the original function.  It makes future reference in pipelines easier, or it can be used for a question block only, in this case to variables with `starts_with("trust")`.
@@ -189,20 +196,26 @@ We create a harmonization function from the `harmonize_values()` prototype funct
 ```{r specify}
 harmonize_ab_trust <- function(x) {
   label_list <- list(
-    from = c("^not", "^just", "^somewhat",
-             "^a", "^don", "^ref", "^miss", "^not", "^inap"), 
-    to = c("not_at_all", "little", "somewhat", 
-           "a_lot", "do_not_know", "declined", "inap", "inap", 
-           "inap"), 
-    numeric_values = c(0,1,2,3, 99997, 99998, 99999,99999, 99999)
+    from = c(
+      "^not", "^just", "^somewhat",
+      "^a", "^don", "^ref", "^miss", "^not", "^inap"
+    ),
+    to = c(
+      "not_at_all", "little", "somewhat",
+      "a_lot", "do_not_know", "declined", "inap", "inap",
+      "inap"
+    ),
+    numeric_values = c(0, 1, 2, 3, 99997, 99998, 99999, 99999, 99999)
   )
-  
+
   harmonize_values(
-    x, 
-    harmonize_labels = label_list, 
-    na_values = c("do_not_know"=99997,
-                  "declined"=99998,
-                  "inap"=99999)
+    x,
+    harmonize_labels = label_list,
+    na_values = c(
+      "do_not_know" = 99997,
+      "declined" = 99998,
+      "inap" = 99999
+    )
   )
 }
 ```
@@ -210,9 +223,10 @@ harmonize_ab_trust <- function(x) {
 We apply this function to the trust variables. The `harmonize_surveys()` function binds all variables that are present in all surveys.
 
 ```{r harmonize, eval=FALSE}
-harmonized_ab_waves <- harmonize_surveys ( 
-  survey_list = merged_ab, 
-  .f = harmonize_ab_trust ) 
+harmonized_ab_waves <- harmonize_surveys(
+  survey_list = merged_ab,
+  .f = harmonize_ab_trust
+)
 ```
 
 Let's look at the attributes of `harmonized_ab_waves`. 
@@ -229,16 +243,19 @@ Let's add the year of the interview:
 
 ```{r year, eval=FALSE}
 harmonized_ab_waves <- harmonized_ab_waves %>%
-  mutate ( year = as.integer(substr(as.character(
-    date_of_interview),1,4)))
+  mutate(year = as.integer(substr(as.character(
+    date_of_interview
+  ), 1, 4)))
 ```
 
 To keep our example manageable, we subset the datasets to include only five countries.
 
 ```{r, eval=FALSE}
 harmonized_ab_waves <- harmonized_ab_waves %>%
-  filter ( country %in% c("Niger", "Nigeria", "Algeria", 
-                          "South Africa", "Madagascar"))
+  filter(country %in% c(
+    "Niger", "Nigeria", "Algeria",
+    "South Africa", "Madagascar"
+  ))
 ```
 
 
@@ -250,32 +267,35 @@ Please note that the numeric form of these trust variables is not directly compa
 
 ```{r numeric}
 harmonized_ab_waves %>%
-  mutate_at ( vars(starts_with("trust")), 
-              ~as_numeric(.)*within_country_weighting_factor) %>%
-  select ( -all_of("within_country_weighting_factor") ) %>%
-  group_by ( country, year ) %>%
-  summarize_if ( is.numeric, mean, na.rm=TRUE ) 
+  mutate_at(
+    vars(starts_with("trust")),
+    ~ as_numeric(.) * within_country_weighting_factor
+  ) %>%
+  select(-all_of("within_country_weighting_factor")) %>%
+  group_by(country, year) %>%
+  summarize_if(is.numeric, mean, na.rm = TRUE)
 ```
 
 And the factor representation, without weighting:
 
 ```{r factor}
-library(tidyr)  ## tidyr::pivot_longer()
+library(tidyr) ## tidyr::pivot_longer()
 harmonized_ab_waves %>%
-  select ( -all_of("within_country_weighting_factor") ) %>%
-  mutate_if ( is.labelled_spss_survey, as_factor) %>%
-  pivot_longer ( starts_with("trust"), 
-                        names_to  = "institution", 
-                        values_to = "category") %>%
-  mutate ( institution = gsub("^trust_", "", institution) ) %>%
-  group_by ( country, year, institution, category ) %>%
-  summarize ( n = n() ) 
+  select(-all_of("within_country_weighting_factor")) %>%
+  mutate_if(is.labelled_spss_survey, as_factor) %>%
+  pivot_longer(starts_with("trust"),
+    names_to  = "institution",
+    values_to = "category"
+  ) %>%
+  mutate(institution = gsub("^trust_", "", institution)) %>%
+  group_by(country, year, institution, category) %>%
+  summarize(n = n())
 ```
 
 We subsetted the datasets to meet the vignette size limitations. If you are following our code without reducing the number of countries, you get the following results:
 
 ```{r, out.width='95%', echo=FALSE}
-knitr::include_graphics('ab_plot1.png')
+knitr::include_graphics("ab_plot1.png")
 ```
 
 

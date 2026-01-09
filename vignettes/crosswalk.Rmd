@@ -44,10 +44,12 @@ By filtering out the other variables, we have the basic information in our metad
 
 ```{r subsetmetadata}
 subset_example_metadata <- example_metadata %>%
-  filter ( grepl("^unique_identifier_in|trust|country_code", var_label_orig) ) %>%
-  filter ( grepl("^unique_identifier_in|european_parliament|country_code", 
-                 var_label_orig)) %>%
-  filter ( var_name_orig != "uniqid") 
+  filter(grepl("^unique_identifier_in|trust|country_code", var_label_orig)) %>%
+  filter(grepl(
+    "^unique_identifier_in|european_parliament|country_code",
+    var_label_orig
+  )) %>%
+  filter(var_name_orig != "uniqid")
 
 subset_example_metadata
 ```
@@ -74,12 +76,12 @@ The harmonization of the variable names requires a single, unambiguous name for 
 
 ```{r varnames}
 ct %>%
-  mutate ( var_name_target = case_when (
-    var_name_orig == "rowid" ~ .data$var_name_orig, 
-    var_name_orig == "isocntry" ~  "geo", 
+  mutate(var_name_target = case_when(
+    var_name_orig == "rowid" ~ .data$var_name_orig,
+    var_name_orig == "isocntry" ~ "geo",
     TRUE ~ "trust_ep"
   )) %>%
-  distinct ( across(all_of(c("filename", "var_name_orig", "var_name_target"))))
+  distinct(across(all_of(c("filename", "var_name_orig", "var_name_target"))))
 ```
 
 ### Value numeric code and label harmonization
@@ -93,37 +95,39 @@ In this example, for full reproducability, we do not work in a spreadsheet progr
 
 ```{r vallabels}
 ct %>%
-  mutate ( val_numeric_target = case_when (
-    val_numeric_orig == 1 ~ .data$val_numeric_orig, 
+  mutate(val_numeric_target = case_when(
+    val_numeric_orig == 1 ~ .data$val_numeric_orig,
     val_numeric_orig == 2 ~ 0,
     TRUE ~ 99999
   )) %>%
-  mutate ( val_label_target = case_when (
-    val_numeric_orig == 1 ~ "trust", 
+  mutate(val_label_target = case_when(
+    val_numeric_orig == 1 ~ "trust",
     val_numeric_orig == 2 ~ "distrust",
     TRUE ~ "declined"
   )) %>%
-  distinct ( across(all_of(c("filename", 
-                             "val_numeric_orig", "val_numeric_target", 
-                             "val_label_orig",  "val_label_target")))
-             )
+  distinct(across(all_of(c(
+    "filename",
+    "val_numeric_orig", "val_numeric_target",
+    "val_label_orig", "val_label_target"
+  ))))
 ```
 And now let's turn our attention to the special (missing) cases. Sometimes there may be other special cases in the code range, but the most likely suspects are values that represent some form of missing answers to a question or a missing questionnaire item selection.
 
 ```{r nalabels}
 ct %>%
-  mutate ( na_numeric_target = case_when (
-    na_numeric_orig ==  3 ~ 99999,
+  mutate(na_numeric_target = case_when(
+    na_numeric_orig == 3 ~ 99999,
     TRUE ~ NA_real_
   )) %>%
-  mutate ( na_label_target = case_when (
+  mutate(na_label_target = case_when(
     na_numeric_target == 99999 ~ "declined",
     TRUE ~ NA_character_
   )) %>%
-  distinct ( across(all_of(c("filename", "val_numeric_orig",  
-                             "na_numeric_orig", "na_numeric_target",
-                             "na_label_orig",  "na_label_target")))
-             )
+  distinct(across(all_of(c(
+    "filename", "val_numeric_orig",
+    "na_numeric_orig", "na_numeric_target",
+    "na_label_orig", "na_label_target"
+  ))))
 ```
 
 ### A reproducible recoding and relabelling
@@ -132,26 +136,26 @@ Let's put the entire process into a tidyverse pipeline with [dplyr](https://dply
 
 ```{r crosswalktarget}
 example_crosswalk_table <- ct %>%
-  mutate ( var_name_target = case_when (
-    var_name_orig == "rowid" ~ .data$var_name_orig, 
-    var_name_orig == "isocntry" ~  "geo", 
+  mutate(var_name_target = case_when(
+    var_name_orig == "rowid" ~ .data$var_name_orig,
+    var_name_orig == "isocntry" ~ "geo",
     TRUE ~ "trust_ep"
   )) %>%
-  mutate ( val_numeric_target = case_when (
-    val_numeric_orig == 1 ~ .data$val_numeric_orig, 
+  mutate(val_numeric_target = case_when(
+    val_numeric_orig == 1 ~ .data$val_numeric_orig,
     val_numeric_orig == 2 ~ 0,
     TRUE ~ 99999
   )) %>%
-  mutate ( val_label_target = case_when (
-    val_numeric_orig == 1 ~ "trust", 
+  mutate(val_label_target = case_when(
+    val_numeric_orig == 1 ~ "trust",
     val_numeric_orig == 2 ~ "distrust",
     TRUE ~ "declined"
-  ))  %>%
-  mutate ( na_numeric_target = case_when (
-    na_numeric_orig ==  3 ~ 99999,
+  )) %>%
+  mutate(na_numeric_target = case_when(
+    na_numeric_orig == 3 ~ 99999,
     TRUE ~ NA_real_
   )) %>%
-  mutate ( na_label_target = case_when (
+  mutate(na_label_target = case_when(
     na_numeric_target == 99999 ~ "declined",
     TRUE ~ NA_character_
   ))
@@ -176,15 +180,17 @@ There are several ways how the subsetting can be made.  With smaller tasks all t
 Recall from  the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/metadata.html) that you can read files into a list of surveys: 
 
 ```{r readtomemory}
-example_surveys <- read_surveys (survey_paths, .f = "read_rds")
+example_surveys <- read_surveys(survey_paths, .f = "read_rds")
 ```
 
 Now let's focus of our attention to a small subset of the variables.
 
 ```{r subsetsave1}
-subset_survey_list_1 <- subset_surveys(survey_list = example_surveys, 
-                                       subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"), 
-                                       subset_name = "subset_example")
+subset_survey_list_1 <- subset_surveys(
+  survey_list = example_surveys,
+  subset_vars = c("rowid", "isocntry", "qa10_1", "qa14_1"),
+  subset_name = "subset_example"
+)
 ```
 
 We still have the three surveys in a list: 
@@ -202,7 +208,7 @@ head(subset_survey_list_1[[1]])
 While `qa10_1` and `qa14_1` refer to trust in the European Parliament, they cannot be joined because they have dissimilar names. These names are not too easy to remember, either. 
 
 ```{r subsetsave14}
-lapply (subset_survey_list_1, names)
+lapply(subset_survey_list_1, names)
 ```
 
 The next step is to harmonize the names of those variables that represent the same concept, in this case, *Trust in the European Parliament*.  The next steps, i.e. the harmonization of the numerical codes of answers and their labels will be discussed in the [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/harmonize_labels.html) vignette.
@@ -212,9 +218,11 @@ The next step is to harmonize the names of those variables that represent the sa
 It is very practical to do the subsetting and the variable name harmonization in one step.  The `subset_save_surveys()` function will do this optionally, and a wrapper function `harmonize_surveys()` will validate that all metadata (i.e. the original, source variable names and the new, target variable names) are present. 
 
 ```{r subsetsave21}
-subset_survey_list_2 <- subset_surveys(crosswalk_table = example_crosswalk_table, 
-                                       survey_list = example_surveys,
-                                       subset_name = "trust_ep")
+subset_survey_list_2 <- subset_surveys(
+  crosswalk_table = example_crosswalk_table,
+  survey_list = example_surveys,
+  subset_name = "trust_ep"
+)
 ```
 
 We have again the three surveys in a list: 
@@ -232,7 +240,7 @@ head(subset_survey_list_2[[1]])
 Our variable names are harmonized:  
 
 ```{r subsetsave24}
-lapply (subset_survey_list_2, names)
+lapply(subset_survey_list_2, names)
 ```
 
 While this example easily fits in the memory, when working with several dozens of SPSS files, it is better to sequentially import the surveys from file, and save the output to files. By default, the parameters `import_path` and `export_path` are set to `NULL`. If you enter a valid path to a directory, the function will look for the files specified in the `crosswalk_table$filename` on this path.
@@ -243,11 +251,13 @@ While this example easily fits in the memory, when working with several dozens o
 The `subset_surveys()` is a versatile function that fits with several workflows. It works in memory or with larger tasks, with sequentially read survey files; it for simple tasks it can use a simple vector for names to keep, or it can use an entire crosswalk table. You can read more about it with `?subset_surveys`.
 
 ```{r subsetsave}
-subset_surveys(survey_list = example_surveys, 
-               crosswalk_table = example_crosswalk_table, 
-               subset_name = "trust_ep",
-               import_path = examples_dir, 
-               export_path = tempdir())
+subset_surveys(
+  survey_list = example_surveys,
+  crosswalk_table = example_crosswalk_table,
+  subset_name = "trust_ep",
+  import_path = examples_dir,
+  export_path = tempdir()
+)
 ```
 
 The subsetted surveys are saved with a common name element, `trust_ep` to the export file location, in this case a temporary directory created with `tempdir()`.

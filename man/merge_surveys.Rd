@@ -10,50 +10,65 @@ merge_surveys(survey_list, var_harmonization)
 merge_waves(waves, var_harmonization)
 }
 \arguments{
-\item{survey_list}{A list of surveys}
+\item{survey_list}{A list of surveys.}
 
-\item{var_harmonization}{Metadata of surveys, including at least
-\code{filename}, \code{var_name_orig}, \code{var_name_target}, \code{var_label}.}
+\item{var_harmonization}{A metadata table describing how variables should be harmonized.
+It must contain at least the columns
+\code{filename}, \code{var_name_orig}, \code{var_name_target},
+and \code{var_label}.}
 
 \item{waves}{Deprecated.}
 }
 \value{
-A list of surveys with harmonized names and variable labels.
+A list of surveys with harmonized variable names and labels.
 }
 \description{
 Merge a list of surveys into a list with harmonized variable names,
-variable labels and survey identifiers.
+variable labels, and survey identifiers.
 }
 \details{
-The function was called till version 0.2.0 \code{merge_waves()}, 
-which reflects the vocabulary of Eurobarometer surveys.
+Prior to version 0.2.0 this function was called \code{merge_waves()},
+reflecting the terminology used in Eurobarometer surveys.
 }
 \examples{
 \donttest{
 examples_dir <- system.file("examples", package = "retroharmonize")
-survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
+survey_files <- dir(examples_dir, pattern = "\\\\.rds$", full.names = TRUE)
 
 example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)
-    
-metadata <- metadata_surveys_create(example_surveys)
- 
-require(dplyr)
+  survey_files,
+  save_to_rds = FALSE
+)
 
+# Create metadata from surveys
+metadata <- metadata_create(survey_list = example_surveys)
+
+# Select and harmonize a subset of variables
 to_harmonize <- metadata \%>\%
-  filter ( var_name_orig \%in\% 
-             c("rowid", "w1") |
-             grepl("^trust", label_orig ) ) \%>\%
-  mutate ( var_label = var_label_normalize(label_orig) ) \%>\%
-  mutate ( var_name_target = val_label_normalize(var_label) ) \%>\%
-  mutate ( var_name_target = ifelse(.data$var_name_orig \%in\% c("rowid", "w1", "wex"), 
-                                    .data$var_name_orig, .data$var_name_target) )
+  dplyr::filter(
+    var_name_orig \%in\% c("rowid", "w1") |
+      grepl("^trust", var_label_orig)
+  ) \%>\%
+  dplyr::mutate(
+    var_label = var_label_normalize(var_label_orig),
+    var_name_target = val_label_normalize(var_label),
+    var_name_target = ifelse(
+      .data$var_name_orig \%in\% c("rowid", "w1", "wex"),
+      .data$var_name_orig,
+      .data$var_name_target
+    )
+  )
 
-merge_surveys ( example_surveys, to_harmonize )
+merged_surveys <- merge_surveys(
+  survey_list = example_surveys,
+  var_harmonization = to_harmonize
+)
+
+merged_surveys[[1]]
 }
+
 }
 \seealso{
-survey
+metadata_create
 }
 \concept{survey harmonization functions}

@@ -61,7 +61,7 @@ metadata_create(survey_list = example_surveys) %>%
 If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
 
 ```{r createmetadatasurveys}
-example_metadata <- metadata_create ( survey_paths = survey_paths, .f = "read_rds")
+example_metadata <- metadata_create(survey_paths = survey_paths, .f = "read_rds")
 ```
 ```{r printexample}
 set.seed(2022)
@@ -73,9 +73,9 @@ A quick glance at some metadata:
 ```{r subsetmetadata}
 library(dplyr)
 subset_example_metadata <- example_metadata %>%
-  filter ( grepl("trust", .data$var_label_orig) ) %>%
-  filter ( grepl("european_parliament", .data$var_label_orig)) %>%
-  select ( all_of(c("filename", "var_label_orig", "var_name_orig", "valid_labels", "na_labels", "class_orig")))
+  filter(grepl("trust", .data$var_label_orig)) %>%
+  filter(grepl("european_parliament", .data$var_label_orig)) %>%
+  select(all_of(c("filename", "var_label_orig", "var_name_orig", "valid_labels", "na_labels", "class_orig")))
 
 subset_example_metadata
 ```

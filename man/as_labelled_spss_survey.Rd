@@ -19,6 +19,6 @@ Labelled to labelled_spss_survey
 }
 \seealso{
 Other type conversion functions: 
-\code{\link{labelled_spss_survey}()}
+\code{\link{labelled_spss_survey_coercion}}
 }
 \concept{type conversion functions}

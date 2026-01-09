@@ -7,24 +7,24 @@
 metadata_survey_create(survey)
 }
 \arguments{
-\item{survey}{A survey data frame. You receive a survey object with any importing function, i.e. 
-\code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or 
+\item{survey}{A survey data frame. You receive a survey object with any importing function, i.e.
+\code{\link{read_rds}}, \code{\link{read_spss}} \code{\link{read_dta}}, \code{\link{read_csv}} or
 their common wrapper \code{\link{read_survey}}.
 You can construct it with \code{\link{survey}} from a data frame, too.}
 }
 \value{
-A nested data frame with metadata and the range of 
+A nested data frame with metadata and the range of
 labels, na_values and the na_range itself.
 }
 \description{
 Create a metadata table from the survey data files.
 }
 \details{
-A data frame like tibble object is returned. 
+A data frame like tibble object is returned.
 In case you are working with several surveys, a list of surveys or a vector
-of file names containing the full path to the survey must be called with 
-\code{\link{metadata_create}}, which is a wrapper around 
-a list of  \code{\link{metadata_survey_create}} calls.
+of file names containing the full path to the survey must be called with
+[metadata_create()], which is a wrapper around
+a list of  [metadata_survey_create()] calls.
 
 The structure of the returned tibble:
 \describe{
@@ -44,17 +44,18 @@ The structure of the returned tibble:
 }
 }
 \examples{
-metadata_create (
- survey_list = read_rds (
-                   system.file("examples", "ZA7576.rds",
-                   package = "retroharmonize")
-          )
+metadata_create(
+  survey_list = read_rds(
+    system.file("examples", "ZA7576.rds",
+      package = "retroharmonize"
+    )
+  )
 )
 }
 \seealso{
 Other metadata functions: 
 \code{\link{create_codebook}()},
-\code{\link{crosswalk_table_create}()},
+\code{\link{is.crosswalk_table}()},
 \code{\link{metadata_create}()}
 }
 \concept{metadata functions}

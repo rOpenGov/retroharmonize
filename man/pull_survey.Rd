@@ -9,7 +9,7 @@ pull_survey(survey_list, id = NULL, filename = NULL)
 \arguments{
 \item{survey_list}{A list of surveys}
 
-\item{id}{The id of the requested survey. If \code{NULL} use 
+\item{id}{The id of the requested survey. If \code{NULL} use
 \code{filename}}
 
 \item{filename}{The filename of the requested survey.}
@@ -21,18 +21,22 @@ A single survey identified by \code{id} or \code{filename}.
 Pull a survey by survey code or id.
 }
 \examples{
-examples_dir <- system.file( "examples", package = "retroharmonize")
+examples_dir <- system.file("examples", package = "retroharmonize")
 
-my_rds_files <- dir( examples_dir)[grepl(".rds", 
-                                   dir(examples_dir))]
+my_rds_files <- dir(examples_dir)[grepl(
+  ".rds",
+  dir(examples_dir)
+)]
 
 example_surveys <- read_surveys(
-    file.path(examples_dir, my_rds_files) )
+  file.path(examples_dir, my_rds_files)
+)
 
 pull_survey(example_surveys, id = "ZA5913")
 }
 \seealso{
 Other import functions: 
+\code{\link{harmonize_survey_variables}()},
 \code{\link{read_csv}()},
 \code{\link{read_dta}()},
 \code{\link{read_rds}()},

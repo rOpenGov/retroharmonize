@@ -10,35 +10,36 @@ collect_val_labels(metadata)
 collect_na_labels(metadata)
 }
 \arguments{
-\item{metadata}{A metadata data frame created by 
+\item{metadata}{A metadata data frame created by
 \code{\link{metadata_create}}.}
 }
 \value{
-The unique valid labels or the user-defined missing 
+The unique valid labels or the user-defined missing
 labels found in all the files analyzed in \code{metadata}.
 }
 \description{
 Collect labels from metadata file
 }
 \examples{
-test_survey <- retroharmonize::read_rds (
-   file = system.file("examples", "ZA7576.rds",
-                  package = "retroharmonize"), 
-   id = "test"
+test_survey <- retroharmonize::read_rds(
+  file = system.file("examples", "ZA7576.rds",
+    package = "retroharmonize"
+  ),
+  id = "test"
 )
-example_metadata <- metadata_create (test_survey)
+example_metadata <- metadata_create(test_survey)
 
-collect_val_labels (metadata = example_metadata )
-collect_na_labels ( metadata = example_metadata )
+collect_val_labels(metadata = example_metadata)
+collect_na_labels(metadata = example_metadata)
 }
 \seealso{
 Other harmonization functions: 
 \code{\link{crosswalk_surveys}()},
-\code{\link{crosswalk_table_create}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
+\code{\link{is.crosswalk_table}()},
 \code{\link{label_normalize}()}
 }
 \concept{harmonization functions}

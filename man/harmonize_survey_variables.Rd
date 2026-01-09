@@ -2,7 +2,7 @@
 % Please edit documentation in R/harmonize_survey_variables.R
 \name{harmonize_survey_variables}
 \alias{harmonize_survey_variables}
-\title{Harmonize survey variables}
+\title{Read a survey from a CSV file}
 \usage{
 harmonize_survey_variables(
   crosswalk_table,
@@ -14,48 +14,68 @@ harmonize_survey_variables(
 )
 }
 \arguments{
-\item{crosswalk_table}{A crosswalk table created by \code{\link{crosswalk_table_create}} or a manually created 
-crosstable including at least
-\code{filename}, \code{var_name_orig}, \code{var_name_target} and optionally 
- \code{var_label_orig} and \code{var_label_target}. This parameter is optional and 
- defaults to \code{NULL}.}
+\item{crosswalk_table}{A crosswalk table created with
+[crosswalk_table_create()].}
 
-\item{subset_name}{An identifier for the survey subset.}
+\item{subset_name}{Character string appended to filenames of
+subsetted surveys. Defaults to `"subset"`.}
 
-\item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
-\code{NULL}, the \code{survey_path} should give full path to the surveys.}
+\item{survey_list}{A list containing surveys of class survey.}
 
-\item{survey_paths}{A vector of full file paths to the surveys to subset.}
+\item{survey_paths}{Optional character vector of file paths to surveys.}
+
+\item{import_path}{Optional base directory used to resolve `survey_paths`.}
+
+\item{export_path}{Optional directory where subsetted surveys are
+exported to}
 }
 \value{
-A list of surveys or save individual rds files on the \code{export_path}.
+An object of class `"survey"`, which is a data frame with attached
+survey- and dataset-level metadata.
 }
 \description{
-Similar to \code{\link{subset_surveys}}, but will not only remove the 
-variables that cannot be harmonized, but also renames the variables that are kept.
+Import a survey stored in a CSV file and return it as a survey object
+with attached dataset- and survey-level metadata.
+}
+\details{
+The CSV file is read using [utils::read.csv()]. Character variables
+with more than one unique value are automatically converted to
+labelled factors. A unique row identifier is added and labelled.
+
+
+If the file cannot be read, an empty survey object is returned with
+a warning.
+
+If a column named `"X"` is present (commonly created by
+`write.csv()`), it is removed automatically.
 }
 \examples{
-{
-examples_dir <- system.file("examples", package = "retroharmonize")
-survey_list  <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
-example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
-  export_path = NULL)
+# Create a temporary CSV file from an example survey
+path <- system.file("examples", "ZA7576.rds", 
+                    package = "retroharmonize")
+survey <- read_rds(path)
 
-documented_surveys <- metadata_create(example_surveys)
-documented_surveys <- documented_surveys[
-   documented_surveys$var_name_orig \%in\% c( "rowid", "isocntry", "w1", "qd3_4",
-   "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),
-   ]
-crosswalk_table    <- crosswalk_table_create ( metadata = documented_surveys )
+tmp <- tempfile(fileext = ".csv")
+write.csv(survey, tmp, row.names = FALSE)
 
-freedom_table <- crosswalk_table[
-                     which(crosswalk_table$var_name_target \%in\% c("rowid", "freedom")),
-                     ]
-
-harmonize_survey_variables(crosswalk_table = freedom_table,
-                           subset_name     = 'freedom',
-                           survey_list     = example_surveys )
+# Read the CSV file back as a survey
+re_read <- read_csv(
+  file = tmp,
+  id = "ZA7576",
+  doi = "10.0000/example"
+)
 
 }
+\seealso{
+[read_rds()] for importing surveys from RDS files,
+[survey_df()] for constructing survey objects manually.
+
+Other import functions: 
+\code{\link{pull_survey}()},
+\code{\link{read_csv}()},
+\code{\link{read_dta}()},
+\code{\link{read_rds}()},
+\code{\link{read_spss}()},
+\code{\link{read_surveys}()}
 }
+\concept{import functions}

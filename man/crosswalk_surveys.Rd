@@ -3,7 +3,7 @@
 \name{crosswalk_surveys}
 \alias{crosswalk_surveys}
 \alias{crosswalk}
-\title{Crosswalk surveys}
+\title{Crosswalk and harmonize surveys}
 \usage{
 crosswalk_surveys(
   crosswalk_table,
@@ -16,65 +16,78 @@ crosswalk_surveys(
 crosswalk(survey_list, crosswalk_table, na_values = NULL)
 }
 \arguments{
-\item{crosswalk_table}{A table created with \code{crosswalk_table_create}, or a 
-data frame with at least the following columns: \code{var_name_orig}, \code{var_name_target},
-for harmonizing the variable names. If \code{val_label_orig}, \code{val_label_target} 
-are present, the value labels will be harmonized, too. If 
-\code{var_numeric_orig}, \code{var_numeric_target} are present, the numeric codes of the 
-variable will be harmonized. If \code{class_target} is present, then the class of the variable 
-will be harmonized to any of \code{factor}, \code{numeric} or \code{character} using 
-\code{\link{as_factor}}, \code{\link{as_numeric}}, or \code{\link{as_character}}.}
+\item{crosswalk_table}{A crosswalk table created with
+  [crosswalk_table_create()] or a data frame containing at least the columns
+  `id`, `var_name_orig`, and `var_name_target`.
 
-\item{survey_list}{A list of surveys imported with \code{\link{read_surveys}}. If set to 
-\code{NULL}, the \code{survey_path} should give full path to the surveys.}
+  If the columns `val_label_orig` and `val_label_target` are present,
+  value labels are harmonized. If `val_numeric_orig` and
+  `val_numeric_target` are present, numeric codes are harmonized.
+  If `class_target` is present, variables are coerced to the specified
+  target class (`"factor"`, `"numeric"`, or `"character"`) using
+  [as_factor()], [as_numeric()], or [as_character()].}
 
-\item{survey_paths}{A vector of full file paths to the surveys to subset.}
+\item{survey_list}{A list of survey objects to be harmonized.}
 
-\item{na_values}{A named vector of \code{na_values}, the 
-observations that are defined to be treated as missing in 
-the SPSS-style coding. Defaults to \code{NULL}.}
+\item{survey_paths}{Optional character vector of file paths to surveys.
+Used when surveys must be read from disk before harmonization.}
+
+\item{import_path}{Optional base directory used to resolve `survey_paths`.
+This is primarily intended for workflows where surveys are stored outside
+the current working directory.}
+
+\item{na_values}{Optional named vector defining numeric codes to be treated
+as missing values. Names correspond to missing-value labels.}
 }
 \value{
-\code{crosswalk} will return a data frame, and \code{crosswalk_surveys} a list of
-data frames, where the variable names, and optionally the variable labels, and the missing 
-value range is harmonized (the same names, labels, codes are used.)
+`crosswalk_surveys()` returns a list of harmonized survey data frames.
+`crosswalk()` returns either a single data frame (if only one survey is
+harmonized) or a merged data frame combining all harmonized surveys.
 }
 \description{
-Harmonize surveys with crosswalk tables.
+Harmonize one or more surveys using a crosswalk table that defines how
+variable names, value labels, numeric codes, and variable classes should
+be aligned across surveys.
 }
 \details{
-Harmonize a survey or a list of surveys with the help of a crosswalk table.
-You can create the crosswalk table with \code{\link{crosswalk_table_create}}, or manually 
-create a crosswalk table as a data frame including at least the following columns: \code{id}
-for identifying a survey, \code{var_name_orig} for the original variable name 
-and \code{var_name_target} for the new (target) variable name. Optionally you can harmonize
-the value labels, the numeric codes, and the special missing labels, too.
+A crosswalk table can be created with [crosswalk_table_create()] or supplied
+manually as a data frame. At a minimum, the table must contain columns
+`id`, `var_name_orig`, and `var_name_target`. Additional columns enable
+harmonization of value labels, numeric codes, missing values, and variable
+classes.
 }
 \examples{
-\donttest{
+\dontrun{
 examples_dir <- system.file("examples", package = "retroharmonize")
-survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
-example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)
+survey_files <- dir(examples_dir, pattern = "\\\\.rds$")
 
-## Compare with documentation:
-documented_surveys <- metadata_surveys_create(example_surveys)
-documented_surveys <- documented_surveys[
-documented_surveys$var_name_orig \%in\% c( "rowid", "isocntry", "w1", "qd3_4",
-                                          "qd3_8" , "qd7.4", "qd7.8", "qd6.4", "qd6.8"),
-                                          ]
-crosswalk_table <- crosswalk_table_create ( metadata = documented_surveys )
+surveys <- read_surveys(
+  file.path(examples_dir, survey_files),
+  save_to_rds = FALSE
+)
+
+metadata <- metadata_create(survey_list = surveys)
+
+crosswalk_table <- crosswalk_table_create(metadata)
+
+harmonized <- crosswalk_surveys(
+  crosswalk_table = crosswalk_table,
+  survey_list = surveys
+)
 }
+
 }
 \seealso{
+[crosswalk_table_create()] to create a crosswalk table,
+[harmonize_survey_variables()] for lower-level variable harmonization.
+
 Other harmonization functions: 
 \code{\link{collect_val_labels}()},
-\code{\link{crosswalk_table_create}()},
 \code{\link{harmonize_na_values}()},
 \code{\link{harmonize_survey_values}()},
 \code{\link{harmonize_values}()},
 \code{\link{harmonize_var_names}()},
+\code{\link{is.crosswalk_table}()},
 \code{\link{label_normalize}()}
 }
 \concept{harmonization functions}

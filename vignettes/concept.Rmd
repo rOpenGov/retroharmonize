@@ -48,8 +48,8 @@ example_surveys <- read_surveys(survey_paths, .f = "read_rds")
 If you may ran out of memory, you can work with files.  The advantage of keeping the surveys in memory is that later it will be much faster to continue working with them, but from the metadata point of view, the returned object is the same either way.
 
 ```{r createmetadatasurveys}
-#not evaluated
-example_metadata <- metadata_create (survey_paths = survey_paths, .f = "read_rds")
+# not evaluated
+example_metadata <- metadata_create(survey_paths = survey_paths, .f = "read_rds")
 ```
 
 Let's work in the memory now. Map the metadata contents of the files:
@@ -74,15 +74,19 @@ We roughly have a DDI Codebook regarding the concepts and question items, but th
 
 ```{r}
 set.seed(12)
-example_metadata %>% 
-  select ( Filename = .data$filename,
-           Name = .data$var_name_orig, 
-           Label = .data$var_label_orig, 
-           Type =  .data$class_orig, 
-           Format = .data$labels) %>%
-  mutate ( Valid = NA_real_, 
-           Invalid = NA_real_, 
-           Question = NA_character_) %>%
+example_metadata %>%
+  select(
+    Filename = .data$filename,
+    Name = .data$var_name_orig,
+    Label = .data$var_label_orig,
+    Type = .data$class_orig,
+    Format = .data$labels
+  ) %>%
+  mutate(
+    Valid = NA_real_,
+    Invalid = NA_real_,
+    Question = NA_character_
+  ) %>%
   sample_n(12)
 ```
 
@@ -94,11 +98,12 @@ However, we have a problem, the current, released retroharmonize has a more comp
 
 ```{r}
 set.seed(12)
-my_codebook <- create_codebook (
- survey = read_rds (
-          system.file("examples", "ZA7576.rds",
-                      package = "retroharmonize")
-          )
+my_codebook <- create_codebook(
+  survey = read_rds(
+    system.file("examples", "ZA7576.rds",
+      package = "retroharmonize"
+    )
+  )
 )
 
 sample_n(my_codebook, 12)
@@ -114,20 +119,22 @@ metadata <- metadata_create(example_surveys)
 metadata$var_name_suggested <- label_normalize(metadata$var_name)
 metadata$var_name_suggested[metadata$label_orig == "age_education"] <- "age_education"
 
-harmonized_example_surveys <- harmonize_var_names(survey_list = example_surveys, 
-                                                  metadata    = metadata )
+harmonized_example_surveys <- harmonize_var_names(
+  survey_list = example_surveys,
+  metadata = metadata
+)
 
 lapply(harmonized_example_surveys, names)
 ```
 There is, however, an important extra step, what the DDI codebook calls Type and Format matching.  This is software/computer language dependent, but our codebook could easily accommodate this with containing the generic DDI Codebook
 
 ```{r, results='asis', message=FALSE}
-data.frame ( 
+data.frame(
   Type = rep("discrete", 3),
   Format = c("numeric-1.0", "numeric-2.0", "numeric-6.0"),
-  r_type = rep("integer",3), 
-  range = c("0..9", "10..99", "100000..999999" )
-  ) %>% knitr::kable()
+  r_type = rep("integer", 3),
+  range = c("0..9", "10..99", "100000..999999")
+) %>% knitr::kable()
 ```
 
 These variables can be mapped either to our [labelled_spss_survey](https://retroharmonize.dataobservatory.eu/articles/labelled_spss_survey.html) class or Adrian Dusa's [declared](https://github.com/dusadrian/declared).
@@ -146,12 +153,12 @@ we can assume that we only use integer representation for coded questionnaire it
 The choice has profound consequences for variable label harmonization and the harmonization of codelists, but not at the level of concepts, questions and codebooks.
 
 ```{r, results='asis', message=FALSE}
-data.frame ( 
+data.frame(
   Type = rep("discrete", 3),
   Format = c("numeric-1.0", "numeric-2.0", "numeric-6.0"),
-  r_type = rep("declared",3), 
-  range = c("Male|Female|DK", "10..99", "100000..999999" )
-  ) %>% knitr::kable()
+  r_type = rep("declared", 3),
+  range = c("Male|Female|DK", "10..99", "100000..999999")
+) %>% knitr::kable()
 ```
 
 ## Question Banks

@@ -19,8 +19,8 @@ read_spss(
 \item{user_na}{Should user-defined na_values be imported? Defaults
 to \code{TRUE}.}
 
-\item{dataset_bibentry}{A bibliographic entry created with 
-\code{dataset::\link[dataset:dublincore]{dublincore}} or 
+\item{dataset_bibentry}{A bibliographic entry created with
+\code{dataset::\link[dataset:dublincore]{dublincore}} or
 \code{dataset::\link[dataset:datacite]{datacite}}.}
 
 \item{id}{An identifier of the tibble, if omitted, defaults to the
@@ -28,7 +28,7 @@ file name without its extension.}
 
 \item{doi}{An optional document object identifier.}
 
-\item{.name_repair}{Defaults to \code{"unique"} See 
+\item{.name_repair}{Defaults to \code{"unique"} See
 \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.}
 }
 \value{
@@ -40,7 +40,7 @@ A tibble:
   `write_sav()` returns the input `data` invisibly.
 }
 \description{
-This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}} 
+This is a wrapper around \code{haven::\link[haven:read_spss]{read_spss}}
 with some exception handling.
 }
 \details{
@@ -64,6 +64,7 @@ haven::read_sav(tmp)
 }
 \seealso{
 Other import functions: 
+\code{\link{harmonize_survey_variables}()},
 \code{\link{pull_survey}()},
 \code{\link{read_csv}()},
 \code{\link{read_dta}()},

@@ -14,11 +14,11 @@ file name without its extension.}
 
 \item{doi}{An optional document object identifier.}
 
-\item{dataset_bibentry}{A bibliographic entry created with 
-\code{dataset::\link[dataset:dublincore]{dublincore}} or 
+\item{dataset_bibentry}{A bibliographic entry created with
+\code{dataset::\link[dataset:dublincore]{dublincore}} or
 \code{dataset::\link[dataset:datacite]{datacite}}.}
 
-\item{...}{Further optional parameters to pass on to 
+\item{...}{Further optional parameters to pass on to
 \code{utils::\link[utils:read.csv]{read.csv}}.}
 }
 \value{
@@ -29,25 +29,24 @@ Import a survey from a csv file.
 }
 \examples{
 # Create a temporary CSV file:
-path <-  system.file("examples", "ZA7576.rds", package = "retroharmonize")
+path <- system.file("examples", "ZA7576.rds", 
+                    package = "retroharmonize")
 read_survey <- read_rds(path)
 test_csv_file <- tempfile()
-write.csv(x = read_survey, file = test_csv_file, row.names = F)
-
-# Create a Bibentry:
-survey_bibentry <- dublincore(
-          title = "Test Survey", 
-          creator = person("Jane", "Doe", role = "cre")
-          )
-
-# Read the CSV file:           
+write.csv(x = read_survey, 
+          file = test_csv_file, 
+          row.names = FALSE)
+         
+# Read the CSV file:
 re_read <- read_csv(
-           file=test_csv_file,
-           dataset_bibentry = survey_bibentry,
-           id = "ZA7576", doi = "test_doi")
+  file = test_csv_file,
+  id = "ZA7576", 
+  doi = "test_doi"
+)
 }
 \seealso{
 Other import functions: 
+\code{\link{harmonize_survey_variables}()},
 \code{\link{pull_survey}()},
 \code{\link{read_dta}()},
 \code{\link{read_rds}()},

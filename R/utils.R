@@ -5,7 +5,7 @@ HelloWorld <- function(...) {
   arguments
 }
 
-HelloWorld( a = "s", b = "x")
+HelloWorld(a = "s", b = "x")
 
 #' @keywords  internal
 cat_line <- function(...) {
@@ -14,10 +14,10 @@ cat_line <- function(...) {
 }
 
 #' @keywords  internal
-is.labelled_spss <- function (x) inherits(x, "haven_labelled_spss")
+is.labelled_spss <- function(x) inherits(x, "haven_labelled_spss")
 
 #' @keywords  internal
-is.labelled <- function (x) inherits(x, "haven_labelled")
+is.labelled <- function(x) inherits(x, "haven_labelled")
 
 #' Convert to haven_labelled_spss
 #' @param x A vector
@@ -27,32 +27,33 @@ is.labelled <- function (x) inherits(x, "haven_labelled")
 #' @return A haven_labelled_spss vector
 #' @importFrom labelled val_labels
 #' @keywords internal
-convert_to_labelled_spss <- function(x, na_labels = NULL ) {
-
-  if ( is.null(na_labels) && is.numeric(unclass(x))) {
+convert_to_labelled_spss <- function(x, na_labels = NULL) {
+  if (is.null(na_labels) && is.numeric(unclass(x))) {
     na_labels <- structure(99999, names = "inap")
   } else if (is.null(na_labels) && is.character(unclass(x))) {
     na_labels <- structure("inap", names = "inap")
   }
 
-  stopifnot( ! any(unclass(na_labels) %in% x) )
+  stopifnot(!any(unclass(na_labels) %in% x))
 
 
-  labelled_spss(x, c( labelled::val_labels (x), na_labels),
-                na_values = unclass(na_labels))
+  labelled_spss(x, c(labelled::val_labels(x), na_labels),
+    na_values = unclass(na_labels)
+  )
 }
 
 
 #' @keywords  internal
-remove_na_range <- function (x) {
+remove_na_range <- function(x) {
   assert_that(is.labelled_spss_survey(x))
-  if (! is.null(attr(x, "na_range")) ) {
-    
-    min_na_range <- min (attr(x, "na_range"))
-    max_na_range <- max (attr(x, "na_range"))
-    
-    if ( all(! max_na_range %in% range ( x ), 
-        ! min_na_range %in% range ( x )  )) {
+  if (!is.null(attr(x, "na_range"))) {
+    min_na_range <- min(attr(x, "na_range"))
+    max_na_range <- max(attr(x, "na_range"))
+
+    if (all(
+      !max_na_range %in% range(x),
+      !min_na_range %in% range(x)
+    )) {
       attr(x, "na_range") <- NULL
     }
   }

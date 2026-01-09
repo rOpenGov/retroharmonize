@@ -4,7 +4,7 @@
 \alias{create_codebook}
 \alias{codebook_waves_create}
 \alias{codebook_surveys_create}
-\title{Create a codebook}
+\title{Create a survey codebook}
 \usage{
 create_codebook(metadata = NULL, survey = NULL)
 
@@ -13,55 +13,77 @@ codebook_waves_create(waves)
 codebook_surveys_create(survey_list)
 }
 \arguments{
-\item{metadata}{A metadata table created by \code{\link{metadata_create}}. 
-Defaults to \code{NULL}.}
+\item{metadata}{A metadata table created by [metadata_create()].
+If supplied, `survey` must be `NULL`.}
 
-\item{survey}{A survey data frame, defaults to \code{NULL}. If the survey is
-given as parameter, the metadata will be set to the metadata of this particular
-survey by \code{\link{metadata_create}}.}
+\item{survey}{A survey object of class `"survey"`.
+If supplied, metadata is generated internally using
+[metadata_create()].}
 
 \item{waves}{A list of surveys.}
 
 \item{survey_list}{A list containing surveys of class survey.}
 }
 \value{
-A codebook for the survey as a data frame, including the metadata, and all found 
-SPSS-type valid or missing labels.
+A data frame with one row per value label, including:
+\itemize{
+  \item survey identifiers (`id`, `filename`)
+  \item original variable names and labels
+  \item value codes and value labels
+  \item label type (`"valid"` or `"missing"`)
+  \item summary counts of labels
+}
+
+Additional user-defined metadata columns present in the input
+metadata are preserved.
 }
 \description{
-Create a codebook from one or more survey data files.
+Expand survey metadata into a long-format codebook of value labels.
 }
 \details{
-For a list of survey waves, use \code{codebook_waves_create}.
-The returned codebook contains only labelled variables, i.e., numeric and
-character types are not included, because they do not require coding.
+`create_codebook()` takes survey-level metadata and returns a
+tidy data frame describing all labelled variables and their
+associated value labels. Each row corresponds to a single
+value label, classified as either a valid value or a missing value.
+
+Unlabelled numeric and character variables are excluded.
+
+
+For multiple survey waves, use [codebook_surveys_create()].
+
+If both `metadata` and `survey` are provided, `survey` takes precedence.
 }
 \examples{
-create_codebook (
- survey = read_rds (
-          system.file("examples", "ZA7576.rds",
-                      package = "retroharmonize")
-          )
+survey <- read_rds(
+  system.file("examples", "ZA7576.rds", package = "retroharmonize")
 )
+
+cb <- create_codebook(survey = survey)
+head(cb)
+
 \donttest{
 examples_dir <- system.file("examples", package = "retroharmonize")
 survey_list <- dir(examples_dir)[grepl("\\\\.rds", dir(examples_dir))]
 
 example_surveys <- read_surveys(
-  file.path( examples_dir, survey_list), 
-  save_to_rds = FALSE)     
+  file.path(examples_dir, survey_list),
+  save_to_rds = FALSE
+)
 
-codebook_surveys_create (example_surveys)
+codebook_surveys_create(example_surveys)
 }
 }
 \seealso{
+[metadata_create()],
+[codebook_surveys_create()]
+
 Other metadata functions: 
-\code{\link{crosswalk_table_create}()},
+\code{\link{is.crosswalk_table}()},
 \code{\link{metadata_create}()},
 \code{\link{metadata_survey_create}()}
 
 Other metadata functions: 
-\code{\link{crosswalk_table_create}()},
+\code{\link{is.crosswalk_table}()},
 \code{\link{metadata_create}()},
 \code{\link{metadata_survey_create}()}
 }

@@ -14,7 +14,7 @@ file name without its extension.}
 
 \item{doi}{An optional document object identifier.}
 
-\item{.name_repair}{Defaults to \code{"unique"} See 
+\item{.name_repair}{Defaults to \code{"unique"} See
 \code{tibble::\link[tibble:as_tibble]{as_tibble}} for details.}
 }
 \value{
@@ -26,7 +26,7 @@ A tibble.
   `write_sav()` returns the input `data` invisibly.
 }
 \description{
-This is a wrapper around \code{haven::\link[haven:read_dta]{read_dta}} 
+This is a wrapper around \code{haven::\link[haven:read_dta]{read_dta}}
 with some exception handling.
 }
 \details{
@@ -42,6 +42,7 @@ read_dta(path)
 }
 \seealso{
 Other import functions: 
+\code{\link{harmonize_survey_variables}()},
 \code{\link{pull_survey}()},
 \code{\link{read_csv}()},
 \code{\link{read_rds}()},
