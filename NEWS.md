@@ -4,7 +4,7 @@ the API.
 
 # retroharmonize 0.2.5
 * Unified function interface and parameter names.
-* This development version has a few known [issues](https://github.com/rOpenGov/retroharmonize/issues).
+* This development version has a few known [issues]( https://github.com/dataobservatory-eu/retroharmonize/issues).
 
 # retroharmonize 0.2.3
 * New long form documentation.
@@ -30,7 +30,7 @@ the API.
 * Released on CRAN. (Date: 2021-06-27)
 
 # retroharmoinze 0.1.16
-* Package moved to [rOpenGov](https://github.com/rOpenGov/retroharmonize/).
+* Package moved to [rOpenGov]( https://github.com/dataobservatory-eu/retroharmonize/).
 * [Arab Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html) tutorial vignette.
 * Transition to tidyverse 1.0+ with using the rlang `.data` pronoun, etc.
 * Bug fix in `harmonize_waves()`: Date types are now correctly harmonized.

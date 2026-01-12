@@ -88,7 +88,7 @@ vectors to labelled_spss_survey vectors.\cr
 Useful links:
 \itemize{
   \item \url{https://retroharmonize.dataobservatory.eu/}
-  \item Report bugs at \url{https://github.com/rOpenGov/retroharmonize/issues/}
+  \item Report bugs at \url{https://github.com/dataobservatory-eu/retroharmonize/issues}
 }
 
 }

@@ -13,7 +13,7 @@ Assist in reproducible retrospective (ex-post) harmonization of data, particular
 Useful links:
 \itemize{
   \item \url{https://retroharmonize.dataobservatory.eu/}
-  \item Report bugs at \url{https://github.com/rOpenGov/retroharmonize/issues/}
+  \item Report bugs at \url{https://github.com/dataobservatory-eu/retroharmonize/issues}
 }
 
 }

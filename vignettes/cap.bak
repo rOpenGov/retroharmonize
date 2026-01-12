@@ -108,7 +108,7 @@ weight_variables <- cap_metadata %>%
 A *schema crosswalk* is a table that shows equivalent elements (or "fields") in more than one structured data source. With `crosswalk_table_create()` we first create an empty schema crosswalk, then we fill up the empty schema with values.  Researchers who feel more comfortable working in a spreadsheet application can create a similar crosswalk table in Excel, Numbers, or OpenOffice, and import the data from a `csv` or any tabular file.
 
 ```{r weightcrosswalk}
-## See https://github.com/rOpenGov/retroharmonize/issues/21
+## See  https://github.com/dataobservatory-eu/retroharmonize/issues21
 weigthing_crosswalk_table <- crosswalk_table_create(
   ## Create an empty schema crosswalk for the weight variables 
   weight_variables

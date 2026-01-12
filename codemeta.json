@@ -5,7 +5,7 @@
   "description": "Assist in reproducible retrospective (ex-post) harmonization of data, particularly individual level survey data, by providing tools for organizing metadata, standardizing the coding of variables, and variable names and value labels, including missing values, and documenting the data transformations, with the help of comprehensive s3 classes.",
   "name": "retroharmonize: Ex Post Survey Data Harmonization",
   "codeRepository": "https://retroharmonize.dataobservatory.eu/",
-  "issueTracker": "https://github.com/rOpenGov/retroharmonize/issues/",
+  "issueTracker": "https://github.com/dataobservatory-eu/retroharmonize/issues",
   "license": "https://spdx.org/licenses/GPL-3.0",
   "version": "0.2.6",
   "programmingLanguage": {
@@ -122,6 +122,18 @@
     },
     {
       "@type": "SoftwareApplication",
+      "identifier": "pillar",
+      "name": "pillar",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=pillar"
+    },
+    {
+      "@type": "SoftwareApplication",
       "identifier": "spelling",
       "name": "spelling",
       "provider": {
@@ -179,6 +191,18 @@
     },
     "3": {
       "@type": "SoftwareApplication",
+      "identifier": "cli",
+      "name": "cli",
+      "provider": {
+        "@id": "https://cran.r-project.org",
+        "@type": "Organization",
+        "name": "Comprehensive R Archive Network (CRAN)",
+        "url": "https://cran.r-project.org"
+      },
+      "sameAs": "https://CRAN.R-project.org/package=cli"
+    },
+    "4": {
+      "@type": "SoftwareApplication",
       "identifier": "dataset",
       "name": "dataset",
       "provider": {
@@ -189,7 +213,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dataset"
     },
-    "4": {
+    "5": {
       "@type": "SoftwareApplication",
       "identifier": "dplyr",
       "name": "dplyr",
@@ -202,7 +226,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=dplyr"
     },
-    "5": {
+    "6": {
       "@type": "SoftwareApplication",
       "identifier": "fs",
       "name": "fs",
@@ -214,7 +238,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=fs"
     },
-    "6": {
+    "7": {
       "@type": "SoftwareApplication",
       "identifier": "glue",
       "name": "glue",
@@ -226,7 +250,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=glue"
     },
-    "7": {
+    "8": {
       "@type": "SoftwareApplication",
       "identifier": "haven",
       "name": "haven",
@@ -238,7 +262,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=haven"
     },
-    "8": {
+    "9": {
       "@type": "SoftwareApplication",
       "identifier": "here",
       "name": "here",
@@ -250,7 +274,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=here"
     },
-    "9": {
+    "10": {
       "@type": "SoftwareApplication",
       "identifier": "labelled",
       "name": "labelled",
@@ -262,7 +286,7 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=labelled"
     },
-    "10": {
+    "11": {
       "@type": "SoftwareApplication",
       "identifier": "magrittr",
       "name": "magrittr",
@@ -274,22 +298,10 @@
       },
       "sameAs": "https://CRAN.R-project.org/package=magrittr"
     },
-    "11": {
+    "12": {
       "@type": "SoftwareApplication",
       "identifier": "methods",
       "name": "methods"
-    },
-    "12": {
-      "@type": "SoftwareApplication",
-      "identifier": "pillar",
-      "name": "pillar",
-      "provider": {
-        "@id": "https://cran.r-project.org",
-        "@type": "Organization",
-        "name": "Comprehensive R Archive Network (CRAN)",
-        "url": "https://cran.r-project.org"
-      },
-      "sameAs": "https://CRAN.R-project.org/package=pillar"
     },
     "13": {
       "@type": "SoftwareApplication",
@@ -401,5 +413,5 @@
   },
   "isPartOf": "http://ropengov.org/",
   "keywords": "ropengov",
-  "fileSize": "5619.977KB"
+  "fileSize": "5675.426KB"
 }

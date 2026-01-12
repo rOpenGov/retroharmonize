@@ -7,7 +7,7 @@
 [![Project Status: Active. The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
+[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html#license-text)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
@@ -87,7 +87,7 @@ statistics and indicators.
 
 For an extended overview of these problems with illustrations please
 refer to the vignette [Survey
-Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html.html).
+Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html).
 
 ### 1. Importing
 
