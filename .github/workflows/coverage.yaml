@@ -26,5 +26,5 @@ jobs:
           extra-packages: any::covr
 
       - name: Test coverage
-        run: covr::codecov()
+        run: covr::codecov(branch = "main")
         shell: Rscript {0}

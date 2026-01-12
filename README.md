@@ -7,12 +7,11 @@
 [![Project Status: Active. The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
-[![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html#license-text)
 [![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6607356.svg)](https://doi.org/10.5281/zenodo.6607356)
+[![Codecov](https://codecov.io/gh/dataobservatory-eu/retroharmonize/branch/main/graph/badge.svg)](https://codecov.io/gh/dataobservatory-eu/retroharmonize)
 [![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/dataobservatory-eu/retroharmonize/actions)
 <!-- badges: end -->
 

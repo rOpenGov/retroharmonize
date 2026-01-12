@@ -167,7 +167,7 @@ Question banks contain information about questions asked about the same concepts
 
 "Using DDI as a foundation for a question bank enables you to reuse metadata and to find identical and similar questions and or response sets across surveys for purposes of data comparison, harmonization, or new questionnaire development." 
 
-[Create a Question Bank](https://ddialliance.org/training/getting-started-new-content/create-a-codebook)
+[Create a Question Bank](https://ddialliance.org/create-a-codebook)
 
 **Social Science Variables Database**: (located at ICPSR) 
 Search over 4 million variables. 
