@@ -1,7 +1,7 @@
 #' @title Create a codelist
 #' @description This is a function candidate.
 #' @details should be a new function that creates a codelist which considers
-#' \href{SDMX Content-Oriented Guidelines (COG)}{https://sdmx.org/?page_id=4345}
+#' \href{SDMX Content-Oriented Guidelines (COG)}{https://sdmx.org/sdmx_cdcl/}
 #' and any guidance from DDI on Question banks, and the 
 #' DDI Question Construct.
 #' Partly replaces the current \code{\link{create_codebook}} function.

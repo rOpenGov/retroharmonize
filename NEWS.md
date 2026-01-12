@@ -1,4 +1,6 @@
 # retroharmonize 0.2.6
+* Various improvements due to extensive testing and feedback. No change in 
+the API.
 
 # retroharmonize 0.2.5
 * Unified function interface and parameter names.
@@ -12,7 +14,6 @@
 * All functions containing 'wave' in the name are deprecated.  Survey 'waves' are renamed to 'survey_list', because 'waves' is used in Eurobarometer and a more generic and standardized interface was built.
 
 # retroharmonize 0.2.0
-* Adding [rogtemplate](https://github.innominds.com/rOpenGov/rogtemplate) for more consistent ROpenGov documentation.
 * Several documentation good practices. (Thanks for the contribution from [\@dieghernan](https://github.com/dieghernan)).
 * The former *create_codebook()* function is now `create_codebook()` for naming consistency.
 

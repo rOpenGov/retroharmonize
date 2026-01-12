@@ -17,17 +17,13 @@ knitr::opts_chunk$set(
 
 ![retroharmonize](man/figures/logo20.png)
 <!-- badges: start -->
-[![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
 [![Project Status: Active. The project has reached a stable, usable state and is being actively developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
 [![license](https://img.shields.io/badge/license-GPL--3-blue.svg)](https://www.gnu.org/licenses/gpl-3.0.en.html)
 [![CRAN\_Status\_Badge](https://www.r-pkg.org/badges/version/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6607356.svg)](https://doi.org/10.5281/zenodo.6607356)
-[![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
-[![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
-[![Follow author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
-[![Follow rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
+[![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to facilitate retrospective (ex-post) harmonization of survey data in a reproducible manner. The package provides tools for organizing the metadata, standardizing the coding of variables, variable names and value labels, including missing values, and for documenting all transformations, with the help of comprehensive S3 classes.
@@ -55,7 +51,7 @@ You can download the manual in PDF for the  [0.2.4 release](https://retroharmoni
 
 Surveys, i.e., systematic primary observation and data collections are important data sources of both social and natural sciences. They are in most cases the primary data sources of scientific research. Drawing information from several surveys, conducted in different locations or in different time can greatly enhance the inferential capacity of the surveys, but it requires significant data processing and statistical processing work. Our R software package offers a practical and comprehensive solution to harmonizing the datasets and their codebooks. 
 
-Statistical matching is a related concepts that can take a harmonized dataset further, for example, with creating new, statistically better, unified weights.  For these problems, [StatMatch](https://cran.r-project.org/web/packages/StatMatch/index.html) is a mature solution in R.
+Statistical matching is a related concepts that can take a harmonized dataset further, for example, with creating new, statistically better, unified weights.  For these problems, [StatMatch](https://CRAN.R-project.org/package=StatMatch) is a mature solution in R.
 
 Survey data harmonization refers to procedures that improve the data comparability or the inferential capacity of multiple surveys. The *retroharmonize* package support various data processing, documentation, file/type conversion aspects of various retrospective survey harmonization workflows (i.e. harmonization tasks related to surveys that already have already been conducted, recorded into a coded file.)
 
@@ -123,10 +119,10 @@ In [Harmonize Value Labels](https://retroharmonize.dataobservatory.eu/articles/h
 
 Our package has been tested on three harmonized survey's microdata. Because [retroharmonize](https://retroharmonize.dataobservatory.eu/) is not affiliated with any of these data sources, to replicate our tutorials or work with the data, you have download the data files from these sources, and you have to cite those sources in your work.
 
-**Afrobarometer** data: Cite [Afrobarometer](https://afrobarometer.org/data/)
+**Afrobarometer** data: Cite [Afrobarometer](https://www.afrobarometer.org/data/)
 **Arab Barometer** data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
 **Eurobarometer** data: The [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) data
-[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) raw data and related documentation (questionnaires, codebooks, etc.) are made available by *GESIS*, *ICPSR* and through the *Social Science Data Archive* networks. You should cite your source, in our examples, we rely on the [GESIS](https://www.gesis.org/en/eurobarometer-data-service/search-data-access/data-access) data files.
+[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) raw data and related documentation (questionnaires, codebooks, etc.) are made available by *GESIS*, *ICPSR* and through the *Social Science Data Archive* networks. You should cite your source, in our examples, we rely on the [GESIS](https://search.gesis.org/) data files.
 
 ### Citing the retroharmonize R package
 

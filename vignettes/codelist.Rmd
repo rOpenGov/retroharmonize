@@ -57,7 +57,7 @@ The use of standard codelists facilitates data interoperability and the producti
 library(statcodelists)
 CL_SEX
 ```
-We can generate further codes for non-binary people, using the [SDMX Content-Oriented Guidelines (COG)](https://sdmx.org/?page_id=4345) for the creation of generic and new codelist items.
+We can generate further codes for non-binary people, using the [SDMX Content-Oriented Guidelines (COG)](https://sdmx.org/sdmx_cdcl/) for the creation of generic and new codelist items.
 
 The problem with the SDMX Codelists is that they are designed for already aggregated statistical data, and they character codelist `id` variables. Survey software and question banks use integer ids for the same answer options.
 
@@ -111,7 +111,7 @@ One suggested workflow is the use of [Working with a Crosswalk Table](https://re
 
 1. We should encourage the use of our pre-existing codelist software, i.e. [regions](https://regions.dataobservatory.eu/) and [statcodelists](https://statcodelists.dataobservatory.eu/) with a new vignette and mentions in the documentation.
 2. `create_codebook()` will be deprecated, luckily, it does not meet the rOpenSci object_verb suggestion. `codebook_create()` will create a DDI-Codebook compatible, partial codebook on survey level. 
-3. `codelist_create()` should be a new function that creates a codelist which considers  [SDMX Content-Oriented Guidelines (COG)](https://sdmx.org/?page_id=4345) and any guidance from DDI on Question banks, and the DDI Question Construct. The empty function is now in the `codelist.R` file, develop the documentation and the code there.
+3. `codelist_create()` should be a new function that creates a codelist which considers  [SDMX Content-Oriented Guidelines (COG)](https://sdmx.org/sdmx_cdcl/) and any guidance from DDI on Question banks, and the DDI Question Construct. The empty function is now in the `codelist.R` file, develop the documentation and the code there.
 4. `crosswalk_table_create()` should be modified in a way that it builds on `create_codebook()` and `codelist_create()` components.  Currently, it does both. 
 
 

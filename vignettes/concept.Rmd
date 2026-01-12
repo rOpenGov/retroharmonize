@@ -62,9 +62,9 @@ metadata_create(survey_list = example_surveys) %>%
 The current retroharmonize uses the metadata_create() function to restore the encoded metadata into a tidy table that can be the start of further steps.  This function should be revised after much use, and brought to a simpler format, and renamed, preferably choosing a DDI Glossary term. (Ingest?  Or just mapping?  Should not contain any tidyverse verbs.)
 C2: The selected variables from the metadata table (which needs a better word) we subset the surveys either in memory or, in case of many files, sequentially from file.  This the subset_survey() function. It will need a thorough upgrade to correctly retain the attributes of the datacube-inheritted new survey class, but it functions well.
 
-This stage should be harmonized with the [DDI Codebook](https://ddialliance.org/training/getting-started-new-content/create-a-codebook). One problem appears to me is that DDI calls a “codebook” differently than we do.  DDI uses the term codebook on the level of file (survey), and we use it on the level of individual observations. 
+This stage should be harmonized with the [DDI Codebook](https://zenodo.org/records/14447460). One problem appears to me is that DDI calls a “codebook” differently than we do.  DDI uses the term codebook on the level of file (survey), and we use it on the level of individual observations. 
 
-> Codebook: A document that provides information on the structure, contents, and layout of a data file. Source: [DDI Glossary](https://ddialliance.org/taxonomy/term/165).
+> Codebook: A document that provides information on the structure, contents, and layout of a data file. Source: [DDI Glossary](https://docs.ddialliance.org/DDI-Codebook/2.5/xmlschema/schemas/codebook_xsd/elements/codeBook.html).
 
 Here is a DDI Codebook example in [PDF](https://ddialliance.org/sites/default/files/National%20Household%20Survey,%202011%20%5bCanada%5d%20Public%20Use%20Microdata%20File%20(PUMF)-%20Individuals%20File.pdf).
 
@@ -172,7 +172,7 @@ Question banks contain information about questions asked about the same concepts
 **Social Science Variables Database**: (located at ICPSR) 
 Search over 4 million variables. 
 Also able to compare questions across studies and series.
-<http://www.icpsr.umich.edu/icpsrweb/ICPSR/ssvd/index.jsp>
+<https://www.icpsr.umich.edu/sites/icpsr/find-data>
 
 **UK Data Service Variable and Question Bank**:
 Search hundreds of surveys.
