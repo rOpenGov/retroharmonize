@@ -2,9 +2,9 @@ name: R-CMD-check
 
 on:
   push:
-    branches: [main, master]
+    branches: [main]
   pull_request:
-    branches: [main, master]
+    branches: [main]
 
 jobs:
   R-CMD-check:
@@ -41,5 +41,5 @@ jobs:
 
       - uses: r-lib/actions/check-r-package@v2
         with:
-          args: "--as-cran --no-manual"
+          args: c("--as-cran", "--no-manual")
           upload-snapshots: true
