@@ -106,7 +106,7 @@ read_csv <- function(file,
   if (!"rowid" %in% names(tmp)) {
     stop("CSV file does not contain a 'rowid' column.")
   }
-  
+
   if (is.null(id)) {
     rowid_chr <- as.character(tmp$rowid)
     tmp_df$rowid <- paste0(

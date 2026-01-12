@@ -39,3 +39,4 @@ retroharmonize*.tgz
 ^docs
 docs/
 .RDataTmp1
+retroharmonize.txt

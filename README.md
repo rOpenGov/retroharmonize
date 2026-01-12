@@ -4,7 +4,6 @@
 # retroharmonize <a href='https://retroharmonize.dataobservatory.eu/'><img src='man/figures/logo.png' align="right" height="139" /></a>
 
 ![retroharmonize](man/figures/logo20.png) <!-- badges: start -->
-[![rOG-badge](https://ropengov.github.io/rogtemplate/reference/figures/ropengov-badge.svg)](http://ropengov.org/)
 [![Project Status: Active. The project has reached a stable, usable
 state and is being actively
 developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.repostatus.org/#active)
@@ -14,12 +13,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6607356.svg)](https://doi.org/10.5281/zenodo.6607356)
-[![codecov](https://codecov.io/gh/ropengov/retroharmonize/branch/master/graph/badge.svg?token=ShTTeqB5kL)](https://app.codecov.io/gh/ropengov/retroharmonize)
-[![R-CMD-check](https://github.com/rOpenGov/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
-[![Follow
-author](https://img.shields.io/twitter/follow/antaldaniel.svg?style=social)](https://twitter.com/intent/follow?screen_name=antaldaniel)
-[![Follow
-rOpenGov](https://img.shields.io/twitter/follow/ropengov.svg?style=social)](https://twitter.com/intent/follow?screen_name=ropengov)
+[![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to facilitate retrospective (ex-post)
@@ -67,8 +61,8 @@ comprehensive solution to harmonizing the datasets and their codebooks.
 Statistical matching is a related concepts that can take a harmonized
 dataset further, for example, with creating new, statistically better,
 unified weights. For these problems,
-[StatMatch](https://cran.r-project.org/web/packages/StatMatch/index.html)
-is a mature solution in R.
+[StatMatch](https://CRAN.R-project.org/package=StatMatch) is a mature
+solution in R.
 
 Survey data harmonization refers to procedures that improve the data
 comparability or the inferential capacity of multiple surveys. The
@@ -165,10 +159,10 @@ We also provide three extensive case studies illustrating how the
 `retroharmonize` package can be used for ex-post harmonization of data
 from cross-national surveys:
 
--   [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html)
--   [Arab
-    Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html)
--   [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html)
+- [Afrobarometer](https://retroharmonize.dataobservatory.eu/articles/afrobarometer.html)
+- [Arab
+  Barometer](https://retroharmonize.dataobservatory.eu/articles/arabbarometer.html)
+- [Eurobarometer](https://retroharmonize.dataobservatory.eu/articles/eurobarometer.html)
 
 The creators of `retroharmonize` are not affiliated with either
 Afrobarometer, Arab Barometer, Eurobarometer, or the organizations that
@@ -178,8 +172,8 @@ We create a large, harmonized dataset for extensive testing of our
 packages capabilities. The replication data of this special use case can
 be found on
 
--   [Harmonized Cultural Access & Participation
-    Dataset](https://retroharmonize.dataobservatory.eu/articles/cap.html)
+- [Harmonized Cultural Access & Participation
+  Dataset](https://retroharmonize.dataobservatory.eu/articles/cap.html)
 
 You can find this harmonized dataset on Zenodo in the [Digital Music
 Observatory](https://zenodo.org/communities/music_observatory/) and the
@@ -229,7 +223,7 @@ tutorials or work with the data, you have download the data files from
 these sources, and you have to cite those sources in your work.
 
 **Afrobarometer** data: Cite
-[Afrobarometer](https://afrobarometer.org/data/) **Arab Barometer**
+[Afrobarometer](https://www.afrobarometer.org/data/) **Arab Barometer**
 data: cite [Arab
 Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
 **Eurobarometer** data: The
@@ -239,9 +233,7 @@ data
 raw data and related documentation (questionnaires, codebooks, etc.) are
 made available by *GESIS*, *ICPSR* and through the *Social Science Data
 Archive* networks. You should cite your source, in our examples, we rely
-on the
-[GESIS](https://www.gesis.org/en/eurobarometer-data-service/search-data-access/data-access)
-data files.
+on the [GESIS](https://search.gesis.org/) data files.
 
 ### Citing the retroharmonize R package
 
@@ -253,11 +245,10 @@ license:
 
 ``` r
 citation("retroharmonize")
-#> 
 #> To cite package 'retroharmonize' in publications use:
 #> 
-#>   Antal D (2022). _retroharmonize: Ex Post Survey Data Harmonization_.
-#>   R package version 0.2.5.002,
+#>   Antal D (2026). _retroharmonize: Ex Post Survey Data Harmonization_.
+#>   R package version 0.2.6,
 #>   <https://retroharmonize.dataobservatory.eu/>.
 #> 
 #> A BibTeX entry for LaTeX users is
@@ -265,8 +256,8 @@ citation("retroharmonize")
 #>   @Manual{,
 #>     title = {retroharmonize: Ex Post Survey Data Harmonization},
 #>     author = {Daniel Antal},
-#>     year = {2022},
-#>     note = {R package version 0.2.5.002},
+#>     year = {2026},
+#>     note = {R package version 0.2.6},
 #>     url = {https://retroharmonize.dataobservatory.eu/},
 #>   }
 ```

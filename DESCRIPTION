@@ -2,7 +2,7 @@ Type: Package
 Package: retroharmonize
 Title: Ex Post Survey Data Harmonization
 Version: 0.2.6
-Date: 2026-01-09
+Date: 2026-01-12
 Authors@R: c(
     person(given = "Daniel", 
            family = "Antal", 
