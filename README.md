@@ -11,7 +11,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![CRAN_time_from_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
-[![Codecov](https://codecov.io/gh/dataobservatory-eu/retroharmonize/branch/main/graph/badge.svg)](https://codecov.io/gh/dataobservatory-eu/retroharmonize)
+[![Codecov](https://codecov.io/gh/dataobservatory-eu/retroharmonize/branch/main/graph/badge.svg)](https://app.codecov.io/gh/dataobservatory-eu/retroharmonize)
 [![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/dataobservatory-eu/retroharmonize/actions)
 <!-- badges: end -->
 
