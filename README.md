@@ -13,7 +13,7 @@ developed.](https://www.repostatus.org/badges/latest/active.svg)](https://www.re
 [![metacran
 downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6607356.svg)](https://doi.org/10.5281/zenodo.6607356)
-[![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
+[![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/dataobservatory-eu/retroharmonize/actions)
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to facilitate retrospective (ex-post)
@@ -87,7 +87,7 @@ statistics and indicators.
 
 For an extended overview of these problems with illustrations please
 refer to the vignette [Survey
-Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html).
+Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html.html).
 
 ### 1. Importing
 
@@ -111,7 +111,7 @@ We create a map of the measured concepts that needs to be harmonized,
 for example, a binary sex variable with missing cases and a four-level
 categorical variable on gender identification that has *other* and
 *declined* options. See the vignette [Working With Survey
-Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization)
+Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html)
 how mapping the metadata of the surveys can help getting started with
 this first step.
 
@@ -227,9 +227,9 @@ these sources, and you have to cite those sources in your work.
 data: cite [Arab
 Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
 **Eurobarometer** data: The
-[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm)
+[Eurobarometer](https://commission.europa.eu/resources/statistics/public-opinion-survey_en)
 data
-[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm)
+[Eurobarometer](https://commission.europa.eu/resources/statistics/public-opinion-survey_en)
 raw data and related documentation (questionnaires, codebooks, etc.) are
 made available by *GESIS*, *ICPSR* and through the *Social Science Data
 Archive* networks. You should cite your source, in our examples, we rely

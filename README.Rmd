@@ -23,7 +23,7 @@ knitr::opts_chunk$set(
 [![CRAN\_time\_from\_release](https://www.r-pkg.org/badges/ago/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![metacran downloads](https://cranlogs.r-pkg.org/badges/retroharmonize)](https://cran.r-project.org/package=retroharmonize)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.6607356.svg)](https://doi.org/10.5281/zenodo.6607356)
-[![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/rOpenGov/retroharmonize/actions)
+[![R-CMD-check](https://github.com/dataobservatory-eu/retroharmonize/workflows/R-CMD-check/badge.svg)](https://github.com/dataobservatory-eu/retroharmonize/actions)
 <!-- badges: end -->
 
 The goal of `retroharmonize` is to facilitate retrospective (ex-post) harmonization of survey data in a reproducible manner. The package provides tools for organizing the metadata, standardizing the coding of variables, variable names and value labels, including missing values, and for documenting all transformations, with the help of comprehensive S3 classes.
@@ -57,7 +57,7 @@ Survey data harmonization refers to procedures that improve the data comparabili
 
 From a technical perspective, the aim of the survey harmonization is to create a single, tidy, joined harmonized dataset in the form of a data frame that contains a row identifier, which is truly unique across all observations, and which also contains the concatenated and harmonized variables. We do this in a way that provides an unambiguous mapping of numerical coded and labelled data, including special and missing data. This way we avoid coercion that may lead to logical errors due to syntactically correct, but logically inconsistent variable labelling in across differently coded source files. Taking the harmonization to the level of type harmonization to *numeric* and *factor* classes allows the use of R's powerful statistical packages that require numeric or factor type input, and a wide range of survey output harmonization (harmonized statistics and indicators.  
 
-For an extended overview of these problems with illustrations please refer to the vignette [Survey Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html).
+For an extended overview of these problems with illustrations please refer to the vignette [Survey Harmonization](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html.html).
 
 ### 1. Importing
 
@@ -67,7 +67,7 @@ Survey data, i.e., data derived from questionnaires or systematic data collectio
 
 After importing data with some descriptive metadata such as numerical coding and labelling, we need to create a map of the information that is in our R session to prepare a harmonization plan. We must find information related to sufficiently similar concepts that can be harmonized to be successfully joined into a single variable, and eventually a table of similar variables must be joined. 
 
-We create a map of the measured concepts that needs to be harmonized, for example, a binary sex variable with missing cases and a four-level categorical variable on gender identification that has *other* and *declined* options. See the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization) how mapping the metadata of the surveys can help getting started with this first step.
+We create a map of the measured concepts that needs to be harmonized, for example, a binary sex variable with missing cases and a four-level categorical variable on gender identification that has *other* and *declined* options. See the vignette [Working With Survey Metadata](https://retroharmonize.dataobservatory.eu/articles/survey_harmonization.html) how mapping the metadata of the surveys can help getting started with this first step.
 
 We use a [crosswalk table](https://retroharmonize.dataobservatory.eu/articles/crosswalk.html) or a *crosswalk scheme* for all the variable name, value label and type conversion tasks that we plan to do.
 
@@ -121,8 +121,8 @@ Our package has been tested on three harmonized survey's microdata. Because [ret
 
 **Afrobarometer** data: Cite [Afrobarometer](https://www.afrobarometer.org/data/)
 **Arab Barometer** data: cite [Arab Barometer](https://www.arabbarometer.org/survey-data/data-downloads/).
-**Eurobarometer** data: The [Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) data
-[Eurobarometer](https://ec.europa.eu/commfrontoffice/publicopinion/index.cfm) raw data and related documentation (questionnaires, codebooks, etc.) are made available by *GESIS*, *ICPSR* and through the *Social Science Data Archive* networks. You should cite your source, in our examples, we rely on the [GESIS](https://search.gesis.org/) data files.
+**Eurobarometer** data: The [Eurobarometer](https://commission.europa.eu/resources/statistics/public-opinion-survey_en) data
+[Eurobarometer](https://commission.europa.eu/resources/statistics/public-opinion-survey_en) raw data and related documentation (questionnaires, codebooks, etc.) are made available by *GESIS*, *ICPSR* and through the *Social Science Data Archive* networks. You should cite your source, in our examples, we rely on the [GESIS](https://search.gesis.org/) data files.
 
 ### Citing the retroharmonize R package
 

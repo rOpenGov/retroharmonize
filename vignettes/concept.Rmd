@@ -66,7 +66,7 @@ This stage should be harmonized with the [DDI Codebook](https://zenodo.org/recor
 
 > Codebook: A document that provides information on the structure, contents, and layout of a data file. Source: [DDI Glossary](https://docs.ddialliance.org/DDI-Codebook/2.5/xmlschema/schemas/codebook_xsd/elements/codeBook.html).
 
-Here is a DDI Codebook example in [PDF](https://ddialliance.org/sites/default/files/National%20Household%20Survey,%202011%20%5bCanada%5d%20Public%20Use%20Microdata%20File%20(PUMF)-%20Individuals%20File.pdf).
+Here is a DDI Codebook example in [PDF](https://ddialliance.org/hubfs/sites/default/files/National%20Household%20Survey,%202011%20%5BCanada%5D%20Public%20Use%20Microdata%20File%20(PUMF)-%20Individuals%20File.pdf).
 
 Because normally we want to use standardized codes, and we started to harmonize with the SDMX statistical metadata standard, a good resolution seems to be to differentiate between a Codebook (DDI term) and a Codelist (SDMX term, but I am sure it has a more general RDF definition.)
 
@@ -176,7 +176,7 @@ Also able to compare questions across studies and series.
 
 **UK Data Service Variable and Question Bank**:
 Search hundreds of surveys.
-<http://discover.ukdataservice.ac.uk/variables>
+<https://discover.ukdataservice.ac.uk/variables>
 
 **Survey Data Netherlands**:
 Over 36,000 questions to search. 

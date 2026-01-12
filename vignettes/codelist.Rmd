@@ -102,7 +102,7 @@ One suggested workflow is the use of [Working with a Crosswalk Table](https://re
 
 - Literature review on codelist harmonization.  While DDI does not seem to be focusing on it (maybe wrong), statistical agencies use standardized codelists, and I am sure they are standardizing the labels early on, on the questionnaire. Examples: EU-SILC (Panni), Eurobarometer, Afrobarometer, Arab Barometer (Daniel)
 
-- What is the state of play in DDI about value label harmonization? Review particularly [Document and Manage Longitudinal Data](https://ddialliance.org/training/getting-started-new-content/document-and-manage-longitudinal-data)
+- What is the state of play in DDI about value label harmonization? Review particularly [Document and Manage Longitudinal Data](https://doi.org/10.5281/zenodo.5180624)
 
 - General literature?
 
