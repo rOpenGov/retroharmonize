@@ -35,5 +35,7 @@ examples are relatively great in size (with permission, we use small subsets of 
 
 ## NOTE 2
 lines wider than 90 characters:
-S3 method for class 'retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey 
-due to the syntax of the method definition extends beyond 90 characters.
+The >90 character usage line is auto-generated for an exported S3 method with 
+a long class name and cannot be shortened without breaking the public API; 
+a shorter class name would hide the inheritance of this class.
+retroharmonize_labelled_spss_survey.retroharmonize_labelled_spss_survey 
